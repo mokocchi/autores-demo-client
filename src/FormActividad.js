@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Form, Button } from 'react-bootstrap'
 
 import { API_BASE_URL } from './config'
-import FormDominio from './FormDominio';
+import InputDominio from './InputDominio';
 import SelectElements from './SelectElements';
 
 class FormActividad extends Component {
@@ -22,20 +22,10 @@ class FormActividad extends Component {
                 </Form.Row>
 
                 <Form.Row>
-                    <SelectElements url={API_BASE_URL + '/idioma'} label={"Idioma"} controlId={"formIdioma"}/>
-                    <SelectElements url={API_BASE_URL + '/planificacion'} label={"Planificación"} controlId={"formPlanificacion"}/>
+                    <SelectElements url={API_BASE_URL + '/idioma'} label={"Idioma"} controlId={"formIdioma"} />
+                    <SelectElements url={API_BASE_URL + '/planificacion'} label={"Planificación"} controlId={"formPlanificacion"} />
                 </Form.Row>
-
-                <Form.Row>
-                    <SelectElements url={API_BASE_URL + '/dominio'} label={"Dominio"} controlId={"formDominio"}/>
-                    <Col></Col>
-                </Form.Row>
-                <Form.Row>
-                    <Col>
-                        <FormDominio />
-                    </Col>
-                    <Col />
-                </Form.Row>
+                <InputDominio url={API_BASE_URL + '/dominio'}/>
                 <Button variant="primary" type="button">Continuar</Button>
             </Form>
         )
