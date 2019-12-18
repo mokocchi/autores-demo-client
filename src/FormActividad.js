@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { Col, Form, Button } from 'react-bootstrap'
 
-import FormDominio from './FormDominio'
+import { API_BASE_URL } from './config'
+import FormDominio from './FormDominio';
+import SelectElements from './SelectElements';
 
 class FormActividad extends Component {
     render() {
@@ -20,34 +22,12 @@ class FormActividad extends Component {
                 </Form.Row>
 
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formIdioma">
-                        <Form.Label>Idioma</Form.Label>
-                        <Form.Control as="select">
-                            <option>Español</option>
-                            <option>English (Inglés)</option>
-                            <option>日本語 (Japonés)</option>
-                        </Form.Control>
-                    </Form.Group>
-                    <Form.Group as={Col} controlId="formPlanificacion">
-                        <Form.Label>Planificación</Form.Label>
-                        <Form.Control as="select">
-                            <option>Secuencial</option>
-                            <option>Libre</option>
-                            <option>Bifurcada</option>
-                        </Form.Control>
-                    </Form.Group>
+                    <SelectElements url={API_BASE_URL + '/idioma'} label={"Idioma"} controlId={"formIdioma"}/>
+                    <SelectElements url={API_BASE_URL + '/planificacion'} label={"Planificación"} controlId={"formPlanificacion"}/>
                 </Form.Row>
 
                 <Form.Row>
-                    <Form.Group as={Col} controlId="formDominio">
-                        <Form.Label>Dominio</Form.Label>
-                        <Form.Control as="select">
-                            <option>Biología</option>
-                            <option>Matemática</option>
-                            <option>Arte</option>
-                        </Form.Control>
-                        <Col />
-                    </Form.Group>
+                    <SelectElements url={API_BASE_URL + '/dominio'} label={"Dominio"} controlId={"formDominio"}/>
                     <Col></Col>
                 </Form.Row>
                 <Form.Row>

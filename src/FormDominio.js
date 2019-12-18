@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { InputGroup, FormControl, Button } from 'react-bootstrap'
-import { InputGroupButton } from 'react-bootstrap';
 
 class FormDominio extends Component {
     render() {
