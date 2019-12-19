@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Col, Form } from 'react-bootstrap'
 
 import FormDominio from './FormDominio'
-import SelectElements from './SelectElements'
+import Select from './Select'
 
 class InputDominio extends Component {
 
@@ -15,7 +15,7 @@ class InputDominio extends Component {
     }
 
     onAddition(dominio) {
-        if(this.state.dominios) {
+        if (this.state.dominios) {
             this.setState({
                 dominios: [...this.state.dominios, dominio]
             })
@@ -29,14 +29,7 @@ class InputDominio extends Component {
     render() {
         return (
             <div>
-                <Form.Row>
-                    <SelectElements url={this.props.url} label={"Dominio"} controlId={"formDominio"} />
-                    <Col></Col>
-                </Form.Row>
-                <Form.Row>
-                    <FormDominio onAddition={this.onAddition} />
-                    <Col></Col>
-                </Form.Row>
+                
             </div>
         )
     }
