@@ -20,7 +20,26 @@ class FormActividad extends Component {
                 planificacion: '',
                 dominio: '',
             },
+            dominios: null
         }
+        this.onAddition = this.onAddition.bind(this);
+        this.onDominiosLoad = this.onDominiosLoad.bind(this);
+    }
+
+    onAddition(dominio) {
+        this.state.dominios ?
+            this.setState({
+                dominios: [...this.state.dominios, dominio]
+            }) : this.setState({
+                dominios: [dominio]
+            })
+    }
+
+    onDominiosLoad(data) {
+        console.log("load dominios")
+        this.setState({
+            dominios: data
+        })
     }
 
     handleFormSubmit = () => {
@@ -67,7 +86,6 @@ class FormActividad extends Component {
                             controlId={"formPlanificacion"}
                             label={"Planificación"}
                             name={"planificacion"}
-                            options={this.state.planificacionOptions}
                             value={""}
                             placeholder={"Elegí una planificación"}
                         />
@@ -75,14 +93,24 @@ class FormActividad extends Component {
                 </Form.Row>
                 <Form.Row>
                     <Col>
-                        <SelectAPI
-                            url={API_BASE_URL + '/dominio'}
-                            controlId={"formDominio"}
-                            label={"Dominio"}
-                            name={"dominio"}
-                            value={""}
-                            placeholder={"Elegí un domino"}
-                        />
+                        {this.state.dominios ?
+                            <Select
+                                controlId={"formDominio"}
+                                label={"Dominio"}
+                                name={"dominio"}
+                                options={this.state.dominios}
+                                value={""}
+                                placeholder={"Elegí un domino"}
+                            />
+                            : <SelectAPI
+                                url={API_BASE_URL + '/dominio'}
+                                controlId={"formDominio"}
+                                label={"Dominio"}
+                                name={"dominio"}
+                                value={""}
+                                placeholder={"Elegí un domino"}
+                                onLoad={this.onDominiosLoad}
+                            />}
                     </Col>
                     <Col></Col>
                 </Form.Row>

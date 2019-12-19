@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { InputGroup, FormControl, Button, Form, Spinner, Col, Row } from 'react-bootstrap'
+import { InputGroup, FormControl, Button, Form, Col, Row } from 'react-bootstrap'
 
 import { API_BASE_URL } from './config'
+import LoadSpinner from './LoadSpinner'
 
 class FormDominio extends Component {
 
@@ -14,8 +15,7 @@ class FormDominio extends Component {
             isLoading: false
         }
         this.handleChange = this.handleChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-        this.click = this.click.bind(this);
+        this.onClick = this.onClick.bind(this);
     }
 
     handleChange(e) {
@@ -24,7 +24,7 @@ class FormDominio extends Component {
         })
     }
 
-    async onSubmit(e) {
+    async onClick(e) {
         e.preventDefault();
         this.setState({
             isLoading: true,
@@ -35,7 +35,7 @@ class FormDominio extends Component {
         const response = await fetch(API_BASE_URL + '/dominio', {
             method: 'POST',
             body: JSON.stringify({
-                "dominio": this.state.dominio
+                "nombre": this.state.dominio
             })
         });
         const data = await response.json();
@@ -47,18 +47,14 @@ class FormDominio extends Component {
                 errorMessage: data.errors
             });
         } else {
+            this.props.onAddition(data);
             this.setState({
                 dominio: '',
                 isLoading: false,
                 error: false,
                 errorMessage: ''
             });
-            this.props.onAddition(data);
         }
-    }
-
-    async click() { 
-        this.props.onAddition("miDominio");
     }
 
     render() {
@@ -67,23 +63,14 @@ class FormDominio extends Component {
                 <Row>
                     <Col>
                         <InputGroup className="mb-3">
-                            <FormControl type="text" placeholder="Nuevo dominio" onChange={this.handleChange} />
+                            <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} />
                             <span className="input-group-btn">
                                 {this.state.isLoading ?
-                                    <Form.Control as={Button} variant="Light" disabled>
-                                        <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        />
-                                        Cargando...
-                            </Form.Control>
-                            :
-                            <Button variant="success" type="button" onClick={this.click}>
-                                Agregar
-                            </Button>
+                                    <LoadSpinner />
+                                    :
+                                    <Button variant="success" type="button" onClick={this.onClick}>
+                                        Agregar
+                                    </Button>
                                 }
                             </span>
                         </InputGroup>
@@ -92,7 +79,7 @@ class FormDominio extends Component {
                 <Row>
                     <Col>
                         {this.state.error &&
-                            <Form.Text className="text-danger" style={{marginTop: "-1em"}}>
+                            <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
                                 {this.state.errorMessage}
                             </Form.Text>
                         }

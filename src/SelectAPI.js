@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import {Form, Button, Spinner } from 'react-bootstrap'
 
-import Select from './Select'
+import Select from './Select';
+import LoadSpinner from './LoadSpinner';
 
 class SelectAPI extends Component {
 
@@ -24,6 +24,7 @@ class SelectAPI extends Component {
                 const response = await fetch(this.props.url);
                 const data = await response.json();
                 this.setState({ elements: data, isLoading: false });
+                this.props.onLoad && this.props.onLoad(data);
             } catch (err) {
                 this.setState({ isLoading: false });
                 console.error(err);
@@ -35,16 +36,7 @@ class SelectAPI extends Component {
         return (
             <div>
                 {this.state.isLoading &&
-                    <Form.Control as={Button} variant="Light" disabled>
-                        <Spinner
-                            as="span"
-                            animation=""
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        Cargando...
-                    </Form.Control>
+                    <LoadSpinner/>
                 }
                 {this.state.elements &&
                     <Select
