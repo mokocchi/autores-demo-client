@@ -36,7 +36,6 @@ class FormActividad extends Component {
     }
 
     onDominiosLoad(data) {
-        console.log("load dominios")
         this.setState({
             dominios: data
         })
@@ -55,18 +54,22 @@ class FormActividad extends Component {
         return (
             <Form>
                 <Form.Row>
-                    <Input controlId={"formNombre"}
-                        label={"Nombre"}
-                        name={"nombre"}
-                        type={"text"}
-                        placeholder={"Nombre"}
-                        handleChange={this.handleInput} />
-                    <Input controlId={"formObjetivo"}
-                        label={"Objetivo"}
-                        name={"objetivo"}
-                        type={"text"}
-                        placeholder={"Objetivo"}
-                        handleChange={this.handleInput} />
+                    <Col>
+                        <Input controlId={"formNombre"}
+                            label={"Nombre"}
+                            name={"nombre"}
+                            type={"text"}
+                            placeholder={"Nombre"}
+                            handleChange={this.handleInput} />
+                    </Col>
+                    <Col>
+                        <Input controlId={"formObjetivo"}
+                            label={"Objetivo"}
+                            name={"objetivo"}
+                            type={"text"}
+                            placeholder={"Objetivo"}
+                            handleChange={this.handleInput} />
+                    </Col>
                 </Form.Row>
 
                 <Form.Row>
@@ -100,7 +103,7 @@ class FormActividad extends Component {
                                 name={"dominio"}
                                 options={this.state.dominios}
                                 value={""}
-                                placeholder={"Elegí un domino"}
+                                placeholder={"Elegí un dominio"}
                             />
                             : <SelectAPI
                                 url={API_BASE_URL + '/dominio'}
@@ -108,7 +111,7 @@ class FormActividad extends Component {
                                 label={"Dominio"}
                                 name={"dominio"}
                                 value={""}
-                                placeholder={"Elegí un domino"}
+                                placeholder={"Elegí un dominio"}
                                 onLoad={this.onDominiosLoad}
                             />}
                     </Col>
