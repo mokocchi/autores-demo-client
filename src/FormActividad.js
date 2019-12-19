@@ -4,6 +4,8 @@ import { Form, Button, Col } from 'react-bootstrap'
 import Select from './Select';
 import Input from './Input';
 import FormDominio from './FormDominio';
+import SelectAPI from './SelectAPI'
+import { API_BASE_URL } from './config'
 
 class FormActividad extends Component {
 
@@ -18,43 +20,6 @@ class FormActividad extends Component {
                 planificacion: '',
                 dominio: '',
             },
-
-            idiomaOptions: [{
-                "id": 1,
-                "nombre": "Espa\u00f1ol",
-                "code": "es"
-            },
-            {
-                "id": 2,
-                "nombre": "English (Ingl\u00e9s)",
-                "code": "en"
-            },
-            {
-                "id": 3,
-                "nombre": "\u65e5\u672c\u8a9e (Japon\u00e9s)",
-                "code": "ja"
-            }],
-            planificacionOptions: [
-                {
-                    "id": 1,
-                    "nombre": "Secuencial"
-                },
-                {
-                    "id": 2,
-                    "nombre": "Libre"
-                },
-                {
-                    "id": 3,
-                    "nombre": "Bifurcada"
-                }
-            ],
-            dominoOptions: [
-                {
-                    "id": 1,
-                    "nombre": "Matem\u00e1tica"
-                }
-            ]
-
         }
     }
 
@@ -86,32 +51,39 @@ class FormActividad extends Component {
                 </Form.Row>
 
                 <Form.Row>
-                    <Select
-                        controlId={"formIdioma"}
-                        label={"Idioma"}
-                        name={"idioma"}
-                        options={this.state.idiomaOptions}
-                        value={""}
-                        placeholder={"Elegí un idioma"}
-                    />
-                    <Select
-                        controlId={"formPlanificacion"}
-                        label={"Planificación"}
-                        name={"planificacion"}
-                        options={this.state.planificacionOptions}
-                        value={""}
-                        placeholder={"Elegí una planificación"}
-                    />
+                    <Col>
+                        <SelectAPI
+                            url={API_BASE_URL + "/idioma"}
+                            controlId={"formIdioma"}
+                            label={"Idioma"}
+                            name={"idioma"}
+                            value={""}
+                            placeholder={"Elegí un idioma"}
+                        />
+                    </Col>
+                    <Col>
+                        <SelectAPI
+                            url={API_BASE_URL + '/planificacion'}
+                            controlId={"formPlanificacion"}
+                            label={"Planificación"}
+                            name={"planificacion"}
+                            options={this.state.planificacionOptions}
+                            value={""}
+                            placeholder={"Elegí una planificación"}
+                        />
+                    </Col>
                 </Form.Row>
                 <Form.Row>
-                    <Select
-                        controlId={"formDominio"}
-                        label={"Dominio"}
-                        name={"dominio"}
-                        options={this.state.dominoOptions}
-                        value={""}
-                        placeholder={"Elegí un domino"}
-                    />
+                    <Col>
+                        <SelectAPI
+                            url={API_BASE_URL + '/dominio'}
+                            controlId={"formDominio"}
+                            label={"Dominio"}
+                            name={"dominio"}
+                            value={""}
+                            placeholder={"Elegí un domino"}
+                        />
+                    </Col>
                     <Col></Col>
                 </Form.Row>
                 <Form.Row>

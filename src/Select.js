@@ -3,7 +3,7 @@ import { Form, Col } from 'react-bootstrap'
 
 function Select(props) {
     return (
-        <Form.Group as={Col} controlId={props.controlId}>
+        <Form.Group controlId={props.controlId}>
             <Form.Label>{props.label}</Form.Label>
             <Form.Control value={props.value} as="select" name={props.name}>
             <option value="" disabled>{props.placeholder}</option>
