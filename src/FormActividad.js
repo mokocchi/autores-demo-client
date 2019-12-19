@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Button, Col } from 'react-bootstrap'
+import { connect } from 'react-redux'
 
 import Select from './Select';
 import Input from './Input';
@@ -19,8 +20,7 @@ class FormActividad extends Component {
                 idioma: '',
                 planificacion: '',
                 dominio: '',
-            },
-            dominios: null
+            }
         }
         this.onAddition = this.onAddition.bind(this);
         this.onDominiosLoad = this.onDominiosLoad.bind(this);
@@ -51,6 +51,7 @@ class FormActividad extends Component {
 
 
     render() {
+        const { optionsByAttribute } = this.props;
         return (
             <Form>
                 <Form.Row>
@@ -76,6 +77,7 @@ class FormActividad extends Component {
                     <Col>
                         <SelectAPI
                             url={API_BASE_URL + "/idioma"}
+                            attribute={"idioma"}
                             controlId={"formIdioma"}
                             label={"Idioma"}
                             name={"idioma"}
@@ -86,6 +88,7 @@ class FormActividad extends Component {
                     <Col>
                         <SelectAPI
                             url={API_BASE_URL + '/planificacion'}
+                            attribute={"planificacion"}
                             controlId={"formPlanificacion"}
                             label={"Planificación"}
                             name={"planificacion"}
@@ -96,23 +99,23 @@ class FormActividad extends Component {
                 </Form.Row>
                 <Form.Row>
                     <Col>
-                        {this.state.dominios ?
+                        { optionsByAttribute["dominio"] && optionsByAttribute["dominio"].items ?
                             <Select
                                 controlId={"formDominio"}
                                 label={"Dominio"}
                                 name={"dominio"}
-                                options={this.state.dominios}
+                                options={optionsByAttribute["dominio"].items}
                                 value={""}
                                 placeholder={"Elegí un dominio"}
                             />
                             : <SelectAPI
                                 url={API_BASE_URL + '/dominio'}
+                                attribute={"dominio"}
                                 controlId={"formDominio"}
                                 label={"Dominio"}
                                 name={"dominio"}
                                 value={""}
                                 placeholder={"Elegí un dominio"}
-                                onLoad={this.onDominiosLoad}
                             />}
                     </Col>
                     <Col></Col>
@@ -128,4 +131,12 @@ class FormActividad extends Component {
     }
 }
 
-export default FormActividad
+function mapStateToProps(state) {
+    const { optionsByAttribute } = state
+  
+    return {
+        optionsByAttribute
+    }
+  }
+
+export default connect(mapStateToProps)(FormActividad);

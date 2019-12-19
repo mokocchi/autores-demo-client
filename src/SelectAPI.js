@@ -1,49 +1,44 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { requestOptions, receiveOptions, failAttribute } from './redux/actions'
 
 import Select from './Select';
 import LoadSpinner from './LoadSpinner';
 
 class SelectAPI extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            elements: null,
-            isLoading: null
-        };
-    }
-
     componentDidMount() {
         this.getElements();
     }
 
     async getElements() {
-        if (!this.state.elements) {
+        const { dispatch, optionsByAttribute, attribute } = this.props
+        if (!optionsByAttribute[attribute]) {
             try {
-                this.setState({ isLoading: true });
+                dispatch(requestOptions(attribute));
                 const response = await fetch(this.props.url);
                 const data = await response.json();
-                this.setState({ elements: data, isLoading: false });
-                this.props.onLoad && this.props.onLoad(data);
+                dispatch(receiveOptions(attribute, data))
             } catch (err) {
-                this.setState({ isLoading: false });
+                dispatch(failAttribute(attribute))                
                 console.error(err);
             }
         }
     }
 
     render() {
+        const { optionsByAttribute, attribute } = this.props;
         return (
             <div>
-                {this.state.isLoading &&
+                {optionsByAttribute[attribute] && optionsByAttribute[attribute].isFetching &&
                     <LoadSpinner/>
                 }
-                {this.state.elements &&
+                {optionsByAttribute[attribute] && !optionsByAttribute[attribute].isFetching && optionsByAttribute[attribute].items != [] &&
                     <Select
                         controlId={this.props.controlId}
                         label={this.props.label}
                         name={this.props.name}
-                        options={this.state.elements}
+                        options={optionsByAttribute[attribute].items}
                         value={this.props.value}
                         placeholder={this.props.placeholder} />
                 }
@@ -52,5 +47,13 @@ class SelectAPI extends Component {
     }
 }
 
-export default SelectAPI;
+function mapStateToProps(state) {
+    const { optionsByAttribute } = state
+  
+    return {
+        optionsByAttribute
+    }
+  }
+
+export default connect(mapStateToProps)(SelectAPI);
 
