@@ -33,7 +33,7 @@ class SelectAPI extends Component {
                 {optionsByAttribute[attribute] && optionsByAttribute[attribute].isFetching &&
                     <LoadSpinner/>
                 }
-                {optionsByAttribute[attribute] && !optionsByAttribute[attribute].isFetching && optionsByAttribute[attribute].items != [] &&
+                {optionsByAttribute[attribute] && !optionsByAttribute[attribute].isFetching && optionsByAttribute[attribute].items !== [] &&
                     <Select
                         controlId={this.props.controlId}
                         label={this.props.label}

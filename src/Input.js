@@ -9,7 +9,6 @@ function Input(props) {
                 placeholder={props.placeholder}
                 onChange={props.handleChange}
                 //className="form-input"
-                id={props.name}
                 name={props.name} />
         </Form.Group>
     )

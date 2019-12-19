@@ -34,3 +34,13 @@ export function receiveOptions(attribute, options) {
     options
   }
 }
+
+export const ADD_OPTION = 'ADD_OPTION'
+
+export function addOption(attribute, option) {
+  return {
+    type: ADD_OPTION,
+    attribute,
+    option
+  }
+}

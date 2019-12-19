@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { InputGroup, FormControl, Button, Form, Col, Row } from 'react-bootstrap'
+import { connect } from 'react-redux'
+import { addOption } from './redux/actions'
 
 import { API_BASE_URL } from './config'
 import LoadSpinner from './LoadSpinner'
@@ -47,7 +49,7 @@ class FormDominio extends Component {
                 errorMessage: data.errors
             });
         } else {
-            this.props.onAddition(data);
+            this.props.dispatch(addOption("dominio", data))
             this.setState({
                 dominio: '',
                 isLoading: false,
@@ -91,7 +93,15 @@ class FormDominio extends Component {
     }
 }
 
-export default FormDominio
+function mapStateToProps(state) {
+    const { optionsByAttribute } = state
+
+    return {
+        optionsByAttribute
+    }
+}
+
+export default connect(mapStateToProps)(FormDominio);
 
 
 

@@ -1,4 +1,4 @@
-import { INVALIDATE_ATTRIBUTE, REQUEST_OPTIONS, RECEIVE_OPTIONS, FAIL_ATTRIBUTE } from '../actions'
+import { INVALIDATE_ATTRIBUTE, REQUEST_OPTIONS, RECEIVE_OPTIONS, FAIL_ATTRIBUTE, ADD_OPTION } from '../actions'
 
 function options(
     state = {
@@ -23,6 +23,11 @@ function options(
                 items: action.options,
                 lastUpdated: action.receivedAt
             }
+        case ADD_OPTION:
+            return {
+                ...state,
+                items: [...state.items, action.option]
+            }
         default:
             return state
     }
@@ -33,6 +38,7 @@ export default function optionsByAttribute(state = {}, action) {
         case INVALIDATE_ATTRIBUTE:
         case RECEIVE_OPTIONS:
         case REQUEST_OPTIONS:
+        case ADD_OPTION:
             return Object.assign({}, state, {
                 [action.attribute]: options(state[action.attribute], action)
             })

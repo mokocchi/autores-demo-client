@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Menu />
-      <Container text style={{ marginTop: '1em' }}>
+      <Container style={{ marginTop: '1em' }}>
         <Route path="/" exact component={Home} />
         <Route path="/actividad" component={Actividad} />
         <Route path="/tareas" component={Tareas} />
