@@ -5,26 +5,6 @@ import BuscarTarea from './BuscarTarea'
 import ListTareas from './ListTareas'
 
 class Tareas extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            tareas: null
-        }
-        this.onAdditionTarea = this.onAdditionTarea.bind(this);
-    }
-
-    onAdditionTarea(tarea) {
-        if (tarea) {
-            this.state.tareas ?
-                this.setState({
-                    tareas: [...this.state.tareas, tarea]
-                })
-                : this.setState({
-                    tareas: [tarea]
-                })
-        }
-    }
-
     render() {
         return (
             <Container>
@@ -41,7 +21,7 @@ class Tareas extends Component {
                         <Form.Text className="text-dark">
                             Click para borrar
                         </Form.Text>
-                        {this.state.tareas && <ListTareas tareas={this.state.tareas} />}
+                        <ListTareas />
                     </Col>
                 </Row>
             </Container>

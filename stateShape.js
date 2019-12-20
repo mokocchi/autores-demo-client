@@ -15,5 +15,18 @@ export const state = {
         }
       ]
     }
+  },
+  actividadTareas: {
+    criteria: {
+      autor: '',
+      nombre: '',
+      dominio: '',
+    },
+    tareasResult: [
+      { "nombre": "Tarea1 es muy larga y vamos a ver que pasa con el select", "id": "1" },
+      { "nombre": "Tarea2", "id": "2" }
+    ],
+    selectedTareaId: "",
+    chosenTareas: []
   }
 }

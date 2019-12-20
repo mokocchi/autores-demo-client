@@ -1,3 +1,4 @@
+// optionsByAttribute
 export const FAIL_ATTRIBUTE = 'FAIL_ATTRIBUTE'
 
 export function failAttribute(attribute) {
@@ -42,5 +43,32 @@ export function addOption(attribute, option) {
     type: ADD_OPTION,
     attribute,
     option
+  }
+}
+
+// actividadTareas
+export const SELECT_TAREA = 'SELECT_TAREA'
+
+export function selectTarea(id) {
+  return {
+    type: SELECT_TAREA,
+    id
+  }
+}
+
+export const CHOOSE_TAREA = 'CHOOSE_TAREA'
+
+export function chooseTarea() {
+  return {
+    type: CHOOSE_TAREA
+  }
+}
+
+export const UNCHOOSE_TAREA = 'UNCHOOSE_TAREA'
+
+export function unchooseTarea(id) {
+  return {
+    type: UNCHOOSE_TAREA,
+    id
   }
 }

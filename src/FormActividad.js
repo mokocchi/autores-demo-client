@@ -4,7 +4,6 @@ import { Form, Button, Col } from 'react-bootstrap'
 import Input from './Input';
 import FormDominio from './FormDominio';
 import SelectAPI from './SelectAPI'
-import { API_BASE_URL } from './config'
 
 class FormActividad extends Component {
 
@@ -56,7 +55,7 @@ class FormActividad extends Component {
                 <Form.Row>
                     <Col>
                         <SelectAPI
-                            url={API_BASE_URL + "/idioma"}
+                            uri={"/idioma"}
                             attribute={"idioma"}
                             controlId={"formIdioma"}
                             label={"Idioma"}
@@ -67,7 +66,7 @@ class FormActividad extends Component {
                     </Col>
                     <Col>
                         <SelectAPI
-                            url={API_BASE_URL + '/planificacion'}
+                            uri={'/planificacion'}
                             attribute={"planificacion"}
                             controlId={"formPlanificacion"}
                             label={"Planificación"}
@@ -80,7 +79,7 @@ class FormActividad extends Component {
                 <Form.Row>
                     <Col>
                         <SelectAPI
-                            url={API_BASE_URL + '/dominio'}
+                            uri={'/dominio'}
                             attribute={"dominio"}
                             controlId={"formDominio"}
                             label={"Dominio"}
