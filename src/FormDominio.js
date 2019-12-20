@@ -18,6 +18,7 @@ class FormDominio extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.onKeyPress = this.onKeyPress.bind (this);
     }
 
     handleChange(e) {
@@ -49,7 +50,7 @@ class FormDominio extends Component {
                 errorMessage: data.errors
             });
         } else {
-            this.props.dispatch(addOption("dominio", data))
+            this.props.dispatch(addOption("dominio", data));
             this.setState({
                 dominio: '',
                 isLoading: false,
@@ -59,13 +60,21 @@ class FormDominio extends Component {
         }
     }
 
+    onKeyPress(e) {
+        if(e.key === "Enter") {
+            if (this.state.dominio !== "") {
+                this.onClick(e);
+            }
+        } 
+    }
+
     render() {
         return (
             <Col>
                 <Row>
                     <Col>
                         <InputGroup className="mb-3">
-                            <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} />
+                            <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} onKeyPress={this.onKeyPress}/>
                             <span className="input-group-btn">
                                 {this.state.isLoading ?
                                     <LoadSpinner />

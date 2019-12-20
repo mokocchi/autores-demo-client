@@ -40,7 +40,7 @@ class SelectAPI extends Component {
                         label={this.props.label}
                         name={this.props.name}
                         options={optionsByAttribute[attribute].items}
-                        value={this.props.value}
+                        defaultValue={this.props.defaultValue}
                         placeholder={this.props.placeholder}
                         onChange={this.props.onChange} />
                 }

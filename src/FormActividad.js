@@ -197,7 +197,7 @@ class FormActividad extends Component {
                             controlId={"formIdioma"}
                             label={"Idioma"}
                             name={"idioma"}
-                            value={""}
+                            defaultValue={""}
                             placeholder={"Elegí un idioma"}
                             onChange={this.handleInput}
                         />
@@ -209,7 +209,7 @@ class FormActividad extends Component {
                             controlId={"formPlanificacion"}
                             label={"Planificación"}
                             name={"planificacion"}
-                            value={""}
+                            defaultValue={""}
                             placeholder={"Elegí una planificación"}
                             onChange={this.handleInput}
                         />
@@ -223,7 +223,7 @@ class FormActividad extends Component {
                             controlId={"formDominio"}
                             label={"Dominio"}
                             name={"dominio"}
-                            value={""}
+                            defaultValue={this.props.currentDominioId}
                             placeholder={"Elegí un dominio"}
                             onChange={this.handleInput}
                         />
@@ -268,9 +268,10 @@ class FormActividad extends Component {
 
 function mapStateToProps(state) {
     const { actividad } = state
-    const { currentActividad } = actividad
+    const { currentActividad, currentDominioId } = actividad
     return {
-        currentActividad
+        currentActividad, 
+        currentDominioId
     }
 }
 
