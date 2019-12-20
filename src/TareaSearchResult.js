@@ -8,7 +8,7 @@ import Select from './Select'
 class TareaSearchResult extends Component {
 
     onChange = (e) => {
-        this.props.dispatch(selectTarea(e.target.value));        
+        this.props.dispatch(selectTarea(e.target.value));
     }
 
     onClick = (e) => {
@@ -17,7 +17,7 @@ class TareaSearchResult extends Component {
     }
 
     render() {
-        const { tareasResult } = this.props;
+        const { tareasResult, selectedTareaId } = this.props;
         return (
             <Col>
                 <h4>Resultados</h4>
@@ -29,11 +29,12 @@ class TareaSearchResult extends Component {
                         onChange={this.onChange}
                     />
                     <span>
-                        <Button variant="success" type="button" onClick={this.onClick}>
+                        <Button variant="info" type="button" onClick={this.onClick} disabled={selectedTareaId === ""} >
                             Agregar
                         </Button>
                     </span>
                 </InputGroup>
+                <Button variant="success" type="button" onClick={() => { }}>Nueva tarea</Button>
             </Col>
         )
     }
@@ -42,10 +43,10 @@ class TareaSearchResult extends Component {
 function mapStateToProps(state) {
     const { actividadTareas } = state
     const { tareasResult, selectedTareaId } = actividadTareas;
-  
+
     return {
         tareasResult, selectedTareaId
     }
-  }
+}
 
 export default connect(mapStateToProps)(TareaSearchResult);

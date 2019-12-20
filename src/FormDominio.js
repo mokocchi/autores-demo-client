@@ -70,7 +70,7 @@ class FormDominio extends Component {
                                 {this.state.isLoading ?
                                     <LoadSpinner />
                                     :
-                                    <Button variant="success" type="button" onClick={this.onClick}>
+                                    <Button variant="success" disabled={this.state.dominio === ""} type="button" onClick={this.onClick}>
                                         Agregar
                                     </Button>
                                 }
@@ -88,7 +88,6 @@ class FormDominio extends Component {
                     </Col>
                 </Row>
             </Col>
-
         )
     }
 }

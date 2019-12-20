@@ -72,3 +72,13 @@ export function unchooseTarea(id) {
     id
   }
 }
+
+//actividad
+export const SET_CURRENT_ACTIVIDAD = "SET_CURRRENT_ACTIVIDAD"
+
+export function setCurrentActividad(actividad) {
+  return {
+    type: SET_CURRENT_ACTIVIDAD,
+    actividad
+  }
+}
