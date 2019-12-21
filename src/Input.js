@@ -14,6 +14,7 @@ function Input(props) {
                             <Form.Control type={props.type}
                                 placeholder={props.placeholder}
                                 onChange={props.handleChange}
+                                name={props.name}
                             />
                         </Col>
                     </Form.Group>
@@ -23,6 +24,7 @@ function Input(props) {
                         <Form.Control type={props.type}
                             placeholder={props.placeholder}
                             onChange={props.handleChange}
+                            name={props.name}
                             //className="form-input"
                         />
                     </Form.Group>
