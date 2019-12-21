@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
 import { InputGroup, Button, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { selectTarea, chooseTarea } from './redux/actions'
+import { selectTarea, chooseTarea, setCurrentActividad } from './redux/actions'
 
 import Select from './Select'
+import { API_BASE_URL } from './config'
 
 class TareaSearchResult extends Component {
+
+    constructor(props) {
+        super(props);
+        let id = this.props.actividadId;
+        this.setCurrentActividad(id);
+    }
+
+    async setCurrentActividad(id) {
+        const response = await fetch(API_BASE_URL + '/actividad/' + id);
+        const data = await response.json();
+        this.props.dispatch(setCurrentActividad(data));
+    }
 
     onChange = (e) => {
         this.props.dispatch(selectTarea(e.target.value));
@@ -34,7 +48,9 @@ class TareaSearchResult extends Component {
                         </Button>
                     </span>
                 </InputGroup>
-                <Button variant="success" type="button" onClick={() => { }}>Nueva tarea</Button>
+                <Link to={"/actividad/" + this.props.actividadId + "/nuevaTarea"} >
+                    <Button variant="success" type="button">Nueva tarea</Button>
+                </Link>
             </Col>
         )
     }

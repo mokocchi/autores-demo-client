@@ -1,4 +1,4 @@
-import { CHOOSE_TAREA, SELECT_TAREA, UNCHOOSE_TAREA } from '../actions'
+import { CHOOSE_TAREA, SELECT_TAREA, UNCHOOSE_TAREA, ADD_TAREA } from '../actions'
 
 export default function actividadTareas(
     state = {
@@ -36,6 +36,11 @@ export default function actividadTareas(
             return {
                 ...state,
                 chosenTareas: state.chosenTareas.filter((tarea) => tarea.id !== action.id)
+            }
+        case ADD_TAREA:
+            return {
+                ...state,
+                chosenTareas: [...state.chosenTareas, action.tarea]
             }
         default:
             return state;

@@ -2,24 +2,23 @@ import React, { Component } from 'react';
 import { Form, Button, Col, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setCurrentActividad } from './redux/actions'
+import { addTarea, setCurrentActividad } from './redux/actions'
 
 import Input from './Input';
-import FormDominio from './FormDominio';
 import SelectAPI from './SelectAPI';
+import FormDominio from './FormDominio'
 
 import { API_BASE_URL } from './config';
 
-class FormActividad extends Component {
+class FormTarea extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            newActividad: {
+            newTarea: {
                 nombre: '',
-                objetivo: '',
-                idioma: '',
-                planificacion: '',
+                consigna: '',
+                tipo: '',
                 dominio: '',
             },
             isLoading: false,
@@ -27,12 +26,27 @@ class FormActividad extends Component {
             error: false,
             errorMessage: ""
         }
+        let id = this.props.actividadId;
+        console.log(id);
+        this.setCurrentActividad(id);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
     }
 
+    async setCurrentActividad(id) {
+        const response = await fetch(API_BASE_URL + '/actividad/' + id);
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                error: true,
+                errorMessage: data.errors
+            });
+        }
+        this.props.dispatch(setCurrentActividad(data));
+    }
+
     async handleFormSubmit(e) {
-        const { nombre, objetivo, idioma, planificacion, dominio } = this.state.newActividad;
+        const { nombre, consigna, tipo, dominio } = this.state.newTarea;
         e.preventDefault();
         this.setState({
             isLoading: true,
@@ -47,17 +61,17 @@ class FormActividad extends Component {
             })
             return;
         }
-        if (objetivo === "") {
+        if (consigna === "") {
             this.setState({
-                errorMessage: "Falta objetivo",
+                errorMessage: "Falta consigna",
                 error: true,
                 isLoading: false,
             })
             return;
         }
-        if (idioma === "") {
+        if (tipo === "") {
             this.setState({
-                errorMessage: "Falta idioma",
+                errorMessage: "Falta tipo",
                 error: true,
                 isLoading: false,
             })
@@ -71,20 +85,12 @@ class FormActividad extends Component {
             })
             return;
         }
-        if (planificacion === "") {
-            this.setState({
-                errorMessage: "Falta planificación",
-                error: true,
-                isLoading: false,
-            })
-            return;
-        }
 
-        let response = await fetch(API_BASE_URL + '/actividad', {
+        let response = await fetch(API_BASE_URL + '/tarea', {
             method: 'POST',
             body: JSON.stringify({
                 "nombre": nombre,
-                "objetivo": objetivo,
+                "consigna": consigna,
             })
         });
         const data = await response.json();
@@ -97,39 +103,23 @@ class FormActividad extends Component {
             return
         }
 
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/idioma', {
+        response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/tipo-tarea', {
             method: 'POST',
             body: JSON.stringify({
-                "idioma": idioma,
+                "tipo-tarea": tipo,
             })
         });
-        const idiomaData = await response.json();
-        if (idiomaData.errors) {
+        const tipoData = await response.json();
+        if (tipoData.errors) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: idiomaData.errors
+                errorMessage: tipoData.errors
             });
             return
         }
 
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/planificacion', {
-            method: 'POST',
-            body: JSON.stringify({
-                "planificacion": planificacion,
-            })
-        });
-        const planificacionData = await response.json();
-        if (planificacionData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: planificacionData.errors
-            });
-            return
-        }
-
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/dominio', {
+        response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/dominio', {
             method: 'POST',
             body: JSON.stringify({
                 "dominio": dominio,
@@ -145,8 +135,10 @@ class FormActividad extends Component {
             return
         }
 
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id);
+        response = await fetch(API_BASE_URL + '/tarea/' + data.id);
         const lastData = await response.json();
+
+        this.props.dispatch(addTarea(lastData));
 
         this.setState({
             success: true,
@@ -154,15 +146,14 @@ class FormActividad extends Component {
             error: false,
             errorMessage: ''
         });
-        this.props.dispatch(setCurrentActividad(lastData));
     }
 
     handleInput(e) {
         let value = e.target.value;
         let name = e.target.name;
         this.setState({
-            newActividad: {
-                ...this.state.newActividad, [name]: value
+            newTarea: {
+                ...this.state.newTarea, [name]: value
             }
         });
     }
@@ -180,11 +171,11 @@ class FormActividad extends Component {
                             handleChange={this.handleInput} />
                     </Col>
                     <Col>
-                        <Input controlId={"formObjetivo"}
-                            label={"Objetivo"}
-                            name={"objetivo"}
+                        <Input controlId={"formConsigna"}
+                            label={"Consigna"}
+                            name={"consigna"}
                             type={"text"}
-                            placeholder={"Objetivo"}
+                            placeholder={"Consigna"}
                             handleChange={this.handleInput} />
                     </Col>
                 </Form.Row>
@@ -192,30 +183,16 @@ class FormActividad extends Component {
                 <Form.Row>
                     <Col>
                         <SelectAPI
-                            uri={"/idioma"}
-                            attribute={"idioma"}
-                            controlId={"formIdioma"}
-                            label={"Idioma"}
-                            name={"idioma"}
+                            uri={"/tipo-tarea"}
+                            attribute={"tipo"}
+                            controlId={"formTipo"}
+                            label={"Tipo"}
+                            name={"tipo"}
                             defaultValue={""}
-                            placeholder={"Elegí un idioma"}
+                            placeholder={"Elegí un tipo"}
                             onChange={this.handleInput}
                         />
                     </Col>
-                    <Col>
-                        <SelectAPI
-                            uri={'/planificacion'}
-                            attribute={"planificacion"}
-                            controlId={"formPlanificacion"}
-                            label={"Planificación"}
-                            name={"planificacion"}
-                            defaultValue={""}
-                            placeholder={"Elegí una planificación"}
-                            onChange={this.handleInput}
-                        />
-                    </Col>
-                </Form.Row>
-                <Form.Row>
                     <Col>
                         <SelectAPI
                             uri={'/dominio'}
@@ -223,17 +200,17 @@ class FormActividad extends Component {
                             controlId={"formDominio"}
                             label={"Dominio"}
                             name={"dominio"}
-                            defaultValue={this.props.currentDominioId}
+                            defaultValue={""}
                             placeholder={"Elegí un dominio"}
                             onChange={this.handleInput}
                         />
                     </Col>
-                    <Col></Col>
                 </Form.Row>
                 <Form.Row>
-                    <FormDominio/>
                     <Col></Col>
+                    <FormDominio />
                 </Form.Row>
+
                 {this.state.error &&
                     <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
                         {this.state.errorMessage}
@@ -252,8 +229,8 @@ class FormActividad extends Component {
                     </Button>
                     :
                     this.state.success ?
-                        <Link to={"/tareas/" + this.props.currentActividad.id}>
-                            <Button variant="primary" type="button" onClick={() => { }} >Continuar</Button>
+                        <Link to={"/actividad/" + this.props.currentActividad.id}>
+                            <Button variant="primary" type="button" >Continuar</Button>
                         </Link>
                         :
                         <Button variant="info" type="button" disabled={this.state.success} onClick={this.handleFormSubmit}>
@@ -267,12 +244,10 @@ class FormActividad extends Component {
 }
 
 function mapStateToProps(state) {
-    const { actividad } = state
-    const { currentActividad, currentDominioId } = actividad
+    const { currentActividad } = state.actividad
     return {
-        currentActividad, 
-        currentDominioId
+        currentActividad
     }
 }
 
-export default connect(mapStateToProps)(FormActividad);
+export default connect(mapStateToProps)(FormTarea);

@@ -4,12 +4,12 @@ import { Row } from 'react-bootstrap'
 import TareaSearch from './TareaSearch';
 import TareaSearchResult from './TareaSearchResult';
 
-export default function BuscarTarea() {
+export default function BuscarTarea(props) {
     return (
         <div>
             <TareaSearch />
             <Row>
-                <TareaSearchResult />
+                <TareaSearchResult actividadId={props.actividadId} />
             </Row>
         </div>
     )

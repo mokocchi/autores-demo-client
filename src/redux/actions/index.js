@@ -73,6 +73,15 @@ export function unchooseTarea(id) {
   }
 }
 
+export const ADD_TAREA = 'ADD_TAREA'
+
+export function addTarea(tarea) {
+  return {
+    type: ADD_TAREA,
+    tarea
+  }
+}
+
 //actividad
 export const SET_CURRENT_ACTIVIDAD = "SET_CURRRENT_ACTIVIDAD"
 

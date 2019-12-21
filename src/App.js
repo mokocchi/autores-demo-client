@@ -6,6 +6,7 @@ import Menu from './Menu'
 import Home from './Home'
 import Actividad from './Actividad'
 import Tareas from './Tareas'
+import Tarea from './Tarea'
 
 function App() {
   return (
@@ -13,8 +14,9 @@ function App() {
       <Menu />
       <Container style={{ marginTop: '1em' }}>
         <Route path="/" exact component={Home} />
-        <Route path="/actividad" component={Actividad} />
-        <Route path="/tareas" component={Tareas} />
+        <Route path="/nuevaActividad" component={Actividad} />
+        <Route path="/actividad/:id" exact component={Tareas} />
+        <Route path="/actividad/:id/nuevaTarea" component={Tarea} />
       </Container>
     </Router>
   );
