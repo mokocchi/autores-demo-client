@@ -91,3 +91,21 @@ export function setCurrentActividad(actividad) {
     actividad
   }
 }
+
+//tarea
+export const SET_TAREA_EXTRA = "SET_TAREA_EXTRA"
+
+export function setTareaExtra(extra) {
+  return {
+    type: SET_TAREA_EXTRA,
+    extra
+  }
+}
+
+export const CLEAR_TAREA_EXTRA = "CLEAR_TAREA_EXTRA"
+
+export function clearTareaExtra() {
+  return {
+    type: CLEAR_TAREA_EXTRA
+  }
+}

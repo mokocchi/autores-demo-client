@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Form, Button, Col, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addTarea, setCurrentActividad } from './redux/actions';
+import { addTarea, setCurrentActividad, clearTareaExtra, setTareaExtra } from './redux/actions';
 
 import Input from './Input';
 import SelectAPI from './SelectAPI';
 import FormDominio from './FormDominio';
 import TareaExtra from './TareaExtra';
 
-import { API_BASE_URL } from './config';
+import { API_BASE_URL, TIPOS_EXTRA } from './config';
 
 class FormTarea extends Component {
 
@@ -20,7 +20,7 @@ class FormTarea extends Component {
                 nombre: '',
                 consigna: '',
                 tipo: '',
-                dominio: '',
+                dominio: ''
             },
             isLoading: false,
             success: false,
@@ -29,6 +29,7 @@ class FormTarea extends Component {
         }
         let id = this.props.actividadId;
         this.setCurrentActividad(id);
+        this.props.dispatch(clearTareaExtra())
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
     }
@@ -45,8 +46,17 @@ class FormTarea extends Component {
         this.props.dispatch(setCurrentActividad(data));
     }
 
+    isEmpty(obj) {
+        for(var key in obj) {
+            if(obj.hasOwnProperty(key))
+                return false;
+        }
+        return true;
+    }
+
     async handleFormSubmit(e) {
         const { nombre, consigna, tipo, dominio } = this.state.newTarea;
+        const { extra } = this.props;
         e.preventDefault();
         this.setState({
             isLoading: true,
@@ -80,6 +90,15 @@ class FormTarea extends Component {
         if (dominio === "") {
             this.setState({
                 errorMessage: "Falta dominio",
+                error: true,
+                isLoading: false,
+            })
+            return;
+        }
+
+        if (TIPOS_EXTRA.includes(tipo) && this.isEmpty(extra)) {
+            this.setState({
+                errorMessage: "Faltan datos extra",
                 error: true,
                 isLoading: false,
             })
@@ -131,6 +150,22 @@ class FormTarea extends Component {
                 isLoading: false,
                 error: true,
                 errorMessage: dominioData.errors
+            });
+            return
+        }
+
+        response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/extra', {
+            method: 'POST',
+            body: JSON.stringify({
+                "extra": extra,
+            })
+        });
+        const extraData = await response.json();
+        if (extraData.errors) {
+            this.setState({
+                isLoading: false,
+                error: true,
+                errorMessage: extraData.errors
             });
             return
         }
@@ -213,7 +248,7 @@ class FormTarea extends Component {
 
                 <hr/>
 
-                <TareaExtra/>
+                <TareaExtra tipoTarea={this.state.newTarea.tipo}/>
 
                 {this.state.error &&
                     <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
@@ -248,9 +283,11 @@ class FormTarea extends Component {
 }
 
 function mapStateToProps(state) {
-    const { currentActividad } = state.actividad
+    const { currentActividad } = state.actividad;
+    const { extra } = state.tarea;
     return {
-        currentActividad
+        currentActividad,
+        extra
     }
 }
 
