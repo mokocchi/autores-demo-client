@@ -1,31 +1,19 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
+import { Row, Col, Form } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { removeOptionFromExtra } from './redux/actions'
 
 import ActionList from './ActionList'
 import FormOption from './FormOption';
 
 class FormElegirOpcion extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [{
-                "code": "01",
-                "text": "Animales"
-            },
-            {
-                "code": "02",
-                "text": "Informática"
-            }]
-        }
-    }
-
     onClick = (item) => {
-        console.log(item);
+        this.props.dispatch(removeOptionFromExtra(item))
     }
 
     render() {
-
+        const options = this.props.options
         return (
             <div>
                 <h4>Elegir una opción</h4>
@@ -34,7 +22,7 @@ class FormElegirOpcion extends Component {
                         <Form.Text className="text-dark">
                             Click para borrar
                         </Form.Text>
-                        <ActionList items={this.state.items} field={"text"} value={"code"} action={true} onClick={this.onClick} />
+                        <ActionList items={options} field={"text"} value={"code"} action={true} onClick={this.onClick} />
                     </Col>
                     <Col />
                 </Row>
@@ -49,4 +37,11 @@ class FormElegirOpcion extends Component {
     }
 }
 
-export default FormElegirOpcion;
+function mapStateToProps(state) {
+    const { options } = state.tareaExtra;
+    return {
+        options,
+    }
+}
+
+export default connect(mapStateToProps)(FormElegirOpcion);

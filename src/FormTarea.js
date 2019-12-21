@@ -9,7 +9,7 @@ import SelectAPI from './SelectAPI';
 import FormDominio from './FormDominio';
 import TareaExtra from './TareaExtra';
 
-import { API_BASE_URL, TIPOS_EXTRA } from './config';
+import { API_BASE_URL, TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION } from './config';
 
 class FormTarea extends Component {
 
@@ -47,11 +47,21 @@ class FormTarea extends Component {
     }
 
     isEmpty(obj) {
-        for(var key in obj) {
-            if(obj.hasOwnProperty(key))
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key))
                 return false;
         }
         return true;
+    }
+
+    processExtra(extra, tipo) {
+        switch (tipo) {
+            case TIPO_SELECCION:
+                return extra;
+            default:
+                break;
+        }
+
     }
 
     async handleFormSubmit(e) {
@@ -154,20 +164,25 @@ class FormTarea extends Component {
             return
         }
 
-        response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/extra', {
-            method: 'POST',
-            body: JSON.stringify({
-                "extra": extra,
-            })
-        });
-        const extraData = await response.json();
-        if (extraData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: extraData.errors
+        if (TIPOS_EXTRA.includes(tipo)) {
+
+            const processedExtra = this.processExtra(extra, tipo);
+
+            response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/extra', {
+                method: 'POST',
+                body: JSON.stringify({
+                    "extra": processedExtra,
+                })
             });
-            return
+            const extraData = await response.json();
+            if (extraData.errors) {
+                this.setState({
+                    isLoading: false,
+                    error: true,
+                    errorMessage: extraData.errors
+                });
+                return
+            }
         }
 
         response = await fetch(API_BASE_URL + '/tarea/' + data.id);
@@ -246,9 +261,9 @@ class FormTarea extends Component {
                     <FormDominio />
                 </Form.Row>
 
-                <hr/>
+                <hr />
 
-                <TareaExtra tipoTarea={this.state.newTarea.tipo}/>
+                <TareaExtra tipoTarea={this.state.newTarea.tipo} />
 
                 {this.state.error &&
                     <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
@@ -284,7 +299,7 @@ class FormTarea extends Component {
 
 function mapStateToProps(state) {
     const { currentActividad } = state.actividad;
-    const { extra } = state.tarea;
+    const extra = state.tareaExtra;
     return {
         currentActividad,
         extra

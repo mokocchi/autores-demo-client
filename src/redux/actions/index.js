@@ -109,3 +109,21 @@ export function clearTareaExtra() {
     type: CLEAR_TAREA_EXTRA
   }
 }
+
+export const ADD_OPTION_TO_EXTRA = "ADD_OPTION_TO_EXTRA"
+
+export function addOptionToExtra(option) {
+  return {
+    type: ADD_OPTION_TO_EXTRA,
+    option
+  }
+}
+
+export const REMOVE_OPTION_FROM_EXTRA = "REMOVE_OPTION_FROM_EXTRA"
+
+export function removeOptionFromExtra(option) {
+  return {
+    type: REMOVE_OPTION_FROM_EXTRA,
+    option
+  }
+}
