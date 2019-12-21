@@ -6,7 +6,7 @@ import SelectAPI from './SelectAPI';
 class TareaSearch extends Component {
     render() {
         return (
-            <Form.Row>
+            <Form.Row className="align-items-center">
                 <Col>
                     <Input
                         label={"Por Autor"}

@@ -6,7 +6,10 @@ function ActionList(props) {
         <ListGroup>
             {
                 props.items.map((item) =>
-                    <ListGroup.Item action={props.action} key={item.id} onClick={() => props.onClick(item.id)}>{item.nombre}</ListGroup.Item>
+                    <ListGroup.Item action={props.action} key={item[props.value]} onClick={(e) => { e.preventDefault(); props.onClick(item) }}>
+                        {item[props.field]}
+                        {props.children}
+                    </ListGroup.Item>
                 )
             }
         </ListGroup>

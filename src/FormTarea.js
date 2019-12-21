@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Button, Col, Spinner } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import { connect } from 'react-redux'
-import { addTarea, setCurrentActividad } from './redux/actions'
+import { Form, Button, Col, Spinner } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { addTarea, setCurrentActividad } from './redux/actions';
 
 import Input from './Input';
 import SelectAPI from './SelectAPI';
-import FormDominio from './FormDominio'
+import FormDominio from './FormDominio';
+import TareaExtra from './TareaExtra';
 
 import { API_BASE_URL } from './config';
 
@@ -27,7 +28,6 @@ class FormTarea extends Component {
             errorMessage: ""
         }
         let id = this.props.actividadId;
-        console.log(id);
         this.setCurrentActividad(id);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
@@ -210,6 +210,10 @@ class FormTarea extends Component {
                     <Col></Col>
                     <FormDominio />
                 </Form.Row>
+
+                <hr/>
+
+                <TareaExtra/>
 
                 {this.state.error &&
                     <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>

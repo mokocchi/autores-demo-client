@@ -37,8 +37,10 @@ class TareaSearchResult extends Component {
                 <h4>Resultados</h4>
                 <InputGroup>
                     <Select
-                        value={""}
+                        defaultValue={""}
                         placeholder={"Elegí una tarea"}
+                        value={"id"}
+                        field={"nombre"}
                         options={tareasResult}
                         onChange={this.onChange}
                     />

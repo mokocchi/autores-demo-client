@@ -36,11 +36,11 @@ export function receiveOptions(attribute, options) {
   }
 }
 
-export const ADD_OPTION = 'ADD_OPTION'
+export const ADD_SELECT_OPTION = 'ADD_SELECT_OPTION'
 
-export function addOption(attribute, option) {
+export function addSelectOption(attribute, option) {
   return {
-    type: ADD_OPTION,
+    type: ADD_SELECT_OPTION,
     attribute,
     option
   }

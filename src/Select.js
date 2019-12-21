@@ -8,7 +8,7 @@ function Select(props) {
             <Form.Control defaultValue={props.defaultValue} as="select" name={props.name} onChange={props.onChange}>
             <option value="" disabled>{props.placeholder}</option>
                 {props.options.map((item, index) =>
-                    <option value={item.id} key={index}>{item.nombre}</option>
+                    <option value={item[props.value]} key={index}>{item[props.field]}</option>
                 )}
             </Form.Control>
         </Form.Group>

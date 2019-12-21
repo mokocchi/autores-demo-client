@@ -41,6 +41,8 @@ class SelectAPI extends Component {
                         name={this.props.name}
                         options={optionsByAttribute[attribute].items}
                         defaultValue={this.props.defaultValue}
+                        value={"id"}
+                        field={"nombre"}
                         placeholder={this.props.placeholder}
                         onChange={this.props.onChange} />
                 }

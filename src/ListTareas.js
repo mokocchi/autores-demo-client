@@ -7,15 +7,15 @@ import ActionList from './ActionList';
 
 class ListTareas extends Component {
 
-    onClick = (id) => {
-        this.props.dispatch(unchooseTarea(id));
+    onClick = (item) => {
+        this.props.dispatch(unchooseTarea(item.id));
     }
 
     render() {
         const { chosenTareas } = this.props;
         return (
             <div>
-                <ActionList items={chosenTareas} action={true} onClick={this.onClick} />
+                <ActionList items={chosenTareas} action={true} onClick={this.onClick} field={"nombre"} value={"id"}/>
                 <Button variant="primary" type="button" onClick={this.handleFormSubmit} style={{marginTop: "1em"}}>Continuar</Button>
             </div>
         )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { InputGroup, FormControl, Button, Form, Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { addOption } from './redux/actions'
+import { addSelectOption } from './redux/actions'
 
 import { API_BASE_URL } from './config'
 import LoadSpinner from './LoadSpinner'
@@ -50,7 +50,7 @@ class FormDominio extends Component {
                 errorMessage: data.errors
             });
         } else {
-            this.props.dispatch(addOption("dominio", data));
+            this.props.dispatch(addSelectOption("dominio", data));
             this.setState({
                 dominio: '',
                 isLoading: false,
