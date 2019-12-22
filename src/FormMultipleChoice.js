@@ -1,44 +1,41 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, InputGroup, Button } from 'react-bootstrap';
+import { Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { removeCorrectOptionFromExtra, removeOptionFromExtra } from './redux/actions'
 
-import ActionList from './ActionList'
+import ActionList from './ActionList';
 import FormOption from './FormOption';
-import Select from './Select'
+import FormCorrectOptions from './FormCorrectOptions';
+import FormCheckInput from 'react-bootstrap/FormCheckInput';
+import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 
 class FormMultipleChoice extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            items: [{
-                "code": "tortuga",
-                "text": "Tortuga"
-            },
-            {
-                "code": "perro",
-                "text": "Perro"
-            },
-            {
-                "code": "sapo",
-                "text": "Sapo"
-            },
-            {
-                "code": "vibora",
-                "text": "Víbora"
-            },
-            {
-                "code": "picaflor",
-                "text": "Picaflor"
-            }]
+            correctas: false
         }
     }
 
-    onClick = (item) => {
-        console.log(item);
+    handleCheck = (e) => {
+        this.setState({
+            correctas: !this.state.correctas
+        })
     }
 
-    render() {
+    onClickOptions = (item) => {
+        this.props.dispatch(removeOptionFromExtra(item));
+        this.props.dispatch(removeCorrectOptionFromExtra(item.code));
+    }
 
+    onClickCorrects = (item) => {
+        this.props.dispatch(removeCorrectOptionFromExtra(item.code))
+    }
+
+
+    render() {
+        const { options, correctAnswers } = this.props;
         return (
             <div>
                 <h4>Opción Múltiple</h4>
@@ -47,7 +44,7 @@ class FormMultipleChoice extends Component {
                         <Form.Text className="text-dark">
                             Click para borrar
                         </Form.Text>
-                        <ActionList items={this.state.items} field={"text"} value={"code"} action={true} onClick={this.onClick} />
+                        <ActionList items={options} field={"text"} value={"code"} action={true} onClick={this.onClickOptions} />
                     </Col>
                     <Col />
                 </Row>
@@ -59,28 +56,54 @@ class FormMultipleChoice extends Component {
                 </Row>
                 <Row>
                     <Col>
-                        <div className="mb-3">
-                            <Form.Check
-                                type={"checkbox"}
-                                label={"Indicar opciones correctas"}
-                            />
-                        </div>
+                        <Col>
+                            <InputGroup className="mb-3">
+                                <FormCheckLabel>
+                                    <FormCheckInput type={"checkbox"} onChange={this.handleCheck} />
+                                    Indicar opciones correctas
+                            </FormCheckLabel>
+                            </InputGroup>
+                        </Col>
                     </Col>
                     <Col />
                 </Row>
-                <InputGroup>
-                    <Select
-                        defaultValue={""}
-                        placeholder={"Elegí una opción"}
-                        options={this.state.items}
-                        onChange={this.onChange}
-                        value={"code"}
-                        field={"text"}
-                    />
-                </InputGroup>
+                {this.state.correctas &&
+                    <>
+                        <Row>
+                            <Col>
+                                <Form.Text className="text-dark">
+                                    Click para borrar
+                                    </Form.Text>
+                                <ActionList items={
+                                    correctAnswers.map(item => {
+                                        return {
+                                            code: item,
+                                            text: options.find(option => option.code === item).text
+                                        }
+                                    })
+                                } action={true} onClick={this.onClickCorrects} value={"code"} field={"text"} />
+                            </Col>
+                            <Col />
+                        </Row>
+                        <Row>
+                            <Col>
+                                <FormCorrectOptions />
+                            </Col>
+                            <Col />
+                        </Row>
+                    </>
+                }
             </div>
         )
     }
 }
 
-export default FormMultipleChoice;
+function mapStateToProps(state) {
+    const { options, correctAnswers } = state.tareaExtra;
+    return {
+        options,
+        correctAnswers
+    }
+}
+
+export default connect(mapStateToProps)(FormMultipleChoice);

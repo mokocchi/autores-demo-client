@@ -92,7 +92,7 @@ export function setCurrentActividad(actividad) {
   }
 }
 
-//tarea
+//tareaExtra
 export const SET_TAREA_EXTRA = "SET_TAREA_EXTRA"
 
 export function setTareaExtra(extra) {
@@ -124,6 +124,24 @@ export const REMOVE_OPTION_FROM_EXTRA = "REMOVE_OPTION_FROM_EXTRA"
 export function removeOptionFromExtra(option) {
   return {
     type: REMOVE_OPTION_FROM_EXTRA,
+    option
+  }
+}
+
+export const ADD_CORRECT_ANSWER_TO_EXTRA = "ADD_CORRECT_ANSWER_TO_EXTRA"
+
+export function addCorrectAnswerToExtra(option) {
+  return {
+    type: ADD_CORRECT_ANSWER_TO_EXTRA,
+    option
+  }
+}
+
+export const REMOVE_CORRECT_ANSWER_FROM_EXTRA = "REMOVE_CORRECT_ANSWER_FROM_EXTRA"
+
+export function removeCorrectOptionFromExtra(option) {
+  return {
+    type: REMOVE_CORRECT_ANSWER_FROM_EXTRA,
     option
   }
 }

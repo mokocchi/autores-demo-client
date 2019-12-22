@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button, Col, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addTarea, setCurrentActividad, clearTareaExtra, setTareaExtra } from './redux/actions';
+import { addTarea, setCurrentActividad, clearTareaExtra } from './redux/actions';
 
 import Input from './Input';
 import SelectAPI from './SelectAPI';
@@ -57,6 +57,9 @@ class FormTarea extends Component {
     processExtra(extra, tipo) {
         switch (tipo) {
             case TIPO_SELECCION:
+                delete extra.correctAnswers
+                return extra;
+            case TIPO_MULTIPLE_CHOICE:
                 return extra;
             default:
                 break;

@@ -6,8 +6,8 @@ function ActionList(props) {
         <ListGroup>
             {
                 props.items.map((item) =>
-                    <ListGroup.Item action={props.action} key={item[props.value]} onClick={(e) => { e.preventDefault(); props.onClick(item) }}>
-                        {item[props.field]}
+                    <ListGroup.Item action={props.action} key={props.value? item[props.value] : item} onClick={(e) => { e.preventDefault(); props.onClick(item) }}>
+                        {props.field ? item[props.field] : item}
                         {props.children}
                     </ListGroup.Item>
                 )
