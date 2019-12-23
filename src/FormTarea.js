@@ -58,16 +58,16 @@ class FormTarea extends Component {
         switch (tipo) {
             case TIPO_SELECCION:
                 return {
-                    options: extra.options
+                    elements: extra.elements
                 };
             case TIPO_MULTIPLE_CHOICE:
                 return {
-                    options: extra.options,
-                    correctAnswers: extra.correctAnswers
+                    elements: extra.elements,
+                    validElements: extra.validElements
                 };
             case TIPO_CONTADORES:
                 return {
-                    options: extra.options,
+                    elements: extra.elements,
                     byScore: extra.byScore
                 }
             default:
@@ -131,8 +131,8 @@ class FormTarea extends Component {
             if(tipo === TIPO_CONTADORES) {
                 let criterionErrors = false
                 extra.byScore.forEach(criterion => {
-                    const settedOptions = Object.keys(criterion.scores);
-                    if (settedOptions.length < extra.options.length) {
+                    const settedElements = Object.keys(criterion.scores);
+                    if (settedElements.length < extra.elements.length) {
                         this.setState({
                             isLoading: false,
                             error: true,

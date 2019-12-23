@@ -83,7 +83,7 @@ class FormRecoleccion extends Component {
                         <div className="mb-3">
                             <Form.Check
                                 type={"checkbox"}
-                                label={"Indicar opciones correctas"}
+                                label={"Indicar elementos válidos"}
                             />
                         </div>
                     </Col>
@@ -92,7 +92,7 @@ class FormRecoleccion extends Component {
                 <InputGroup>
                     <Select
                         defaultValue={""}
-                        placeholder={"Elegí una opción"}
+                        placeholder={"Elegí un elemento"}
                         options={this.state.items}
                         onChange={this.onChange}
                         value={"code"}

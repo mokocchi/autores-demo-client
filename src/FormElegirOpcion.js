@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { removeOptionFromExtra } from './redux/actions'
+import { removeElementFromExtra } from './redux/actions'
 
 import ActionList from './ActionList'
 import FormOption from './FormOption';
@@ -9,17 +9,17 @@ import FormOption from './FormOption';
 class FormElegirOpcion extends Component {
 
     onClick = (item) => {
-        this.props.dispatch(removeOptionFromExtra(item))
+        this.props.dispatch(removeElementFromExtra(item))
     }
 
     render() {
-        const options = this.props.options
+        const elements = this.props.elements
         return (
             <div>
                 <h4>Elegir una opción</h4>
                 <Row>
                     <Col>
-                        <ActionList items={options} field={"text"} value={"code"} action={true} onClick={this.onClick} />
+                        <ActionList items={elements} field={"text"} value={"code"} action={true} onClick={this.onClick} />
                     </Col>
                     <Col />
                 </Row>
@@ -35,9 +35,9 @@ class FormElegirOpcion extends Component {
 }
 
 function mapStateToProps(state) {
-    const { options } = state.tareaExtra;
+    const { elements } = state.tareaExtra;
     return {
-        options,
+        elements,
     }
 }
 

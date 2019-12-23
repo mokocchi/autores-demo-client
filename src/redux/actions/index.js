@@ -110,39 +110,39 @@ export function clearTareaExtra() {
   }
 }
 
-export const ADD_OPTION_TO_EXTRA = "ADD_OPTION_TO_EXTRA"
+export const ADD_ELEMENT_TO_EXTRA = "ADD_ELEMENT_TO_EXTRA"
 
-export function addOptionToExtra(option) {
+export function addElementToExtra(element) {
   return {
-    type: ADD_OPTION_TO_EXTRA,
-    option
+    type: ADD_ELEMENT_TO_EXTRA,
+    element
   }
 }
 
-export const REMOVE_OPTION_FROM_EXTRA = "REMOVE_OPTION_FROM_EXTRA"
+export const REMOVE_ELEMENT_FROM_EXTRA = "REMOVE_ELEMENT_FROM_EXTRA"
 
-export function removeOptionFromExtra(option) {
+export function removeElementFromExtra(element) {
   return {
-    type: REMOVE_OPTION_FROM_EXTRA,
-    option
+    type: REMOVE_ELEMENT_FROM_EXTRA,
+    element
   }
 }
 
-export const ADD_CORRECT_ANSWER_TO_EXTRA = "ADD_CORRECT_ANSWER_TO_EXTRA"
+export const ADD_VALID_ELEMENT_TO_EXTRA = "ADD_VALID_ELEMENT_TO_EXTRA"
 
-export function addCorrectAnswerToExtra(option) {
+export function addValidElementToExtra(element) {
   return {
-    type: ADD_CORRECT_ANSWER_TO_EXTRA,
-    option
+    type: ADD_VALID_ELEMENT_TO_EXTRA,
+    element
   }
 }
 
-export const REMOVE_CORRECT_ANSWER_FROM_EXTRA = "REMOVE_CORRECT_ANSWER_FROM_EXTRA"
+export const REMOVE_VALID_ELEMENT_FROM_EXTRA = "REMOVE_VALID_ELEMENT_FROM_EXTRA"
 
-export function removeCorrectOptionFromExtra(option) {
+export function removeValidElementFromExtra(element) {
   return {
-    type: REMOVE_CORRECT_ANSWER_FROM_EXTRA,
-    option
+    type: REMOVE_VALID_ELEMENT_FROM_EXTRA,
+    element
   }
 }
 

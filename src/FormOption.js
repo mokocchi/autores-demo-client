@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { InputGroup, FormControl, Button, Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addOptionToExtra } from './redux/actions';
+import { addElementToExtra } from './redux/actions';
 
 import { getRandomSlug } from './utils'
 
@@ -10,7 +10,7 @@ class FormOption extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            optionText: '',
+            elementText: '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -19,22 +19,22 @@ class FormOption extends Component {
 
     handleChange(e) {
         this.setState({
-            optionText: e.target.value
+            elementText: e.target.value
         })
     }
 
     async onClick(e) {
         e.preventDefault();
-        const option = { "text": this.state.optionText, "code": getRandomSlug() }
-        this.props.dispatch(addOptionToExtra(option));
+        const element = { "text": this.state.elementText, "code": getRandomSlug() }
+        this.props.dispatch(addElementToExtra(element));
         this.setState({
-            optionText: ''
+            elementText: ''
         });
     }
 
     onKeyPress(e) {
         if (e.key === "Enter") {
-            if (this.state.optionText !== "") {
+            if (this.state.elementText !== "") {
                 this.onClick(e);
             }
         }
@@ -46,9 +46,9 @@ class FormOption extends Component {
                 <Row>
                     <Col>
                         <InputGroup className="mb-3">
-                            <FormControl type="text" value={this.state.optionText} placeholder="Nueva opción" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
+                            <FormControl type="text" value={this.state.elementText} placeholder="Nuevo elemento" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
                             <span className="input-group-btn">
-                                <Button variant="success" disabled={this.state.optionText === ""} type="button" onClick={this.onClick}>
+                                <Button variant="success" disabled={this.state.elementText === ""} type="button" onClick={this.onClick}>
                                     Agregar
                                     </Button>
                             </span>

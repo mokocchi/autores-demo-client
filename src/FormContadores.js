@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux'
 import {
-    removeOptionFromExtra, addScoreToCriterion, removeByScoreCriterion,
+    removeElementFromExtra, addScoreToCriterion, removeByScoreCriterion,
     removeScoreFromCriteria
 } from './redux/actions'
 
@@ -13,7 +13,7 @@ import ActionList from './ActionList';
 class FormContadores extends Component {
 
     onClick = (item) => {
-        this.props.dispatch(removeOptionFromExtra(item));
+        this.props.dispatch(removeElementFromExtra(item));
         this.props.dispatch(removeScoreFromCriteria(item.code))
     }
 
@@ -35,15 +35,15 @@ class FormContadores extends Component {
     }
 
     render() {
-        const { criterios, options } = this.props;
+        const { criterios, elements } = this.props;
         return (
             <div>
                 <h3>Contadores</h3>
                 <Row>
                     <Col>
                         <FormOption />
-                        <ActionList items={options} action onClick={this.onClick}
-                            group={"options"} value={"code"} field={"text"} />
+                        <ActionList items={elements} action onClick={this.onClick}
+                            group={"elements"} value={"code"} field={"text"} />
                     </Col>
                     <Col></Col>
                 </Row>
@@ -53,7 +53,7 @@ class FormContadores extends Component {
                         <i>{item.message}</i>
                         <Row>
                             <Col>
-                                <ActionList items={options}
+                                <ActionList items={elements}
                                     input={{ type: "number", onChange: this.onChange }}
                                     group={item.name} value={"code"} field={"text"} />
                             </Col>
@@ -74,10 +74,10 @@ class FormContadores extends Component {
 
 function mapStateToProps(state) {
     const { tareaExtra } = state;
-    const { byScore, options } = tareaExtra;
+    const { byScore, elements } = tareaExtra;
     return {
         criterios: byScore,
-        options
+        elements
     }
 }
 export default connect(mapStateToProps)(FormContadores);

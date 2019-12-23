@@ -1,11 +1,11 @@
 import {
-    SET_TAREA_EXTRA, CLEAR_TAREA_EXTRA, ADD_OPTION_TO_EXTRA, REMOVE_OPTION_FROM_EXTRA,
-    ADD_CORRECT_ANSWER_TO_EXTRA, REMOVE_CORRECT_ANSWER_FROM_EXTRA, ADD_BYSCORE_CRITERION,
+    SET_TAREA_EXTRA, CLEAR_TAREA_EXTRA, ADD_ELEMENT_TO_EXTRA, REMOVE_ELEMENT_FROM_EXTRA,
+    ADD_VALID_ELEMENT_TO_EXTRA, REMOVE_VALID_ELEMENT_FROM_EXTRA, ADD_BYSCORE_CRITERION,
     ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA, REMOVE_BYSCORE_CRITERION
 } from '../actions'
 const INIT_STATE = {
-    options: [],
-    correctAnswers: [],
+    elements: [],
+    validElements: [],
     byScore: []
 };
 
@@ -18,35 +18,35 @@ export default function tareaExtra(state = INIT_STATE, action) {
             };
         case CLEAR_TAREA_EXTRA:
             return INIT_STATE
-        case ADD_OPTION_TO_EXTRA:
-            let index = state.options.findIndex(option => option.text === action.option.text);
+        case ADD_ELEMENT_TO_EXTRA:
+            let index = state.elements.findIndex(element => element.text === action.element.text);
 
             if (index !== -1)
                 return state;
 
             return {
                 ...state,
-                options: [...state.options, action.option]
+                elements: [...state.elements, action.element]
             }
-        case REMOVE_OPTION_FROM_EXTRA:
+        case REMOVE_ELEMENT_FROM_EXTRA:
             return {
                 ...state,
-                options: state.options.filter((item) => item.code !== action.option.code)
+                elements: state.elements.filter((item) => item.code !== action.element.code)
             }
-        case ADD_CORRECT_ANSWER_TO_EXTRA:
-            let correctIndex = state.correctAnswers.findIndex(option => option === action.option);
+        case ADD_VALID_ELEMENT_TO_EXTRA:
+            let validIndex = state.validElements.findIndex(element => element === action.element);
 
-            if (correctIndex !== -1)
+            if (validIndex !== -1)
                 return state;
 
             return {
                 ...state,
-                correctAnswers: [...state.correctAnswers, action.option]
+                validElements: [...state.validElements, action.element]
             }
-        case REMOVE_CORRECT_ANSWER_FROM_EXTRA:
+        case REMOVE_VALID_ELEMENT_FROM_EXTRA:
             return {
                 ...state,
-                correctAnswers: state.correctAnswers.filter((item) => item !== action.option)
+                validElements: state.validElements.filter((item) => item !== action.element)
             }
         case ADD_BYSCORE_CRITERION:
             let criterionIndex = state.byScore.findIndex(item => item.name === action.criterion.name);

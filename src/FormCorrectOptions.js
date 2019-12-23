@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { InputGroup, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addCorrectAnswerToExtra } from './redux/actions'
+import { addValidElementToExtra } from './redux/actions'
 
 import Select from './Select';
 
@@ -10,36 +10,36 @@ class FormCorrectoptions extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            selectedOptionId : ""
+            selectedElementId : ""
         }
     }
 
     onClick = () => {
-        if (this.state.selectedOptionId !== "") {
-            this.props.dispatch(addCorrectAnswerToExtra(this.state.selectedOptionId))
+        if (this.state.selectedElementId !== "") {
+            this.props.dispatch(addValidElementToExtra(this.state.selectedElementId))
         }
     }
 
     onChange = (e) => {
         this.setState({
-            selectedOptionId: e.target.value
+            selectedElementId: e.target.value
         })
     }
 
     render() {
-        const { options } = this.props;
+        const { elements } = this.props;
         return (
             <InputGroup>
                 <Select
                     defaultValue={""}
-                    placeholder={"Elegí una opción"}
-                    options={options}
+                    placeholder={"Elegí un elemento"}
+                    options={elements}
                     onChange={this.onChange}
                     value={"code"}
                     field={"text"}
                 />
                 <span>
-                    <Button variant="info" type="button" onClick={this.onClick} disabled={this.state.selectedOptionId === ""} >
+                    <Button variant="info" type="button" onClick={this.onClick} disabled={this.state.selectedElementId === ""} >
                         Agregar
                     </Button>
                 </span>
@@ -49,9 +49,9 @@ class FormCorrectoptions extends Component {
 }
 
 function mapStateToProps(state) {
-    const { options } = state.tareaExtra;
+    const { elements } = state.tareaExtra;
     return {
-        options,
+        elements,
     }
 }
 
