@@ -1,7 +1,7 @@
 import {
     SET_TAREA_EXTRA, CLEAR_TAREA_EXTRA, ADD_OPTION_TO_EXTRA, REMOVE_OPTION_FROM_EXTRA,
     ADD_CORRECT_ANSWER_TO_EXTRA, REMOVE_CORRECT_ANSWER_FROM_EXTRA, ADD_BYSCORE_CRITERION,
-    ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA
+    ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA, REMOVE_BYSCORE_CRITERION
 } from '../actions'
 const INIT_STATE = {
     options: [],
@@ -57,6 +57,11 @@ export default function tareaExtra(state = INIT_STATE, action) {
             return {
                 ...state,
                 byScore: [...state.byScore, action.criterion],
+            }
+        case REMOVE_BYSCORE_CRITERION:
+            return {
+                ...state,
+                byScore: state.byScore.filter(item => item.name !== action.criterion.name)
             }
         case ADD_SCORE_TO_CRITERION:
             let currentCriterion = state.byScore.find(item => item.name === action.criterionName)

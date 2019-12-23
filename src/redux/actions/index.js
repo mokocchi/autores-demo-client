@@ -155,6 +155,15 @@ export function addByScoreCriterion(criterion) {
   }
 }
 
+export const REMOVE_BYSCORE_CRITERION = "REMOVE_BYSCORE_CRITERION"
+
+export function removeByScoreCriterion(criterion) {
+  return {
+    type: REMOVE_BYSCORE_CRITERION,
+    criterion
+  }
+}
+
 export const ADD_SCORE_TO_CRITERION = "ADD_SCORE_TO_CRITERION"
 
 export function addScoreToCriterion(score, criterionName) {

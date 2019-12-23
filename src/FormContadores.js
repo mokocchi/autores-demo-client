@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { removeOptionFromExtra, addScoreToCriterion, removeScoreFromCriteria } from './redux/actions'
+import {
+    removeOptionFromExtra, addScoreToCriterion, removeByScoreCriterion,
+    removeScoreFromCriteria
+} from './redux/actions'
 
 import FormOption from './FormOption';
 import FormContador from './FormContador';
@@ -12,6 +15,12 @@ class FormContadores extends Component {
     onClick = (item) => {
         this.props.dispatch(removeOptionFromExtra(item));
         this.props.dispatch(removeScoreFromCriteria(item.code))
+    }
+
+    onClickQuitarLink = (e, item) => {
+        e.preventDefault();
+        console.log(item);
+        this.props.dispatch(removeByScoreCriterion(item));
     }
 
     onChange = (e) => {
@@ -35,19 +44,19 @@ class FormContadores extends Component {
                     <Col>
                         <FormOption />
                         <ActionList items={options} action onClick={this.onClick}
-                        group={"options"} value={"code"} field={"text"} />
+                            group={"options"} value={"code"} field={"text"} />
                     </Col>
                     <Col></Col>
                 </Row>
                 {criterios.sort((a, b) => a.name > b.name).map(item =>
                     <div key={item.name}>
-                        <h4>{item.name}</h4>
+                        <h4>{item.name} (<a href={"#"} onClick={(e) => this.onClickQuitarLink(e, item)}>Quitar</a>)</h4>
                         <i>{item.message}</i>
                         <Row>
                             <Col>
                                 <ActionList items={options}
                                     input={{ type: "number", onChange: this.onChange }}
-                                    group={item.name}  value={"code"} field={"text"} />
+                                    group={item.name} value={"code"} field={"text"} />
                             </Col>
                             <Col />
                         </Row>
