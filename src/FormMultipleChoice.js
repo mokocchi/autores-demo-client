@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, InputGroup } from 'react-bootstrap';
+import { Row, Col, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { removeCorrectOptionFromExtra, removeOptionFromExtra } from './redux/actions'
 

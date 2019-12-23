@@ -118,13 +118,34 @@ class FormTarea extends Component {
             return;
         }
 
-        if (TIPOS_EXTRA.includes(tipo) && this.isEmpty(extra)) {
-            this.setState({
-                errorMessage: "Faltan datos extra",
-                error: true,
-                isLoading: false,
-            })
-            return;
+        if (TIPOS_EXTRA.includes(tipo)) {
+            if (this.isEmpty(extra)) {
+                this.setState({
+                    errorMessage: "Faltan datos extra",
+                    error: true,
+                    isLoading: false,
+                })
+                return
+            }
+
+            if(tipo === TIPO_CONTADORES) {
+                let criterionErrors = false
+                extra.byScore.forEach(criterion => {
+                    const settedOptions = Object.keys(criterion.scores);
+                    if (settedOptions.length < extra.options.length) {
+                        this.setState({
+                            isLoading: false,
+                            error: true,
+                            errorMessage: "Falta llenar valores en el criterio " + criterion.name
+                        });
+                        criterionErrors = true;
+                        return;
+                    }
+                });
+                if(criterionErrors) {
+                    return;
+                }
+            }
         }
 
         let response = await fetch(API_BASE_URL + '/tarea', {

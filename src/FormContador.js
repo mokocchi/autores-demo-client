@@ -20,7 +20,7 @@ class FormContador extends Component {
             this.props.dispatch(addByScoreCriterion({
                 name: this.state.nombre,
                 message: this.state.mensaje,
-                score: {}
+                scores: {}
             }));
             this.setState({
                 nombre: '',
@@ -37,12 +37,24 @@ class FormContador extends Component {
         });
     }
 
+    onKeyPress = (e) => {
+        if (e.key === "Enter") {
+            this.onClick(e);
+        }
+    }
+
     render() {
         return (
             <div>
                 <h4>Nuevo criterio</h4>
-                <Input value={this.state.nombre} label={"Nombre"} placeholder={"Nombre"} controlId={"formNombre"} horizontal onChange={this.handleInput} name={"nombre"} />
-                <Input value={this.state.mensaje} label={"Mensaje"} placeholder={"Mensaje"} controlId={"formMensaje"} horizontal onChange={this.handleInput} name={"mensaje"} />
+                <Input value={this.state.nombre} label={"Nombre"} placeholder={"Nombre"}
+                    controlId={"formNombre"} horizontal name={"nombre"}
+                    onChange={this.handleInput}
+                />
+                <Input value={this.state.mensaje} label={"Mensaje"} placeholder={"Mensaje"}
+                    controlId={"formMensaje"} horizontal name={"mensaje"}
+                    onChange={this.handleInput} onKeyPress={this.onKeyPress}
+                />
                 <Button type="button" variant="success" className="float-right" onClick={this.onClick}
                     disabled={(this.state.nombre === '') || (this.state.mensaje === '')}>Agregar</Button>
             </div>

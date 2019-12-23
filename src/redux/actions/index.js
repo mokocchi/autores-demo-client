@@ -157,18 +157,19 @@ export function addByScoreCriterion(criterion) {
 
 export const ADD_SCORE_TO_CRITERION = "ADD_SCORE_TO_CRITERION"
 
-export function addScoreToCriterion(score) {
+export function addScoreToCriterion(score, criterionName) {
   return {
     type: ADD_SCORE_TO_CRITERION,
-    score
+    score,
+    criterionName
   }
 }
 
-export const REMOVE_SCORE_FROM_CRITERION = "REMOVE_SCORE_FROM_CRITERION"
+export const REMOVE_SCORE_FROM_CRITERIA = "REMOVE_SCORE_FROM_CRITERIA"
 
-export function removeScoreFromCriterion(code){
+export function removeScoreFromCriteria(code){
   return {
-    type: REMOVE_SCORE_FROM_CRITERION,
+    type: REMOVE_SCORE_FROM_CRITERIA,
     code
   }
 }

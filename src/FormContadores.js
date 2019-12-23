@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Row, Col, Form } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux'
-import { removeOptionFromExtra, addScoreToCriterion, removeScoreFromCriterion } from './redux/actions'
+import { removeOptionFromExtra, addScoreToCriterion, removeScoreFromCriteria } from './redux/actions'
 
 import FormOption from './FormOption';
 import FormContador from './FormContador';
@@ -9,22 +9,20 @@ import ActionList from './ActionList';
 
 class FormContadores extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     onClick = (item) => {
         this.props.dispatch(removeOptionFromExtra(item));
-        this.props.dispatch(removeScoreFromCriterion(item.code))
+        this.props.dispatch(removeScoreFromCriteria(item.code))
     }
 
     onChange = (e) => {
+        e.preventDefault();
         const score = {
-            code: e.target.name,
+            code: e.target.name.split('-')[0],
             value: e.target.value
         };
-        if (e.target.value != "") {
-            this.props.dispatch(addScoreToCriterion(score))
+        const criterionName = e.target.id.split('-')[1];
+        if (e.target.value !== "") {
+            this.props.dispatch(addScoreToCriterion(score, criterionName))
         }
     }
 
@@ -35,23 +33,25 @@ class FormContadores extends Component {
                 <h3>Contadores</h3>
                 <Row>
                     <Col>
-                        {criterios.length > 0 && <FormOption />}
+                        <FormOption />
+                        <ActionList items={options} action onClick={this.onClick}
+                        group={"options"} value={"code"} field={"text"} />
                     </Col>
                     <Col></Col>
                 </Row>
-                {criterios.map(item =>
-                    <>
+                {criterios.sort((a, b) => a.name > b.name).map(item =>
+                    <div key={item.name}>
                         <h4>{item.name}</h4>
                         <i>{item.message}</i>
                         <Row>
                             <Col>
-                                <ActionList items={options} action onClick={this.onClick}
-                                    input={{ type: "number", placeholder: "Valor", onChange: this.onChange }}
-                                    value={"code"} field={"text"} />
+                                <ActionList items={options}
+                                    input={{ type: "number", onChange: this.onChange }}
+                                    group={item.name}  value={"code"} field={"text"} />
                             </Col>
                             <Col />
                         </Row>
-                    </>)
+                    </div>)
                 }
                 <Row>
                     <Col>

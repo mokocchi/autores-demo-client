@@ -14,6 +14,7 @@ function Input(props) {
                             <Form.Control type={props.type}
                                 placeholder={props.placeholder}
                                 onChange={props.onChange}
+                                onKeyPress={props.onKeyPress}
                                 name={props.name}
                             />
                         </Col>
@@ -24,6 +25,7 @@ function Input(props) {
                         <Form.Control type={props.type}
                             placeholder={props.placeholder}
                             onChange={props.onChange}
+                            onKeyPress={props.onKeyPress}
                             name={props.name}
                             //className="form-input"
                         />
