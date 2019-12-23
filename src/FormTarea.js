@@ -57,10 +57,19 @@ class FormTarea extends Component {
     processExtra(extra, tipo) {
         switch (tipo) {
             case TIPO_SELECCION:
-                delete extra.correctAnswers
-                return extra;
+                return {
+                    options: extra.options
+                };
             case TIPO_MULTIPLE_CHOICE:
-                return extra;
+                return {
+                    options: extra.options,
+                    correctAnswers: extra.correctAnswers
+                };
+            case TIPO_CONTADORES:
+                return {
+                    options: extra.options,
+                    byScore: extra.byScore
+                }
             default:
                 break;
         }
@@ -221,7 +230,7 @@ class FormTarea extends Component {
                             name={"nombre"}
                             type={"text"}
                             placeholder={"Nombre"}
-                            handleChange={this.handleInput} />
+                            onChange={this.handleInput} />
                     </Col>
                     <Col>
                         <Input controlId={"formConsigna"}
@@ -229,7 +238,7 @@ class FormTarea extends Component {
                             name={"consigna"}
                             type={"text"}
                             placeholder={"Consigna"}
-                            handleChange={this.handleInput} />
+                            onChange={this.handleInput} />
                     </Col>
                 </Form.Row>
 

@@ -177,7 +177,7 @@ class FormActividad extends Component {
                             name={"nombre"}
                             type={"text"}
                             placeholder={"Nombre"}
-                            handleChange={this.handleInput} />
+                            onChange={this.handleInput} />
                     </Col>
                     <Col>
                         <Input controlId={"formObjetivo"}
@@ -185,7 +185,7 @@ class FormActividad extends Component {
                             name={"objetivo"}
                             type={"text"}
                             placeholder={"Objetivo"}
-                            handleChange={this.handleInput} />
+                            onChange={this.handleInput} />
                     </Col>
                 </Form.Row>
 

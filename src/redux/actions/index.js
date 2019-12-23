@@ -145,3 +145,30 @@ export function removeCorrectOptionFromExtra(option) {
     option
   }
 }
+
+export const ADD_BYSCORE_CRITERION = "ADD_BYSCORE_CRITERION"
+
+export function addByScoreCriterion(criterion) {
+  return {
+    type: ADD_BYSCORE_CRITERION,
+    criterion
+  }
+}
+
+export const ADD_SCORE_TO_CRITERION = "ADD_SCORE_TO_CRITERION"
+
+export function addScoreToCriterion(score) {
+  return {
+    type: ADD_SCORE_TO_CRITERION,
+    score
+  }
+}
+
+export const REMOVE_SCORE_FROM_CRITERION = "REMOVE_SCORE_FROM_CRITERION"
+
+export function removeScoreFromCriterion(code){
+  return {
+    type: REMOVE_SCORE_FROM_CRITERION,
+    code
+  }
+}

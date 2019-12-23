@@ -13,7 +13,7 @@ function Input(props) {
                         <Col sm={9}>
                             <Form.Control type={props.type}
                                 placeholder={props.placeholder}
-                                onChange={props.handleChange}
+                                onChange={props.onChange}
                                 name={props.name}
                             />
                         </Col>
@@ -23,7 +23,7 @@ function Input(props) {
                         <Form.Label>{props.label}</Form.Label>
                         <Form.Control type={props.type}
                             placeholder={props.placeholder}
-                            onChange={props.handleChange}
+                            onChange={props.onChange}
                             name={props.name}
                             //className="form-input"
                         />

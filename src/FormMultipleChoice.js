@@ -41,9 +41,6 @@ class FormMultipleChoice extends Component {
                 <h4>Opción Múltiple</h4>
                 <Row>
                     <Col>
-                        <Form.Text className="text-dark">
-                            Click para borrar
-                        </Form.Text>
                         <ActionList items={options} field={"text"} value={"code"} action={true} onClick={this.onClickOptions} />
                     </Col>
                     <Col />
@@ -71,9 +68,6 @@ class FormMultipleChoice extends Component {
                     <>
                         <Row>
                             <Col>
-                                <Form.Text className="text-dark">
-                                    Click para borrar
-                                    </Form.Text>
                                 <ActionList items={
                                     correctAnswers.map(item => {
                                         return {

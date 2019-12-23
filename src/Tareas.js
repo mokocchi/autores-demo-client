@@ -19,9 +19,6 @@ function Tareas(props) {
                     <h2>Buscar Tarea</h2>
                     <BuscarTarea actividadId={id} />
                     <h2>Tareas de la actividad</h2>
-                    <Form.Text className="text-dark">
-                        Click para borrar
-                        </Form.Text>
                     <ListTareas />
                 </Col>
             </Row>

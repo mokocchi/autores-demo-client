@@ -12,14 +12,14 @@ class TareaSearch extends Component {
                         label={"Por Autor"}
                         type={"text"}
                         placeholder={"Autor"}
-                        handleChange={this.handleInput} />
+                        onChange={this.handleInput} />
                 </Col>
                 <Col>
                     <Input
                         label={"Por nombre"}
                         type={"text"}
                         placeholder={"Nombre"}
-                        handleChange={this.handleInput} />
+                        onChange={this.handleInput} />
                 </Col>
                 <Col>
                     <SelectAPI

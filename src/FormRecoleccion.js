@@ -66,9 +66,6 @@ class FormRecoleccion extends Component {
                 <h4>Recolección</h4>
                 <Row>
                     <Col>
-                        <Form.Text className="text-dark">
-                            Click para borrar
-                        </Form.Text>
                         <ActionList items={this.state.items} field={"name"} value={"code"} action={true} onClick={this.onClick}>
                             <Select options={[{ name: "uno" }, { name: "dos" }]} field={"name"} placeholder="Elegí un depósito" defaultValue={""} />
                         </ActionList>

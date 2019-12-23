@@ -19,9 +19,6 @@ class FormElegirOpcion extends Component {
                 <h4>Elegir una opción</h4>
                 <Row>
                     <Col>
-                        <Form.Text className="text-dark">
-                            Click para borrar
-                        </Form.Text>
                         <ActionList items={options} field={"text"} value={"code"} action={true} onClick={this.onClick} />
                     </Col>
                     <Col />
