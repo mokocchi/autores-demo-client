@@ -1,6 +1,8 @@
 import React from 'react';
 import { ListGroup, Col, Form, Row, Button } from 'react-bootstrap';
 
+import Select from './Select'
+
 function ActionList(props) {
     return (
         <ListGroup>
@@ -19,7 +21,10 @@ function ActionList(props) {
                                 </Col>
                             </Form.Group>
                             :
-                            props.field ? item[props.field] : item
+                            props.field ? item[props.field] : item}
+                        {
+                            props.select &&
+                            <Select options={props.select.options} field={props.select.field} placeholder={props.select.placeholder} defaultValue={props.select.defaultValue} />
                         }
                         {props.action &&
                             < Button variant="danger" type="button" className="float-right"

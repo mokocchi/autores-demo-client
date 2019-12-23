@@ -19,7 +19,6 @@ class FormContadores extends Component {
 
     onClickQuitarLink = (e, item) => {
         e.preventDefault();
-        console.log(item);
         this.props.dispatch(removeByScoreCriterion(item));
     }
 
@@ -50,7 +49,7 @@ class FormContadores extends Component {
                 </Row>
                 {criterios.sort((a, b) => a.name > b.name).map(item =>
                     <div key={item.name}>
-                        <h4>{item.name} (<a href={"#"} onClick={(e) => this.onClickQuitarLink(e, item)}>Quitar</a>)</h4>
+                        <h4>{item.name} <Button variant={"danger"} onClick={(e) => this.onClickQuitarLink(e, item)}>Quitar</Button></h4>
                         <i>{item.message}</i>
                         <Row>
                             <Col>
