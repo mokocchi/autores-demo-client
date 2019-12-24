@@ -191,3 +191,13 @@ export function removeScoreFromCriteria(code){
     code
   }
 }
+
+export const ADD_DEPOSIT_TO_ELEMENT = "ADD_DEPOSIT_TO_ELEMENT"
+
+export function addDepositToElement(elementCode, depositName) {
+  return {
+    type: ADD_DEPOSIT_TO_ELEMENT,
+    elementCode,
+    depositName
+  }
+}

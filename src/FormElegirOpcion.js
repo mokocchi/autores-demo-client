@@ -19,7 +19,7 @@ class FormElegirOpcion extends Component {
                 <h4>Elegir una opción</h4>
                 <Row>
                     <Col>
-                        <ActionList items={elements} field={"text"} value={"code"} action={true} onClick={this.onClick} />
+                        <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClick} />
                     </Col>
                     <Col />
                 </Row>

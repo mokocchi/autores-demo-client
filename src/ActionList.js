@@ -24,7 +24,10 @@ function ActionList(props) {
                             props.field ? item[props.field] : item}
                         {
                             props.select &&
-                            <Select options={props.select.options} field={props.select.field} placeholder={props.select.placeholder} defaultValue={props.select.defaultValue} />
+                            <Select options={props.select.options} field={props.select.field}
+                                placeholder={props.select.placeholder} defaultValue={props.select.defaultValue}
+                                name={(props.value ? item[props.value] : item)} onChange={props.select.onChange}
+                            />
                         }
                         {props.action &&
                             < Button variant="danger" type="button" className="float-right"

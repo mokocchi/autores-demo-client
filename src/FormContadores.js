@@ -43,11 +43,11 @@ class FormContadores extends Component {
                     <Col>
                         <FormOption />
                         <ActionList items={elements} action onClick={this.onClick}
-                            group={"elements"} value={"code"} field={"text"} />
+                            group={"elements"} value={"code"} field={"name"} />
                     </Col>
                     <Col></Col>
                 </Row>
-                {criterios.sort((a, b) => a.name > b.name).map(item =>
+                {criterios.map(item =>
                     <div key={item.name}>
                         <h4>{item.name} <Button variant={"danger"} onClick={(e) => this.onClickQuitarLink(e, item)}>Quitar</Button></h4>
                         <i>{item.message}</i>
@@ -55,7 +55,7 @@ class FormContadores extends Component {
                             <Col>
                                 <ActionList items={elements}
                                     input={{ type: "number", onChange: this.onChange }}
-                                    group={item.name} value={"code"} field={"text"} />
+                                    group={item.name} value={"code"} field={"name"} />
                             </Col>
                             <Col />
                         </Row>

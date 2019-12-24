@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Row, Col, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { removeValidElementFromExtra, removeElementFromExtra } from './redux/actions'
+import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElement } from './redux/actions'
 
 import ActionList from './ActionList';
 import FormOption from './FormOption';
 import FormCorrectOptions from './FormCorrectOptions';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
+
+import { TIPO_DEPOSITO } from './config'
 
 class FormMultipleChoice extends Component {
 
@@ -33,59 +35,91 @@ class FormMultipleChoice extends Component {
         this.props.dispatch(removeValidElementFromExtra(item.code))
     }
 
+    onChangeSelect = (e) => {
+        const depositCode = e.target.value;
+        const elementName = e.target.name;
+        this.props.dispatch(addDepositToElement(elementName, depositCode));
+    }
+
 
     render() {
-        const { elements, validElements } = this.props;
+        const { elements, validElements, chosenTareas } = this.props;
+        const depositos = chosenTareas
+            .filter(tarea => tarea.tipo.id === parseInt(TIPO_DEPOSITO))
+            .map(tarea => tarea.nombre);
         return (
             <div>
-                <h4>Opción Múltiple</h4>
-                <Row>
-                    <Col>
-                        <ActionList items={elements} field={"text"} value={"code"} action={true} onClick={this.onClickElements} />
-                    </Col>
-                    <Col />
-                </Row>
-                <Row>
-                    <Col>
-                        <FormOption />
-                    </Col>
-                    <Col />
-                </Row>
-                <Row>
-                    <Col>
-                        <Col>
-                            <InputGroup className="mb-3">
-                                <FormCheckLabel>
-                                    <FormCheckInput type={"checkbox"} onChange={this.handleCheck} />
-                                    Indicar elementos válidos
-                            </FormCheckLabel>
-                            </InputGroup>
-                        </Col>
-                    </Col>
-                    <Col />
-                </Row>
-                {this.state.valid &&
-                    <>
-                        <Row>
-                            <Col>
-                                <ActionList items={
-                                    validElements.map(item => {
-                                        return {
-                                            code: item,
-                                            text: elements.find(element => element.code === item).text
-                                        }
-                                    })
-                                } action={true} onClick={this.onClickValids} value={"code"} field={"text"} />
-                            </Col>
-                            <Col />
-                        </Row>
-                        <Row>
-                            <Col>
-                                <FormCorrectOptions />
-                            </Col>
-                            <Col />
-                        </Row>
-                    </>
+                <h4>{this.props.title}</h4>
+                {
+                    this.props.recoleccion && depositos.length === 0 ?
+                        <>
+                            <Row>
+                                <Col>
+                                    No hay depósitos, agregá tareas de depósito primero
+                                </Col>
+                            </Row>
+                            <br></br>
+                        </>
+                        :
+                        <>
+                            <Row>
+                                <Col>
+                                    {this.props.recoleccion ?
+                                        <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClick}
+                                            select={{
+                                                options: depositos, placeholder: "Elegí un depósito", defaultValue: "",
+                                                onChange: this.onChangeSelect
+                                            }} />
+                                        :
+                                        <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClickElements} />
+                                    }
+                                </Col>
+                                <Col />
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <FormOption />
+                                </Col>
+                                <Col />
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <Col>
+                                        <InputGroup className="mb-3">
+                                            <FormCheckLabel>
+                                                <FormCheckInput type={"checkbox"} onChange={this.handleCheck} />
+                                                Indicar elementos válidos
+                                            </FormCheckLabel>
+                                        </InputGroup>
+                                    </Col>
+                                </Col>
+                                <Col />
+                            </Row>
+
+                            {this.state.valid &&
+                                <>
+                                    <Row>
+                                        <Col>
+                                            <ActionList items={
+                                                validElements.map(item => {
+                                                    return {
+                                                        code: item,
+                                                        name: elements.find(element => element.code === item).name
+                                                    }
+                                                })
+                                            } action={true} onClick={this.onClickValids} value={"code"} field={"name"} />
+                                        </Col>
+                                        <Col />
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <FormCorrectOptions />
+                                        </Col>
+                                        <Col />
+                                    </Row>
+                                </>
+                            }
+                        </>
                 }
             </div>
         )
@@ -94,9 +128,11 @@ class FormMultipleChoice extends Component {
 
 function mapStateToProps(state) {
     const { elements, validElements } = state.tareaExtra;
+    const { chosenTareas } = state.actividadTareas;
     return {
         elements,
-        validElements
+        validElements,
+        chosenTareas
     }
 }
 

@@ -70,6 +70,11 @@ class FormTarea extends Component {
                     elements: extra.elements,
                     byScore: extra.byScore
                 }
+            case TIPO_RECOLECCION:
+                return {
+                    elements: extra.elements,
+                    validElements: extra.validElements
+                }
             default:
                 break;
         }
@@ -119,16 +124,16 @@ class FormTarea extends Component {
         }
 
         if (TIPOS_EXTRA.includes(tipo)) {
-            if (this.isEmpty(extra)) {
+            if (extra.elements.length === 0) {
                 this.setState({
-                    errorMessage: "Faltan datos extra",
+                    errorMessage: "Faltan elementos",
                     error: true,
                     isLoading: false,
                 })
-                return
+                return;
             }
 
-            if(tipo === TIPO_CONTADORES) {
+            if (tipo === TIPO_CONTADORES) {
                 let criterionErrors = false
                 extra.byScore.forEach(criterion => {
                     const settedElements = Object.keys(criterion.scores);
@@ -142,7 +147,7 @@ class FormTarea extends Component {
                         return;
                     }
                 });
-                if(criterionErrors) {
+                if (criterionErrors) {
                     return;
                 }
             }

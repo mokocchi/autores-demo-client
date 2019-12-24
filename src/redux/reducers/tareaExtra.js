@@ -1,7 +1,8 @@
 import {
     SET_TAREA_EXTRA, CLEAR_TAREA_EXTRA, ADD_ELEMENT_TO_EXTRA, REMOVE_ELEMENT_FROM_EXTRA,
     ADD_VALID_ELEMENT_TO_EXTRA, REMOVE_VALID_ELEMENT_FROM_EXTRA, ADD_BYSCORE_CRITERION,
-    ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA, REMOVE_BYSCORE_CRITERION
+    ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA, REMOVE_BYSCORE_CRITERION,
+    ADD_DEPOSIT_TO_ELEMENT
 } from '../actions'
 const INIT_STATE = {
     elements: [],
@@ -19,7 +20,7 @@ export default function tareaExtra(state = INIT_STATE, action) {
         case CLEAR_TAREA_EXTRA:
             return INIT_STATE
         case ADD_ELEMENT_TO_EXTRA:
-            let index = state.elements.findIndex(element => element.text === action.element.text);
+            let index = state.elements.findIndex(element => element.name === action.element.name);
 
             if (index !== -1)
                 return state;
@@ -72,10 +73,12 @@ export default function tareaExtra(state = INIT_STATE, action) {
                     [action.score.code]: action.score.value
                 }
             }
-            let byScore = state.byScore.filter(item => item.name !== criterion.name);
             return {
                 ...state,
-                byScore: [...byScore, criterion]
+                byScore: state.byScore.map(item => {
+                    if (item.name !== action.criterionName) { return item }
+                    else { return criterion }
+                })
             }
         case REMOVE_SCORE_FROM_CRITERIA:
             let scores = state.byScore.map(item => {
@@ -88,6 +91,25 @@ export default function tareaExtra(state = INIT_STATE, action) {
             return {
                 ...state,
                 byScore: scores
+            }
+        case ADD_DEPOSIT_TO_ELEMENT:
+            const element = state.elements.find(elem => elem.code === action.elementCode);
+            if (element.deposits) {
+                const depositIndex = element.deposits.findIndex(elem => elem === action.depositName);
+                if (depositIndex !== -1) {
+                    return state
+                }
+            } else {
+                element.deposits = []
+            }
+            //element.deposits = [...element.deposits, action.depositName];
+            element.deposits = [action.depositName];
+            return {
+                ...state,
+                elements: state.elements.map(elem => {
+                    if (elem.code !== action.elementCode) { return elem }
+                    else { return element }
+                })
             }
         default:
             return state;

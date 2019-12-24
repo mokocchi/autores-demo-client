@@ -10,7 +10,7 @@ class FormOption extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            elementText: '',
+            elementName: '',
         }
         this.handleChange = this.handleChange.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -19,22 +19,22 @@ class FormOption extends Component {
 
     handleChange(e) {
         this.setState({
-            elementText: e.target.value
+            elementName: e.target.value
         })
     }
 
     async onClick(e) {
         e.preventDefault();
-        const element = { "text": this.state.elementText, "code": getRandomSlug() }
+        const element = { "name": this.state.elementName, "code": getRandomSlug() }
         this.props.dispatch(addElementToExtra(element));
         this.setState({
-            elementText: ''
+            elementName: ''
         });
     }
 
     onKeyPress(e) {
         if (e.key === "Enter") {
-            if (this.state.elementText !== "") {
+            if (this.state.elementName !== "") {
                 this.onClick(e);
             }
         }
@@ -46,9 +46,9 @@ class FormOption extends Component {
                 <Row>
                     <Col>
                         <InputGroup className="mb-3">
-                            <FormControl type="text" value={this.state.elementText} placeholder="Nuevo elemento" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
+                            <FormControl type="text" value={this.state.elementName} placeholder="Nuevo elemento" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
                             <span className="input-group-btn">
-                                <Button variant="success" disabled={this.state.elementText === ""} type="button" onClick={this.onClick}>
+                                <Button variant="success" disabled={this.state.elementName === ""} type="button" onClick={this.onClick}>
                                     Agregar
                                     </Button>
                             </span>

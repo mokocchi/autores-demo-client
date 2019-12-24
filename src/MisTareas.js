@@ -5,14 +5,19 @@ import { connect } from 'react-redux'
 import { addTarea } from './redux/actions'
 
 import SelectAPI from './SelectAPI';
+import { API_BASE_URL } from './config'
 
 class MisTareas extends Component {
 
-    state = {
-        selectedTarea: {
-            nombre: "",
-            id: ""
+    constructor(props) {
+        super(props);
+        this.state = {
+            selectedTarea: {
+                nombre: "",
+                id: ""
+            }
         }
+        this.onClick = this.onClick.bind(this);
     }
 
     onChange = (e) => {
@@ -27,8 +32,12 @@ class MisTareas extends Component {
         })
     }
 
-    onClick = (e) => {
-        this.state.selectedTarea.id !== "" && this.props.dispatch(addTarea(this.state.selectedTarea))
+    async onClick(e) {
+        if(this.state.selectedTarea.id !== "") {
+            const response = await fetch(API_BASE_URL + '/tarea/' + this.state.selectedTarea.id);
+            const data = await response.json();
+            this.props.dispatch(addTarea(data));
+        }        
     }
 
     render() {

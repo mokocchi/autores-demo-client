@@ -36,7 +36,7 @@ class FormCorrectoptions extends Component {
                     options={elements}
                     onChange={this.onChange}
                     value={"code"}
-                    field={"text"}
+                    field={"name"}
                 />
                 <span>
                     <Button variant="info" type="button" onClick={this.onClick} disabled={this.state.selectedElementId === ""} >
