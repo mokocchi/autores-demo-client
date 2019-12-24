@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Row, Col} from 'react-bootstrap';
+import { Form, Row, Col } from 'react-bootstrap';
 
 function Input(props) {
     return (
@@ -16,18 +16,22 @@ function Input(props) {
                                 onChange={props.onChange}
                                 onKeyPress={props.onKeyPress}
                                 name={props.name}
+                                disabled={props.disabled}
                             />
                         </Col>
                     </Form.Group>
                     :
                     <Form.Group controlId={props.controlId}>
-                        <Form.Label>{props.label}</Form.Label>
+                        { props.label &&
+                            <Form.Label>{props.label}</Form.Label>
+                        }
                         <Form.Control type={props.type}
                             placeholder={props.placeholder}
                             onChange={props.onChange}
                             onKeyPress={props.onKeyPress}
                             name={props.name}
-                            //className="form-input"
+                            disabled={props.disabled}
+                        //className="form-input"
                         />
                     </Form.Group>
             }

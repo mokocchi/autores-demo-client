@@ -1,6 +1,7 @@
 import { SET_CURRENT_ACTIVIDAD } from '../actions'
 export default function actividad (state={
-    currentActividad: {}
+    currentActividad: {},
+    currentDominioId: ""
 }, action) {
     switch (action.type) {
         case SET_CURRENT_ACTIVIDAD:

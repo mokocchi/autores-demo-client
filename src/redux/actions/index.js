@@ -82,6 +82,15 @@ export function addTarea(tarea) {
   }
 }
 
+export const SET_RESULT_TAREAS = "SET_RESULT_TAREAS"
+
+export function setResultTareas(tareas) {
+  return {
+    type: SET_RESULT_TAREAS,
+    tareas
+  } 
+}
+
 //actividad
 export const SET_CURRENT_ACTIVIDAD = "SET_CURRRENT_ACTIVIDAD"
 

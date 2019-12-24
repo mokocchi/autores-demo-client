@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import { InputGroup, Button, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { selectTarea, chooseTarea, setCurrentActividad } from './redux/actions'
@@ -50,9 +49,6 @@ class TareaSearchResult extends Component {
                         </Button>
                     </span>
                 </InputGroup>
-                <Link to={"/actividad/" + this.props.actividadId + "/nuevaTarea"} >
-                    <Button variant="success" type="button">Nueva tarea</Button>
-                </Link>
             </Col>
         )
     }

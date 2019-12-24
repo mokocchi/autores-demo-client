@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { unchooseTarea } from './redux/actions'
 
@@ -15,8 +14,8 @@ class ListTareas extends Component {
         const { chosenTareas } = this.props;
         return (
             <div>
+                <h2>Tareas de la actividad</h2>
                 <ActionList items={chosenTareas} action={true} onClick={this.onClick} field={"nombre"} value={"id"}/>
-                <Button variant="primary" type="button" onClick={this.handleFormSubmit} style={{marginTop: "1em"}}>Continuar</Button>
             </div>
         )
     }

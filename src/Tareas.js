@@ -1,9 +1,10 @@
 import React from 'react';
-import { Row, Col, Container } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { Row, Col, Container, Button } from 'react-bootstrap'
+import { useParams, Link } from 'react-router-dom'
 
 import BuscarTarea from './BuscarTarea'
 import ListTareas from './ListTareas'
+import MisTareas from './MisTareas'
 
 function Tareas(props) {
     let { id } = useParams();
@@ -16,10 +17,12 @@ function Tareas(props) {
             </Row>
             <Row>
                 <Col style={{ border: "1px solid black", padding: "2em" }}>
-                    <h2>Buscar Tarea</h2>
                     <BuscarTarea actividadId={id} />
-                    <h2>Tareas de la actividad</h2>
-                    <ListTareas />
+                    <MisTareas actividadId={id} />
+                    <ListTareas actividadId={id} />
+                    <Link to={id + "/flujo"}>
+                        <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
+                    </Link>
                 </Col>
             </Row>
         </Container>

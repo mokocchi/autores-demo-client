@@ -252,7 +252,7 @@ class FormActividad extends Component {
                     </Button>
                     :
                     this.state.success ?
-                        <Link to={"/tareas/" + this.props.currentActividad.id}>
+                        <Link to={"/actividad/" + this.props.currentActividad.id}>
                             <Button variant="primary" type="button" onClick={() => { }} >Continuar</Button>
                         </Link>
                         :

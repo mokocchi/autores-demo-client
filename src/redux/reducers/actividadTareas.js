@@ -1,4 +1,7 @@
-import { CHOOSE_TAREA, SELECT_TAREA, UNCHOOSE_TAREA, ADD_TAREA } from '../actions'
+import {
+    CHOOSE_TAREA, SELECT_TAREA, UNCHOOSE_TAREA,
+    ADD_TAREA, SET_RESULT_TAREAS
+} from '../actions'
 
 export default function actividadTareas(
     state = {
@@ -8,8 +11,6 @@ export default function actividadTareas(
             dominio: '',
         },
         tareasResult: [
-            { "nombre": "Tarea1 es muy larga y vamos a ver que pasa con el select", "id": "1" },
-            { "nombre": "Tarea2", "id": "2" }
         ],
         selectedTareaId: "",
         chosenTareas: []
@@ -41,6 +42,11 @@ export default function actividadTareas(
             return {
                 ...state,
                 chosenTareas: [...state.chosenTareas, action.tarea]
+            }
+        case SET_RESULT_TAREAS:
+            return {
+                ...state,
+                resultTareas: action.tareas
             }
         default:
             return state;
