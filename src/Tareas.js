@@ -20,7 +20,7 @@ function Tareas(props) {
                     <BuscarTarea actividadId={id} />
                     <MisTareas actividadId={id} />
                     <ListTareas actividadId={id} />
-                    <Link to={id + "/flujo"}>
+                    <Link to={"flujo"}>
                         <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                     </Link>
                 </Col>

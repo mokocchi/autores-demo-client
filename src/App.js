@@ -7,6 +7,7 @@ import Home from './Home'
 import Actividad from './Actividad'
 import Tareas from './Tareas'
 import Tarea from './Tarea'
+import FlujoTareas from './FlujoTareas';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/nuevaActividad" component={Actividad} />
         <Route path="/actividad/:id" exact component={Tareas} />
         <Route path="/actividad/:id/nuevaTarea" component={Tarea} />
+        <Route path="/actividad/:id/flujo" component={FlujoTareas} />
       </Container>
     </Router>
   );

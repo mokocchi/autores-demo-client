@@ -42,6 +42,7 @@ class FormTarea extends Component {
                 error: true,
                 errorMessage: data.errors
             });
+            return;
         }
         this.props.dispatch(setCurrentActividad(data));
     }

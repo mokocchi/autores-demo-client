@@ -17,6 +17,13 @@ class TareaSearchResult extends Component {
     async setCurrentActividad(id) {
         const response = await fetch(API_BASE_URL + '/actividad/' + id);
         const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                error: true,
+                errorMessage: data.errors
+            });
+            return;
+        }
         this.props.dispatch(setCurrentActividad(data));
     }
 
