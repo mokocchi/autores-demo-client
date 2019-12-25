@@ -39,6 +39,10 @@ export default function actividadTareas(
                 chosenTareas: state.chosenTareas.filter((tarea) => tarea.id !== action.id)
             }
         case ADD_TAREA:
+            const tareaIndex = state.chosenTareas.findIndex(tarea => tarea.name === action.tarea.name)
+            if(tareaIndex !== -1){
+                return state;
+            }
             return {
                 ...state,
                 chosenTareas: [...state.chosenTareas, action.tarea]

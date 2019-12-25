@@ -6,6 +6,7 @@ import { addSelectOption } from './redux/actions'
 import { API_BASE_URL } from './config'
 import LoadSpinner from './LoadSpinner'
 
+const HTTP_CREATED = 201;
 class FormDominio extends Component {
 
     constructor(props) {
@@ -50,7 +51,9 @@ class FormDominio extends Component {
                 errorMessage: data.errors
             });
         } else {
-            this.props.dispatch(addSelectOption("dominio", data));
+            if(response.status === HTTP_CREATED) {
+                this.props.dispatch(addSelectOption("dominio", data));
+            }
             this.setState({
                 dominio: '',
                 isLoading: false,
