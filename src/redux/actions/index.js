@@ -194,20 +194,20 @@ export function removeScoreFromCriteria(code){
 
 export const ADD_DEPOSIT_TO_ELEMENT = "ADD_DEPOSIT_TO_ELEMENT"
 
-export function addDepositToElement(elementCode, depositName) {
+export function addDepositToElement(elementCode, depositCode) {
   return {
     type: ADD_DEPOSIT_TO_ELEMENT,
     elementCode,
-    depositName
+    depositCode
   }
 }
 
 export const REMOVE_DEPOSIT_FROM_ELEMENT = "REMOVE_DEPOSIT_FROM_ELEMENT"
 
-export function removeDepositFromElement(elementCode, depositName) {
+export function removeDepositFromElement(elementCode, depositCode) {
   return {
     type: REMOVE_DEPOSIT_FROM_ELEMENT,
     elementCode,
-    depositName
+    depositCode
   }
 }

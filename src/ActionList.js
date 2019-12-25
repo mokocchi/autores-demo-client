@@ -33,7 +33,7 @@ function ActionList(props) {
                         {
                             props.checkboxGroup &&
                             <CheckboxGroup items={props.checkboxGroup.items} onChange={props.checkboxGroup.onChange}
-                                field={props.checkboxGroup.field} label={props.checkboxGroup.label} group={(props.value ? item[props.value] : item)} />
+                                field={props.checkboxGroup.field} value={props.checkboxGroup.value} label={props.checkboxGroup.label} group={(props.value ? item[props.value] : item)} />
                         }
                         {props.action &&
                             < Button variant="danger" type="button" className="float-right"

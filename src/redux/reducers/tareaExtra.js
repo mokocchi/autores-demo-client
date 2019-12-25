@@ -96,14 +96,14 @@ export default function tareaExtra(state = INIT_STATE, action) {
         case ADD_DEPOSIT_TO_ELEMENT:
             const element = state.elements.find(elem => elem.code === action.elementCode);
             if (element.deposits) {
-                const depositIndex = element.deposits.findIndex(elem => elem === action.depositName);
+                const depositIndex = element.deposits.findIndex(elem => elem === action.depositCode);
                 if (depositIndex !== -1) {
                     return state
                 }
             } else {
                 element.deposits = []
             }
-            element.deposits = [...element.deposits, action.depositName];
+            element.deposits = [...element.deposits, action.depositCode];
             return {
                 ...state,
                 elements: state.elements.map(elem => {
@@ -113,7 +113,7 @@ export default function tareaExtra(state = INIT_STATE, action) {
             }
         case REMOVE_DEPOSIT_FROM_ELEMENT:
             const element2 = state.elements.find(elem => elem.code === action.elementCode);
-            element2.deposits = element2.deposits.filter(elem => elem !== action.depositName);
+            element2.deposits = element2.deposits.filter(elem => elem !== action.depositCode);
             if (element2.deposits) {
                 return {
                     ...state,

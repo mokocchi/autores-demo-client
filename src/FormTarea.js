@@ -10,6 +10,7 @@ import FormDominio from './FormDominio';
 import TareaExtra from './TareaExtra';
 
 import { API_BASE_URL, TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION } from './config';
+import { getRandomSlug } from './utils'
 
 class FormTarea extends Component {
 
@@ -20,7 +21,8 @@ class FormTarea extends Component {
                 nombre: '',
                 consigna: '',
                 tipo: '',
-                dominio: ''
+                dominio: '',
+                codigo: getRandomSlug()
             },
             isLoading: false,
             success: false,
@@ -83,7 +85,7 @@ class FormTarea extends Component {
     }
 
     async handleFormSubmit(e) {
-        const { nombre, consigna, tipo, dominio } = this.state.newTarea;
+        const { nombre, consigna, tipo, dominio, codigo } = this.state.newTarea;
         const { extra } = this.props;
         e.preventDefault();
         this.setState({
@@ -176,6 +178,7 @@ class FormTarea extends Component {
             body: JSON.stringify({
                 "nombre": nombre,
                 "consigna": consigna,
+                "codigo": codigo
             })
         });
         const data = await response.json();

@@ -38,11 +38,11 @@ class FormMultipleChoice extends Component {
     onChangeChecks = (e) => {
         const codes = e.target.name.split('-');
         const depositCode = codes[0];
-        const elementName = codes[1];
-        if(e.target.checked){
-            this.props.dispatch(addDepositToElement(elementName, depositCode));
+        const elementCode = codes[1];
+        if (e.target.checked) {
+            this.props.dispatch(addDepositToElement(elementCode, depositCode));
         } else {
-            this.props.dispatch(removeDepositFromElement(elementName, depositCode))
+            this.props.dispatch(removeDepositFromElement(elementCode, depositCode))
         }
     }
 
@@ -51,7 +51,7 @@ class FormMultipleChoice extends Component {
         const { elements, validElements, chosenTareas } = this.props;
         const depositos = chosenTareas
             .filter(tarea => tarea.tipo.id === parseInt(TIPO_DEPOSITO))
-            .map(tarea => tarea.nombre);
+            .map(tarea => { return { codigo: tarea.codigo, nombre: tarea.nombre } });
         return (
             <div>
                 <h4>{this.props.title}</h4>
@@ -71,7 +71,10 @@ class FormMultipleChoice extends Component {
                                 <Col>
                                     {this.props.recoleccion ?
                                         <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClick}
-                                            checkboxGroup={{ items: depositos, onChange: this.onChangeChecks, label:"Depósitos"}} />
+                                            checkboxGroup={{
+                                                items: depositos, onChange: this.onChangeChecks, label: "Depósitos",
+                                                field: "nombre", value: "codigo"
+                                            }} />
                                         :
                                         <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClickElements} />
                                     }
