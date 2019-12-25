@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElement } from './redux/actions'
+import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElement, removeDepositFromElement } from './redux/actions'
 
 import ActionList from './ActionList';
 import FormOption from './FormOption';
@@ -35,10 +35,15 @@ class FormMultipleChoice extends Component {
         this.props.dispatch(removeValidElementFromExtra(item.code))
     }
 
-    onChangeSelect = (e) => {
-        const depositCode = e.target.value;
-        const elementName = e.target.name;
-        this.props.dispatch(addDepositToElement(elementName, depositCode));
+    onChangeChecks = (e) => {
+        const codes = e.target.name.split('-');
+        const depositCode = codes[0];
+        const elementName = codes[1];
+        if(e.target.checked){
+            this.props.dispatch(addDepositToElement(elementName, depositCode));
+        } else {
+            this.props.dispatch(removeDepositFromElement(elementName, depositCode))
+        }
     }
 
 
@@ -66,10 +71,7 @@ class FormMultipleChoice extends Component {
                                 <Col>
                                     {this.props.recoleccion ?
                                         <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClick}
-                                            select={{
-                                                options: depositos, placeholder: "Elegí un depósito", defaultValue: "",
-                                                onChange: this.onChangeSelect
-                                            }} />
+                                            checkboxGroup={{ items: depositos, onChange: this.onChangeChecks, label:"Depósitos"}} />
                                         :
                                         <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClickElements} />
                                     }

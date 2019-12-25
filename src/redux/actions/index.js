@@ -201,3 +201,13 @@ export function addDepositToElement(elementCode, depositName) {
     depositName
   }
 }
+
+export const REMOVE_DEPOSIT_FROM_ELEMENT = "REMOVE_DEPOSIT_FROM_ELEMENT"
+
+export function removeDepositFromElement(elementCode, depositName) {
+  return {
+    type: REMOVE_DEPOSIT_FROM_ELEMENT,
+    elementCode,
+    depositName
+  }
+}

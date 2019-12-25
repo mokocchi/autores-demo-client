@@ -151,6 +151,23 @@ class FormTarea extends Component {
                     return;
                 }
             }
+            if (tipo === TIPO_RECOLECCION) {
+                let elementErrors = false;
+                extra.elements.forEach(element => {
+                    if (!element.deposits || element.deposits.length === 0) {
+                        this.setState({
+                            isLoading: false,
+                            error: true,
+                            errorMessage: "Hay elementos sin depósitos: " + element.name
+                        });
+                        elementErrors = true;
+                        return
+                    }
+                });
+                if (elementErrors) {
+                    return;
+                }
+            }
         }
 
         let response = await fetch(API_BASE_URL + '/tarea', {

@@ -2,7 +2,8 @@ import {
     SET_TAREA_EXTRA, CLEAR_TAREA_EXTRA, ADD_ELEMENT_TO_EXTRA, REMOVE_ELEMENT_FROM_EXTRA,
     ADD_VALID_ELEMENT_TO_EXTRA, REMOVE_VALID_ELEMENT_FROM_EXTRA, ADD_BYSCORE_CRITERION,
     ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA, REMOVE_BYSCORE_CRITERION,
-    ADD_DEPOSIT_TO_ELEMENT
+    ADD_DEPOSIT_TO_ELEMENT,
+    REMOVE_DEPOSIT_FROM_ELEMENT
 } from '../actions'
 const INIT_STATE = {
     elements: [],
@@ -102,14 +103,27 @@ export default function tareaExtra(state = INIT_STATE, action) {
             } else {
                 element.deposits = []
             }
-            //element.deposits = [...element.deposits, action.depositName];
-            element.deposits = [action.depositName];
+            element.deposits = [...element.deposits, action.depositName];
             return {
                 ...state,
                 elements: state.elements.map(elem => {
                     if (elem.code !== action.elementCode) { return elem }
                     else { return element }
                 })
+            }
+        case REMOVE_DEPOSIT_FROM_ELEMENT:
+            const element2 = state.elements.find(elem => elem.code === action.elementCode);
+            element2.deposits = element2.deposits.filter(elem => elem !== action.depositName);
+            if (element2.deposits) {
+                return {
+                    ...state,
+                    elements: state.elements.map(elem => {
+                        if (elem.code !== action.elementCode) { return elem }
+                        else { return element2 }
+                    })
+                }
+            } else {
+                return state;
             }
         default:
             return state;

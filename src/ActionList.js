@@ -2,6 +2,7 @@ import React from 'react';
 import { ListGroup, Col, Form, Row, Button } from 'react-bootstrap';
 
 import Select from './Select'
+import CheckboxGroup from './CheckboxGroup';
 
 function ActionList(props) {
     return (
@@ -28,6 +29,11 @@ function ActionList(props) {
                                 placeholder={props.select.placeholder} defaultValue={props.select.defaultValue}
                                 name={(props.value ? item[props.value] : item)} onChange={props.select.onChange}
                             />
+                        }
+                        {
+                            props.checkboxGroup &&
+                            <CheckboxGroup items={props.checkboxGroup.items} onChange={props.checkboxGroup.onChange}
+                                field={props.checkboxGroup.field} label={props.checkboxGroup.label} group={(props.value ? item[props.value] : item)} />
                         }
                         {props.action &&
                             < Button variant="danger" type="button" className="float-right"
