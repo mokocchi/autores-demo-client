@@ -22,31 +22,8 @@ type IGraph = {
 // In a more realistic use case, the graph would probably originate
 // elsewhere in the App or be generated from some other state upstream of this component.
 const sample: IGraph = {
-  edges: [
-    {
-      handleText: '5',
-      handleTooltipText: '5',
-      source: 'start1',
-      target: 'a1',
-      type: EMPTY_EDGE_TYPE,
-    }
-  ],
-  nodes: [
-    {
-      id: 'start1',
-      title: 'Tarea 1',
-      type: EMPTY_TYPE,
-      x: 200,
-      y: 300
-    },
-    {
-      id: 'a1',
-      title: 'Tarea 2',
-      type: EMPTY_TYPE,
-      x: 200,
-      y: 600,
-    }
-  ],
+  nodes: [],
+  edges: []
 };
 
 function getGraph(tareas) {
@@ -67,6 +44,8 @@ function getGraph(tareas) {
         target: target,
         type: EMPTY_EDGE_TYPE
       }
+    } else {
+      return null;
     }
   })
   return {
@@ -81,7 +60,6 @@ type IGraphProps = {};
 type IGraphState = {
   graph: any,
   selected: any,
-  totalNodes: number,
   copiedNode: any,
   layoutEngineType?: LayoutEngineType,
 };
@@ -94,10 +72,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
     this.state = {
       copiedNode: null,
-      graph: getGraph(props.tareas),
+      graph: getGraph(props.tareas), // sample, 
       layoutEngineType: undefined,
       selected: null,
-      totalNodes: sample.nodes.length,
     };
 
     this.GraphView = React.createRef();
@@ -156,12 +133,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
   // Updates the graph with a new node
   onCreateNode = (x: number, y: number) => {
+    console.log("cannot create nodes")
+    return;
     const graph = this.state.graph;
-
-    // This is just an example - any sort of logic
-    // could be used here to determine node type
-    // There is also support for subtypes. (see 'sample' above)
-    // The subtype geometry will underlay the 'type' geometry for a node
     const type = EMPTY_TYPE;
 
     const viewNode = {
@@ -178,6 +152,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
   // Deletes a node from the graph
   onDeleteNode = (viewNode: INode, nodeId: string, nodeArr: INode[]) => {
+    console.log("cannot delete nodes");
     return;
     const graph = this.state.graph;
     // Delete any connected edges
@@ -196,8 +171,6 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   // Creates a new node between two edges
   onCreateEdge = (sourceViewNode: INode, targetViewNode: INode) => {
     const graph = this.state.graph;
-    // This is just an example - any sort of logic
-    // could be used here to determine edge type
     const type = EMPTY_EDGE_TYPE;
 
     const viewEdge = {
@@ -249,6 +222,47 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     });
   };
 
+  /*
+   * Custom methods
+   */
+
+  validateGraph = () => {
+    const { edges, nodes } = this.state.graph;
+    //check for start nodes
+    const neighbours = edges.map(edge => edge.target);
+    const startNodes = nodes.filter(node => !neighbours.includes(node.id));
+    if (startNodes.length !== 1) {
+      alert("Error: Hay más de un nodo inicial");
+      return;
+    }
+    //check for end nodes
+    const sources = edges.map(edge => edge.source);
+    const endNodes = nodes.filter(node => !sources.includes(node.id));
+    if (endNodes.length < 1) {
+      alert("Error: No hay nodos de salida")
+      return;
+    }
+
+    alert("Grafo válido (se permiten loops)")
+    this.setState({ startNode: startNodes[0] });
+  }
+
+  outputJumps = () => {
+    this.validateGraph();
+    const { nodes, edges } = this.state.graph;
+    const codesById = {};
+    this.props.tareas.forEach(tarea => codesById[tarea.id] = tarea.codigo);
+    const graphNodes = {};
+    nodes.forEach(node => { graphNodes[node.id] = [] });
+    edges.forEach(edge => {
+      graphNodes[edge.source].push(edge.target);
+    })
+    this.props.tareas.forEach(tarea => {
+      const nextId = graphNodes[tarea.id];
+      const nextCodes = nextId.map(id => codesById[id]);
+      tarea.jumps = [{ "on": "ALL", to: nextCodes, answer: null }]
+    })
+  }
 
   /*
    * Render
@@ -284,6 +298,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           layoutEngineType={this.state.layoutEngineType}
         />
         <Button type="button" className="float-right" variant="info" onClick={() => console.log(this.state.graph)} >Mostrar grafo</Button>
+        <Button type="button" className="float-right" variant="outline-secondary" onClick={this.validateGraph} >Validar grafo</Button>
+        <Button type="button" className="float-right" variant="success" onClick={this.outputJumps} >Exportar saltos</Button>
+
       </div>
     );
   }
