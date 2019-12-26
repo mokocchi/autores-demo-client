@@ -4,28 +4,8 @@ import { connect } from 'react-redux'
 import { selectTarea, chooseTarea, setCurrentActividad } from './redux/actions'
 
 import Select from './Select'
-import { API_BASE_URL } from './config'
 
 class TareaSearchResult extends Component {
-
-    constructor(props) {
-        super(props);
-        let id = this.props.actividadId;
-        this.setCurrentActividad(id);
-    }
-
-    async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividad/' + id);
-        const data = await response.json();
-        if (data.errors) {
-            this.setState({
-                error: true,
-                errorMessage: data.errors
-            });
-            return;
-        }
-        this.props.dispatch(setCurrentActividad(data));
-    }
 
     onChange = (e) => {
         this.props.dispatch(selectTarea(e.target.value));

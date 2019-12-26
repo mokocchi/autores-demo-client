@@ -33,18 +33,19 @@ class MisTareas extends Component {
     }
 
     async onClick(e) {
-        if(this.state.selectedTarea.id !== "") {
+        if (this.state.selectedTarea.id !== "") {
             const response = await fetch(API_BASE_URL + '/tarea/' + this.state.selectedTarea.id);
             const data = await response.json();
             this.props.dispatch(addTarea(data));
-        }        
+        }
     }
 
     render() {
+        const { currentActividad } = this.props
         return (
             <>
                 <h2>Mis tareas{" "}
-                    <Link to={"/actividad/" + this.props.actividadId + "/nuevaTarea"} >
+                    <Link to={"/actividad/" + currentActividad.id + "/nuevaTarea"} >
                         <Button variant="success" type="button">Nueva</Button>
                     </Link>
                 </h2>
@@ -77,8 +78,9 @@ class MisTareas extends Component {
 }
 
 function mapStateToProps(state) {
+    const { currentActividad } = state.actividad
     return {
-        
+        currentActividad
     }
 }
 
