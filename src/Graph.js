@@ -260,8 +260,13 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     this.props.tareas.forEach(tarea => {
       const nextId = graphNodes[tarea.id];
       const nextCodes = nextId.map(id => codesById[id]);
-      tarea.jumps = [{ "on": "ALL", to: nextCodes, answer: null }]
+      if(nextCodes.length > 0) {
+        tarea.jumps = [{ "on": "ALL", to: nextCodes, answer: null }]
+      } else {
+        tarea.jumps = [{ "on": "ALL", to: "END", answer: null }]
+      }
     })
+    console.log(this.props.tareas);
   }
 
   /*

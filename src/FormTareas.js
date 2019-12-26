@@ -58,7 +58,7 @@ class FormTareas extends Component {
                     </Button>
                         :
                         this.state.success ?
-                            <Link to={"flujo"}>
+                            <Link to={this.props.actividadId + "/flujo"}>
                                 <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                             </Link>
                             :
