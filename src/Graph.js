@@ -10,6 +10,8 @@ import {
 import GraphConfig, {
   EMPTY_EDGE_TYPE,
   EMPTY_TYPE,
+  START_TYPE,
+  END_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
 
@@ -28,10 +30,11 @@ const sample: IGraph = {
 
 function getGraph(tareas) {
   const nodes = tareas.map((tarea, index) => {
+    const type = index === 0 ? START_TYPE : index === tareas.length - 1 ? END_TYPE : EMPTY_TYPE
     return {
       id: tarea.id,
       title: index + 1,
-      type: EMPTY_TYPE,
+      type: type,
       x: 0 + 300 * index,
       y: 0
     }
@@ -182,6 +185,10 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     // Only add the edge when the source node is not the same as the target
     if (viewEdge.source !== viewEdge.target) {
       graph.edges = [...graph.edges, viewEdge];
+
+      const newNodes = this.getNodesWithTypeUpdated(graph.edges);
+      graph.nodes = newNodes;
+
       this.setState({
         graph,
         selected: viewEdge,
@@ -205,6 +212,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     // reassign the array reference if you want the graph to re-render a swapped edge
     graph.edges = [...graph.edges];
 
+    const newNodes = this.getNodesWithTypeUpdated(graph.edges);
+    graph.nodes = newNodes
+
     this.setState({
       graph,
       selected: edge,
@@ -214,8 +224,10 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   // Called when an edge is deleted
   onDeleteEdge = (viewEdge: IEdge, edges: IEdge[]) => {
     const graph = this.state.graph;
+    const newNodes = this.getNodesWithTypeUpdated(edges);
 
     graph.edges = edges;
+    graph.nodes = [...newNodes];
     this.setState({
       graph,
       selected: null,
@@ -226,29 +238,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
    * Custom methods
    */
 
-  validateGraph = () => {
-    const { edges, nodes } = this.state.graph;
-    //check for start nodes
-    const neighbours = edges.map(edge => edge.target);
-    const startNodes = nodes.filter(node => !neighbours.includes(node.id));
-    if (startNodes.length !== 1) {
-      alert("Error: Hay más de un nodo inicial");
-      return;
-    }
-    //check for end nodes
-    const sources = edges.map(edge => edge.source);
-    const endNodes = nodes.filter(node => !sources.includes(node.id));
-    if (endNodes.length < 1) {
-      alert("Error: No hay nodos de salida")
-      return;
-    }
-
-    alert("Grafo válido (se permiten loops)")
-    this.setState({ startNode: startNodes[0] });
-  }
-
   outputJumps = () => {
-    this.validateGraph();
     const { nodes, edges } = this.state.graph;
     const codesById = {};
     this.props.tareas.forEach(tarea => codesById[tarea.id] = tarea.codigo);
@@ -260,13 +250,40 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     this.props.tareas.forEach(tarea => {
       const nextId = graphNodes[tarea.id];
       const nextCodes = nextId.map(id => codesById[id]);
-      if(nextCodes.length > 0) {
+      if (nextCodes.length > 0) {
         tarea.jumps = [{ "on": "ALL", to: nextCodes, answer: null }]
       } else {
         tarea.jumps = [{ "on": "ALL", to: "END", answer: null }]
       }
     })
     console.log(this.props.tareas);
+  }
+
+  getNodesWithTypeUpdated(edges) {
+    const { nodes } = this.state.graph;
+    const neighbours = edges.map(edge => edge.target);
+    const sources = edges.map(edge => edge.source);
+    const newNodes = nodes.map(node => {
+      if (!neighbours.includes(node.id)) {
+        return {
+          ...node,
+          type: START_TYPE
+        };
+      }
+      else if (!sources.includes(node.id)) {
+        return {
+          ...node,
+          type: END_TYPE
+        };
+      }
+      else {
+        return {
+          ...node,
+          type: EMPTY_TYPE
+        }
+      }
+    });
+    return newNodes;
   }
 
   /*
