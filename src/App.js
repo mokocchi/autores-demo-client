@@ -8,6 +8,8 @@ import Actividad from './Actividad'
 import Tareas from './Tareas'
 import Tarea from './Tarea'
 import FlujoTareas from './FlujoTareas';
+import ResolverActividad from './ResolverActividad';
+import ListaActividades from './ListaActividades';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route path="/actividad/:id" exact component={Tareas} />
         <Route path="/actividad/:id/nuevaTarea" component={Tarea} />
         <Route path="/actividad/:id/flujo" component={FlujoTareas} />
+        <Route path="/actividades" component={ListaActividades} />
+        <Route path="/actividad/:id/resolver" component={ResolverActividad} />
       </Container>
     </Router>
   );
