@@ -19,7 +19,7 @@ class FormActividad extends Component {
                 nombre: '',
                 objetivo: '',
                 idioma: '',
-                planificacion: '',
+                tipoPlanificacion: '',
                 dominio: '',
             },
             isLoading: false,
@@ -32,7 +32,7 @@ class FormActividad extends Component {
     }
 
     async handleFormSubmit(e) {
-        const { nombre, objetivo, idioma, planificacion, dominio } = this.state.newActividad;
+        const { nombre, objetivo, idioma, tipoPlanificacion, dominio } = this.state.newActividad;
         e.preventDefault();
         this.setState({
             isLoading: true,
@@ -71,7 +71,7 @@ class FormActividad extends Component {
             })
             return;
         }
-        if (planificacion === "") {
+        if (tipoPlanificacion === "") {
             this.setState({
                 errorMessage: "Falta planificación",
                 error: true,
@@ -113,18 +113,18 @@ class FormActividad extends Component {
             return
         }
 
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/planificacion', {
+        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/tipo-planificacion', {
             method: 'POST',
             body: JSON.stringify({
-                "planificacion": planificacion,
+                "tipo-planificacion": tipoPlanificacion,
             })
         });
-        const planificacionData = await response.json();
-        if (planificacionData.errors) {
+        const tipoPlanificacionData = await response.json();
+        if (tipoPlanificacionData.errors) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: planificacionData.errors
+                errorMessage: tipoPlanificacionData.errors
             });
             return
         }
@@ -204,13 +204,13 @@ class FormActividad extends Component {
                     </Col>
                     <Col>
                         <SelectAPI
-                            uri={'/planificaciones'}
-                            attribute={"planificacion"}
-                            controlId={"formPlanificacion"}
-                            label={"Planificación"}
-                            name={"planificacion"}
+                            uri={'/tipos-planificacion'}
+                            attribute={"tipo-planificacion"}
+                            controlId={"formTipoPlanificacion"}
+                            label={"Tipo de planificación"}
+                            name={"tipoPlanificacion"}
                             defaultValue={""}
-                            placeholder={"Elegí una planificación"}
+                            placeholder={"Elegí un tipo"}
                             onChange={this.handleInput}
                         />
                     </Col>
