@@ -178,7 +178,9 @@ class FormTarea extends Component {
             body: JSON.stringify({
                 "nombre": nombre,
                 "consigna": consigna,
-                "codigo": codigo
+                "codigo": codigo,
+                "tipo": tipo,
+                "dominio": dominio
             })
         });
         const data = await response.json();
@@ -187,38 +189,6 @@ class FormTarea extends Component {
                 isLoading: false,
                 error: true,
                 errorMessage: data.errors
-            });
-            return
-        }
-
-        response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/tipo-tarea', {
-            method: 'POST',
-            body: JSON.stringify({
-                "tipo-tarea": tipo,
-            })
-        });
-        const tipoData = await response.json();
-        if (tipoData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: tipoData.errors
-            });
-            return
-        }
-
-        response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/dominio', {
-            method: 'POST',
-            body: JSON.stringify({
-                "dominio": dominio,
-            })
-        });
-        const dominioData = await response.json();
-        if (dominioData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: dominioData.errors
             });
             return
         }

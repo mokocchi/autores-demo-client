@@ -85,6 +85,9 @@ class FormActividad extends Component {
             body: JSON.stringify({
                 "nombre": nombre,
                 "objetivo": objetivo,
+                "dominio": dominio,
+                "idioma": idioma,
+                "tipoPlanificacion": tipoPlanificacion
             })
         });
         const data = await response.json();
@@ -96,65 +99,13 @@ class FormActividad extends Component {
             });
             return
         }
-
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/idioma', {
-            method: 'POST',
-            body: JSON.stringify({
-                "idioma": idioma,
-            })
-        });
-        const idiomaData = await response.json();
-        if (idiomaData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: idiomaData.errors
-            });
-            return
-        }
-
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/tipo-planificacion', {
-            method: 'POST',
-            body: JSON.stringify({
-                "tipo-planificacion": tipoPlanificacion,
-            })
-        });
-        const tipoPlanificacionData = await response.json();
-        if (tipoPlanificacionData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: tipoPlanificacionData.errors
-            });
-            return
-        }
-
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id + '/dominio', {
-            method: 'POST',
-            body: JSON.stringify({
-                "dominio": dominio,
-            })
-        });
-        const dominioData = await response.json();
-        if (dominioData.errors) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: dominioData.errors
-            });
-            return
-        }
-
-        response = await fetch(API_BASE_URL + '/actividad/' + data.id);
-        const lastData = await response.json();
-
         this.setState({
             success: true,
             isLoading: false,
             error: false,
             errorMessage: ''
         });
-        this.props.dispatch(setCurrentActividad(lastData));
+        this.props.dispatch(setCurrentActividad(data));
     }
 
     handleInput(e) {
