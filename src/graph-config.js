@@ -73,7 +73,7 @@ export default {
     selectedFirst: {
       shape: SelectedShape,
       shapeId: '#selected',
-      typeText: 'Origen'
+      typeText: 'Seleccionado'
     },
     selectedSecond: {
       shape: SelectedShape,
