@@ -13,6 +13,7 @@ import GraphConfig, {
   START_TYPE,
   END_TYPE,
   SELECTED_TYPE,
+  SELECTED_TARGET_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
 
@@ -100,9 +101,10 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
       graph: sample, //getGraph(props.tareas), // sample, 
       layoutEngineType: undefined,
       selected: null,
-      selectedType: null,
-      selected2: null,
-      selected2Type: null
+      selectedNode: null,
+      selectedNodeType: null,
+      selectedNode2: null,
+      selectedNode2Type: null
     };
 
     this.GraphView = React.createRef();
@@ -153,45 +155,49 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     // Deselect events will send Null viewNode
     const graph = this.state.graph;
     if (viewNode != null) {
-      if(this.state.selected2 != null) {
-        const firstType = this.state.selected2Type;
-        const firstNode = this.state.selected2;
+      if(this.state.selectedNode2 != null) {
+        const firstType = this.state.selectedNode2Type;
+        const firstNode = this.state.selectedNode2;
         const i = this.getNodeIndex(firstNode);
         firstNode.type = firstType;
         graph.nodes[i] = firstNode;
       }
-      if (this.state.selected != null) {
-        const prevType = this.state.selectedType;
-        const prevNode = this.state.selected;
+      if (this.state.selectedNode != null) {
+        const prevType = this.state.selectedNodeType;
+        const prevNode = this.state.selectedNode;
         const i = this.getNodeIndex(prevNode);
         prevNode.type = SELECTED_TYPE;
+        // viewNode.type = SELECTED_TARGET_TYPE;
         graph.nodes[i] = prevNode;
-        this.setState({ selected2: prevNode, selected2Type: prevType });
+        this.setState({ selectedNode2: prevNode, selectedNode2Type: prevType });
       }
-      const selectedType = this.getViewNode(viewNode[NODE_KEY]).type;
+      const selectedNodeType = this.getViewNode(viewNode[NODE_KEY]).type;
       const i = this.getNodeIndex(viewNode);
-      viewNode.type = SELECTED_TYPE;
+      // if(viewNode.type !== SELECTED_TARGET_TYPE) {
+        viewNode.type = SELECTED_TYPE;
+      // }
       graph.nodes[i] = viewNode;
       this.setState({
-        selected: viewNode,
-        selectedType: selectedType,
+        selectedNode: viewNode,
+        selectedNodeType: selectedNodeType,
         graph
       });
     } else {
-      if(this.state.selected != null ){
-        const selected = this.state.selected;
-        const i = this.getNodeIndex(selected);
-        selected.type = this.state.selectedType;
-        graph.nodes[i] = selected;
+      if(this.state.selectedNode != null ){
+        const selectedNode = this.state.selectedNode;
+        const i = this.getNodeIndex(selectedNode);
+        selectedNode.type = this.state.selectedNodeType;
+        graph.nodes[i] = selectedNode;
       }
-      if (this.state.selected2 != null) {
-        const prevNode = this.state.selected2;
+      if (this.state.selectedNode2 != null) {
+        const prevNode = this.state.selectedNode2;
         const i = this.getNodeIndex(prevNode);
-        prevNode.type = this.state.selected2Type;
+        prevNode.type = this.state.selectedNode2Type;
         graph.nodes[i] = prevNode;
       }
       this.setState({
-        selected: viewNode,
+        selectedNode: null,
+        selectedNode2: null,
         graph
       })
     }
@@ -240,7 +246,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   };
 
   onConnect = () => {
-    this.onCreateEdge(this.state.selected2, this.state.selected);
+    this.onCreateEdge(this.state.selectedNode2, this.state.selectedNode);
   }
 
   // Creates a new node between two edges
@@ -365,12 +371,13 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   render() {
     const { nodes, edges } = this.state.graph;
     const selected = this.state.selected;
-    const selected2 = this.state.selected2;
+    const selectedNode = this.state.selectedNode;
+    const selectedNode2 = this.state.selectedNode2;
     const { NodeTypes, NodeSubtypes, EdgeTypes } = GraphConfig;
 
     return (
       <div id="graph" style={{ height: "26em" }}>
-        {selected2 && selected && <Button onClick={this.onConnect}>Connect</Button>}
+        {selectedNode2 && selectedNode && <Button onClick={this.onConnect}>Connect</Button>}
         <GraphView
           ref={el => (this.GraphView = el)}
           nodeKey={NODE_KEY}

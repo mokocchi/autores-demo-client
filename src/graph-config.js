@@ -8,10 +8,11 @@ export const NODE_KEY = 'id'; // Key used to identify nodes
 export const EMPTY_TYPE = 'customEmpty'; // Empty node type
 export const END_TYPE = 'end';
 export const START_TYPE = 'start';
-export const SELECTED_TYPE = 'selected';
+export const SELECTED_TYPE = 'selectedFirst';
+export const SELECTED_TARGET_TYPE = 'selectedSecond';
 export const EMPTY_EDGE_TYPE = 'emptyEdge';
 
-export const nodeTypes = [EMPTY_TYPE, END_TYPE, START_TYPE, SELECTED_TYPE];
+export const nodeTypes = [EMPTY_TYPE, END_TYPE, START_TYPE, SELECTED_TYPE, SELECTED_TARGET_TYPE];
 export const edgeTypes = [EMPTY_EDGE_TYPE];
 
 const EmptyNodeShape = (
@@ -69,10 +70,15 @@ export default {
       shapeId: '#end',
       typeText: 'Fin',
     },
-    selected: {
+    selectedFirst: {
       shape: SelectedShape,
       shapeId: '#selected',
-      typeText: 'Seleccionado'
+      typeText: 'Origen'
+    },
+    selectedSecond: {
+      shape: SelectedShape,
+      shapeId: '#selected',
+      typeText: 'Destino'
     }
   },
 };
