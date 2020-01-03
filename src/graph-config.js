@@ -8,9 +8,10 @@ export const NODE_KEY = 'id'; // Key used to identify nodes
 export const EMPTY_TYPE = 'customEmpty'; // Empty node type
 export const END_TYPE = 'end';
 export const START_TYPE = 'start';
+export const SELECTED_TYPE = 'selected';
 export const EMPTY_EDGE_TYPE = 'emptyEdge';
 
-export const nodeTypes = [EMPTY_TYPE, END_TYPE, START_TYPE];
+export const nodeTypes = [EMPTY_TYPE, END_TYPE, START_TYPE, SELECTED_TYPE];
 export const edgeTypes = [EMPTY_EDGE_TYPE];
 
 const EmptyNodeShape = (
@@ -20,14 +21,20 @@ const EmptyNodeShape = (
 );
 
 const StartShape = (
-  <symbol viewBox="0 0 154 154" width="155" height="155" id="start">
-    <circle cx="77" cy="77" r="76" stroke="green" strokeWidth="4px" />
+  <symbol viewBox="0 0 160 160" width="160" height="160" id="start">
+    <circle cx="77" cy="77" r="76" stroke="green" strokeWidth="3px" />
   </symbol>
 );
 
+const SelectedShape = (
+  <symbol viewBox="0 0 160 160" width="160" height="160" id="selected">
+    <circle cx="77" cy="77" r="76" fill="steelblue" />
+  </symbol>
+)
+
 const EndShape = (
-  <symbol viewBox="0 0 154 154" width="155" height="155" id="end">
-    <circle cx="77" cy="77" r="76" stroke="red" strokeWidth="4px" />
+  <symbol viewBox="0 0 160 160" width="160" height="160" id="end">
+    <circle cx="77" cy="77" r="76" stroke="red" strokeWidth="3px" />
   </symbol>
 );
 
@@ -62,5 +69,10 @@ export default {
       shapeId: '#end',
       typeText: 'Fin',
     },
+    selected: {
+      shape: SelectedShape,
+      shapeId: '#selected',
+      typeText: 'Seleccionado'
+    }
   },
 };

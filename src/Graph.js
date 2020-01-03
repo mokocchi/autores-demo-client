@@ -12,6 +12,7 @@ import GraphConfig, {
   EMPTY_TYPE,
   START_TYPE,
   END_TYPE,
+  SELECTED_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
 
@@ -24,35 +25,56 @@ type IGraph = {
 // In a more realistic use case, the graph would probably originate
 // elsewhere in the App or be generated from some other state upstream of this component.
 const sample: IGraph = {
-  nodes: [],
+  nodes: [{
+    id: 1,
+    title: 1,
+    type: START_TYPE,
+    x: 0 + 300 * 0,
+    y: 0
+  },
+  {
+    id: 2,
+    title: 2,
+    type: START_TYPE,
+    x: 0 + 300 * 1,
+    y: 0
+  },
+  {
+    id: 3,
+    title: 3,
+    type: START_TYPE,
+    x: 0 + 300 * 2,
+    y: 0
+  },
+  {
+    id: 4,
+    title: 4,
+    type: START_TYPE,
+    x: 0 + 300 * 3,
+    y: 0
+  },
+  {
+    id: 5,
+    title: 5,
+    type: START_TYPE,
+    x: 0 + 300 * 4,
+    y: 0
+  }],
   edges: []
 };
 
 function getGraph(tareas) {
   const nodes = tareas.map((tarea, index) => {
-    const type = index === 0 ? START_TYPE : index === tareas.length - 1 ? END_TYPE : EMPTY_TYPE
     return {
       id: tarea.id,
       title: index + 1,
-      type: type,
+      type: START_TYPE,
       x: 0 + 300 * index,
       y: 0
     }
   })
-  const edges = tareas.map((tarea, index) => {
-    if (index + 1 !== tareas.length) {
-      const target = tareas[index + 1].id;
-      return {
-        source: tarea.id,
-        target: target,
-        type: EMPTY_EDGE_TYPE
-      }
-    } else {
-      return null;
-    }
-  })
   return {
-    edges: edges.filter(item => item != null),
+    edges: [],
     nodes: nodes
   }
 }
@@ -75,9 +97,12 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
     this.state = {
       copiedNode: null,
-      graph: getGraph(props.tareas), // sample, 
+      graph: sample, //getGraph(props.tareas), // sample, 
       layoutEngineType: undefined,
       selected: null,
+      selectedType: null,
+      selected2: null,
+      selected2Type: null
     };
 
     this.GraphView = React.createRef();
@@ -126,7 +151,50 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   // Node 'mouseUp' handler
   onSelectNode = (viewNode: INode | null) => {
     // Deselect events will send Null viewNode
-    this.setState({ selected: viewNode });
+    const graph = this.state.graph;
+    if (viewNode != null) {
+      if(this.state.selected2 != null) {
+        const firstType = this.state.selected2Type;
+        const firstNode = this.state.selected2;
+        const i = this.getNodeIndex(firstNode);
+        firstNode.type = firstType;
+        graph.nodes[i] = firstNode;
+      }
+      if (this.state.selected != null) {
+        const prevType = this.state.selectedType;
+        const prevNode = this.state.selected;
+        const i = this.getNodeIndex(prevNode);
+        prevNode.type = SELECTED_TYPE;
+        graph.nodes[i] = prevNode;
+        this.setState({ selected2: prevNode, selected2Type: prevType });
+      }
+      const selectedType = this.getViewNode(viewNode[NODE_KEY]).type;
+      const i = this.getNodeIndex(viewNode);
+      viewNode.type = SELECTED_TYPE;
+      graph.nodes[i] = viewNode;
+      this.setState({
+        selected: viewNode,
+        selectedType: selectedType,
+        graph
+      });
+    } else {
+      if(this.state.selected != null ){
+        const selected = this.state.selected;
+        const i = this.getNodeIndex(selected);
+        selected.type = this.state.selectedType;
+        graph.nodes[i] = selected;
+      }
+      if (this.state.selected2 != null) {
+        const prevNode = this.state.selected2;
+        const i = this.getNodeIndex(prevNode);
+        prevNode.type = this.state.selected2Type;
+        graph.nodes[i] = prevNode;
+      }
+      this.setState({
+        selected: viewNode,
+        graph
+      })
+    }
   };
 
   // Edge 'mouseUp' handler
@@ -170,6 +238,10 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
     this.setState({ graph, selected: null });
   };
+
+  onConnect = () => {
+    this.onCreateEdge(this.state.selected2, this.state.selected);
+  }
 
   // Creates a new node between two edges
   onCreateEdge = (sourceViewNode: INode, targetViewNode: INode) => {
@@ -293,10 +365,12 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   render() {
     const { nodes, edges } = this.state.graph;
     const selected = this.state.selected;
+    const selected2 = this.state.selected2;
     const { NodeTypes, NodeSubtypes, EdgeTypes } = GraphConfig;
 
     return (
       <div id="graph" style={{ height: "26em" }}>
+        {selected2 && selected && <Button onClick={this.onConnect}>Connect</Button>}
         <GraphView
           ref={el => (this.GraphView = el)}
           nodeKey={NODE_KEY}
