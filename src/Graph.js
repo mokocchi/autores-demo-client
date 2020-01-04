@@ -16,7 +16,7 @@ import GraphConfig, {
   SELECTED_TARGET_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
-
+import {API_BASE_URL} from './config'
 type IGraph = {
   nodes: INode[],
   edges: IEdge[],
@@ -326,6 +326,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
    */
 
   outputJumps = () => {
+    const actividadId = this.props.actividadId;
     const { nodes, edges } = this.state.graph;
     const codesById = {};
     this.props.tareas.forEach(tarea => codesById[tarea.id] = tarea.codigo);
@@ -336,14 +337,19 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     })
     this.props.tareas.forEach(tarea => {
       const nextId = graphNodes[tarea.id];
-      const nextCodes = nextId.map(id => codesById[id]);
-      if (nextCodes.length > 0) {
-        tarea.jumps = [{ "on": "ALL", to: nextCodes, answer: null }]
-      } else {
-        tarea.jumps = [{ "on": "ALL", to: "END", answer: null }]
-      }
+      this.saveJump(tarea.id, nextId, actividadId);
     })
-    console.log(this.props.tareas);
+  }
+
+  async saveJump(tareaId, nextIds, id) {
+    const response = await fetch(API_BASE_URL + '/actividad/' + id + '/salto', {
+      method: 'POST',
+      body: JSON.stringify({
+          "origen": tareaId,
+          "condicion": "ALL",
+          "destinos": nextIds
+      })
+  });
   }
 
   getNodesWithTypeUpdated(edges) {

@@ -68,7 +68,7 @@ class FlujoTareas extends Component {
                                 }
                             })
                         } field={"nombre"} value={"id"} />
-                        {this.state.success  && <Graph tareas={chosenTareas} />}
+                        {this.state.success  && <Graph tareas={chosenTareas} actividadId={this.props.match.params.id} />}
                     </Col>
                 </Row>
             </Container>
