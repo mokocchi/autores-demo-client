@@ -16,11 +16,12 @@ class FormTareas extends Component {
         super(props);
         this.state = {
             isLoading: false,
-            success: true,
+            success: false,
             error: false,
             errorMessage: ""
         }
         let id = this.props.actividadId;
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.setCurrentActividad(id);
     }
 
@@ -35,6 +36,31 @@ class FormTareas extends Component {
             return;
         }
         this.props.dispatch(setCurrentActividad(data));
+    }
+
+    async addTareaToActividad(id, tarea) {
+        const response = await fetch(API_BASE_URL + '/actividad/' + id + '/tarea', {
+            method: 'POST',
+            body: JSON.stringify({
+                "tarea": tarea.id
+            })
+        });
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                error: true,
+                errorMessage: data.errors,
+                success: false
+            })
+            return;
+        } else {
+            this.setState({success: true});
+        }
+    }
+
+    handleFormSubmit() {
+        const id = this.props.actividadId;
+        this.props.chosenTareas.forEach(tarea => this.addTareaToActividad(id, tarea));
     }
 
     render() {
@@ -73,8 +99,9 @@ class FormTareas extends Component {
 }
 
 function mapStateToProps(state) {
+    const { chosenTareas } = state.actividadTareas;
     return {
-
+        chosenTareas
     }
 }
 export default connect(mapStateToProps)(FormTareas);

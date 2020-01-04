@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setCurrentActividad } from './redux/actions'
+import { setCurrentActividad, addTarea } from './redux/actions'
+
 
 import Graph from './Graph';
 import ActionList from './ActionList'
@@ -12,7 +13,27 @@ class FlujoTareas extends Component {
 
     constructor(props) {
         super(props);
-        this.setCurrentActividad(props.match.id);
+        this.state = {
+            success: false
+        }
+        this.setCurrentActividad(props.match.params.id);
+        if (props.tareas == null) {
+            this.loadTareasForActividad(props.match.params.id);
+        }
+    }
+
+    async loadTareasForActividad(id) {
+        const response = await fetch(API_BASE_URL + '/actividad/' + id + '/tareas');
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                error: true,
+                errorMessage: data.errors
+            })
+            return;
+        }
+        data.forEach(tarea => this.props.dispatch(addTarea(tarea)));
+        this.setState({success:true});
     }
 
     async setCurrentActividad(id) {
@@ -47,7 +68,7 @@ class FlujoTareas extends Component {
                                 }
                             })
                         } field={"nombre"} value={"id"} />
-                        <Graph tareas={chosenTareas} />
+                        {this.state.success  && <Graph tareas={chosenTareas} />}
                     </Col>
                 </Row>
             </Container>

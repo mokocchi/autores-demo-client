@@ -98,7 +98,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
     this.state = {
       copiedNode: null,
-      graph: sample, //getGraph(props.tareas), // sample, 
+      graph: getGraph(props.tareas), // sample, 
       layoutEngineType: undefined,
       selected: null,
       selectedNode: null,
