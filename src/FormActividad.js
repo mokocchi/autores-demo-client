@@ -80,7 +80,7 @@ class FormActividad extends Component {
             return;
         }
 
-        let response = await fetch(API_BASE_URL + '/actividad', {
+        let response = await fetch(API_BASE_URL + '/actividades', {
             method: 'POST',
             body: JSON.stringify({
                 "nombre": nombre,

@@ -342,7 +342,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   }
 
   async saveJump(tareaId, nextIds, id) {
-    const response = await fetch(API_BASE_URL + '/actividad/' + id + '/salto', {
+    const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
       method: 'POST',
       body: JSON.stringify({
           "origen": tareaId,

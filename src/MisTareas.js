@@ -34,7 +34,7 @@ class MisTareas extends Component {
 
     async onClick(e) {
         if (this.state.selectedTarea.id !== "") {
-            const response = await fetch(API_BASE_URL + '/tarea/' + this.state.selectedTarea.id);
+            const response = await fetch(API_BASE_URL + '/tareas/' + this.state.selectedTarea.id);
             const data = await response.json();
             this.props.dispatch(addTarea(data));
         }

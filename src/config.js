@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8080';
+export const API_BASE_URL = 'http://localhost:8080/api/v1.0';
 
 export const TIPO_SELECCION = "5";
 export const TIPO_MULTIPLE_CHOICE = "6";

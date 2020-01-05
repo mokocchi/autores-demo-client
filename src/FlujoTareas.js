@@ -23,7 +23,7 @@ class FlujoTareas extends Component {
     }
 
     async loadTareasForActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividad/' + id + '/tareas');
+        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/tareas');
         const data = await response.json();
         if (data.errors) {
             this.setState({
@@ -37,7 +37,7 @@ class FlujoTareas extends Component {
     }
 
     async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividad/' + id);
+        const response = await fetch(API_BASE_URL + '/actividades/' + id);
         const data = await response.json();
         if (data.errors) {
             this.setState({

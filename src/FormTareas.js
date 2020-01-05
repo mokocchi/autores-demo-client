@@ -26,7 +26,7 @@ class FormTareas extends Component {
     }
 
     async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividad/' + id);
+        const response = await fetch(API_BASE_URL + '/actividades/' + id);
         const data = await response.json();
         if (data.errors) {
             this.setState({
@@ -39,7 +39,7 @@ class FormTareas extends Component {
     }
 
     async addTareaToActividad(id, tarea) {
-        const response = await fetch(API_BASE_URL + '/actividad/' + id + '/tarea', {
+        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/tareas', {
             method: 'POST',
             body: JSON.stringify({
                 "tarea": tarea.id

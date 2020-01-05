@@ -37,7 +37,7 @@ class FormTarea extends Component {
     }
 
     async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividad/' + id);
+        const response = await fetch(API_BASE_URL + '/actividades/' + id);
         const data = await response.json();
         if (data.errors) {
             this.setState({
@@ -173,7 +173,7 @@ class FormTarea extends Component {
             }
         }
 
-        let response = await fetch(API_BASE_URL + '/tarea', {
+        let response = await fetch(API_BASE_URL + '/tareas', {
             method: 'POST',
             body: JSON.stringify({
                 "nombre": nombre,
@@ -197,7 +197,7 @@ class FormTarea extends Component {
 
             const processedExtra = this.processExtra(extra, tipo);
 
-            response = await fetch(API_BASE_URL + '/tarea/' + data.id + '/extra', {
+            response = await fetch(API_BASE_URL + '/tareas/' + data.id + '/extra', {
                 method: 'POST',
                 body: JSON.stringify({
                     "extra": processedExtra,
@@ -214,7 +214,7 @@ class FormTarea extends Component {
             }
         }
 
-        response = await fetch(API_BASE_URL + '/tarea/' + data.id);
+        response = await fetch(API_BASE_URL + '/tareas/' + data.id);
         const lastData = await response.json();
 
         this.props.dispatch(addTarea(lastData));

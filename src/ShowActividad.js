@@ -19,7 +19,7 @@ class ShowActividad extends Component {
     }
 
     async getActividad() {
-        const response = await fetch(API_BASE_URL + '/actividad/' + this.props.actividadId);
+        const response = await fetch(API_BASE_URL + '/actividades/' + this.props.actividadId);
         const data = await response.json();
         if (!data.errors) {
             this.setState({
@@ -33,7 +33,7 @@ class ShowActividad extends Component {
     }
 
     async getTareas() {
-        const response = await fetch(API_BASE_URL + '/actividad/' + this.props.actividadId + '/tareas');
+        const response = await fetch(API_BASE_URL + '/actividades/' + this.props.actividadId + '/tareas');
         const data = await response.json();
         if (!data.errors) {
             this.setState({

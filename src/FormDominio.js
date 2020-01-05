@@ -36,7 +36,7 @@ class FormDominio extends Component {
             errorMessage: ''
         });
 
-        const response = await fetch(API_BASE_URL + '/dominio', {
+        const response = await fetch(API_BASE_URL + '/dominios', {
             method: 'POST',
             body: JSON.stringify({
                 "nombre": this.state.dominio
