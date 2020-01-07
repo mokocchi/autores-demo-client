@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Accordion, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setCurrentActividad, addTarea } from './redux/actions'
 
@@ -8,6 +8,7 @@ import Graph from './Graph';
 import ActionList from './ActionList'
 
 import { API_BASE_URL } from './config'
+import FlujoTareasPanel from './FlujoTareasPanel';
 
 class FlujoTareas extends Component {
 
@@ -33,7 +34,7 @@ class FlujoTareas extends Component {
             return;
         }
         data.forEach(tarea => this.props.dispatch(addTarea(tarea)));
-        this.setState({success:true});
+        this.setState({ success: true });
     }
 
     async setCurrentActividad(id) {
@@ -50,7 +51,13 @@ class FlujoTareas extends Component {
     }
 
     render() {
-        const { chosenTareas } = this.props
+        const { chosenTareas } = this.props;
+        const tareasList = chosenTareas.map((tarea, index) => {
+            return {
+                nombre: (index + 1) + ": " + tarea.nombre,
+                id: tarea.id
+            }
+        });
         return (
             <Container>
                 <Row>
@@ -58,17 +65,12 @@ class FlujoTareas extends Component {
                         <h2>Flujo de tareas</h2>
                     </Col>
                 </Row>
-                <Row>
-                    <Col style={{ border: "1px solid black", padding: "2em" }}>
-                        <ActionList items={
-                            chosenTareas.map((tarea, index) => {
-                                return {
-                                    nombre: (index + 1) + ": " + tarea.nombre,
-                                    id: tarea.id
-                                }
-                            })
-                        } field={"nombre"} value={"id"} />
-                        {this.state.success  && <Graph tareas={chosenTareas} actividadId={this.props.match.params.id} />}
+                <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
+                    <Col md={4}>
+                        <FlujoTareasPanel tareasList={tareasList} />
+                    </Col>
+                    <Col>
+                        {this.state.success && <Graph tareas={chosenTareas} actividadId={this.props.match.params.id} />}
                     </Col>
                 </Row>
             </Container>
