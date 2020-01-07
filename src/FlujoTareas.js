@@ -15,12 +15,19 @@ class FlujoTareas extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            success: false
+            success: false,
+            graphTareas: []
         }
         this.setCurrentActividad(props.match.params.id);
         if (props.tareas == null) {
             this.loadTareasForActividad(props.match.params.id);
         }
+    }
+
+    onAddTarea = (newTarea) => {
+        this.setState({
+            graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== newTarea.id), newTarea]
+        })
     }
 
     async loadTareasForActividad(id) {
@@ -54,6 +61,7 @@ class FlujoTareas extends Component {
         const { chosenTareas } = this.props;
         const tareasList = chosenTareas.map((tarea, index) => {
             return {
+                ...tarea,
                 nombre: (index + 1) + ": " + tarea.nombre,
                 id: tarea.id
             }
@@ -67,10 +75,12 @@ class FlujoTareas extends Component {
                 </Row>
                 <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                     <Col md={4}>
-                        <FlujoTareasPanel tareasList={tareasList} />
+                        <div style={{ height: '500px', overflowY: 'scroll' }}>
+                            {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea} />}
+                        </div>
                     </Col>
                     <Col>
-                        {this.state.success && <Graph tareas={chosenTareas} actividadId={this.props.match.params.id} />}
+                        {this.state.success && <Graph tareas={this.state.graphTareas} actividadId={this.props.match.params.id} />}
                     </Col>
                 </Row>
             </Container>
