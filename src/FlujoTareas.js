@@ -5,7 +5,6 @@ import { setCurrentActividad, addTarea } from './redux/actions'
 
 
 import Graph from './Graph';
-import ActionList from './ActionList'
 
 import { API_BASE_URL } from './config'
 import FlujoTareasPanel from './FlujoTareasPanel';
@@ -22,11 +21,18 @@ class FlujoTareas extends Component {
         if (props.tareas == null) {
             this.loadTareasForActividad(props.match.params.id);
         }
+        this.Graph = React.createRef();
     }
 
     onAddTarea = (newTarea) => {
         this.setState({
             graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== newTarea.id), newTarea]
+        })
+    }
+
+    onRemoveTarea = (oldTarea) => {
+        this.setState({
+            graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== oldTarea.id)]
         })
     }
 
@@ -63,7 +69,8 @@ class FlujoTareas extends Component {
             return {
                 ...tarea,
                 nombre: (index + 1) + ": " + tarea.nombre,
-                id: tarea.id
+                id: tarea.id,
+                graphId: index + 1
             }
         });
         return (
@@ -76,11 +83,12 @@ class FlujoTareas extends Component {
                 <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                     <Col md={4}>
                         <div style={{ height: '500px', overflowY: 'scroll' }}>
-                            {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea} />}
+                            {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea}
+                            onRemoveTarea={this.onRemoveTarea} />}
                         </div>
                     </Col>
                     <Col>
-                        {this.state.success && <Graph tareas={this.state.graphTareas} actividadId={this.props.match.params.id} />}
+                        {this.state.success && <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas} actividadId={this.props.match.params.id} />}
                     </Col>
                 </Row>
             </Container>

@@ -40,6 +40,7 @@ class FlujoTareasPanel extends Component {
         this.setState({
             tareasUbicadas: this.state.tareasUbicadas.filter(tarea => tarea.id !== tareaPorQuitar.id)
         })
+        this.props.onRemoveTarea(tareaPorQuitar);
     }
 
     render() {
@@ -48,15 +49,15 @@ class FlujoTareasPanel extends Component {
         return (
             <>
                 {tareasList.map((tarea, index) =>
-                    <Accordion key={1}>
+                    <Accordion key={index}>
                         <Card>
-                            <Accordion.Toggle as={Card.Header} eventKey={1}>
+                            <Accordion.Toggle as={Card.Header} eventKey={index}>
                                 {tarea.nombre}
                             </Accordion.Toggle>
-                            <Accordion.Collapse eventKey={1}>
+                            <Accordion.Collapse eventKey={index}>
                                 <Card body>
                                     <FormCheckLabel style={{ marginLeft: "1.25rem" }}>
-                                        <FormCheckInput type={"checkbox"} disabled={this.state.tareasUbicadas.length <= 1 }
+                                        <FormCheckInput type={"checkbox"} disabled={this.state.tareasUbicadas.length < 1 }
                                             checked={this.state.inicialChecked[index]}
                                             onChange={() => this.onInicialChange(index)} name={"checkbox"} />
                                         <span>Inicial</span>
@@ -86,7 +87,7 @@ class FlujoTareasPanel extends Component {
                                     }
                                     {this.state.tareasUbicadas.filter(ubicada => ubicada.id === tarea.id).length === 0 ?
                                         <Button variant={"success"} style={{ marginTop: "1rem" }} onClick={() => this.onUbicarTarea(tarea)}
-                                            className={"float-right"}>Ubicar tarea</Button>
+                                            className={"float-right"} disabled={!this.state.inicialChecked[index]}>Ubicar tarea</Button>
                                         :
                                         <Button variant={"danger"} style={{ marginTop: "1rem" }} onClick={() => this.onQuitarTarea(tarea)}
                                             className={"float-right"}>Quitar tarea</Button>
