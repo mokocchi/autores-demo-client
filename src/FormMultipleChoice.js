@@ -5,7 +5,7 @@ import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElemen
 
 import ActionList from './ActionList';
 import FormOption from './FormOption';
-import FormCorrectOptions from './FormCorrectOptions';
+import FormValidElements from './FormValidElements';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 
@@ -118,7 +118,7 @@ class FormMultipleChoice extends Component {
                                     </Row>
                                     <Row>
                                         <Col>
-                                            <FormCorrectOptions />
+                                            <FormValidElements />
                                         </Col>
                                         <Col />
                                     </Row>

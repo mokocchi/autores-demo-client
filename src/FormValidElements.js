@@ -5,7 +5,7 @@ import { addValidElementToExtra } from './redux/actions'
 
 import Select from './Select';
 
-class FormCorrectoptions extends Component {
+class FormValidElements extends Component {
 
     constructor(props) {
         super(props);
@@ -26,6 +26,12 @@ class FormCorrectoptions extends Component {
         })
     }
 
+    onPropsChangeLess = () => {
+        this.setState({
+            selectedElementId: ""
+        })
+    }
+
     render() {
         const { elements } = this.props;
         return (
@@ -35,6 +41,7 @@ class FormCorrectoptions extends Component {
                     placeholder={"Elegí un elemento"}
                     options={elements}
                     onChange={this.onChange}
+                    onPropsChangeLess={this.onPropsChangeLess}
                     value={"code"}
                     field={"name"}
                 />
@@ -55,4 +62,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(FormCorrectoptions);
+export default connect(mapStateToProps)(FormValidElements);

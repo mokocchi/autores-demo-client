@@ -33,7 +33,8 @@ export default function tareaExtra(state = INIT_STATE, action) {
         case REMOVE_ELEMENT_FROM_EXTRA:
             return {
                 ...state,
-                elements: state.elements.filter((item) => item.code !== action.element.code)
+                elements: state.elements.filter((item) => item.code !== action.element.code),
+                validElements: state.validElements.filter((item) => item !== action.element.code)
             }
         case ADD_VALID_ELEMENT_TO_EXTRA:
             let validIndex = state.validElements.findIndex(element => element === action.element);
