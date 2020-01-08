@@ -11,14 +11,20 @@ class FlujoTareasPanel extends Component {
         this.state = {
             inicialChecked: this.props.tareasList.map(tarea => true),
             condicionChecked: this.props.tareasList.map(tarea => false),
-            tareasUbicadas: []
+            tareasUbicadas: [],
+            saltoElegido: {},
+            newSaltos: {},
+            agregarSaltoDisabled: this.props.tareasList.map(tarea => true)
         }
     }
 
     onInicialChange = (inicialIndex) => {
+        const newSaltos = this.state.newSaltos;
+        newSaltos[inicialIndex] = [];
         this.setState({
             inicialChecked: this.state.inicialChecked.map((item, index) =>
-                (index !== inicialIndex) ? this.state.inicialChecked[index] : !this.state.inicialChecked[index])
+                (index !== inicialIndex) ? this.state.inicialChecked[index] : !this.state.inicialChecked[index]),
+            newSaltos
         });
     }
 
@@ -43,6 +49,37 @@ class FlujoTareasPanel extends Component {
         this.props.onRemoveTarea(tareaPorQuitar);
     }
 
+    onSelectChange = (e) => {
+        const selectName = e.target.name;
+        const saltoElegido = this.state.saltoElegido;
+        const index = e.nativeEvent.target.selectedIndex;
+        const destinoName = e.nativeEvent.target[index].text
+        saltoElegido[selectName] = { id: e.target.value, name: destinoName }
+        const agregarSaltoDisabled = this.state.agregarSaltoDisabled;
+        agregarSaltoDisabled[selectName] = false;
+        this.setState({
+            saltoElegido,
+            agregarSaltoDisabled
+        })
+    }
+
+    onAgregarSalto = (index) => {
+        const destino = this.state.saltoElegido[index];
+        const newSaltos = this.state.newSaltos;
+        if (!newSaltos[index]) {
+            newSaltos[index] = []
+        }
+        if(newSaltos[index].findIndex(salto => salto.id !== destino.id) !== 1){
+            newSaltos[index].push(destino);
+            const agregarSaltoDisabled = this.state.agregarSaltoDisabled;
+            agregarSaltoDisabled[index] = true;
+            this.setState({
+                newSaltos,
+                agregarSaltoDisabled
+            })
+        }
+    }
+
     render() {
         const { tareasList } = this.props;
 
@@ -57,20 +94,34 @@ class FlujoTareasPanel extends Component {
                             <Accordion.Collapse eventKey={index}>
                                 <Card body>
                                     <FormCheckLabel style={{ marginLeft: "1.25rem" }}>
-                                        <FormCheckInput type={"checkbox"} disabled={this.state.tareasUbicadas.length < 1 }
+                                        <FormCheckInput type={"checkbox"} disabled={this.state.tareasUbicadas.filter(ubicada => ubicada.id != tarea.id).length < 1}
                                             checked={this.state.inicialChecked[index]}
                                             onChange={() => this.onInicialChange(index)} name={"checkbox"} />
                                         <span>Inicial</span>
                                     </FormCheckLabel>
-                                    {!this.state.inicialChecked[index] && this.state.tareasUbicadas.length > 1 &&
+                                    {this.state.newSaltos[index] && this.state.newSaltos[index].map((salto, saltoIndex) =>
+                                        <Card body key={index + "-" + saltoIndex}>
+                                            Después de <b>{salto.name}</b>
+                                        </Card>
+                                    )}
+                                    {!this.state.inicialChecked[index] && this.state.tareasUbicadas.filter(ubicada => {
+                                        const saltos = this.state.newSaltos[index] ? this.state.newSaltos[index] : [];
+                                        return ubicada.id != tarea.id && saltos.findIndex(el => el.id === ubicada.id) === -1;
+                                    }).length > 0 &&
                                         <Card body>
                                             <span>Después de...</span>
-                                            <Select options={this.state.tareasUbicadas.filter(ubicada => ubicada.id != tarea.id)} field={"nombre"} value={"id"} />
+                                            <Select options={this.state.tareasUbicadas.filter(ubicada => {
+                                                const saltos = this.state.newSaltos[index] ? this.state.newSaltos[index] : [];
+                                                return ubicada.id != tarea.id && (saltos.findIndex(el => el.id == ubicada.id) === -1);
+                                            }
+                                            )}
+                                                placeholder={"Elegir..."} field={"nombre"} value={"id"} onChange={this.onSelectChange}
+                                                name={index} defaultValue={""} />
                                             {//[TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_RECOLECCION].includes(tarea.tipo.id) &&
-                                            true &&
+                                                true &&
                                                 < FormCheckLabel style={{ marginLeft: "1.25rem" }}>
                                                     <FormCheckInput checked={this.state.condicionChecked[index]} type={"checkbox"}
-                                                        onChange={() => this.onCondicionChange(index)} name={"checkbox"} />
+                                                        onChange={() => this.onCondicionChange(tarea, index)} name={"checkbox"} />
                                                     <span>Condición</span>
                                                 </FormCheckLabel>
                                             }
@@ -82,7 +133,7 @@ class FlujoTareasPanel extends Component {
                                                     <Select options={["Momo", "Dalia"]} />
                                                 </p>
                                             }
-                                            <Button variant={"info"} className={"float-right"}>Agregar transición</Button>
+                                            <Button variant={"info"} disabled={this.state.agregarSaltoDisabled[index]} onClick={() => this.onAgregarSalto(index)} className={"float-right"}>Agregar transición</Button>
                                         </Card>
                                     }
                                     {this.state.tareasUbicadas.filter(ubicada => ubicada.id === tarea.id).length === 0 ?
@@ -96,7 +147,8 @@ class FlujoTareasPanel extends Component {
                             </Accordion.Collapse>
                         </Card>
                     </Accordion>
-                )}
+                )
+                }
             </>
         )
     }
