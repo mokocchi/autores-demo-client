@@ -32,10 +32,26 @@ class FlujoTareas extends Component {
     }
 
     onAddSalto = (newSalto) => {
-        const newSaltos = this.state.graphSaltos;
-        newSaltos.push(newSalto);
         this.setState({
-            graphSaltos: newSaltos
+            graphSaltos: [...this.state.graphSaltos.filter(salto => salto.id != newSalto.id), newSalto]
+        })
+    }
+
+    onResetSaltos = (tareaId) => {
+        const newSaltos = this.state.graphSaltos.filter(
+            salto =>
+                salto.idOrigen !== tareaId &&
+                salto.destino !== tareaId)
+        this.setState({
+            graphSaltos: [...newSaltos]
+        })
+    }
+
+    onRemoveSalto = (salto) => {
+        const saltos = this.state.graphSaltos;
+        const newSaltos = saltos.filter(sal => sal.id !== salto.id);
+        this.setState({
+            graphSaltos: [...newSaltos]
         })
     }
 
@@ -93,7 +109,8 @@ class FlujoTareas extends Component {
                     <Col md={4}>
                         <div style={{ height: '500px', overflowY: 'scroll' }}>
                             {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea}
-                                onRemoveTarea={this.onRemoveTarea} onAddSalto={this.onAddSalto} />}
+                                onRemoveTarea={this.onRemoveTarea} onAddSalto={this.onAddSalto} onResetSaltos={this.onResetSaltos}
+                                onRemoveSalto={this.onRemoveSalto} />}
                         </div>
                     </Col>
                     <Col>

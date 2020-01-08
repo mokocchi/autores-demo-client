@@ -21,6 +21,11 @@ class FlujoTareasPanel extends Component {
     onInicialChange = (inicialIndex) => {
         const newSaltos = this.state.newSaltos;
         newSaltos[inicialIndex] = [];
+        const tareaIndex = this.props.tareasList.findIndex(tarea => tarea.graphId - 1 == inicialIndex);
+        //if it wasn't checked before
+        if (!this.state.inicialChecked[inicialIndex]) {
+            this.props.onResetSaltos(this.props.tareasList[tareaIndex].id);
+        }
         this.setState({
             inicialChecked: this.state.inicialChecked.map((item, index) =>
                 (index !== inicialIndex) ? this.state.inicialChecked[index] : !this.state.inicialChecked[index]),
@@ -48,8 +53,27 @@ class FlujoTareasPanel extends Component {
     }
 
     onQuitarTarea = (tareaPorQuitar) => {
+        const newSaltos = this.state.newSaltos;
+        newSaltos[tareaPorQuitar.graphId - 1] = []
+        this.props.tareasList.forEach((tarea, index) => {
+            const saltosTarea = newSaltos[index];
+            if (newSaltos[index]) {
+                saltosTarea.filter(salto => parseInt(salto.id) === tareaPorQuitar.id).forEach(salto =>
+                    this.props.onRemoveSalto(salto)
+                );
+                newSaltos[index] = saltosTarea.filter(salto => parseInt(salto.id) !== tareaPorQuitar.id);
+                if (newSaltos[index].length === 0) {
+                    const inicialChecked = this.state.inicialChecked;
+                    inicialChecked[index] = true;
+                    this.setState({
+                        inicialChecked: [...inicialChecked]
+                    })
+                }
+            }
+        })
         this.setState({
-            tareasUbicadas: this.state.tareasUbicadas.filter(tarea => tarea.id !== tareaPorQuitar.id)
+            tareasUbicadas: this.state.tareasUbicadas.filter(tarea => tarea.id !== tareaPorQuitar.id),
+            newSaltos: { ...newSaltos }
         })
         this.props.onRemoveTarea(tareaPorQuitar);
     }
@@ -82,7 +106,24 @@ class FlujoTareasPanel extends Component {
                 newSaltos,
                 agregarSaltoDisabled
             })
+            this.props.onAddSalto({
+                destino: this.props.tareasList[index].id,
+                idOrigen: parseInt(origen.id),
+                id: (origen.id + "->" + this.props.tareasList[index].id)
+            })
         }
+    }
+
+    onQuitarSalto = (tarea, index, salto, saltoIndex) => {
+        const newSaltos = this.state.newSaltos;
+        if (!newSaltos[index]) {
+            newSaltos[index] = [];
+        }
+        newSaltos[index] = newSaltos[index].filter(item => salto.id != item.id)
+        this.setState({
+            newSaltos: newSaltos
+        });
+        this.props.onRemoveSalto({ destino: tarea.id, idOrigen: parseInt(salto.id), id: (salto.id + "->" + tarea.id) });
     }
 
     render() {
@@ -107,6 +148,7 @@ class FlujoTareasPanel extends Component {
                                     {this.state.newSaltos[index] && this.state.newSaltos[index].map((salto, saltoIndex) =>
                                         <Card body key={index + "-" + saltoIndex}>
                                             Después de <b>{salto.name}</b>
+                                            <Button variant={"danger"} onClick={() => this.onQuitarSalto(tarea, index, salto, saltoIndex)}>Quitar</Button>
                                         </Card>
                                     )}
                                     {!this.state.inicialChecked[index] && this.state.tareasUbicadas.filter(ubicada => {
@@ -138,12 +180,14 @@ class FlujoTareasPanel extends Component {
                                                     <Select options={["Momo", "Dalia"]} />
                                                 </p>
                                             }
-                                            <Button variant={"info"} disabled={this.state.agregarSaltoDisabled[index]} onClick={() => this.onAgregarSalto(index)} className={"float-right"}>Agregar transición</Button>
+                                            <Button variant={"info"} disabled={this.state.agregarSaltoDisabled[index]}
+                                                onClick={() => this.onAgregarSalto(index)} className={"float-right"}>Agregar transición</Button>
                                         </Card>
                                     }
                                     {this.state.tareasUbicadas.filter(ubicada => ubicada.id === tarea.id).length === 0 ?
                                         <Button variant={"success"} style={{ marginTop: "1rem" }} onClick={() => this.onUbicarTarea(tarea)}
-                                            className={"float-right"} disabled={!this.state.inicialChecked[index] && this.state.newSaltos[index].length === 0}>Ubicar tarea</Button>
+                                            className={"float-right"} disabled={!this.state.inicialChecked[index] &&
+                                                (this.state.newSaltos[index] ? this.state.newSaltos[index].length === 0 : false)}>Ubicar tarea</Button>
                                         :
                                         <Button variant={"danger"} style={{ marginTop: "1rem" }} onClick={() => this.onQuitarTarea(tarea)}
                                             className={"float-right"}>Quitar tarea</Button>

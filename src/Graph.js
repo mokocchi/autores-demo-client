@@ -78,7 +78,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     super(props);
 
     this.state = {
-      layoutEngineType: "HorizontalTree",
+      layoutEngineType: "SnapToGrid",
       selected: null,
       graph: { nodes: [], edges: [] }
     };
@@ -170,10 +170,11 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   static getDerivedStateFromProps(nextProps, prevState) {
     const { tareas, saltos } = nextProps;
     const prevNodes = prevState.graph.nodes;
-    if (tareas.length !== prevNodes.length) {
+    const prevEdges = prevState.graph.edges;
+    if ((tareas.length !== prevNodes.length) || (saltos.length !== prevEdges.length)) {
       const newGraph = getGraph(tareas);
       let newNodes = newGraph.nodes.map(node => {
-        const nodeIndex = prevNodes.findIndex(prevNode => node.id === prevNode.id);
+        const nodeIndex = prevNodes.findIndex(prevNode => node[NODE_KEY] === prevNode[NODE_KEY]);
         if (nodeIndex === -1) {
           //check for better positioning
           return {
@@ -185,7 +186,13 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           return prevNodes[nodeIndex];
         }
       })
-      newGraph.edges = saltos.map(salto => { return { source: salto.idOrigen, target: salto.destino } })
+      const newEdges = saltos.map(salto => { return { source: salto.idOrigen, target: salto.destino } })
+      const nodeIds = newNodes.map(node => node[NODE_KEY]);
+
+      //keep only connected edges
+      newGraph.edges = newEdges.filter(edge =>
+        nodeIds.includes(edge.source) && nodeIds.includes(edge.target)
+      )
       newGraph.nodes = getNodesWithTypeUpdated(newNodes, newGraph.edges);
 
       return {
