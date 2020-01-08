@@ -17,13 +17,13 @@ export const edgeTypes = [EMPTY_EDGE_TYPE];
 
 const EmptyNodeShape = (
   <symbol viewBox="0 0 154 154" width="154" height="154" id="emptyNode">
-    <circle cx="77" cy="77" r="76" />
+    <circle cx="77" cy="77" r="56" />
   </symbol>
 );
 
 const StartShape = (
   <symbol viewBox="0 0 160 160" width="160" height="160" id="start">
-    <circle cx="77" cy="77" r="76" stroke="green" strokeWidth="3px" />
+    <circle cx="77" cy="77" r="56" stroke="green" strokeWidth="3px" />
   </symbol>
 );
 
@@ -35,7 +35,7 @@ const SelectedShape = (
 
 const EndShape = (
   <symbol viewBox="0 0 160 160" width="160" height="160" id="end">
-    <circle cx="77" cy="77" r="76" stroke="red" strokeWidth="3px" />
+    <circle cx="77" cy="77" r="56" stroke="red" strokeWidth="3px" />
   </symbol>
 );
 

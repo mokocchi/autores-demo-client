@@ -78,7 +78,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     super(props);
 
     this.state = {
-      layoutEngineType: "SnapToGrid",
+      layoutEngineType: "HorizontalTree",
       selected: null,
       graph: { nodes: [], edges: [] }
     };
@@ -179,8 +179,8 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           //check for better positioning
           return {
             ...node,
-            x: 300,
-            y: 300
+            x: 100,
+            y: 100 + 150 * (node.title - 1)
           }
         } else {
           return prevNodes[nodeIndex];
