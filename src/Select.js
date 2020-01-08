@@ -11,17 +11,33 @@ class Select extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if(prevState.optionsCache.length > nextProps.options.length) {
-            if(nextProps.onPropsChangeLess){
+        if (prevState.optionsCache.length > nextProps.options.length) {
+            if (nextProps.onPropsChangeLess) {
                 nextProps.onPropsChangeLess();
+                document.querySelector("#" + nextProps.controlId).value = "";
             }
             return {
                 optionsCache: nextProps.options
             }
-        } else {
-            return null
         }
+        if (prevState.optionsCache.length < nextProps.options.length) {
+            if (nextProps.onPropsChangeMore) {
+                let value = 0
+                if(nextProps.value) {
+                    value = nextProps.options[nextProps.options.length - 1][nextProps.value];
+                } else {
+                    const value = nextProps.options[nextProps.options.length - 1];
+                }
+                document.querySelector("#" + nextProps.controlId).value = value;
+                nextProps.onPropsChangeMore(value);
+            }
+            return {
+                optionsCache: nextProps.options
+            }
+        }
+        return null
     }
+
 
     render() {
         const { props } = this;

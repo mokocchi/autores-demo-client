@@ -44,6 +44,7 @@ class SelectAPI extends Component {
                         value={"id"}
                         field={"nombre"}
                         placeholder={this.props.placeholder}
+                        onPropsChangeMore={this.props.onPropsChangeMore}
                         onChange={this.props.onChange} />
                 }
             </div>

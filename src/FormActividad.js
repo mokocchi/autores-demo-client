@@ -118,6 +118,14 @@ class FormActividad extends Component {
         });
     }
 
+    onPropsChangeMore = (value) => {
+        const {newActividad} = this.state;
+        newActividad.dominio = value;
+        this.setState({
+            newActividad: newActividad
+        })
+    }
+
     render() {
         return (
             <Form>
@@ -177,6 +185,7 @@ class FormActividad extends Component {
                             defaultValue={this.props.currentDominioId}
                             placeholder={"Elegí un dominio"}
                             onChange={this.handleInput}
+                            onPropsChangeMore={this.onPropsChangeMore}
                         />
                     </Col>
                     <Col></Col>

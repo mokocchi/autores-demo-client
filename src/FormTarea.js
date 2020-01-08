@@ -237,6 +237,14 @@ class FormTarea extends Component {
         });
     }
 
+    onPropsChangeMore = (value) => {
+        const {newTarea} = this.state;
+        newTarea.dominio = value;
+        this.setState({
+            newTarea: newTarea
+        })
+    }
+
     render() {
         return (
             <Form>
@@ -282,6 +290,7 @@ class FormTarea extends Component {
                             defaultValue={""}
                             placeholder={"Elegí un dominio"}
                             onChange={this.handleInput}
+                            onPropsChangeMore={this.onPropsChangeMore}
                         />
                     </Col>
                 </Form.Row>

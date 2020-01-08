@@ -44,6 +44,7 @@ class FormValidElements extends Component {
                     onPropsChangeLess={this.onPropsChangeLess}
                     value={"code"}
                     field={"name"}
+                    controlId={"valids-select"}
                 />
                 <span>
                     <Button variant="info" type="button" onClick={this.onClick} disabled={this.state.selectedElementId === ""} >
