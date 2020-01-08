@@ -33,10 +33,10 @@ class FlujoTareasPanel extends Component {
         });
     }
 
-    onCondicionChange = (condicionIndex) => {
+    onCondicionChange = (tarea, tareaIndex) => {
         this.setState({
             condicionChecked: this.state.condicionChecked.map((item, index) =>
-                (index !== condicionIndex) ? this.state.condicionChecked[index] : !this.state.condicionChecked[index])
+                (index !== tareaIndex) ? this.state.condicionChecked[index] : !this.state.condicionChecked[index])
         });
     }
 
@@ -126,6 +126,20 @@ class FlujoTareasPanel extends Component {
         this.props.onRemoveSalto({ destino: tarea.id, idOrigen: parseInt(salto.id), id: (salto.id + "->" + tarea.id) });
     }
 
+    prevHasOptions = (index) => {
+        const prevTarea = this.getPrevTarea(index);
+        if (prevTarea) {
+            return [TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_RECOLECCION].includes(prevTarea.tipo.id.toString())
+        }
+    }
+
+    getPrevTarea = (index) => {
+        if (this.state.saltoElegido[index]) {
+            const tareaId = this.state.saltoElegido[index].id;
+            return this.props.tareasList.find(tarea => tarea.id === parseInt(tareaId));
+        } else return undefined
+    }
+
     render() {
         const { tareasList } = this.props;
 
@@ -164,8 +178,7 @@ class FlujoTareasPanel extends Component {
                                             )}
                                                 placeholder={"Elegir..."} field={"nombre"} value={"id"} onChange={this.onSelectChange}
                                                 name={index} defaultValue={""} />
-                                            {//[TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_RECOLECCION].includes(tarea.tipo.id) &&
-                                                true &&
+                                            {this.prevHasOptions(index) &&
                                                 < FormCheckLabel style={{ marginLeft: "1.25rem" }}>
                                                     <FormCheckInput checked={this.state.condicionChecked[index]} type={"checkbox"}
                                                         onChange={() => this.onCondicionChange(tarea, index)} name={"checkbox"} />
@@ -173,12 +186,14 @@ class FlujoTareasPanel extends Component {
                                                 </FormCheckLabel>
                                             }
                                             {this.state.condicionChecked[index] &&
-                                                <p>
+                                                <div>
                                                     <span>Cuando...</span>
-                                                    <Select options={["se elige", "no se elige"]} />
+                                                    <Select options={[{ nombre: "se elige", id: "YES" }, { nombre: "no se elige", id: "NO" }]}
+                                                        value={"id"} field={"nombre"} />
                                                     <span>la opción</span>
-                                                    <Select options={["Momo", "Dalia"]} />
-                                                </p>
+                                                    <Select options={this.getPrevTarea(index).extra.elements} field={"name"} value={"code"}
+                                                    placeholder={"Elegir..."} defaultValue={""}/>
+                                                </div>
                                             }
                                             <Button variant={"info"} disabled={this.state.agregarSaltoDisabled[index]}
                                                 onClick={() => this.onAgregarSalto(index)} className={"float-right"}>Agregar transición</Button>
