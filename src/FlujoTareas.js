@@ -15,7 +15,8 @@ class FlujoTareas extends Component {
         super(props);
         this.state = {
             success: false,
-            graphTareas: []
+            graphTareas: [],
+            graphSaltos: []
         }
         this.setCurrentActividad(props.match.params.id);
         if (props.tareas == null) {
@@ -27,6 +28,14 @@ class FlujoTareas extends Component {
     onAddTarea = (newTarea) => {
         this.setState({
             graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== newTarea.id), newTarea]
+        })
+    }
+
+    onAddSalto = (newSalto) => {
+        const newSaltos = this.state.graphSaltos;
+        newSaltos.push(newSalto);
+        this.setState({
+            graphSaltos: newSaltos
         })
     }
 
@@ -84,11 +93,12 @@ class FlujoTareas extends Component {
                     <Col md={4}>
                         <div style={{ height: '500px', overflowY: 'scroll' }}>
                             {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea}
-                            onRemoveTarea={this.onRemoveTarea} />}
+                                onRemoveTarea={this.onRemoveTarea} onAddSalto={this.onAddSalto} />}
                         </div>
                     </Col>
                     <Col>
-                        {this.state.success && <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas} actividadId={this.props.match.params.id} />}
+                        {this.state.success && <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas}
+                            saltos={this.state.graphSaltos} actividadId={this.props.match.params.id} />}
                     </Col>
                 </Row>
             </Container>

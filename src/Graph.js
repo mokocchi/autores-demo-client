@@ -168,7 +168,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { tareas } = nextProps;
+    const { tareas, saltos } = nextProps;
     const prevNodes = prevState.graph.nodes;
     if (tareas.length !== prevNodes.length) {
       const newGraph = getGraph(tareas);
@@ -185,7 +185,8 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           return prevNodes[nodeIndex];
         }
       })
-      newGraph.nodes = getNodesWithTypeUpdated(newNodes, [])
+      newGraph.edges = saltos.map(salto => { return { source: salto.idOrigen, target: salto.destino } })
+      newGraph.nodes = getNodesWithTypeUpdated(newNodes, newGraph.edges);
 
       return {
         graph: newGraph
