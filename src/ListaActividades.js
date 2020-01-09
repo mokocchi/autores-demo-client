@@ -26,7 +26,7 @@ class ListaActividades extends Component {
         return (
             <ul>
                 {this.state.actividades.map(actividad =>
-                    <Link to={'/actividad/' + actividad.id + '/resolver'}>
+                    <Link to={'/actividad/' + actividad.id + '/mostrar'}>
                         <li>{actividad.nombre}</li>
                     </Link>
                 )}

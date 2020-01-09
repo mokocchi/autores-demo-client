@@ -22,7 +22,7 @@ function App() {
         <Route path="/actividad/:id/nuevaTarea" component={Tarea} />
         <Route path="/actividad/:id/flujo" component={FlujoTareas} />
         <Route path="/actividades" component={ListaActividades} />
-        <Route path="/actividad/:id/resolver" component={ResolverActividad} />
+        <Route path="/actividad/:id/mostrar" component={ResolverActividad} />
       </Container>
     </Router>
   );
