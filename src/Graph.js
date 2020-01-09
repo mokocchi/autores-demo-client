@@ -187,7 +187,14 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
             y: 100 + 150 * (node.title - 1)
           }
         } else {
-          return prevNodes[nodeIndex];
+          if (node.optional !== prevNodes[nodeIndex].optional) {
+            return {
+              ...prevNodes[nodeIndex],
+              optional: node.optional 
+            } 
+          } else {
+            return prevNodes[nodeIndex];
+          }
         }
       })
       const newEdges = saltos.map(salto => {
