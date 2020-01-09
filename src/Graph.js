@@ -13,8 +13,7 @@ import GraphConfig, {
   EMPTY_TYPE,
   START_TYPE,
   END_TYPE,
-  SELECTED_TYPE,
-  SELECTED_TARGET_TYPE,
+  SQUARE_EDGE_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
 type IGraph = {
@@ -186,7 +185,15 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           return prevNodes[nodeIndex];
         }
       })
-      const newEdges = saltos.map(salto => { return { source: salto.idOrigen, target: salto.destino } })
+      const newEdges = saltos.map(salto => {
+        return {
+          source: salto.idOrigen,
+          target: salto.destino,
+          on: salto.condicion,
+          answer: salto.respuesta,
+          type: salto.condicion ? SQUARE_EDGE_TYPE : EMPTY_EDGE_TYPE
+        }
+      })
       const nodeIds = newNodes.map(node => node[NODE_KEY]);
 
       //keep only connected edges

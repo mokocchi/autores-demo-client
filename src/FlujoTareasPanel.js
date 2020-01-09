@@ -10,9 +10,12 @@ class FlujoTareasPanel extends Component {
         super(props)
         this.state = {
             inicialChecked: this.props.tareasList.map(tarea => true),
+            opcionalChecked: this.props.tareasList.map(tarea => false),
             condicionChecked: this.props.tareasList.map(tarea => false),
             tareasUbicadas: [],
             saltoElegido: {},
+            condicionElegida: {},
+            respuestaElegida: {},
             newSaltos: {},
             agregarSaltoDisabled: this.props.tareasList.map(tarea => true)
         }
@@ -33,6 +36,16 @@ class FlujoTareasPanel extends Component {
         });
     }
 
+    onOpcionalChange = (opcionalIndex) => {
+        const newSaltos = this.state.newSaltos;
+        newSaltos[opcionalIndex] = [];
+        this.setState({
+            opcionalChecked: this.state.opcionalChecked.map((item, index) =>
+                (index !== opcionalIndex) ? this.state.opcionalChecked[index] : !this.state.opcionalChecked[index]),
+            newSaltos
+        });
+    }
+
     onCondicionChange = (tarea, tareaIndex) => {
         this.setState({
             condicionChecked: this.state.condicionChecked.map((item, index) =>
@@ -47,7 +60,16 @@ class FlujoTareasPanel extends Component {
         this.props.onAddTarea(tareaPorUbicar);
         if (this.state.newSaltos[tareaPorUbicar.graphId - 1]) {
             this.state.newSaltos[tareaPorUbicar.graphId - 1].forEach(salto => {
-                this.props.onAddSalto({ destino: tareaPorUbicar.id, idOrigen: parseInt(salto.id), id: (salto.id + "->" + tareaPorUbicar.id) })
+                const convSalto = {
+                    destino: tareaPorUbicar.id,
+                    idOrigen: parseInt(salto.id),
+                    id: (salto.id + "->" + tareaPorUbicar.id),
+                }
+                if (this.state.condicionChecked[tareaPorUbicar.graphId - 1]) {
+                    convSalto.condicion = this.state.condicionElegida;
+                    convSalto.respuesta = this.state.respuestaElegida;
+                }
+                this.props.onAddSalto(convSalto)
             })
         }
     }
@@ -92,6 +114,26 @@ class FlujoTareasPanel extends Component {
         })
     }
 
+    onRespuestaSelectChange = (e) => {
+        const respuesta = e.target.value;
+        const tareaIndex = e.target.name;
+        const respuestaElegida = this.state.respuestaElegida;
+        respuestaElegida[tareaIndex] = respuesta;
+        this.setState({
+            respuestaElegida
+        })
+    }
+
+    onCondicionSelectChange = (e) => {
+        const condicion = e.target.value;
+        const tareaIndex = e.target.name;
+        const condicionElegida = this.state.condicionElegida;
+        condicionElegida[tareaIndex] = condicion;
+        this.setState({
+            condicionElegida
+        })
+    }
+
     onAgregarSalto = (index) => {
         const origen = this.state.saltoElegido[index];
         const newSaltos = this.state.newSaltos;
@@ -106,11 +148,16 @@ class FlujoTareasPanel extends Component {
                 newSaltos,
                 agregarSaltoDisabled
             })
-            this.props.onAddSalto({
+            let salto = {
                 destino: this.props.tareasList[index].id,
                 idOrigen: parseInt(origen.id),
                 id: (origen.id + "->" + this.props.tareasList[index].id)
-            })
+            };
+            if (this.state.condicionChecked[index]) {
+                salto.condicion = this.state.condicionElegida;
+                salto.respuesta = this.state.respuestaElegida;
+            }
+            this.props.onAddSalto(salto);
         }
     }
 
@@ -153,6 +200,13 @@ class FlujoTareasPanel extends Component {
                             </Accordion.Toggle>
                             <Accordion.Collapse eventKey={index}>
                                 <Card body>
+                                    <p>{tarea.consigna}</p>
+                                    <FormCheckLabel style={{ marginLeft: "1.25rem" }}>
+                                        <FormCheckInput type={"checkbox"} checked={this.state.opcionalChecked[index]}
+                                            onChange={() => this.onOpcionalChange(index)} name={"checkboxOpcional"} />
+                                        <span>Opcional</span>
+                                    </FormCheckLabel>
+                                    <br />
                                     <FormCheckLabel style={{ marginLeft: "1.25rem" }}>
                                         <FormCheckInput type={"checkbox"} disabled={this.state.tareasUbicadas.filter(ubicada => ubicada.id != tarea.id).length < 1}
                                             checked={this.state.inicialChecked[index]}
@@ -189,14 +243,16 @@ class FlujoTareasPanel extends Component {
                                                 <div>
                                                     <span>Cuando...</span>
                                                     <Select options={[{ nombre: "se elige", id: "YES" }, { nombre: "no se elige", id: "NO" }]}
-                                                        value={"id"} field={"nombre"} />
+                                                        value={"id"} field={"nombre"} placeholder={"Elegir..."} defaultValue={""} name={index}
+                                                        onChange={this.onCondicionSelectChange} />
                                                     <span>la opción</span>
                                                     <Select options={this.getPrevTarea(index).extra.elements} field={"name"} value={"code"}
-                                                    placeholder={"Elegir..."} defaultValue={""}/>
+                                                        placeholder={"Elegir..."} defaultValue={""} name={index}
+                                                        onChange={this.onRespuestaSelectChange} />
                                                 </div>
                                             }
                                             <Button variant={"info"} disabled={this.state.agregarSaltoDisabled[index]}
-                                                onClick={() => this.onAgregarSalto(index)} className={"float-right"}>Agregar transición</Button>
+                                                onClick={() => this.onAgregarSalto(index)} className={"float-right"}>Agregar flecha</Button>
                                         </Card>
                                     }
                                     {this.state.tareasUbicadas.filter(ubicada => ubicada.id === tarea.id).length === 0 ?
