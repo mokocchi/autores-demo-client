@@ -19,6 +19,7 @@ import GraphConfig, {
   SQUARE_EDGE_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
+import { API_BASE_URL } from './config';
 type IGraph = {
   nodes: INode[],
   edges: IEdge[],
@@ -39,7 +40,7 @@ function getGraph(tareas) {
       id: tarea.id,
       title: tarea.graphId,
       optional: tarea.optional,
-      type: tarea.optional? OPTIONAL_START_TYPE : START_TYPE
+      type: tarea.optional ? OPTIONAL_START_TYPE : START_TYPE
     }
   })
   return {
@@ -55,19 +56,19 @@ function getNodesWithTypeUpdated(nodes, edges) {
     if (!neighbours.includes(node.id)) {
       return {
         ...node,
-        type: node.optional? OPTIONAL_START_TYPE : START_TYPE
+        type: node.optional ? OPTIONAL_START_TYPE : START_TYPE
       };
     }
     else if (!sources.includes(node.id)) {
       return {
         ...node,
-        type: node.optional? OPTIONAL_END_TYPE : END_TYPE
+        type: node.optional ? OPTIONAL_END_TYPE : END_TYPE
       };
     }
     else {
       return {
         ...node,
-        type: node.optional? OPTIONAL_EMPTY_TYPE : EMPTY_TYPE
+        type: node.optional ? OPTIONAL_EMPTY_TYPE : EMPTY_TYPE
       }
     }
   });
@@ -162,19 +163,33 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     const graphNodes = {};
     nodes.forEach(node => { graphNodes[node.id] = [] });
     edges.forEach(edge => {
-      graphNodes[edge.source].push(edge.target);
+      graphNodes[edge.source].push(edge);
     })
     this.props.tareas.forEach(tarea => {
-      const nextId = graphNodes[tarea.id];
-      this.saveJump(tarea.id, nextId, actividadId);
+      const jumps = graphNodes[tarea.id];
+      const forcedJumps = jumps.filter(jump => jump.on == undefined).map(jump => jump.target);
+      this.saveForcedJumps(tarea.id, forcedJumps, actividadId);
+      //TODO: save conditional jumps, prevent empty jumps from saving when conditional jumps are present
     })
+  }
+
+  async saveForcedJumps(tareaId, jumps, id) {
+    console.log(jumps); return;
+    const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
+      method: 'GET',
+      body: JSON.stringify({
+        "origen": tareaId,
+        "condicion": "ALL",
+        "destinos": jumps
+      })
+    });
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     const { tareas, saltos } = nextProps;
     const prevNodes = prevState.graph.nodes;
     const prevEdges = prevState.graph.edges;
-    if ( (tareas.filter(tarea => tarea.optional)).length !== prevNodes.filter(node => node.optional) ||
+    if ((tareas.filter(tarea => tarea.optional)).length !== prevNodes.filter(node => node.optional) ||
       (tareas.length !== prevNodes.length) || (saltos.length !== prevEdges.length)) {
       const newGraph = getGraph(tareas);
       let newNodes = newGraph.nodes.map(node => {
@@ -190,8 +205,8 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           if (node.optional !== prevNodes[nodeIndex].optional) {
             return {
               ...prevNodes[nodeIndex],
-              optional: node.optional 
-            } 
+              optional: node.optional
+            }
           } else {
             return prevNodes[nodeIndex];
           }
