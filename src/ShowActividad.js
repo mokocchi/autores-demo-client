@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 
 import { API_BASE_URL } from './config';
 
@@ -65,6 +65,7 @@ class ShowActividad extends Component {
                         <Row>
                             <Col>Dominio: {actividad.dominio.nombre}</Col>
                         </Row>
+                        <Button href={API_BASE_URL + "/actividades/" + actividad.id + "/download"}>Descargar</Button>
                         <hr />
                         <Row>
                             <Col>
