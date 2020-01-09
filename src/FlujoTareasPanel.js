@@ -44,6 +44,9 @@ class FlujoTareasPanel extends Component {
                 (index !== opcionalIndex) ? this.state.opcionalChecked[index] : !this.state.opcionalChecked[index]),
             newSaltos
         });
+        const tarea = this.props.tareasList.find(tarea => tarea.graphId - 1 == opcionalIndex);
+        tarea.optional = !this.state.opcionalChecked[opcionalIndex];
+        this.props.onUpdateTarea(tarea);
     }
 
     onCondicionChange = (tarea, tareaIndex) => {
@@ -55,6 +58,7 @@ class FlujoTareasPanel extends Component {
 
     onUbicarTarea = (tareaPorUbicar) => {
         const index = tareaPorUbicar.graphId - 1;
+        tareaPorUbicar.optional = this.state.opcionalChecked[index];
         this.setState({
             tareasUbicadas: [...this.state.tareasUbicadas.filter(tarea => tarea.id !== tareaPorUbicar.id), tareaPorUbicar]
         })

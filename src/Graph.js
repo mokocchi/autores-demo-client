@@ -11,8 +11,11 @@ import {
 import GraphConfig, {
   EMPTY_EDGE_TYPE,
   EMPTY_TYPE,
+  OPTIONAL_EMPTY_TYPE,
   START_TYPE,
+  OPTIONAL_START_TYPE,
   END_TYPE,
+  OPTIONAL_END_TYPE,
   SQUARE_EDGE_TYPE,
   NODE_KEY,
 } from './graph-config'; // Configures node/edge types
@@ -35,7 +38,8 @@ function getGraph(tareas) {
     return {
       id: tarea.id,
       title: tarea.graphId,
-      type: START_TYPE
+      optional: tarea.optional,
+      type: tarea.optional? OPTIONAL_START_TYPE : START_TYPE
     }
   })
   return {
@@ -51,19 +55,19 @@ function getNodesWithTypeUpdated(nodes, edges) {
     if (!neighbours.includes(node.id)) {
       return {
         ...node,
-        type: START_TYPE
+        type: node.optional? OPTIONAL_START_TYPE : START_TYPE
       };
     }
     else if (!sources.includes(node.id)) {
       return {
         ...node,
-        type: END_TYPE
+        type: node.optional? OPTIONAL_END_TYPE : END_TYPE
       };
     }
     else {
       return {
         ...node,
-        type: EMPTY_TYPE
+        type: node.optional? OPTIONAL_EMPTY_TYPE : EMPTY_TYPE
       }
     }
   });
@@ -170,7 +174,8 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     const { tareas, saltos } = nextProps;
     const prevNodes = prevState.graph.nodes;
     const prevEdges = prevState.graph.edges;
-    if ((tareas.length !== prevNodes.length) || (saltos.length !== prevEdges.length)) {
+    if ( (tareas.filter(tarea => tarea.optional)).length !== prevNodes.filter(node => node.optional) ||
+      (tareas.length !== prevNodes.length) || (saltos.length !== prevEdges.length)) {
       const newGraph = getGraph(tareas);
       let newNodes = newGraph.nodes.map(node => {
         const nodeIndex = prevNodes.findIndex(prevNode => node[NODE_KEY] === prevNode[NODE_KEY]);

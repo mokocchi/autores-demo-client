@@ -30,6 +30,12 @@ class FlujoTareas extends Component {
             graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== newTarea.id), newTarea]
         })
     }
+    
+    onUpdateTarea = (tarea) => {
+        this.setState({
+            graphTareas: [...this.state.graphTareas.map(t => t.id === tarea.id ? tarea : t)]
+        })
+    }
 
     onAddSalto = (newSalto) => {
         this.setState({
@@ -110,7 +116,7 @@ class FlujoTareas extends Component {
                         <div style={{ height: '500px', overflowY: 'scroll' }}>
                             {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea}
                                 onRemoveTarea={this.onRemoveTarea} onAddSalto={this.onAddSalto} onResetSaltos={this.onResetSaltos}
-                                onRemoveSalto={this.onRemoveSalto} />}
+                                onRemoveSalto={this.onRemoveSalto} onUpdateTarea={this.onUpdateTarea} />}
                         </div>
                     </Col>
                     <Col>
