@@ -54,20 +54,21 @@ class FlujoTareasPanel extends Component {
     }
 
     onUbicarTarea = (tareaPorUbicar) => {
+        const index = tareaPorUbicar.graphId - 1;
         this.setState({
             tareasUbicadas: [...this.state.tareasUbicadas.filter(tarea => tarea.id !== tareaPorUbicar.id), tareaPorUbicar]
         })
         this.props.onAddTarea(tareaPorUbicar);
-        if (this.state.newSaltos[tareaPorUbicar.graphId - 1]) {
-            this.state.newSaltos[tareaPorUbicar.graphId - 1].forEach(salto => {
+        if (this.state.newSaltos[index]) {
+            this.state.newSaltos[index].forEach(salto => {
                 const convSalto = {
                     destino: tareaPorUbicar.id,
                     idOrigen: parseInt(salto.id),
                     id: (salto.id + "->" + tareaPorUbicar.id),
                 }
-                if (this.state.condicionChecked[tareaPorUbicar.graphId - 1]) {
-                    convSalto.condicion = this.state.condicionElegida;
-                    convSalto.respuesta = this.state.respuestaElegida;
+                if (this.state.condicionChecked[index]) {
+                    convSalto.condicion = this.state.condicionElegida[index];
+                    convSalto.respuesta = this.state.respuestaElegida[index];
                 }
                 this.props.onAddSalto(convSalto)
             })
@@ -117,8 +118,10 @@ class FlujoTareasPanel extends Component {
     onRespuestaSelectChange = (e) => {
         const respuesta = e.target.value;
         const tareaIndex = e.target.name;
+        const index = e.nativeEvent.target.selectedIndex;
+        const respuestaName = e.nativeEvent.target[index].text
         const respuestaElegida = this.state.respuestaElegida;
-        respuestaElegida[tareaIndex] = respuesta;
+        respuestaElegida[tareaIndex] = { id: respuesta, nombre: respuestaName };
         this.setState({
             respuestaElegida
         })
@@ -127,8 +130,10 @@ class FlujoTareasPanel extends Component {
     onCondicionSelectChange = (e) => {
         const condicion = e.target.value;
         const tareaIndex = e.target.name;
+        const index = e.nativeEvent.target.selectedIndex;
+        const condicionName = e.nativeEvent.target[index].text
         const condicionElegida = this.state.condicionElegida;
-        condicionElegida[tareaIndex] = condicion;
+        condicionElegida[tareaIndex] = { id: condicion, nombre: condicionName };
         this.setState({
             condicionElegida
         })
@@ -141,6 +146,10 @@ class FlujoTareasPanel extends Component {
             newSaltos[index] = []
         }
         if (newSaltos[index].findIndex(salto => salto.id !== origen.id) !== 1) {
+            if (this.state.condicionChecked[index]) {
+                origen.condicion = this.state.condicionElegida[index];
+                origen.respuesta = this.state.respuestaElegida[index];
+            }
             newSaltos[index].push(origen);
             const agregarSaltoDisabled = this.state.agregarSaltoDisabled;
             agregarSaltoDisabled[index] = true;
@@ -151,12 +160,10 @@ class FlujoTareasPanel extends Component {
             let salto = {
                 destino: this.props.tareasList[index].id,
                 idOrigen: parseInt(origen.id),
-                id: (origen.id + "->" + this.props.tareasList[index].id)
+                id: (origen.id + "->" + this.props.tareasList[index].id),
+                condicion: origen.condicion,
+                respuesta: origen.respuesta
             };
-            if (this.state.condicionChecked[index]) {
-                salto.condicion = this.state.condicionElegida;
-                salto.respuesta = this.state.respuestaElegida;
-            }
             this.props.onAddSalto(salto);
         }
     }
@@ -215,7 +222,9 @@ class FlujoTareasPanel extends Component {
                                     </FormCheckLabel>
                                     {this.state.newSaltos[index] && this.state.newSaltos[index].map((salto, saltoIndex) =>
                                         <Card body key={index + "-" + saltoIndex}>
-                                            Después de <b>{salto.name}</b>
+                                            Después de <b>{salto.name}</b> 
+                                            {salto.respuesta && <span>, cuando <b>{salto.condicion.nombre}</b> la opción <b>{salto.respuesta.nombre}</b></span>}
+                                            <br />
                                             <Button variant={"danger"} onClick={() => this.onQuitarSalto(tarea, index, salto, saltoIndex)}>Quitar</Button>
                                         </Card>
                                     )}
@@ -242,7 +251,7 @@ class FlujoTareasPanel extends Component {
                                             {this.state.condicionChecked[index] &&
                                                 <div>
                                                     <span>Cuando...</span>
-                                                    <Select options={[{ nombre: "se elige", id: "YES" }, { nombre: "no se elige", id: "NO" }]}
+                                                    <Select options={[{ nombre: "SÍ se elige", id: "YES" }, { nombre: "NO se elige", id: "NO" }]}
                                                         value={"id"} field={"nombre"} placeholder={"Elegir..."} defaultValue={""} name={index}
                                                         onChange={this.onCondicionSelectChange} />
                                                     <span>la opción</span>
