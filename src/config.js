@@ -12,5 +12,8 @@ export const TIPO_DEPOSITO = "9";
 
 export const CONDITIONS_ARRAY = [{ name: "SÍ se elige", code: "YES" },
 { name: "NO se elige", code: "NO" },
-{ name: "SÍ se empezó por", code: "YES_START" },
-{ name: "NO se empezó por", code: "NO_START" }]
+{ name: "SÍ se pasó por", code: "YES_START" },
+{ name: "NO se pasó por", code: "NO_START" }]
+
+export const TASK_CONDITIONS_ARRAY = [{ name: "SÍ se pasó por", code: "YES_START" },
+{ name: "NO se pasó por", code: "NO_START" }]

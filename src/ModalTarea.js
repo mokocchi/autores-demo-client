@@ -3,7 +3,7 @@ import memoize from 'memoize-one'
 import { Modal, Button, Card, Row, Col } from 'react-bootstrap';
 import Select from './Select';
 import CheckBox from './CheckBox';
-import { TIPOS_OPCIONES, CONDITIONS_ARRAY } from './config';
+import { TIPOS_OPCIONES, CONDITIONS_ARRAY, TASK_CONDITIONS_ARRAY } from './config';
 import md5 from 'md5';
 
 class ModalTarea extends Component {
@@ -20,8 +20,8 @@ class ModalTarea extends Component {
         }
     }
 
-    filterAntecedentes = memoize(
-        (saltos, codigoTarea) => saltos.map(conexion => conexion.to.includes(codigoTarea))
+    filterSiguientes = memoize(
+        (conexiones, idTarea) => conexiones.filter(conexion => conexion.origen === idTarea)
     );
 
     findTarea = memoize(
@@ -101,12 +101,12 @@ class ModalTarea extends Component {
     }
 
     getSelectableTareas = () => {
-        const selectedTareas = this.filterAntecedentes(this.props.tarea.saltos, this.props.tarea.codigo);
-        const selectableTareas = this.props.tareas.filter(tarea => tarea.id !== this.props.tarea.id && selectedTareas.findIndex(t => t.id === tarea.id) === -1);
+        const conexionesSiguientes = this.filterSiguientes(this.props.conexiones, this.props.tarea.id);
+        const selectableTareas = this.props.tareas.filter(tarea => tarea.id !== this.props.tarea.id && conexionesSiguientes.findIndex(conexion => conexion.destino === tarea.id) === -1);
         return selectableTareas;
     }
 
-    prevTareaHasOptions = () => {
+    tareaHasOptions = () => {
         return TIPOS_OPCIONES.includes(this.props.tarea.tipo.id.toString());
     }
 
@@ -179,7 +179,7 @@ class ModalTarea extends Component {
                                     </Col>
                                 </Row>
 
-                                {this.state.selectedSiguiente && this.prevTareaHasOptions() &&
+                                {this.state.selectedSiguiente &&
                                     <Row>
                                         <Col md={6}>
                                             <CheckBox checked={this.state.showCondicion} onChange={this.onCondicionCheckboxChange} label={"Mostrar condición"} />
@@ -190,7 +190,7 @@ class ModalTarea extends Component {
                                         <Row>
                                             <Col>Cuando...</Col>
                                             <Col>
-                                                <Select options={CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
+                                                <Select options={ this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
                                                     placeholder={"Elegir..."} onChange={this.onCondicionSelectChange} />
                                             </Col>
                                         </Row>

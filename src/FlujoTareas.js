@@ -151,7 +151,7 @@ class FlujoTareas extends Component {
                         {this.state.selectedTarea &&
                             <ModalTarea key={this.state.selectedTarea.id} handleClose={this.handleCloseTarea}
                                 show={this.state.showTarea} tarea={this.state.selectedTarea} tareas={this.state.graphTareas}
-                                onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
+                                conexiones={this.state.graphConexiones} onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
                             />}
                         {this.state.selectedConexion &&
                             <ModalConexion key={this.state.selectedConexion.id} handleClose={this.handleCloseConexion}
