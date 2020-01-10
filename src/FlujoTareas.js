@@ -108,7 +108,7 @@ class FlujoTareas extends Component {
             <Container>
                 <Row>
                     <Col>
-                        <h2>Flujo de tareas</h2>
+                        <h2>Planificación de tareas</h2>
                     </Col>
                 </Row>
                 <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
