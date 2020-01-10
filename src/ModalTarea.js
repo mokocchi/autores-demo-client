@@ -13,7 +13,7 @@ class ModalTarea extends Component {
         this.state = {
             showConexiones: false,
             showCondicion: false,
-            selectedAntecedente: null,
+            selectedSiguiente: null,
             agregarConexionDisabled: true,
             selectedCondition: null,
             selectedAnswerTask: null
@@ -21,7 +21,7 @@ class ModalTarea extends Component {
     }
 
     filterAntecedentes = memoize(
-        (saltos, codigoTarea) => saltos.map(salto => salto.to.includes(codigoTarea))
+        (saltos, codigoTarea) => saltos.map(conexion => conexion.to.includes(codigoTarea))
     );
 
     findTarea = memoize(
@@ -62,7 +62,7 @@ class ModalTarea extends Component {
         const index = e.nativeEvent.target.selectedIndex;
         const origenName = e.nativeEvent.target[index].text
         this.setState({
-            selectedAntecedente: { id: parseInt(e.target.value), name: origenName },
+            selectedSiguiente: { id: parseInt(e.target.value), name: origenName },
             agregarConexionDisabled: false
         })
     }
@@ -87,20 +87,16 @@ class ModalTarea extends Component {
     }
 
     onClickAgregarConexion = () => {
-        const origen = this.state.selectedAntecedente;
+        const conexion = this.state.selectedSiguiente;
         if (this.state.showCondicion) {
-            origen.condicion = this.state.selectedCondition
-            origen.respuesta = this.state.selectedAnswerTask;
+            conexion.condicion = this.state.selectedCondition
+            conexion.respuesta = this.state.selectedAnswerTask;
         }
 
-        const salto = {
-            destino: this.props.tarea.id,
-            origen: origen.id,
-            condicion: origen.condicion,
-            respuesta: origen.respuesta,
-        };
-        salto.id = md5(salto.destino + "_" + salto.origen + (salto.condicion ? "_" + salto.condicion + "_" + salto.respuesta : ""));
-        this.props.onAddConexion(salto);
+        conexion.origen = this.props.tarea.id;
+        conexion.destino = conexion.id;
+        conexion.id = md5(conexion.origen + "_" + conexion.destino + (conexion.condicion ? "_" + conexion.condicion + "_" + conexion.respuesta : ""));
+        this.props.onAddConexion(conexion);
         this.props.handleClose();
     }
 
@@ -110,17 +106,8 @@ class ModalTarea extends Component {
         return selectableTareas;
     }
 
-    getTareaTipo = (tareaId) => {
-        return this.findTarea(tareaId, this.props.tareas).tipo.id.toString();
-    }
-
     prevTareaHasOptions = () => {
-        return TIPOS_OPCIONES.includes(this.getTareaTipo(this.state.selectedAntecedente.id));
-    }
-
-    getPrevTareaOptions = () => {
-        const tareaId = this.state.selectedAntecedente.id;
-        return this.findTarea(tareaId, this.props.tareas).extra.elements;
+        return TIPOS_OPCIONES.includes(this.props.tarea.tipo.id.toString());
     }
 
     getAnswerTaskLabel = () => {
@@ -143,7 +130,7 @@ class ModalTarea extends Component {
                 case "YES":
                 case "NO":
                     return (
-                        <Select key={this.state.selectedCondition.code} options={this.getPrevTareaOptions()} defaultValue={""} value={"code"} field={"name"}
+                        <Select key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
                 case "YES_START":
@@ -165,7 +152,7 @@ class ModalTarea extends Component {
         return (
             <Modal show={show} onHide={this.props.handleClose} animation={false} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>{tarea.nombre}</Modal.Title>
+                    <Modal.Title>Tarea seleccionada: {tarea.nombre}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Card body>
@@ -184,15 +171,15 @@ class ModalTarea extends Component {
                             <Card body>
                                 <Row>
                                     <Col>
-                                        <span>Después de...</span>
+                                        <span>Hacia la tarea...</span>
                                     </Col>
                                     <Col>
                                         <Select options={this.getSelectableTareas()} field={"nombre"} value={"id"} defaultValue={""}
-                                            placeholder={"Elegir antecedente"} onChange={this.onConexionChange} />
+                                            placeholder={"Elegir siguiente"} onChange={this.onConexionChange} />
                                     </Col>
                                 </Row>
 
-                                {this.state.selectedAntecedente && this.prevTareaHasOptions() &&
+                                {this.state.selectedSiguiente && this.prevTareaHasOptions() &&
                                     <Row>
                                         <Col md={6}>
                                             <CheckBox checked={this.state.showCondicion} onChange={this.onCondicionCheckboxChange} label={"Mostrar condición"} />
@@ -210,7 +197,7 @@ class ModalTarea extends Component {
                                         <Row>
                                             <Col>{this.getAnswerTaskLabel()}</Col>
                                             <Col>
-                                                {this.state.selectedAntecedente &&
+                                                {this.state.selectedSiguiente &&
                                                     this.getAnswerTareaSelect()
                                                 }
                                             </Col>

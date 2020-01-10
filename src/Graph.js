@@ -133,7 +133,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
   // Edge 'mouseUp' handler
   onSelectEdge = (viewEdge: IEdge) => {
-    this.setState({ selected: viewEdge });
+    if (viewEdge != null) {
+      this.props.onClickEdge(viewEdge.id);
+    }
   };
 
   // Updates the graph with a new node
@@ -217,7 +219,8 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           target: conexion.destino,
           on: conexion.condicion,
           answer: conexion.respuesta,
-          type: conexion.condicion ? SQUARE_EDGE_TYPE : EMPTY_EDGE_TYPE
+          type: conexion.condicion ? SQUARE_EDGE_TYPE : EMPTY_EDGE_TYPE,
+          id: conexion.id
         }
       })
       const nodeIds = newNodes.map(node => node[NODE_KEY]);
