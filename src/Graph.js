@@ -126,10 +126,9 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
 
   // Node 'mouseUp' handler
   onSelectNode = (viewNode: INode | null) => {
-    // Deselect events will send Null viewNode
-    this.setState({
-      selected: viewNode,
-    });
+    if (viewNode != null) {
+      this.props.onClickNode(viewNode.id);
+    }
   };
 
   // Edge 'mouseUp' handler
@@ -167,7 +166,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
     })
     this.props.tareas.forEach(tarea => {
       const jumps = graphNodes[tarea.id];
-      const forcedJumps = jumps.filter(jump => jump.on == undefined).map(jump => jump.target);
+      const forcedJumps = jumps.filter(jump => jump.on === undefined).map(jump => jump.target);
       this.saveForcedJumps(tarea.id, forcedJumps, actividadId);
       //TODO: save conditional jumps, prevent empty jumps from saving when conditional jumps are present
     })
@@ -186,11 +185,11 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { tareas, saltos } = nextProps;
+    const { tareas, conexiones } = nextProps;
     const prevNodes = prevState.graph.nodes;
     const prevEdges = prevState.graph.edges;
     if ((tareas.filter(tarea => tarea.optional)).length !== prevNodes.filter(node => node.optional) ||
-      (tareas.length !== prevNodes.length) || (saltos.length !== prevEdges.length)) {
+      (tareas.length !== prevNodes.length) || (conexiones.length !== prevEdges.length)) {
       const newGraph = getGraph(tareas);
       let newNodes = newGraph.nodes.map(node => {
         const nodeIndex = prevNodes.findIndex(prevNode => node[NODE_KEY] === prevNode[NODE_KEY]);
@@ -212,13 +211,13 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           }
         }
       })
-      const newEdges = saltos.map(salto => {
+      const newEdges = conexiones.map(conexion => {
         return {
-          source: salto.idOrigen,
-          target: salto.destino,
-          on: salto.condicion,
-          answer: salto.respuesta,
-          type: salto.condicion ? SQUARE_EDGE_TYPE : EMPTY_EDGE_TYPE
+          source: conexion.origen,
+          target: conexion.destino,
+          on: conexion.condicion,
+          answer: conexion.respuesta,
+          type: conexion.condicion ? SQUARE_EDGE_TYPE : EMPTY_EDGE_TYPE
         }
       })
       const nodeIds = newNodes.map(node => node[NODE_KEY]);

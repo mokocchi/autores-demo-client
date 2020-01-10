@@ -26,7 +26,7 @@ class Select extends Component {
                 if(nextProps.value) {
                     value = nextProps.options[nextProps.options.length - 1][nextProps.value];
                 } else {
-                    const value = nextProps.options[nextProps.options.length - 1];
+                   value = nextProps.options[nextProps.options.length - 1];
                 }
                 document.querySelector("#" + nextProps.controlId).value = value;
                 nextProps.onPropsChangeMore(value);

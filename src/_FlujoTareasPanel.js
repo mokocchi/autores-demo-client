@@ -149,7 +149,7 @@ class FlujoTareasPanel extends Component {
         if (!newSaltos[index]) {
             newSaltos[index] = []
         }
-        if (newSaltos[index].findIndex(salto => salto.id !== origen.id) !== 1) {
+        if (newSaltos[index].findIndex(salto => salto.id !== origen.id) !== -1) {
             if (this.state.condicionChecked[index]) {
                 origen.condicion = this.state.condicionElegida[index];
                 origen.respuesta = this.state.respuestaElegida[index];

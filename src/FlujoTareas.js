@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Accordion, Card } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setCurrentActividad, addTarea } from './redux/actions'
+import { setCurrentActividad } from './redux/actions'
 
 
 import Graph from './Graph';
 
 import { API_BASE_URL } from './config'
-import FlujoTareasPanel from './FlujoTareasPanel';
+import ModalTarea from './ModalTarea';
 
 class FlujoTareas extends Component {
 
@@ -16,54 +16,42 @@ class FlujoTareas extends Component {
         this.state = {
             success: false,
             graphTareas: [],
-            graphSaltos: []
+            graphConexiones: [],
+            show: false,
+            selectedTarea: null
         }
         this.setCurrentActividad(props.match.params.id);
-        if (props.tareas == null) {
-            this.loadTareasForActividad(props.match.params.id);
-        }
+        this.loadTareasForActividad(props.match.params.id);
         this.Graph = React.createRef();
     }
 
-    onAddTarea = (newTarea) => {
-        this.setState({
-            graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== newTarea.id), newTarea]
-        })
-    }
-    
     onUpdateTarea = (tarea) => {
         this.setState({
             graphTareas: [...this.state.graphTareas.map(t => t.id === tarea.id ? tarea : t)]
         })
     }
 
-    onAddSalto = (newSalto) => {
+    onAddConexion = (newConexion) => {
         this.setState({
-            graphSaltos: [...this.state.graphSaltos.filter(salto => salto.id != newSalto.id), newSalto]
+            graphConexiones: [...this.state.graphConexiones.filter(conexion => conexion.id !== newConexion.id), newConexion]
         })
     }
 
     onResetSaltos = (tareaId) => {
-        const newSaltos = this.state.graphSaltos.filter(
-            salto =>
-                salto.idOrigen !== tareaId &&
-                salto.destino !== tareaId)
+        const newSaltos = this.state.graphConexiones.filter(
+            conexion =>
+                conexion.origen !== tareaId &&
+                conexion.destino !== tareaId)
         this.setState({
-            graphSaltos: [...newSaltos]
+            graphConexiones: [...newSaltos]
         })
     }
 
-    onRemoveSalto = (salto) => {
-        const saltos = this.state.graphSaltos;
-        const newSaltos = saltos.filter(sal => sal.id !== salto.id);
+    onRemoveSalto = (conexion) => {
+        const saltos = this.state.graphConexiones;
+        const newSaltos = saltos.filter(sal => sal.id !== conexion.id);
         this.setState({
-            graphSaltos: [...newSaltos]
-        })
-    }
-
-    onRemoveTarea = (oldTarea) => {
-        this.setState({
-            graphTareas: [...this.state.graphTareas.filter(tarea => tarea.id !== oldTarea.id)]
+            graphConexiones: [...newSaltos]
         })
     }
 
@@ -77,8 +65,21 @@ class FlujoTareas extends Component {
             })
             return;
         }
-        data.forEach(tarea => this.props.dispatch(addTarea(tarea)));
-        this.setState({ success: true });
+        const tareas = data.map((tarea, index) => {
+            return {
+                ...tarea,
+                nombre: (index + 1) + ": " + tarea.nombre,
+                id: tarea.id,
+                graphId: index + 1,
+                optional: false,
+                initial: false,
+                saltos: []
+            }
+        })
+        this.setState({
+            graphTareas: tareas,
+            success: true
+        });
     }
 
     async setCurrentActividad(id) {
@@ -94,16 +95,21 @@ class FlujoTareas extends Component {
         this.props.dispatch(setCurrentActividad(data));
     }
 
+    handleShow = (tareaId) => {
+        const tarea = this.state.graphTareas.find(tarea => tarea.id === tareaId);
+        this.setState({
+            show: true,
+            selectedTarea: tarea
+        })
+    }
+
+    handleClose = () => {
+        this.setState({
+            show: false
+        })
+    }
+
     render() {
-        const { chosenTareas } = this.props;
-        const tareasList = chosenTareas.map((tarea, index) => {
-            return {
-                ...tarea,
-                nombre: (index + 1) + ": " + tarea.nombre,
-                id: tarea.id,
-                graphId: index + 1
-            }
-        });
         return (
             <Container>
                 <Row>
@@ -112,16 +118,14 @@ class FlujoTareas extends Component {
                     </Col>
                 </Row>
                 <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
-                    <Col md={4}>
-                        <div style={{ height: '500px', overflowY: 'scroll' }}>
-                            {this.state.success && <FlujoTareasPanel tareasList={tareasList} onAddTarea={this.onAddTarea}
-                                onRemoveTarea={this.onRemoveTarea} onAddSalto={this.onAddSalto} onResetSaltos={this.onResetSaltos}
-                                onRemoveSalto={this.onRemoveSalto} onUpdateTarea={this.onUpdateTarea} />}
-                        </div>
-                    </Col>
                     <Col>
                         {this.state.success && <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas}
-                            saltos={this.state.graphSaltos} actividadId={this.props.match.params.id} />}
+                            conexiones={this.state.graphConexiones} actividadId={this.props.match.params.id} onClickNode={this.handleShow} />}
+                        {this.state.selectedTarea &&
+                            <ModalTarea key={this.state.selectedTarea.id} handleClose={this.handleClose} handleShow={this.handleShow}
+                                show={this.state.show} tarea={this.state.selectedTarea} tareas={this.state.graphTareas}
+                                onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
+                            />}
                     </Col>
                 </Row>
             </Container>
