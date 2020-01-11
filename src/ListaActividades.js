@@ -9,7 +9,8 @@ class ListaActividades extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            actividades: []
+            actividades: [],
+            success: false
         }
         this.getActividades = this.getActividades.bind(this);
         this.getActividades();
@@ -18,14 +19,17 @@ class ListaActividades extends Component {
     async getActividades() {
         const response = await fetch(API_BASE_URL + '/actividades');
         const data = await response.json();
-        this.setState({
-            actividades: data
-        })
+        if(!data.errors) {
+            this.setState({
+                actividades: data,
+                success: true
+            })
+        }
     }
     render() {
         return (
             <ul>
-                {this.state.actividades.map(actividad =>
+                {this.state.success && this.state.actividades.map(actividad =>
                     <Link to={'/actividad/' + actividad.id + '/mostrar'}>
                         <li>{actividad.nombre}</li>
                     </Link>

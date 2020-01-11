@@ -24,7 +24,6 @@ class FlujoTareas extends Component {
             selectedConexion: null
         }
         this.setCurrentActividad(props.match.params.id);
-        this.loadTareasForActividad(props.match.params.id);
         this.Graph = React.createRef();
     }
 
@@ -58,17 +57,18 @@ class FlujoTareas extends Component {
         })
     }
 
-    async loadTareasForActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/tareas');
+    async setCurrentActividad(id) {
+        const response = await fetch(API_BASE_URL + '/actividades/' + id);
         const data = await response.json();
         if (data.errors) {
             this.setState({
                 error: true,
                 errorMessage: data.errors
-            })
+            });
             return;
         }
-        const tareas = data.map((tarea, index) => {
+        this.props.dispatch(setCurrentActividad(data));
+        const tareas = data.tareas.map((tarea, index) => {
             return {
                 ...tarea,
                 nombre: (index + 1) + ". " + tarea.nombre,
@@ -83,19 +83,6 @@ class FlujoTareas extends Component {
             graphTareas: tareas,
             success: true
         });
-    }
-
-    async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id);
-        const data = await response.json();
-        if (data.errors) {
-            this.setState({
-                error: true,
-                errorMessage: data.errors
-            });
-            return;
-        }
-        this.props.dispatch(setCurrentActividad(data));
     }
 
     handleShowTarea = (tareaId) => {
