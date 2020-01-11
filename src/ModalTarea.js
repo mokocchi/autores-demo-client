@@ -169,6 +169,7 @@ class ModalTarea extends Component {
                         </Row>
                         {this.state.showConexiones && this.getSelectableTareas().length > 0 &&
                             <Card body>
+                                <h5>Agregar conexión</h5>
                                 <Row>
                                     <Col>
                                         <span>Hacia la tarea...</span>
