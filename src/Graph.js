@@ -40,6 +40,7 @@ function getGraph(tareas) {
       id: tarea.id,
       title: tarea.graphId,
       optional: tarea.optional,
+      initial: tarea.initial,
       type: tarea.optional ? OPTIONAL_START_TYPE : START_TYPE
     }
   })
@@ -62,13 +63,15 @@ function getNodesWithTypeUpdated(nodes, edges) {
     else if (!sources.includes(node.id)) {
       return {
         ...node,
-        type: node.optional ? OPTIONAL_END_TYPE : END_TYPE
+        type: node.optional ? (node.initial ? OPTIONAL_START_TYPE : OPTIONAL_END_TYPE) :
+          (node.initial ? START_TYPE : END_TYPE)
       };
     }
     else {
       return {
         ...node,
-        type: node.optional ? OPTIONAL_EMPTY_TYPE : EMPTY_TYPE
+        type: node.optional ? (node.initial ? OPTIONAL_START_TYPE : OPTIONAL_EMPTY_TYPE)
+          : (node.initial ? START_TYPE : EMPTY_TYPE)
       }
     }
   });
@@ -203,14 +206,14 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
             y: 100 + 150 * (node.title - 1)
           }
         } else {
-          if (node.optional !== prevNodes[nodeIndex].optional) {
+          if (node.optional !== prevNodes[nodeIndex].optional || node.initial !== prevNodes[nodeIndex].initial) {
             return {
               ...prevNodes[nodeIndex],
-              optional: node.optional
+              optional: node.optional,
+              initial: node.initial
             }
-          } else {
-            return prevNodes[nodeIndex];
           }
+          return prevNodes[nodeIndex];
         }
       })
       const newEdges = conexiones.map(conexion => {
