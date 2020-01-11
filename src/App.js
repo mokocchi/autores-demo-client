@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Route, HashRouter, BrowserRouter } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 
 import Menu from './Menu'
@@ -13,18 +13,18 @@ import ListaActividades from './ListaActividades';
 
 function App() {
   return (
-    <Router>
+    <HashRouter basename="/">
       <Menu />
       <Container style={{ marginTop: '1em' }}>
         <Route path="/" exact component={Home} />
-        <Route path="/nuevaActividad" component={Actividad} />
+        <Route path="/nuevaActividad" exact component={Actividad} />
         <Route path="/actividad/:id" exact component={Tareas} />
-        <Route path="/actividad/:id/nuevaTarea" component={Tarea} />
-        <Route path="/actividad/:id/flujo" component={FlujoTareas} />
-        <Route path="/actividades" component={ListaActividades} />
-        <Route path="/actividad/:id/mostrar" component={ResolverActividad} />
+        <Route path="/actividad/:id/nuevaTarea" exact component={Tarea} />
+        <Route path="/actividad/:id/flujo" exact component={FlujoTareas} />
+        <Route path="/actividades" exact component={ListaActividades} />
+        <Route path="/actividad/:id/mostrar" exact component={ResolverActividad} />
       </Container>
-    </Router>
+    </HashRouter>
   );
 }
 
