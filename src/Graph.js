@@ -202,18 +202,17 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           //check for better positioning
           return {
             ...node,
-            x: 100,
+            x: -50,
             y: 100 + 150 * (node.title - 1)
           }
         } else {
-          if (node.optional !== prevNodes[nodeIndex].optional || node.initial !== prevNodes[nodeIndex].initial) {
-            return {
-              ...prevNodes[nodeIndex],
-              optional: node.optional,
-              initial: node.initial
-            }
+          return {
+            ...prevNodes[nodeIndex],
+            optional: node.optional,
+            initial: node.initial,
+            x: -50,
+            y: 100 + 150 * (node.title - 1)
           }
-          return prevNodes[nodeIndex];
         }
       })
       const newEdges = conexiones.map(conexion => {
