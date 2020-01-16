@@ -158,37 +158,6 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   // Called when an edge is deleted
   onDeleteEdge = () => { };
 
-
-  outputJumps = () => {
-    const actividadId = this.props.actividadId;
-    const { nodes, edges } = this.state.graph;
-    const codesById = {};
-    this.props.tareas.forEach(tarea => codesById[tarea.id] = tarea.codigo);
-    const graphNodes = {};
-    nodes.forEach(node => { graphNodes[node.id] = [] });
-    edges.forEach(edge => {
-      graphNodes[edge.source].push(edge);
-    })
-    this.props.tareas.forEach(tarea => {
-      const jumps = graphNodes[tarea.id];
-      const forcedJumps = jumps.filter(jump => jump.on === undefined).map(jump => jump.target);
-      this.saveForcedJumps(tarea.id, forcedJumps, actividadId);
-      //TODO: save conditional jumps, prevent empty jumps from saving when conditional jumps are present
-    })
-  }
-
-  async saveForcedJumps(tareaId, jumps, id) {
-    console.log(jumps); return;
-    const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
-      method: 'GET',
-      body: JSON.stringify({
-        "origen": tareaId,
-        "condicion": "ALL",
-        "destinos": jumps
-      })
-    });
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
     const { tareas, conexiones } = nextProps;
     const prevNodes = prevState.graph.nodes;
@@ -274,8 +243,6 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
           onPasteSelected={this.onPasteSelected}
           layoutEngineType={this.state.layoutEngineType}
         />
-        <Button type="button" className="float-right" variant="success" onClick={this.outputJumps} >Exportar saltos</Button>
-
       </div>
     );
   }

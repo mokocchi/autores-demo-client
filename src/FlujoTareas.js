@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setCurrentActividad } from './redux/actions'
 
@@ -9,6 +9,7 @@ import Graph from './Graph';
 import { API_BASE_URL } from './config'
 import ModalTarea from './ModalTarea';
 import ModalConexion from './ModalConexion';
+import { Link } from 'react-router-dom';
 
 class FlujoTareas extends Component {
 
@@ -21,7 +22,9 @@ class FlujoTareas extends Component {
             showTarea: false,
             showConexion: false,
             selectedTarea: null,
-            selectedConexion: null
+            selectedConexion: null,
+            errors: "",
+            saveSuccess: false
         }
         this.setCurrentActividad(props.match.params.id);
         this.Graph = React.createRef();
@@ -85,6 +88,109 @@ class FlujoTareas extends Component {
         });
     }
 
+    onGuardarClick = () => {
+        const actividadId = this.props.currentActividad.id;
+        const tareas = this.state.graphTareas;
+        const conexiones = this.state.graphConexiones;
+        const graphNodes = {};
+        tareas.forEach(tarea => { graphNodes[tarea.id] = [] });
+        conexiones.forEach(conexion => {
+            graphNodes[conexion.origen].push(conexion);
+        })
+        if (this.deleteJumps(actividadId)) {
+            this.props.currentActividad.tareas.forEach(tarea => {
+                const jumps = graphNodes[tarea.id];
+                const conditionalJumps = jumps.filter(jump => jump.condicion);
+                const jumpsByAnswer = {};
+                conditionalJumps.forEach(jump => {
+                    (jumpsByAnswer[jump.respuesta.id] = jumpsByAnswer[jump.respuesta.id] || []).push(jump)
+                })
+                console.log(jumpsByAnswer);
+                Object.keys(jumpsByAnswer).forEach(key => {
+                    const targetByCondition = {};
+                    jumpsByAnswer[key].forEach(jump => {
+                        (targetByCondition[jump.condicion.code] = targetByCondition[jump.condicion.code] || []).push(jump.destino)
+                    })
+                    Object.keys(targetByCondition).forEach(k => {
+                        const salto = {
+                            on: k,
+                            answer: key,
+                            to: targetByCondition[k],
+                        }
+                        this.saveConditionalJump(tarea.id, salto, actividadId)
+                    })
+                })
+                const targets = jumps.filter(jump => jump.condicion === undefined).map(jump => jump.destino);
+                if (conditionalJumps.length === 0 || targets.length > 0) {
+                    this.saveForcedJumps(tarea.id, targets, actividadId);
+                }
+                this.setState({
+                    saveSuccess: true
+                })
+            })
+        }
+    }
+
+    async deleteJumps(id) {
+        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
+            method: 'DELETE'
+        })
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                saveSuccess: false,
+                errors: data.errors
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    async saveForcedJumps(tareaId, targets, id) {
+        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
+            method: 'POST',
+            body: JSON.stringify({
+                "origen": tareaId,
+                "condicion": "ALL",
+                "destinos": targets
+            })
+        });
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                saveSuccess: false,
+                errors: data.errors
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    async saveConditionalJump(tareaId, salto, id) {
+        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
+            method: 'POST',
+            body: JSON.stringify({
+                "origen": tareaId,
+                "condicion": salto.on,
+                "destinos": salto.to,
+                "respuesta": salto.answer
+            })
+        });
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                saveSuccess: false,
+                errors: data.errors
+            });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
     handleShowTarea = (tareaId) => {
         const tarea = this.state.graphTareas.find(tarea => tarea.id === tareaId);
         this.setState({
@@ -132,9 +238,19 @@ class FlujoTareas extends Component {
                 </Row>
                 <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                     <Col>
-                        {this.state.success && <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas}
-                            conexiones={this.state.graphConexiones} actividadId={this.props.match.params.id}
-                            onClickNode={this.handleShowTarea} onClickEdge={this.handleShowConexion} />}
+                        {this.state.success &&
+                            <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas}
+                                conexiones={this.state.graphConexiones} actividadId={this.props.match.params.id}
+                                onClickNode={this.handleShowTarea} onClickEdge={this.handleShowConexion} />
+                        }
+                        {this.state.success && !this.state.saveSuccess &&
+                            <Button type="button" className="float-right" variant="info" onClick={this.onGuardarClick} >Guardar</Button>
+                        }
+                        {this.state.saveSuccess &&
+                            <Link to="../mostrar">
+                                <Button type="button" className="float-right" variant="info" onClick={this.props.outputJumps} >Continuar</Button>
+                            </Link>
+                        }
                         {this.state.selectedTarea &&
                             <ModalTarea key={this.state.selectedTarea.id} handleClose={this.handleCloseTarea}
                                 show={this.state.showTarea} tarea={this.state.selectedTarea} tareas={this.state.graphTareas}
