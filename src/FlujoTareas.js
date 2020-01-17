@@ -117,17 +117,31 @@ class FlujoTareas extends Component {
                             answer: key,
                             to: targetByCondition[k],
                         }
-                        this.saveConditionalJump(tarea.id, salto, actividadId)
+                        if (!this.saveConditionalJump(tarea.id, salto, actividadId)) {
+                            return;
+                        }
                     })
                 })
                 const targets = jumps.filter(jump => jump.condicion === undefined).map(jump => jump.destino);
                 if (conditionalJumps.length === 0 || targets.length > 0) {
-                    this.saveForcedJumps(tarea.id, targets, actividadId);
+                    if (!this.saveForcedJumps(tarea.id, targets, actividadId)) {
+                        return;
+                    }
                 }
+            })
+            const opcionalIds = this.state.graphTareas.filter(tarea => tarea.optional).map(tarea => tarea.id);
+            let inicialIds = this.state.graphTareas.filter(tarea => tarea.initial).map(tarea => tarea.id);
+            const destinos = this.state.graphConexiones.map(conexion => conexion.destino);
+            this.state.graphTareas.forEach(tarea => {
+                if (!destinos.includes(tarea.id)) {
+                    inicialIds = [...inicialIds.filter(id => id !== tarea.id), tarea.id]
+                }
+            })
+            if (this.updatePlanificacionSettings(opcionalIds, inicialIds, actividadId)) {
                 this.setState({
                     saveSuccess: true
                 })
-            })
+            }
         }
     }
 
@@ -184,6 +198,26 @@ class FlujoTareas extends Component {
                 saveSuccess: false,
                 errors: data.errors
             });
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    async updatePlanificacionSettings(opcionales, iniciales, id) {
+        const response = await fetch(API_BASE_URL + '/actividades/' + id + "/planificaciones", {
+            method: 'POST',
+            body: JSON.stringify({
+                "iniciales": iniciales,
+                "opcionales": opcionales
+            })
+        });
+        const data = await response.json();
+        if (data.errors) {
+            this.setState({
+                saveSuccess: false,
+                errors: data.errors
+            })
             return false;
         } else {
             return true;
