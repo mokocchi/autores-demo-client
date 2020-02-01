@@ -1,24 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
-import thunk from 'redux-thunk'
+import { loadUser } from "redux-oidc";
+import { OidcProvider } from 'redux-oidc';
 import reducer from './redux/index'
 
+import userManager from "./userManager";
 import App from './App';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const middleware = [thunk]
 const store = createStore(
     reducer,
-    composeEnhancers(
-        applyMiddleware(...middleware)
-    )
+    composeEnhancers()
 )
+
+loadUser(store, userManager);
 
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <OidcProvider store={store} userManager={userManager}>
+            <App />
+        </OidcProvider>
     </Provider>,
     document.getElementById('root')
 );
