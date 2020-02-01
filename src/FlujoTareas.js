@@ -281,7 +281,7 @@ class FlujoTareas extends Component {
                             <Button type="button" className="float-right" variant="info" onClick={this.onGuardarClick} >Guardar</Button>
                         }
                         {this.state.saveSuccess &&
-                            <Link to="../mostrar">
+                            <Link to="./mostrar">
                                 <Button type="button" className="float-right" variant="info" onClick={this.props.outputJumps} >Continuar</Button>
                             </Link>
                         }
