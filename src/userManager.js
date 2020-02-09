@@ -7,7 +7,8 @@ const userManagerConfig = {
   response_type: 'token id_token',
   scope: 'openid profile email',
   authority: 'https://accounts.google.com',
-  automaticSilentRenew: false,
+  automaticSilentRenew: true,
+  silent_redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/silent_renew`,
   filterProtocolClaims: true,
   loadUserInfo: true,
   userStore: new WebStorageStateStore({ store: window.localStorage })

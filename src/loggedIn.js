@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { Redirect } from "react-router";
+import LoginPage from './LoginPage'
 
 function mapStateToProps(state) {
     return {
@@ -13,8 +13,10 @@ export default function loggedIn(WrappedComponent, data) {
         class extends Component {
             render() {
                 return (
-                    this.props.user?
-                    <WrappedComponent/> : <Redirect to="/"/>
+                    !this.props.user || this.props.user.expired ?
+                        <LoginPage />
+                        :
+                        <WrappedComponent />
                 )
             }
         }
