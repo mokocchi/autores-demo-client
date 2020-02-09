@@ -8,6 +8,7 @@ import reducer from './redux/index'
 
 import userManager from "./userManager";
 import App from './App';
+import tokenManager from './tokenManager';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
@@ -16,7 +17,7 @@ const store = createStore(
 )
 
 loadUser(store, userManager);
-//add loadUser for api or delete both
+tokenManager.loadApiUser(store);
 
 ReactDOM.render(
     <Provider store={store}>

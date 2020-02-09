@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import { CallbackComponent, userSignedOut } from "redux-oidc";
 import userManager from "./userManager";
 import { TOKEN_AUTH_URL } from "./config";
+import { apiUserFound } from "./redux/actions";
+import LoadSpinner from "./LoadSpinner";
+import tokenManager from "./tokenManager";
 
 class CallbackPage extends React.Component {
 
@@ -25,7 +28,8 @@ class CallbackPage extends React.Component {
         if (data.errors) {
             this.props.dispatch(userSignedOut());
         } else {
-            //store user on redux
+            this.props.dispatch(apiUserFound(data.access_token))
+            tokenManager.storeApiUser(data.access_token, data.expires_in);
         }
         this.props.history.push("/")
     }
@@ -41,7 +45,7 @@ class CallbackPage extends React.Component {
                 successCallback={this.onSuccess}
                 errorCallback={this.onError}
             >
-                <div>Redirecting...</div>
+                <LoadSpinner />
             </CallbackComponent>
         );
     }

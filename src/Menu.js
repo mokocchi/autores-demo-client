@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import userManager from './userManager';
+import tokenManager from './tokenManager';
 
 function Menu({ user }) {
     return (
@@ -22,6 +23,7 @@ function Menu({ user }) {
                     <Button onClick={event => {
                         event.preventDefault();
                         userManager.removeUser();
+                        tokenManager.removeApiUser();
                     }}>Cerrar sesión</Button>
                     :
                     <Button onClick={

@@ -211,3 +211,28 @@ export function removeDepositFromElement(elementCode, depositCode) {
     depositCode
   }
 }
+
+export const API_USER_FOUND = "API_USER_FOUND"
+
+export function apiUserFound(accessToken) {
+  return {
+    type: API_USER_FOUND,
+    accessToken
+  }
+}
+
+export const API_USER_EXPIRED = "API_USER_EXPIRED"
+
+export function apiUserExpired() {
+  return {
+    type: API_USER_EXPIRED
+  }
+}
+
+export const LOADING_API_USER = "LOADING_API_USER"
+
+export function loadingApiUser() {
+  return {
+    type: LOADING_API_USER
+  }
+}
