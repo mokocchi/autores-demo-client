@@ -1,5 +1,7 @@
 export const API_BASE_URL = 'https://autores-demo-mock-api.herokuapp.com/api/v1.0';
 
+export const TOKEN_AUTH_URL = "http://localhost:8080/oauth/v2/token";
+
 export const TIPO_SELECCION = "5";
 export const TIPO_MULTIPLE_CHOICE = "6";
 export const TIPO_CONTADORES = "7";

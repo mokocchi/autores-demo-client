@@ -16,6 +16,7 @@ const store = createStore(
 )
 
 loadUser(store, userManager);
+//add loadUser for api or delete both
 
 ReactDOM.render(
     <Provider store={store}>
