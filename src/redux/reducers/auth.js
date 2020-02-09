@@ -1,11 +1,12 @@
 import { API_USER_FOUND, API_USER_EXPIRED, LOADING_API_USER } from "../actions";
 
 const INITIAL_STATE = {
-    user: {
+    token: {
         accessToken: "",
-        roles: [],
-        isLoading: false
-    }
+        expiresAt: null
+    },
+    roles: [],
+    isLoading: false
 }
 
 export default function auth(state = INITIAL_STATE, action) {
@@ -13,7 +14,8 @@ export default function auth(state = INITIAL_STATE, action) {
         case API_USER_FOUND:
             return {
                 ...state,
-                accessToken: action.accessToken
+                token: action.token,
+                isLoading: false
             }
         case API_USER_EXPIRED:
             return INITIAL_STATE;

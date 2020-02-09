@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://autores-demo-mock-api.herokuapp.com/api/v1.0';
+export const API_BASE_URL = 'http://localhost:8080/api/v1.0';
 
 export const TOKEN_AUTH_URL = "http://localhost:8080/oauth/v2/token";
 

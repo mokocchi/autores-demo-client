@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import userManager from './userManager';
 import tokenManager from './tokenManager';
+import history from './history';
 
 function Menu({ user }) {
     return (
@@ -24,6 +25,7 @@ function Menu({ user }) {
                         event.preventDefault();
                         userManager.removeUser();
                         tokenManager.removeApiUser();
+                        history.push("/")
                     }}>Cerrar sesión</Button>
                     :
                     <Button onClick={
