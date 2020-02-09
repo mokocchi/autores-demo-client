@@ -4,11 +4,11 @@ import { TOKEN_AUTH_URL } from './config';
 
 export default class tokenManager {
     static removeApiUser() {
-        sessionStorage.removeItem('auth.token');
+        localStorage.removeItem('auth.token');
     }
 
     static loadApiUser(store) {
-        const tokenString = sessionStorage.getItem('auth.token');
+        const tokenString = localStorage.getItem('auth.token');
         let token = null;
         if (tokenString) {
             token = JSON.parse(tokenString);
@@ -21,7 +21,7 @@ export default class tokenManager {
     }
 
     static storeApiUser(token) {
-        sessionStorage.setItem('auth.token', JSON.stringify(token));
+        localStorage.setItem('auth.token', JSON.stringify(token));
     }
 
     static async fetchApiUser(id_token) {
