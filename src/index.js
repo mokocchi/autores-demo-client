@@ -18,6 +18,7 @@ const store = createStore(
 
 loadUser(store, userManager);
 tokenManager.initialize(store);
+tokenManager.loadApiUser()
 
 ReactDOM.render(
     <Provider store={store}>

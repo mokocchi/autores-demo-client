@@ -5,7 +5,7 @@ import { userSignedOut } from 'redux-oidc';
 
 export default class tokenManager {
     
-    static store = null; 
+    static store = null;
     
     static initialize(store) {
         this.store = store;
@@ -23,24 +23,26 @@ export default class tokenManager {
         localStorage.removeItem('auth.token');
     }
 
-    static loadApiUser(store) {
+    static loadApiUser() {
         const tokenString = localStorage.getItem('auth.token');
         let token = null;
         if (tokenString) {
             token = JSON.parse(tokenString);
         }
-        if (token && !expired(token.expiresAt)) {
-            store.dispatch(apiUserFound(token));
+        if (token && token.accessToken && !expired(token.expiresAt)) {
+            this.store.dispatch(apiUserFound(token));
+            this.client.setToken(token);
         } else {
-            store.dispatch(apiUserExpired());
+            this.store.dispatch(apiUserExpired());
         }
     }
 
     static storeApiUser(token) {
         localStorage.setItem('auth.token', JSON.stringify(token));
+        this.client.setToken(token);
     }
 
     static async fetchApiUser(id_token) {
-        this.client.fetchApiUser(id_token);
+        return await this.client.fetchApiUser(id_token);
     }
 }

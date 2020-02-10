@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { API_BASE_URL } from './config';
-import { expired } from './utils';
 import tokenManager from './tokenManager';
-import { userSignedOut } from 'redux-oidc';
-import { apiUserFound } from './redux/actions';
 import loggedIn from './loggedIn';
 
 class ListaActividades extends Component {
@@ -18,11 +14,14 @@ class ListaActividades extends Component {
             success: false
         }
         this.getActividades = this.getActividades.bind(this);
+    }
+
+    componentDidMount() {
         this.getActividades();
     }
 
     async getActividades() {
-        const data = tokenManager.client.getActividades();
+        const data = await tokenManager.client.getActividades();
         if (!data.errors) {
             this.setState({
                 actividades: data,
