@@ -22,23 +22,7 @@ class ListaActividades extends Component {
     }
 
     async getActividades() {
-        const token = this.props.token;
-        if (expired(token.expiresAt)) {
-            const token = tokenManager.fetchApiUser(this.props.user.id_token);
-            if (!token) {
-                this.props.dispatch(userSignedOut());
-            } else {
-                this.props.dispatch(apiUserFound(token));
-                tokenManager.storeApiUser(token);
-            }
-        }
-
-        const response = await fetch(API_BASE_URL + '/actividades', {
-            headers: {
-                "Authorization": "Bearer " + token.accessToken
-            }
-        });
-        const data = await response.json();
+        const data = tokenManager.client.getActividades();
         if (!data.errors) {
             this.setState({
                 actividades: data,

@@ -14,7 +14,8 @@ class CallbackPage extends React.Component {
     }
 
     async onSuccess () {
-        const token = await tokenManager.fetchApiUser(this.props.user.id_token)
+        const token = await tokenManager.fetchApiUser(this.props.user.id_token);
+        alert(token);
         if (!token) {
             this.props.dispatch(userSignedOut());
         } else {

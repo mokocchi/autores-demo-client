@@ -1,8 +1,24 @@
 import { apiUserFound, apiUserExpired } from './redux/actions';
-import { expired, expiresAt } from './utils';
-import { TOKEN_AUTH_URL } from './config';
+import { expired } from './utils';
+import APIClient from './APIClient';
+import { userSignedOut } from 'redux-oidc';
 
 export default class tokenManager {
+    
+    static store = null; 
+    
+    static initialize(store) {
+        this.store = store;
+        this.client = new APIClient();
+        this.client._events._tokenNotFound.addHandler(() => {
+            this.store.dispatch(userSignedOut());
+        })
+        this.client._events._apiUserFound.addHandler((token)=> {
+            this.store.dispatch(apiUserFound(token));
+            tokenManager.storeApiUser(token);
+        })
+    }
+
     static removeApiUser() {
         localStorage.removeItem('auth.token');
     }
@@ -25,24 +41,6 @@ export default class tokenManager {
     }
 
     static async fetchApiUser(id_token) {
-        const response = await fetch(TOKEN_AUTH_URL, {
-            method: 'POST',
-            headers: {
-                "X-AUTH-TOKEN": true
-            },
-            body: JSON.stringify({
-                "token": id_token
-            })
-        });
-        const data = await response.json();
-        if (data.errors) {
-            console.log(data.errors);
-            return null
-        } else {
-            return {
-                accessToken: data.access_token,
-                expiresAt: expiresAt(data.expires_in)
-            }
-        }
+        this.client.fetchApiUser(id_token);
     }
 }
