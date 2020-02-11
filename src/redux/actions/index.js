@@ -214,10 +214,10 @@ export function removeDepositFromElement(elementCode, depositCode) {
 
 export const API_USER_FOUND = "API_USER_FOUND"
 
-export function apiUserFound(token) {
+export function apiUserFound(auth) {
   return {
     type: API_USER_FOUND,
-    token
+    auth
   }
 }
 

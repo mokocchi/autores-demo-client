@@ -16,9 +16,9 @@ export default class APIClient {
         const token = this.token;
         if (!token || expired(token.expiresAt)) {
             const id_token = tokenManager.store.getState().oidc.user.id_token;
-            const token = tokenManager.fetchApiUser(id_token);
-            if (token && token.accessToken) {
-                this._events._apiUserFound.raise(token);
+            const auth = tokenManager.fetchAuth(id_token);
+            if (auth && auth.token && auth.token.accessToken) {
+                this._events._apiUserFound.raise(auth);
                 return token;
             } else {
                 this._events._tokenNotFound.raise();
@@ -29,7 +29,15 @@ export default class APIClient {
         }
     }
 
-    async fetchApiUser(id_token) {
+    async fetchAuth (id_token) {
+        const token = await this.fetchToken(id_token);
+        const user = await this.authorizedRequest(token, '/me');
+        return {
+            token, user
+        }
+    }
+
+    async fetchToken(id_token) {
         const response = await fetch(TOKEN_AUTH_URL, {
             method: 'POST',
             headers: {
@@ -53,8 +61,7 @@ export default class APIClient {
         }
     }
 
-    async authorizedRequest(uri, parameters={}) {
-        const token = this.getToken();
+    async authorizedRequest(token, uri, parameters={}) {
         if (token && token.accessToken) {
             parameters.headers = {
                 "Authorization": "Bearer " + token.accessToken
@@ -66,11 +73,13 @@ export default class APIClient {
         }
     }
 
-    async getActividades() {
-        return this.authorizedRequest('/actividades');
+    getActividades() {
+        const token = this.getToken();
+        return this.authorizedRequest(token, '/actividades');
     }
 
-    async me() {
-        return this.authorizedRequest('/me')
+    me() {
+        const token = this.getToken();
+        return this.authorizedRequest(token, '/me')
     }
 }

@@ -21,8 +21,7 @@ function Menu({ user, token }) {
                 </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">
-                {(user && !user.expired) ?
-                    token.expiresAt &&
+                {(user && !user.isLoading) ?
                     <Button onClick={event => {
                         event.preventDefault();
                         userManager.removeUser();
