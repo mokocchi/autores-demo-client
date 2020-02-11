@@ -15,32 +15,33 @@ export default class tokenManager {
         })
         this.client._events._apiUserFound.addHandler((auth)=> {
             this.store.dispatch(apiUserFound(auth));
-            tokenManager.storeApiUser(auth);
+            tokenManager.storeApiUser(auth.token);
         })
     }
 
     static removeApiUser() {
-        localStorage.removeItem('auth.user');
+        localStorage.removeItem('auth.token');
     }
 
-    static loadApiUser() {
+    static async loadApiUser() {
         this.store.dispatch(loadingApiUser());
-        const authString = localStorage.getItem('auth.user');
-        let auth = null;
-        if (authString) {
-            auth = JSON.parse(authString);
+        const tokenString = localStorage.getItem('auth.token');
+        let token = null;
+        if (tokenString) {
+            token = JSON.parse(tokenString);
         }
-        if (auth && auth.token && auth.token.accessToken && !expired(auth.token.expiresAt)) {
-            this.store.dispatch(apiUserFound(auth));
-            this.client.setToken(auth.token);
+        if (token && token.accessToken && !expired(token.expiresAt)) {
+            this.client.setToken(token);
+            const user = await this.client.me();
+            this.store.dispatch(apiUserFound({token, user}));
         } else {
             this.store.dispatch(apiUserExpired());
         }
     }
 
-    static storeApiUser(auth) {
-        localStorage.setItem('auth.user', JSON.stringify(auth));
-        this.client.setToken(auth.token);
+    static storeApiUser(token) {
+        localStorage.setItem('auth.token', JSON.stringify(token));
+        this.client.setToken(token);
     }
 
     static async fetchAuth(id_token) {

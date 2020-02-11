@@ -29,7 +29,7 @@ export default class APIClient {
         }
     }
 
-    async fetchAuth (id_token) {
+    async fetchAuth(id_token) {
         const token = await this.fetchToken(id_token);
         const user = await this.authorizedRequest(token, '/me');
         return {
@@ -49,7 +49,6 @@ export default class APIClient {
         });
         const data = await response.json();
         if (data.errors) {
-            console.log(data.errors);
             return null
         } else {
             const token = {
@@ -61,7 +60,7 @@ export default class APIClient {
         }
     }
 
-    async authorizedRequest(token, uri, parameters={}) {
+    async authorizedRequest(token, uri, parameters = {}) {
         if (token && token.accessToken) {
             parameters.headers = {
                 "Authorization": "Bearer " + token.accessToken

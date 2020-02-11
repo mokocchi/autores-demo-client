@@ -20,7 +20,7 @@ class CallbackPage extends React.Component {
             this.props.dispatch(userSignedOut());
         } else {
             this.props.dispatch(apiUserFound(auth));
-            tokenManager.storeApiUser(auth);
+            tokenManager.storeApiUser(auth.token);
         }
         this.props.history.push("/")
     }
