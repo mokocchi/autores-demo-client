@@ -45,4 +45,8 @@ export default class tokenManager {
     static async fetchApiUser(id_token) {
         return await this.client.fetchApiUser(id_token);
     }
+
+    static async getActividades() {
+        return await this.client.getActividades();
+    }
 }

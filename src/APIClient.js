@@ -23,7 +23,7 @@ export default class APIClient {
             } else {
                 this._events._tokenNotFound.raise();
                 return null
-            } 
+            }
         } else {
             return token;
         }
@@ -44,7 +44,7 @@ export default class APIClient {
             console.log(data.errors);
             return null
         } else {
-            const token ={
+            const token = {
                 accessToken: data.access_token,
                 expiresAt: expiresAt(data.expires_in)
             }
@@ -53,17 +53,29 @@ export default class APIClient {
         }
     }
 
-    async getActividades() {
+    async authorizedRequest(requestFunction) {
         const token = this.getToken();
         if (token && token.accessToken) {
-            const response = await fetch(API_BASE_URL + '/actividades', {
-                headers: {
-                    "Authorization": "Bearer " + token.accessToken
-                }
-            });
-            return await response.json();
+            return requestFunction(token);
         } else {
             return { errors: "No autorizado" }
         }
+    }
+
+    async _getActividades(token) {
+        const response = await fetch(API_BASE_URL + '/actividades', {
+            headers: {
+                "Authorization": "Bearer " + token.accessToken
+            }
+        });;
+        return await response.json();
+    }
+
+    async getActividades() {
+        return this.authorizedRequest(this._getActividades);
+    }
+
+    async _me() {
+        //TODO
     }
 }

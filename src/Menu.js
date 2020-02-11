@@ -6,8 +6,9 @@ import { connect } from 'react-redux';
 import userManager from './userManager';
 import tokenManager from './tokenManager';
 import history from './history';
+import { expired } from './utils';
 
-function Menu({ user }) {
+function Menu({ user, token }) {
     return (
         <Navbar bg="light" expand="lg">
             <Navbar.Brand href="/">Autores Demo</Navbar.Brand>
@@ -21,6 +22,7 @@ function Menu({ user }) {
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">
                 {(user && !user.expired) ?
+                    token.expiresAt &&
                     <Button onClick={event => {
                         event.preventDefault();
                         userManager.removeUser();
@@ -44,7 +46,8 @@ function Menu({ user }) {
 
 function mapStateToProps(state) {
     return {
-        user: state.oidc.user
+        user: state.oidc.user,
+        token: state.auth.token
     }
 }
 

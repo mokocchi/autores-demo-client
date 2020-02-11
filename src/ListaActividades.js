@@ -21,7 +21,7 @@ class ListaActividades extends Component {
     }
 
     async getActividades() {
-        const data = await tokenManager.client.getActividades();
+        const data = await tokenManager.getActividades();
         if (!data.errors) {
             this.setState({
                 actividades: data,
@@ -43,9 +43,7 @@ class ListaActividades extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        token: state.auth.token
-    }
+    return state
 }
 
 export default loggedIn(connect(mapStateToProps)(ListaActividades));
