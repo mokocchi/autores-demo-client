@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap'
 
 import FormActividad from './FormActividad'
+import loggedIn from './loggedIn';
 
 function Actividad() {
     return (
@@ -20,4 +21,4 @@ function Actividad() {
     )
 }
 
-export default Actividad
+export default loggedIn(Actividad);

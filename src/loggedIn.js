@@ -16,7 +16,7 @@ export default function loggedIn(WrappedComponent, data) {
                     !this.props.user || this.props.user.expired ?
                         <LoginPage />
                         :
-                        <WrappedComponent />
+                        <WrappedComponent {...this.props} />
                 )
             }
         }

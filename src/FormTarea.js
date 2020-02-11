@@ -11,6 +11,7 @@ import TareaExtra from './TareaExtra';
 
 import { API_BASE_URL, TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION } from './config';
 import { getRandomSlug } from './utils'
+import tokenManager from './tokenManager';
 
 class FormTarea extends Component {
 
@@ -37,8 +38,7 @@ class FormTarea extends Component {
     }
 
     async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id);
-        const data = await response.json();
+        const data = await tokenManager.getActividad(id);
         if (data.errors) {
             this.setState({
                 error: true,
@@ -173,17 +173,13 @@ class FormTarea extends Component {
             }
         }
 
-        let response = await fetch(API_BASE_URL + '/tareas', {
-            method: 'POST',
-            body: JSON.stringify({
-                "nombre": nombre,
-                "consigna": consigna,
-                "codigo": codigo,
-                "tipo": tipo,
-                "dominio": dominio
-            })
+        const data = await tokenManager.createTarea({
+            "nombre": nombre,
+            "consigna": consigna,
+            "codigo": codigo,
+            "tipo": tipo,
+            "dominio": dominio
         });
-        const data = await response.json();
         if (data.errors) {
             this.setState({
                 isLoading: false,
@@ -197,13 +193,9 @@ class FormTarea extends Component {
 
             const processedExtra = this.processExtra(extra, tipo);
 
-            response = await fetch(API_BASE_URL + '/tareas/' + data.id + '/extra', {
-                method: 'POST',
-                body: JSON.stringify({
-                    "extra": processedExtra,
-                })
-            });
-            const extraData = await response.json();
+            const extraData = await tokenManager.addExtraToTarea({
+                "extra": processedExtra,
+            }, data.id)
             if (extraData.errors) {
                 this.setState({
                     isLoading: false,
@@ -214,8 +206,7 @@ class FormTarea extends Component {
             }
         }
 
-        response = await fetch(API_BASE_URL + '/tareas/' + data.id);
-        const lastData = await response.json();
+        const lastData = await tokenManager.getTarea(data.id);
 
         this.props.dispatch(addTarea(lastData));
 
@@ -238,7 +229,7 @@ class FormTarea extends Component {
     }
 
     onPropsChangeMore = (value) => {
-        const {newTarea} = this.state;
+        const { newTarea } = this.state;
         newTarea.dominio = value;
         this.setState({
             newTarea: newTarea

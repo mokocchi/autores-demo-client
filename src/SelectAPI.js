@@ -5,6 +5,7 @@ import { requestOptions, receiveOptions, failAttribute } from './redux/actions'
 import Select from './Select';
 import LoadSpinner from './LoadSpinner';
 import { API_BASE_URL } from './config'
+import tokenManager from './tokenManager';
 
 class SelectAPI extends Component {
 
@@ -17,8 +18,7 @@ class SelectAPI extends Component {
         if (!optionsByAttribute[attribute]) {
             try {
                 dispatch(requestOptions(attribute));
-                const response = await fetch(API_BASE_URL + this.props.uri);
-                const data = await response.json();
+                const data = await tokenManager.genericGetRequest(this.props.uri);
                 if (data.errors) {
                     dispatch(failAttribute(attribute))
                 } else {

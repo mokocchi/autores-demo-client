@@ -44,11 +44,43 @@ export default class tokenManager {
         this.client.setToken(token);
     }
 
-    static async fetchAuth(id_token) {
-        return await this.client.fetchAuth(id_token);
+    static fetchAuth(id_token) {
+        return this.client.fetchAuth(id_token);
     }
 
-    static async getActividades() {
-        return await this.client.getActividades();
+    static genericGetRequest(uri) {
+        return this.client.genericGetRequest(uri);
+    }
+
+    static getActividades() {
+        return this.client.getActividades();
+    }
+
+    static getActividad(id) {
+        return this.client.getActividad(id);
+    }
+
+    static getTarea(id) {
+        return this.client.getTarea(id);
+    }
+
+    static createDominio(dominio) {
+        return this.client.postDominio(dominio);
+    }
+
+    static createActividad(actividad) {
+        return this.client.postActividad(actividad);
+    }
+
+    static createTarea(tarea) {
+        return this.client.postTarea(tarea);
+    }
+
+    static addExtraToTarea(extra, tarea) {
+        return this.client.postExtraToTarea(extra, tarea)
+    }
+
+    static addTareaToActividad(tarea, actividad) {
+        return this.client.postTareaToActividad(tarea, actividad);
     }
 }

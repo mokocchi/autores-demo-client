@@ -24,10 +24,10 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/callback" component={CallbackPage} />
         <Route path="/silent_renew" component={silentRenew} />
-        <Route path="/nuevaActividad" exact component={Actividad} />
-        <Route path="/actividad/:id" exact component={Tareas} />
-        <Route path="/actividad/:id/nuevaTarea" exact component={Tarea} />
-        <Route path="/actividad/:id/flujo" exact component={FlujoTareas} />
+        <Route path="/nuevaActividad" exact component={Autor(Actividad)} />
+        <Route path="/actividad/:id" exact component={Autor(Tareas)} />
+        <Route path="/actividad/:id/nuevaTarea" exact component={Autor(Tarea)} />
+        <Route path="/actividad/:id/flujo" exact component={Autor(FlujoTareas)} />
         <Route path="/actividades" exact component={Autor(ListaActividades)} />
         <Route path="/actividad/:id/mostrar" exact component={ResolverActividad} />
       </Container>

@@ -9,7 +9,7 @@ function mapStateToProps(state) {
 }
 
 export default allowedRoles => WrappedComponent => {
-  return connect(mapStateToProps)(({ role }) =>
-    allowedRoles.includes(role) ? <WrappedComponent /> : <Unauthorized />
+  return connect(mapStateToProps)((props) =>
+    allowedRoles.includes(props.role) ? <WrappedComponent {...props} /> : <Unauthorized />
   );
 };

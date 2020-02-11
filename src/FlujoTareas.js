@@ -10,6 +10,8 @@ import { API_BASE_URL } from './config'
 import ModalTarea from './ModalTarea';
 import ModalConexion from './ModalConexion';
 import { Link } from 'react-router-dom';
+import tokenManager from './tokenManager';
+import loggedIn from './loggedIn';
 
 class FlujoTareas extends Component {
 
@@ -61,8 +63,7 @@ class FlujoTareas extends Component {
     }
 
     async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id);
-        const data = await response.json();
+        const data = await tokenManager.getActividad(id);
         if (data.errors) {
             this.setState({
                 error: true,
@@ -310,4 +311,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default connect(mapStateToProps)(FlujoTareas);
+export default loggedIn(connect(mapStateToProps)(FlujoTareas));

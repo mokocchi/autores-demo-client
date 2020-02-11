@@ -9,6 +9,7 @@ import FormDominio from './FormDominio';
 import SelectAPI from './SelectAPI';
 
 import { API_BASE_URL } from './config';
+import tokenManager from './tokenManager';
 
 class FormActividad extends Component {
 
@@ -80,17 +81,13 @@ class FormActividad extends Component {
             return;
         }
 
-        let response = await fetch(API_BASE_URL + '/actividades', {
-            method: 'POST',
-            body: JSON.stringify({
-                "nombre": nombre,
-                "objetivo": objetivo,
-                "dominio": dominio,
-                "idioma": idioma,
-                "tipoPlanificacion": tipoPlanificacion
-            })
-        });
-        const data = await response.json();
+        const data = await tokenManager.createActividad({
+            "nombre": nombre,
+            "objetivo": objetivo,
+            "dominio": dominio,
+            "idioma": idioma,
+            "tipoPlanificacion": tipoPlanificacion
+        })
         if (data.errors) {
             this.setState({
                 isLoading: false,

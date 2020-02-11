@@ -72,13 +72,51 @@ export default class APIClient {
         }
     }
 
-    getActividades() {
+    genericGetRequest(uri) {
         const token = this.getToken();
-        return this.authorizedRequest(token, '/actividades');
+        return this.authorizedRequest(token, uri);
     }
 
-    me() {
+    genericPostRequest(uri, object) {
         const token = this.getToken();
-        return this.authorizedRequest(token, '/me')
+        return this.authorizedRequest(token, uri, { body: JSON.stringify(object), method: 'POST' })
+    }
+
+
+    me() {
+        return this.genericGetRequest('/me');
+    }
+
+
+    getActividades() {
+        return this.genericGetRequest('/actividades');
+    }
+
+    getActividad(id) {
+        return this.genericGetRequest('/actividades/' + id);
+    }
+
+    getTarea(id) {
+        return this.genericGetRequest('/tareas/' + id);
+    }
+
+    postDominio(dominio) {
+        return this.genericPostRequest('/dominios', dominio);
+    }
+
+    postActividad(actividad) {
+        return this.genericPostRequest('/actividades', actividad);
+    }
+
+    postTarea(tarea) {
+        return this.genericPostRequest('/tareas', tarea);
+    }
+
+    postExtraToTarea(extra, tarea) {
+        return this.genericPostRequest('/tareas/' + tarea + '/extra', extra);
+    }
+
+    postTareaToActividad(tarea, actividad) {
+        return this.genericPostRequest('/actividades/' + actividad + '/tareas', tarea);
     }
 }

@@ -24,9 +24,14 @@ function options(
                 lastUpdated: action.receivedAt
             }
         case ADD_SELECT_OPTION:
-            return {
-                ...state,
-                items: [...state.items, action.option]
+            const index = state.items.findIndex(item => item.nombre == action.option.nombre);
+            if (index == -1) {
+                return {
+                    ...state,
+                    items: [...state.items, action.option]
+                }
+            } else {
+                return state;
             }
         default:
             return state

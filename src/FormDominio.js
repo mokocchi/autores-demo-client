@@ -5,6 +5,7 @@ import { addSelectOption } from './redux/actions'
 
 import { API_BASE_URL } from './config'
 import LoadSpinner from './LoadSpinner'
+import tokenManager from './tokenManager';
 
 const HTTP_CREATED = 201;
 class FormDominio extends Component {
@@ -19,7 +20,7 @@ class FormDominio extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.onKeyPress = this.onKeyPress.bind (this);
+        this.onKeyPress = this.onKeyPress.bind(this);
     }
 
     handleChange(e) {
@@ -35,14 +36,9 @@ class FormDominio extends Component {
             error: false,
             errorMessage: ''
         });
-
-        const response = await fetch(API_BASE_URL + '/dominios', {
-            method: 'POST',
-            body: JSON.stringify({
-                "nombre": this.state.dominio
-            })
+        const data = await tokenManager.createDominio({
+            "nombre": this.state.dominio
         });
-        const data = await response.json();
 
         if (data.errors) {
             this.setState({
@@ -51,9 +47,7 @@ class FormDominio extends Component {
                 errorMessage: data.errors
             });
         } else {
-            if(response.status === HTTP_CREATED) {
-                this.props.dispatch(addSelectOption("dominio", data));
-            }
+            this.props.dispatch(addSelectOption("dominio", data));
             this.setState({
                 dominio: '',
                 isLoading: false,
@@ -64,11 +58,11 @@ class FormDominio extends Component {
     }
 
     onKeyPress(e) {
-        if(e.key === "Enter") {
+        if (e.key === "Enter") {
             if (this.state.dominio !== "") {
                 this.onClick(e);
             }
-        } 
+        }
     }
 
     render() {
@@ -77,7 +71,7 @@ class FormDominio extends Component {
                 <Row>
                     <Col>
                         <InputGroup className="mb-3">
-                            <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} onKeyPress={this.onKeyPress}/>
+                            <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
                             <span className="input-group-btn">
                                 {this.state.isLoading ?
                                     <LoadSpinner />

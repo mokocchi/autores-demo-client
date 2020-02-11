@@ -3,6 +3,7 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
 import FormTarea from './FormTarea'
+import loggedIn from './loggedIn';
 
 function Tarea(props) {
     let { id } = useParams();
@@ -22,4 +23,4 @@ function Tarea(props) {
     )
 }
 
-export default Tarea
+export default loggedIn(Tarea)

@@ -9,6 +9,7 @@ import ListTareas from './ListTareas';
 import MisTareas from './MisTareas';
 
 import { API_BASE_URL } from './config';
+import tokenManager from './tokenManager';
 
 class FormTareas extends Component {
 
@@ -26,8 +27,7 @@ class FormTareas extends Component {
     }
 
     async setCurrentActividad(id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id);
-        const data = await response.json();
+        const data = await tokenManager.getActividad(id);
         if (data.errors) {
             this.setState({
                 error: true,
@@ -39,13 +39,9 @@ class FormTareas extends Component {
     }
 
     async addTareaToActividad(id, tarea) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/tareas', {
-            method: 'POST',
-            body: JSON.stringify({
-                "tarea": tarea.id
-            })
-        });
-        const data = await response.json();
+        const data = await tokenManager.addTareaToActividad({
+            "tarea": tarea.id
+        }, id)
         if (data.errors) {
             this.setState({
                 error: true,
@@ -54,7 +50,7 @@ class FormTareas extends Component {
             })
             return;
         } else {
-            this.setState({success: true});
+            this.setState({ success: true });
         }
     }
 

@@ -3,6 +3,7 @@ import { Row, Col, Container } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
 import FormTareas from './FormTareas'
+import loggedIn from './loggedIn';
 
 function Tareas(props) {
     let { id } = useParams();
@@ -22,4 +23,4 @@ function Tareas(props) {
     )
 }
 
-export default Tareas
+export default loggedIn(Tareas)
