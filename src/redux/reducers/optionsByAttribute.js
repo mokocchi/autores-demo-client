@@ -35,6 +35,7 @@ function options(
 
 export default function optionsByAttribute(state = {}, action) {
     switch (action.type) {
+        case FAIL_ATTRIBUTE:
         case INVALIDATE_ATTRIBUTE:
         case RECEIVE_OPTIONS:
         case REQUEST_OPTIONS:

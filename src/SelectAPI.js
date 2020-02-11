@@ -19,9 +19,13 @@ class SelectAPI extends Component {
                 dispatch(requestOptions(attribute));
                 const response = await fetch(API_BASE_URL + this.props.uri);
                 const data = await response.json();
-                dispatch(receiveOptions(attribute, data))
+                if (data.errors) {
+                    dispatch(failAttribute(attribute))
+                } else {
+                    dispatch(receiveOptions(attribute, data))
+                }
             } catch (err) {
-                dispatch(failAttribute(attribute))                
+                dispatch(failAttribute(attribute))
                 console.error(err);
             }
         }
@@ -32,7 +36,7 @@ class SelectAPI extends Component {
         return (
             <div>
                 {optionsByAttribute[attribute] && optionsByAttribute[attribute].isFetching &&
-                    <LoadSpinner/>
+                    <LoadSpinner />
                 }
                 {optionsByAttribute[attribute] && !optionsByAttribute[attribute].isFetching && optionsByAttribute[attribute].items !== [] &&
                     <Select
@@ -54,11 +58,11 @@ class SelectAPI extends Component {
 
 function mapStateToProps(state) {
     const { optionsByAttribute } = state
-  
+
     return {
         optionsByAttribute
     }
-  }
+}
 
 export default connect(mapStateToProps)(SelectAPI);
 
