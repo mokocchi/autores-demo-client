@@ -19,7 +19,7 @@ export default class APIClientEvents {
         this._tokenNotFound.removeHandler(cb);
     }
 
-    _raiseApiUserFound(e){ //como mando el token?
+    _raiseApiUserFound(e){
         this._apiUserFound.raise(e);
     }
 
@@ -27,7 +27,7 @@ export default class APIClientEvents {
         this._apiUserFound.addHandler(cb);
     }
 
-    removeTokenNotFound(cb) {
+    removeApiUserFound(cb) {
         this._apiUserFound.removeHandler(cb);
     }
 }

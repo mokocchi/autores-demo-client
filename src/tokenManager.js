@@ -20,11 +20,11 @@ export default class tokenManager {
     }
 
     static removeApiUser() {
-        localStorage.removeItem('auth.token');
+        localStorage.removeItem('auth.user');
     }
 
     static loadApiUser() {
-        const tokenString = localStorage.getItem('auth.token');
+        const tokenString = localStorage.getItem('auth.user');
         let token = null;
         if (tokenString) {
             token = JSON.parse(tokenString);
@@ -37,8 +37,13 @@ export default class tokenManager {
         }
     }
 
-    static storeApiUser(token) {
-        localStorage.setItem('auth.token', JSON.stringify(token));
+    static async storeApiUser(token) {
+        const user = await this.client.me();
+        token.user = {
+            googleid: user.googleid,
+            roles: user.roles
+        }
+        localStorage.setItem('auth.user', JSON.stringify(token));
         this.client.setToken(token);
     }
 

@@ -53,29 +53,24 @@ export default class APIClient {
         }
     }
 
-    async authorizedRequest(requestFunction) {
+    async authorizedRequest(uri, parameters={}) {
         const token = this.getToken();
         if (token && token.accessToken) {
-            return requestFunction(token);
+            parameters.headers = {
+                "Authorization": "Bearer " + token.accessToken
+            }
+            const response = await fetch(API_BASE_URL + uri, parameters);
+            return await response.json();
         } else {
             return { errors: "No autorizado" }
         }
     }
 
-    async _getActividades(token) {
-        const response = await fetch(API_BASE_URL + '/actividades', {
-            headers: {
-                "Authorization": "Bearer " + token.accessToken
-            }
-        });;
-        return await response.json();
-    }
-
     async getActividades() {
-        return this.authorizedRequest(this._getActividades);
+        return this.authorizedRequest('/actividades');
     }
 
-    async _me() {
-        //TODO
+    async me() {
+        return this.authorizedRequest('/me')
     }
 }
