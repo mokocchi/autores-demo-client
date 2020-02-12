@@ -22,6 +22,7 @@ class FormActividad extends Component {
                 idioma: '',
                 tipoPlanificacion: '',
                 dominio: '',
+                estado: ''
             },
             isLoading: false,
             success: false,
@@ -33,7 +34,7 @@ class FormActividad extends Component {
     }
 
     async handleFormSubmit(e) {
-        const { nombre, objetivo, idioma, tipoPlanificacion, dominio } = this.state.newActividad;
+        const { nombre, objetivo, idioma, tipoPlanificacion, dominio, estado } = this.state.newActividad;
         e.preventDefault();
         this.setState({
             isLoading: true,
@@ -81,12 +82,21 @@ class FormActividad extends Component {
             return;
         }
 
+        if (estado === "") {
+            this.setState({
+                errorMessage: "Falta estado",
+                error: true,
+                isLoading: false
+            })
+        }
+
         const data = await tokenManager.createActividad({
             "nombre": nombre,
             "objetivo": objetivo,
             "dominio": dominio,
             "idioma": idioma,
-            "tipoPlanificacion": tipoPlanificacion
+            "tipoPlanificacion": tipoPlanificacion,
+            "estado": estado
         })
         if (data.errors) {
             this.setState({
@@ -116,7 +126,7 @@ class FormActividad extends Component {
     }
 
     onPropsChangeMore = (value) => {
-        const {newActividad} = this.state;
+        const { newActividad } = this.state;
         newActividad.dominio = value;
         this.setState({
             newActividad: newActividad
@@ -185,10 +195,21 @@ class FormActividad extends Component {
                             onPropsChangeMore={this.onPropsChangeMore}
                         />
                     </Col>
-                    <Col></Col>
+                    <Col>
+                        <SelectAPI
+                            uri={'/public/estados'}
+                            attribute={"estado"}
+                            controlId={"formEstado"}
+                            label={"Estado"}
+                            name={"estado"}
+                            defaultValue={""}
+                            placeholder={"Elegí un estado"}
+                            onChange={this.handleInput}
+                        />
+                    </Col>
                 </Form.Row>
                 <Form.Row>
-                    <FormDominio/>
+                    <FormDominio />
                     <Col></Col>
                 </Form.Row>
                 {this.state.error &&
@@ -227,7 +248,7 @@ function mapStateToProps(state) {
     const { actividad } = state
     const { currentActividad, currentDominioId } = actividad
     return {
-        currentActividad, 
+        currentActividad,
         currentDominioId
     }
 }
