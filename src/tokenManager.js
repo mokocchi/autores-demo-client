@@ -88,6 +88,10 @@ export default class tokenManager {
         return this.client.postExtraToTarea(extra, tarea)
     }
 
+    static addPlanoToTarea(plano, tarea) {
+        return this.client.postFilePlanoToTarea(plano, tarea)
+    }
+
     static addTareaToActividad(tarea, actividad) {
         return this.client.postTareaToActividad(tarea, actividad);
     }

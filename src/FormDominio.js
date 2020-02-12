@@ -72,7 +72,7 @@ class FormDominio extends Component {
                     <Col>
                         <InputGroup className="mb-3">
                             <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
-                            <span className="input-group-btn">
+                            <InputGroup.Append>
                                 {this.state.isLoading ?
                                     <LoadSpinner />
                                     :
@@ -80,7 +80,7 @@ class FormDominio extends Component {
                                         Agregar
                                     </Button>
                                 }
-                            </span>
+                            </InputGroup.Append>
                         </InputGroup>
                     </Col>
                 </Row>

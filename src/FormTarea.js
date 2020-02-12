@@ -9,7 +9,7 @@ import SelectAPI from './SelectAPI';
 import FormDominio from './FormDominio';
 import TareaExtra from './TareaExtra';
 
-import { API_BASE_URL, TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION } from './config';
+import { API_BASE_URL, TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from './config';
 import { getRandomSlug } from './utils'
 import tokenManager from './tokenManager';
 
@@ -176,6 +176,9 @@ class FormTarea extends Component {
                         return
                     }
                 });
+                if (!extra.plano) {
+                    elementErrors = true;
+                }
                 if (elementErrors) {
                     return;
                 }
@@ -213,6 +216,18 @@ class FormTarea extends Component {
                     errorMessage: extraData.errors
                 });
                 return
+            }
+
+            if (TIPOS_PLANO.includes(tipo)) {
+                const plano = new File([extra.plano], codigo + '.png');
+                const planoData = await tokenManager.addPlanoToTarea(plano, data.id);
+                if(planoData.errors) {
+                    this.setState({
+                        isLoading: false,
+                        error: true,
+                        errorMessage: planoData.errors
+                    });
+                }
             }
         }
 

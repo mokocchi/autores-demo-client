@@ -3,7 +3,8 @@ import {
     ADD_VALID_ELEMENT_TO_EXTRA, REMOVE_VALID_ELEMENT_FROM_EXTRA, ADD_BYSCORE_CRITERION,
     ADD_SCORE_TO_CRITERION, REMOVE_SCORE_FROM_CRITERIA, REMOVE_BYSCORE_CRITERION,
     ADD_DEPOSIT_TO_ELEMENT,
-    REMOVE_DEPOSIT_FROM_ELEMENT
+    REMOVE_DEPOSIT_FROM_ELEMENT,
+    ADD_FILE_TO_EXTRA
 } from '../actions'
 const INIT_STATE = {
     elements: [],
@@ -125,6 +126,11 @@ export default function tareaExtra(state = INIT_STATE, action) {
                 }
             } else {
                 return state;
+            }
+        case ADD_FILE_TO_EXTRA:
+            return {
+                ...state,
+                plano: action.file
             }
         default:
             return state;

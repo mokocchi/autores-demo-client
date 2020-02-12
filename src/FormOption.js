@@ -45,13 +45,15 @@ class FormOption extends Component {
             <Col>
                 <Row>
                     <Col>
+                        Elementos
                         <InputGroup className="mb-3">
                             <FormControl type="text" value={this.state.elementName} placeholder="Nuevo elemento" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
-                            <span className="input-group-btn">
+                            <InputGroup.Append>
                                 <Button variant="success" disabled={this.state.elementName === ""} type="button" onClick={this.onClick}>
                                     Agregar
                                     </Button>
-                            </span>
+                            </InputGroup.Append>
+
                         </InputGroup>
                     </Col>
                 </Row>

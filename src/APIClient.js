@@ -77,14 +77,17 @@ export default class APIClient {
         return this.authorizedRequest(token, uri);
     }
 
-    genericPostRequest(uri, object) {
+    genericPostRequest(uri, object, stringify=true) {
         const token = this.getToken();
-        return this.authorizedRequest(token, uri, { body: JSON.stringify(object), method: 'POST' })
+        return this.authorizedRequest(token, uri, {
+            body: stringify ? JSON.stringify(object) : object,
+            method: 'POST'
+        })
     }
 
     genericDeleteRequest(uri) {
         const token = this.getToken();
-        return this.authorizedRequest(token, uri, {method: 'DELETE'});
+        return this.authorizedRequest(token, uri, { method: 'DELETE' });
     }
 
 
@@ -139,6 +142,10 @@ export default class APIClient {
 
     postPlanificacionToActividad(planificacion, actividad) {
         return this.genericPostRequest('/actividades/' + actividad + '/planificaciones', planificacion);
+    }
+
+    postFilePlanoToTarea(plano, tarea) {
+        return this.genericPostRequest('/tareas/' + tarea + '/plano', plano, false)
     }
 
     deleteSaltosFromActividad(actividad) {

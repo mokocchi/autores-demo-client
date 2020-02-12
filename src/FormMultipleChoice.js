@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElement, removeDepositFromElement } from './redux/actions'
+import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElement, removeDepositFromElement, addFileToExtra } from './redux/actions'
 
 import ActionList from './ActionList';
 import FormOption from './FormOption';
@@ -9,7 +9,9 @@ import FormValidElements from './FormValidElements';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';
 import FormCheckLabel from 'react-bootstrap/FormCheckLabel';
 
-import { TIPO_DEPOSITO } from './config'
+import { FormGroup } from 'react-bootstrap';
+import { FormControl } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 class FormMultipleChoice extends Component {
 
@@ -46,11 +48,24 @@ class FormMultipleChoice extends Component {
         }
     }
 
+    handlePlano = (event) => {
+        event.preventDefault();
+        console.log(event.target);
+        const file = event.target.files[0];
+
+        if (file) {
+            console.log(file);
+            this.props.dispatch(addFileToExtra(window.URL.createObjectURL(file)));
+        }
+        else {
+            console.log("no files selected");
+        }
+    }
 
     render() {
         const { elements, validElements, chosenTareas } = this.props;
         const depositos = chosenTareas
-            .filter(tarea => tarea.tipo.id === parseInt(TIPO_DEPOSITO))
+            .filter(tarea => tarea.tipo.codigo === "deposit")
             .map(tarea => { return { codigo: tarea.codigo, nombre: tarea.nombre } });
         return (
             <div>
@@ -69,6 +84,14 @@ class FormMultipleChoice extends Component {
                         <>
                             <Row>
                                 <Col>
+                                    <FormGroup>
+                                        <Form.Label>Plano</Form.Label>
+                                        <FormControl name="images" type="file" onChange={this.handlePlano} />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
                                     {this.props.recoleccion ?
                                         <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClick}
                                             checkboxGroup={{
@@ -82,9 +105,7 @@ class FormMultipleChoice extends Component {
                                 <Col />
                             </Row>
                             <Row>
-                                <Col>
-                                    <FormOption />
-                                </Col>
+                                <FormOption />
                                 <Col />
                             </Row>
                             <Row>

@@ -12,6 +12,8 @@ export const TIPOS_OPCIONES = [TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_RECOLE
 
 export const TIPO_DEPOSITO = "9";
 
+export const TIPOS_PLANO = [TIPO_RECOLECCION, TIPO_DEPOSITO]
+
 export const CONDITIONS_ARRAY = [{ name: "SÍ se elige", code: "YES" },
 { name: "NO se elige", code: "NO" },
 { name: "SÍ se pasó por", code: "YES_START" },
