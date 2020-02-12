@@ -147,10 +147,7 @@ class FlujoTareas extends Component {
     }
 
     async deleteJumps(id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
-            method: 'DELETE'
-        })
-        const data = await response.json();
+        const data = await tokenManager.deleteSaltosFromActividad(id);
         if (data.errors) {
             this.setState({
                 saveSuccess: false,
@@ -163,15 +160,11 @@ class FlujoTareas extends Component {
     }
 
     async saveForcedJumps(tareaId, targets, id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
-            method: 'POST',
-            body: JSON.stringify({
-                "origen": tareaId,
-                "condicion": "ALL",
-                "destinos": targets
-            })
-        });
-        const data = await response.json();
+        const data = await tokenManager.addSaltoToActividad({
+            "origen": tareaId,
+            "condicion": "ALL",
+            "destinos": targets
+        }, id);
         if (data.errors) {
             this.setState({
                 saveSuccess: false,
@@ -184,16 +177,12 @@ class FlujoTareas extends Component {
     }
 
     async saveConditionalJump(tareaId, salto, id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id + '/saltos', {
-            method: 'POST',
-            body: JSON.stringify({
-                "origen": tareaId,
-                "condicion": salto.on,
-                "destinos": salto.to,
-                "respuesta": salto.answer
-            })
-        });
-        const data = await response.json();
+        const data = await tokenManager.addSaltoToActividad({
+            "origen": tareaId,
+            "condicion": salto.on,
+            "destinos": salto.to,
+            "respuesta": salto.answer
+        }, id);
         if (data.errors) {
             this.setState({
                 saveSuccess: false,
@@ -206,14 +195,10 @@ class FlujoTareas extends Component {
     }
 
     async updatePlanificacionSettings(opcionales, iniciales, id) {
-        const response = await fetch(API_BASE_URL + '/actividades/' + id + "/planificaciones", {
-            method: 'POST',
-            body: JSON.stringify({
-                "iniciales": iniciales,
-                "opcionales": opcionales
-            })
-        });
-        const data = await response.json();
+        const data = await tokenManager.setPlanificacionInActividad({
+            "iniciales": iniciales,
+            "opcionales": opcionales
+        }, id);
         if (data.errors) {
             this.setState({
                 saveSuccess: false,

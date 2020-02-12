@@ -64,6 +64,10 @@ export default class tokenManager {
         return this.client.getTarea(id);
     }
 
+    static getTareasForActividad(id) {
+        return this.client.getTareasForActividad(id);
+    }
+
     static createDominio(dominio) {
         return this.client.postDominio(dominio);
     }
@@ -82,5 +86,17 @@ export default class tokenManager {
 
     static addTareaToActividad(tarea, actividad) {
         return this.client.postTareaToActividad(tarea, actividad);
+    }
+
+    static addSaltoToActividad(salto, actividad) {
+        return this.client.postSaltoToActividad(salto, actividad);
+    }
+    
+    static setPlanificacionInActividad(planificacion, actividad) {
+        return this.client.postPlanificacionToActividad(planificacion, actividad);
+    }
+
+    static deleteSaltosFromActividad(actividad) {
+        return this.client.deleteSaltosFromActividad(actividad);
     }
 }

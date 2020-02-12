@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 
 import { API_BASE_URL } from './config';
+import tokenManager from './tokenManager';
 
 class ShowActividad extends Component {
 
@@ -19,8 +20,7 @@ class ShowActividad extends Component {
     }
 
     async getActividad() {
-        const response = await fetch(API_BASE_URL + '/actividades/' + this.props.actividadId);
-        const data = await response.json();
+        const data = await tokenManager.getActividad(this.props.actividadId)
         if (!data.errors) {
             this.setState({
                 actividad: data
@@ -33,8 +33,7 @@ class ShowActividad extends Component {
     }
 
     async getTareas() {
-        const response = await fetch(API_BASE_URL + '/actividades/' + this.props.actividadId + '/tareas');
-        const data = await response.json();
+        const data = await tokenManager.getTareasForActividad(this.props.actividadId);
         if (!data.errors) {
             this.setState({
                 tareas: data

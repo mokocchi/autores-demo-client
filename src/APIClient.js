@@ -82,6 +82,11 @@ export default class APIClient {
         return this.authorizedRequest(token, uri, { body: JSON.stringify(object), method: 'POST' })
     }
 
+    genericDeleteRequest(uri) {
+        const token = this.getToken();
+        return this.authorizedRequest(token, uri, {method: 'DELETE'});
+    }
+
 
     me() {
         return this.genericGetRequest('/me');
@@ -98,6 +103,10 @@ export default class APIClient {
 
     getTarea(id) {
         return this.genericGetRequest('/tareas/' + id);
+    }
+
+    getTareasForActividad(id) {
+        return this.genericGetRequest('/actividades/' + id + '/tareas');
     }
 
     postDominio(dominio) {
@@ -118,5 +127,17 @@ export default class APIClient {
 
     postTareaToActividad(tarea, actividad) {
         return this.genericPostRequest('/actividades/' + actividad + '/tareas', tarea);
+    }
+
+    postSaltoToActividad(salto, actividad) {
+        return this.genericPostRequest('/actividades/' + actividad + '/saltos', salto);
+    }
+
+    postPlanificacionToActividad(planificacion, actividad) {
+        return this.genericPostRequest('/actividades/' + actividad + '/planificaciones', planificacion);
+    }
+
+    deleteSaltosFromActividad(actividad) {
+        return this.genericDeleteRequest('/actividades/' + actividad + '/saltos');
     }
 }
