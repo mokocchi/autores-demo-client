@@ -13,6 +13,7 @@ import HomePage from './HomePage';
 import CallbackPage from './CallbackPage';
 import silentRenew from './silentRenew';
 import withAuthorization from './withAuthorization';
+import ListaMisActividades from './ListaMisActividades';
 
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
@@ -28,7 +29,8 @@ function App() {
         <Route path="/actividad/:id" exact component={Autor(Tareas)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(Tarea)} />
         <Route path="/actividad/:id/flujo" exact component={Autor(FlujoTareas)} />
-        <Route path="/actividades" exact component={Autor(ListaActividades)} />
+        <Route path="/actividades" exact component={ListaActividades} />
+        <Route path="/mis-actividades/" exact component={Autor(ListaMisActividades)} />
         <Route path="/actividad/:id/mostrar" exact component={ResolverActividad} />
       </Container>
     </BrowserRouter>

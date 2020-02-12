@@ -23,7 +23,8 @@ class FormTarea extends Component {
                 consigna: '',
                 tipo: '',
                 dominio: '',
-                codigo: getRandomSlug()
+                codigo: getRandomSlug(),
+                estado: ''
             },
             isLoading: false,
             success: false,
@@ -85,7 +86,7 @@ class FormTarea extends Component {
     }
 
     async handleFormSubmit(e) {
-        const { nombre, consigna, tipo, dominio, codigo } = this.state.newTarea;
+        const { nombre, consigna, tipo, dominio, codigo, estado } = this.state.newTarea;
         const { extra } = this.props;
         e.preventDefault();
         this.setState({
@@ -120,6 +121,14 @@ class FormTarea extends Component {
         if (dominio === "") {
             this.setState({
                 errorMessage: "Falta dominio",
+                error: true,
+                isLoading: false,
+            })
+            return;
+        }
+        if (estado === "") {
+            this.setState({
+                errorMessage: "Falta estado",
                 error: true,
                 isLoading: false,
             })
@@ -178,7 +187,8 @@ class FormTarea extends Component {
             "consigna": consigna,
             "codigo": codigo,
             "tipo": tipo,
-            "dominio": dominio
+            "dominio": dominio,
+            "estado": estado
         });
         if (data.errors) {
             this.setState({
@@ -273,6 +283,20 @@ class FormTarea extends Component {
                     </Col>
                     <Col>
                         <SelectAPI
+                            uri={'/public/estados'}
+                            attribute={"estado"}
+                            controlId={"formEstado"}
+                            label={"Estado"}
+                            name={"estado"}
+                            defaultValue={""}
+                            placeholder={"Elegí un estado"}
+                            onChange={this.handleInput}
+                        />
+                    </Col>
+                </Form.Row>
+                <Form.Row>
+                    <Col>
+                        <SelectAPI
                             uri={'/public/dominios'}
                             attribute={"dominio"}
                             controlId={"formDominio"}
@@ -284,10 +308,11 @@ class FormTarea extends Component {
                             onPropsChangeMore={this.onPropsChangeMore}
                         />
                     </Col>
+                    <Col></Col>
                 </Form.Row>
                 <Form.Row>
-                    <Col></Col>
                     <FormDominio />
+                    <Col></Col>
                 </Form.Row>
 
                 <hr />

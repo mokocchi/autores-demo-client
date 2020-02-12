@@ -6,7 +6,6 @@ import { setCurrentActividad } from './redux/actions'
 
 import Graph from './Graph';
 
-import { API_BASE_URL } from './config'
 import ModalTarea from './ModalTarea';
 import ModalConexion from './ModalConexion';
 import { Link } from 'react-router-dom';
@@ -72,7 +71,15 @@ class FlujoTareas extends Component {
             return;
         }
         this.props.dispatch(setCurrentActividad(data));
-        const tareas = data.tareas.map((tarea, index) => {
+        const dataTareas = await tokenManager.getTareasForActividad(id);
+        if (data.errors) {
+            this.setState({
+                error: true,
+                errorMessage: data.errors
+            });
+            return;
+        }
+        const tareas = dataTareas.map((tarea, index) => {
             return {
                 ...tarea,
                 nombre: (index + 1) + ". " + tarea.nombre,
@@ -99,7 +106,7 @@ class FlujoTareas extends Component {
             graphNodes[conexion.origen].push(conexion);
         })
         if (this.deleteJumps(actividadId)) {
-            this.props.currentActividad.tareas.forEach(tarea => {
+          tareas.forEach(tarea => {
                 const jumps = graphNodes[tarea.id];
                 const conditionalJumps = jumps.filter(jump => jump.condicion);
                 const jumpsByAnswer = {};

@@ -67,6 +67,10 @@ export default class tokenManager {
     static getTareasForActividad(id) {
         return this.client.getTareasForActividad(id);
     }
+    
+    static getMisActividades() {
+        return this.client.getMisActividades();
+    }
 
     static createDominio(dominio) {
         return this.client.postDominio(dominio);

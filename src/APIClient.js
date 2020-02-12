@@ -97,6 +97,10 @@ export default class APIClient {
         return this.genericGetRequest('/public/actividades');
     }
 
+    getMisActividades() {
+        return this.genericGetRequest('/actividades/user');
+    }
+
     getActividad(id) {
         return this.genericGetRequest('/actividades/' + id);
     }
