@@ -261,7 +261,7 @@ class FormTarea extends Component {
                 <Form.Row>
                     <Col>
                         <SelectAPI
-                            uri={"/tipos-tarea"}
+                            uri={"/public/tipos-tarea"}
                             attribute={"tipo"}
                             controlId={"formTipo"}
                             label={"Tipo"}
@@ -273,7 +273,7 @@ class FormTarea extends Component {
                     </Col>
                     <Col>
                         <SelectAPI
-                            uri={'/dominios'}
+                            uri={'/public/dominios'}
                             attribute={"dominio"}
                             controlId={"formDominio"}
                             label={"Dominio"}

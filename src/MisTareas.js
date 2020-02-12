@@ -54,7 +54,7 @@ class MisTareas extends Component {
                 <Row>
                     <Col>
                         <SelectAPI
-                            uri={'/tareas'}
+                            uri={'/tareas/user'}
                             attribute={"tarea"}
                             controlId={"formTarea"}
                             label={""}

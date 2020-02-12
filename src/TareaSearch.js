@@ -41,7 +41,7 @@ class TareaSearch extends Component {
             case "3":
                 return (
                     <SelectAPI
-                        uri={'/dominios'}
+                        uri={'/public/dominios'}
                         attribute={"dominio"}
                         controlId={"formDominio"}
                         name={"dominio"}

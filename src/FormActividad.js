@@ -148,7 +148,7 @@ class FormActividad extends Component {
                 <Form.Row>
                     <Col>
                         <SelectAPI
-                            uri={"/idiomas"}
+                            uri={"/public/idiomas"}
                             attribute={"idioma"}
                             controlId={"formIdioma"}
                             label={"Idioma"}
@@ -160,7 +160,7 @@ class FormActividad extends Component {
                     </Col>
                     <Col>
                         <SelectAPI
-                            uri={'/tipos-planificacion'}
+                            uri={'/public/tipos-planificacion'}
                             attribute={"tipo-planificacion"}
                             controlId={"formTipoPlanificacion"}
                             label={"Tipo de planificación"}
@@ -174,7 +174,7 @@ class FormActividad extends Component {
                 <Form.Row>
                     <Col>
                         <SelectAPI
-                            uri={'/dominios'}
+                            uri={'/public/dominios'}
                             attribute={"dominio"}
                             controlId={"formDominio"}
                             label={"Dominio"}

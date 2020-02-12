@@ -89,7 +89,7 @@ export default class APIClient {
 
 
     getActividades() {
-        return this.genericGetRequest('/actividades');
+        return this.genericGetRequest('/public/actividades');
     }
 
     getActividad(id) {
