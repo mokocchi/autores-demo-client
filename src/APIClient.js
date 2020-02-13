@@ -72,12 +72,17 @@ export default class APIClient {
         }
     }
 
-    genericGetRequest(uri) {
+    async unauthorizedRequest(uri, parameters={}) {
+        const response = await fetch(API_BASE_URL + '/public' + uri, parameters);
+        return await response.json();
+    }
+
+    authorizedGetRequest(uri) {
         const token = this.getToken();
         return this.authorizedRequest(token, uri);
     }
 
-    genericPostRequest(uri, object, stringify=true) {
+    authorizedPostRequest(uri, object, stringify=true) {
         const token = this.getToken();
         return this.authorizedRequest(token, uri, {
             body: stringify ? JSON.stringify(object) : object,
@@ -85,74 +90,74 @@ export default class APIClient {
         })
     }
 
-    genericDeleteRequest(uri) {
+    authorizedDeleteRequest(uri) {
         const token = this.getToken();
         return this.authorizedRequest(token, uri, { method: 'DELETE' });
     }
 
 
     me() {
-        return this.genericGetRequest('/me');
+        return this.authorizedGetRequest('/me');
     }
 
 
     getActividades() {
-        return this.genericGetRequest('/public/actividades');
+        return this.unauthorizedRequest('/actividades');
     }
 
     getMisActividades() {
-        return this.genericGetRequest('/actividades/user');
+        return this.authorizedGetRequest('/actividades/user');
     }
 
     getActividad(id) {
-        return this.genericGetRequest('/actividades/' + id);
+        return this.authorizedGetRequest('/actividades/' + id);
     }
 
     getTarea(id) {
-        return this.genericGetRequest('/tareas/' + id);
+        return this.authorizedGetRequest('/tareas/' + id);
     }
 
     getTareasForActividad(id) {
-        return this.genericGetRequest('/actividades/' + id + '/tareas');
+        return this.authorizedGetRequest('/actividades/' + id + '/tareas');
     }
 
     postDominio(dominio) {
-        return this.genericPostRequest('/dominios', dominio);
+        return this.authorizedPostRequest('/dominios', dominio);
     }
 
     postActividad(actividad) {
-        return this.genericPostRequest('/actividades', actividad);
+        return this.authorizedPostRequest('/actividades', actividad);
     }
 
     postTarea(tarea) {
-        return this.genericPostRequest('/tareas', tarea);
+        return this.authorizedPostRequest('/tareas', tarea);
     }
 
     postExtraToTarea(extra, tarea) {
-        return this.genericPostRequest('/tareas/' + tarea + '/extra', extra);
+        return this.authorizedPostRequest('/tareas/' + tarea + '/extra', extra);
     }
 
     postTareaToActividad(tarea, actividad) {
-        return this.genericPostRequest('/actividades/' + actividad + '/tareas', tarea);
+        return this.authorizedPostRequest('/actividades/' + actividad + '/tareas', tarea);
     }
 
     postSaltoToActividad(salto, actividad) {
-        return this.genericPostRequest('/actividades/' + actividad + '/saltos', salto);
+        return this.authorizedPostRequest('/actividades/' + actividad + '/saltos', salto);
     }
 
     postPlanificacionToActividad(planificacion, actividad) {
-        return this.genericPostRequest('/actividades/' + actividad + '/planificaciones', planificacion);
+        return this.authorizedPostRequest('/actividades/' + actividad + '/planificaciones', planificacion);
     }
 
     postFilePlanoToTarea(plano, tarea) {
-        return this.genericPostRequest('/tareas/' + tarea + '/plano', plano, false)
+        return this.authorizedPostRequest('/tareas/' + tarea + '/plano', plano, false)
     }
 
     deleteSaltosFromActividad(actividad) {
-        return this.genericDeleteRequest('/actividades/' + actividad + '/saltos');
+        return this.authorizedDeleteRequest('/actividades/' + actividad + '/saltos');
     }
 
     deleteTareasFromActividad(actividad) {
-        return this.genericDeleteRequest('/actividades/' +  actividad + '/tareas');
+        return this.authorizedDeleteRequest('/actividades/' +  actividad + '/tareas');
     }
 }

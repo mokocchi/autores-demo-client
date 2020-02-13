@@ -1,5 +1,5 @@
 import { apiUserFound, apiUserExpired, loadingApiUser } from './redux/actions';
-import { expired } from './utils';
+import { expired, expiresAt } from './utils';
 import APIClient from './APIClient';
 import { userSignedOut } from 'redux-oidc';
 
@@ -23,12 +23,28 @@ export default class tokenManager {
         localStorage.removeItem('auth.token');
     }
 
+    static async delay() {
+        await setTimeout(1);
+    }
     static async loadApiUser() {
         this.store.dispatch(loadingApiUser());
         const tokenString = localStorage.getItem('auth.token');
         let token = null;
         if (tokenString) {
             token = JSON.parse(tokenString);
+        };
+        if(token && token.accessToken && expired(token.expiresAt)) {
+            if(this.store.getState().oidc.isLoadingUser) {
+                await this.delay();
+                console.log("retry");
+                if(!this.store.getState().oidc.isLoadingUser) {
+                    const auth = await this.fetchAuth(this.store.getState().oidc.user.id_token)
+                    token = auth.token;
+                    this.storeApiUser(token);
+                } else {
+                    console.log("still no")
+                }
+            }
         }
         if (token && token.accessToken && !expired(token.expiresAt)) {
             this.client.setToken(token);
@@ -48,8 +64,12 @@ export default class tokenManager {
         return this.client.fetchAuth(id_token);
     }
 
-    static genericGetRequest(uri) {
-        return this.client.genericGetRequest(uri);
+    static authorizedGetRequest(uri) {
+        return this.client.authorizedGetRequest(uri);
+    }
+
+    static publicGetRequest(uri) {
+        return this.client.unauthorizedRequest(uri);
     }
 
     static getActividades() {

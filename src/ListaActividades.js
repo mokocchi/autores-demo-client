@@ -46,4 +46,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default loggedIn(connect(mapStateToProps)(ListaActividades));
+export default connect(mapStateToProps)(ListaActividades);

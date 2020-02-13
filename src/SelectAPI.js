@@ -18,7 +18,7 @@ class SelectAPI extends Component {
         if (!optionsByAttribute[attribute]) {
             try {
                 dispatch(requestOptions(attribute));
-                const data = await tokenManager.genericGetRequest(this.props.uri);
+                const data = await tokenManager.publicGetRequest(this.props.uri);
                 if (data.errors) {
                     dispatch(failAttribute(attribute))
                 } else {
