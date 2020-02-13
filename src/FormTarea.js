@@ -220,7 +220,9 @@ class FormTarea extends Component {
 
             if (TIPOS_PLANO.includes(tipo)) {
                 const plano = new File([extra.plano], codigo + '.png');
-                const planoData = await tokenManager.addPlanoToTarea(plano, data.id);
+                const formData = new FormData();
+                formData.append('plano',plano);
+                const planoData = await tokenManager.addPlanoToTarea(formData, data.id);
                 if(planoData.errors) {
                     this.setState({
                         isLoading: false,
