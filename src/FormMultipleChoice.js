@@ -93,7 +93,7 @@ class FormMultipleChoice extends Component {
                             <Row>
                                 <Col>
                                     {this.props.recoleccion ?
-                                        <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClick}
+                                        <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={this.onClickElements}
                                             checkboxGroup={{
                                                 items: depositos, onChange: this.onChangeChecks, label: "Depósitos",
                                                 field: "nombre", value: "codigo"
