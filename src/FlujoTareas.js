@@ -111,13 +111,13 @@ class FlujoTareas extends Component {
                     if (!["YES", "NO"].includes(salto.condicion)) {
                         const tareaNombre = tareas.find(item => item.id == salto.respuesta).nombre
                         conexion.respuesta = {
-                            code: salto.respuesta,
+                            id: salto.respuesta,
                             name: tareaNombre
                         };
                     } else {
                         const respuestaNombre = tareas.find(item => item.id == salto.origen_id).extra.elements.find(item=>item.code == salto.respuesta).name;
                         conexion.respuesta = {
-                            code: salto.respuesta,
+                            id: salto.respuesta,
                             name: respuestaNombre
                         };
                     }
@@ -159,7 +159,6 @@ class FlujoTareas extends Component {
             const targets = jumps.filter(jump => jump.condicion === undefined).map(jump => jump.destino);
             //conditionalJumps.length === 0 && 
             if (targets.length > 0) {
-                console.log(targets);
                 if (!this.saveForcedJumps(tarea.id, targets, actividadId)) {
                     return;
                 }
@@ -225,7 +224,6 @@ class FlujoTareas extends Component {
     }
 
     async saveConditionalJump(tareaId, salto, id) {
-        console.log(salto);
         const data = await tokenManager.addSaltoToActividad({
             "origen": tareaId,
             "condicion": salto.on,
