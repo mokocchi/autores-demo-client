@@ -55,6 +55,7 @@ class MisTareas extends Component {
                     <Col>
                         <SelectAPI
                             uri={'/tareas/user'}
+                            authorized
                             attribute={"tarea"}
                             controlId={"formTarea"}
                             label={""}

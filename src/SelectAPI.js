@@ -4,7 +4,6 @@ import { requestOptions, receiveOptions, failAttribute } from './redux/actions'
 
 import Select from './Select';
 import LoadSpinner from './LoadSpinner';
-import { API_BASE_URL } from './config'
 import tokenManager from './tokenManager';
 
 class SelectAPI extends Component {
@@ -14,11 +13,16 @@ class SelectAPI extends Component {
     }
 
     async getElements() {
-        const { dispatch, optionsByAttribute, attribute } = this.props
+        const { dispatch, optionsByAttribute, attribute, authorized } = this.props
         if (!optionsByAttribute[attribute]) {
             try {
                 dispatch(requestOptions(attribute));
-                const data = await tokenManager.publicGetRequest(this.props.uri);
+                let data = null;
+                if(authorized){
+                    data = await tokenManager.authorizedGetRequest(this.props.uri);
+                } else {
+                    data = await tokenManager.publicGetRequest(this.props.uri);
+                }
                 if (data.errors) {
                     dispatch(failAttribute(attribute))
                 } else {
