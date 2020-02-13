@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { InputGroup, Button, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { selectTarea, chooseTarea, setCurrentActividad } from './redux/actions'
+import { selectTarea, chooseTarea } from './redux/actions'
 
 import Select from './Select'
 

@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import { Button, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCurrentActividad } from './redux/actions'
+import { setCurrentActividad, addTarea } from './redux/actions'
 
 import BuscarTarea from './BuscarTarea';
 import ListTareas from './ListTareas';
 import MisTareas from './MisTareas';
 
-import { API_BASE_URL } from './config';
 import tokenManager from './tokenManager';
 
 class FormTareas extends Component {
@@ -26,6 +25,11 @@ class FormTareas extends Component {
         this.setCurrentActividad(id);
     }
 
+    async addTareas(id) {
+        const tareas = await tokenManager.getTareasForActividad(id);
+        tareas.forEach(tarea => this.props.dispatch(addTarea(tarea)));
+    }
+
     async setCurrentActividad(id) {
         const data = await tokenManager.getActividad(id);
         if (data.errors) {
@@ -36,6 +40,7 @@ class FormTareas extends Component {
             return;
         }
         this.props.dispatch(setCurrentActividad(data));
+        this.addTareas(id);
     }
 
     async addTareaToActividad(id, tarea) {
@@ -56,7 +61,22 @@ class FormTareas extends Component {
 
     handleFormSubmit() {
         const id = this.props.actividadId;
-        this.props.chosenTareas.forEach(tarea => this.addTareaToActividad(id, tarea));
+        if(this.detachTareas(id)) {
+            this.props.chosenTareas.forEach(tarea => this.addTareaToActividad(id, tarea));
+        }
+    }
+
+    async detachTareas(id) {
+        const data = await tokenManager.deleteTareasFromActividad(id);
+        if (data.errors) {
+            this.setState({
+                saveSuccess: false,
+                errors: data.errors
+            });
+            return false;
+        } else {
+            return true;
+        }
     }
 
     render() {

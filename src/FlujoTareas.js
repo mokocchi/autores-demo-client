@@ -79,6 +79,22 @@ class FlujoTareas extends Component {
             });
             return;
         }
+        const conexiones = [];
+        data.planificacion.saltos.forEach(salto => {
+            const origen = salto.origen_id;
+            const destinos = salto.destino_ids;
+            destinos.forEach(destino => {
+                const conexion = {
+                    origen,
+                    destino,
+                }
+                if(salto.respuesta) {
+                    conexion.respuesta = salto.respuesta;
+                    conexion.condicion = salto.condicion;
+                }
+                conexiones.push(conexion);
+            })
+        })
         const tareas = dataTareas.map((tarea, index) => {
             return {
                 ...tarea,
@@ -92,6 +108,7 @@ class FlujoTareas extends Component {
         })
         this.setState({
             graphTareas: tareas,
+            graphConexiones: conexiones,
             success: true
         });
     }
@@ -113,7 +130,6 @@ class FlujoTareas extends Component {
                 conditionalJumps.forEach(jump => {
                     (jumpsByAnswer[jump.respuesta.id] = jumpsByAnswer[jump.respuesta.id] || []).push(jump)
                 })
-                console.log(jumpsByAnswer);
                 Object.keys(jumpsByAnswer).forEach(key => {
                     const targetByCondition = {};
                     jumpsByAnswer[key].forEach(jump => {
@@ -131,7 +147,9 @@ class FlujoTareas extends Component {
                     })
                 })
                 const targets = jumps.filter(jump => jump.condicion === undefined).map(jump => jump.destino);
-                if (conditionalJumps.length === 0 || targets.length > 0) {
+                //conditionalJumps.length === 0 && 
+                if (targets.length > 0) {
+                    console.log(targets);
                     if (!this.saveForcedJumps(tarea.id, targets, actividadId)) {
                         return;
                     }

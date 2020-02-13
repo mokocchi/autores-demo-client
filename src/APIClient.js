@@ -151,4 +151,8 @@ export default class APIClient {
     deleteSaltosFromActividad(actividad) {
         return this.genericDeleteRequest('/actividades/' + actividad + '/saltos');
     }
+
+    deleteTareasFromActividad(actividad) {
+        return this.genericDeleteRequest('/actividades/' +  actividad + '/tareas');
+    }
 }

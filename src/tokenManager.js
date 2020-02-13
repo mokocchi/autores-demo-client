@@ -107,4 +107,8 @@ export default class tokenManager {
     static deleteSaltosFromActividad(actividad) {
         return this.client.deleteSaltosFromActividad(actividad);
     }
+
+    static deleteTareasFromActividad(actividad) {
+        return this.client.deleteTareasFromActividad(actividad);
+    }
 }
