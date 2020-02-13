@@ -16,29 +16,36 @@ class MisTareas extends Component {
             selectedTarea: {
                 nombre: "",
                 id: ""
-            }
+            },
+            tareasCache: {}
         }
         this.onClick = this.onClick.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
-    onChange = (e) => {
-        const index = e.nativeEvent.target.selectedIndex;
-        const nombre = e.nativeEvent.target[index].text
-        const tarea = {
-            nombre: nombre,
-            id: e.target.value
-        }
-        this.setState({
-            selectedTarea: tarea
-        })
-    }
-
-    async onClick(e) {
-        if (this.state.selectedTarea.id !== "") {
-            const data = await tokenManager.getTarea(this.state.selectedTarea.id);
-            if(!data.errors){
-                this.props.dispatch(addTarea(data));
+    async onChange(e) {
+        let tarea = this.state.tareasCache[e.target.value];
+        if (tarea) {
+            this.setState({
+                selectedTarea: tarea
+            })
+        } else {
+            tarea = await tokenManager.getTarea(e.target.value);
+            if (!tarea.errors) {
+                const tareasCache = this.state.tareasCache;
+                tareasCache[tarea.id] = tarea;
+                this.setState({
+                    selectedTarea: tarea,
+                    tareasCache
+                })
             }
+
+        }
+    }
+
+    onClick(e) {
+        if (this.state.selectedTarea.id !== "") {
+            this.props.dispatch(addTarea(this.state.selectedTarea));
         }
     }
 
@@ -65,7 +72,7 @@ class MisTareas extends Component {
                             onChange={this.onChange}
                         />
                     </Col>
-                    <Col>
+                    <Col sm={2}>
                         <span>
                             <Button className="float-left" variant="info" type="button"
                                 onClick={this.onClick} disabled={this.state.selectedTarea.id === ""} >
@@ -73,7 +80,7 @@ class MisTareas extends Component {
                             </Button>
                         </span>
                     </Col>
-                    <Col></Col>
+                    <Col>Consigna:<br />{this.state.selectedTarea && <span>{this.state.selectedTarea.consigna}</span>}</Col>
                 </Row>
             </>
         )
