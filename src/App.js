@@ -11,7 +11,6 @@ import ResolverActividad from './ResolverActividad';
 import ListaActividades from './ListaActividades';
 import HomePage from './HomePage';
 import CallbackPage from './CallbackPage';
-import silentRenew from './silentRenew';
 import withAuthorization from './withAuthorization';
 import ListaMisActividades from './ListaMisActividades';
 
@@ -24,7 +23,6 @@ function App() {
       <Container style={{ marginTop: '1em' }}>
         <Route path="/" exact component={HomePage} />
         <Route path="/callback" component={CallbackPage} />
-        <Route path="/silent_renew" component={silentRenew} />
         <Route path="/nuevaActividad" exact component={Autor(Actividad)} />
         <Route path="/actividad/:id" exact component={Autor(Tareas)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(Tarea)} />

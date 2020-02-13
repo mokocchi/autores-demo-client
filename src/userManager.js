@@ -8,7 +8,7 @@ const userManagerConfig = {
   scope: 'openid profile email',
   authority: 'https://accounts.google.com',
   automaticSilentRenew: true,
-  silent_redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/silent_renew`,
+  silent_redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/silent_renew.html`,
   filterProtocolClaims: true,
   loadUserInfo: true,
   userStore: new WebStorageStateStore({ store: window.localStorage })
