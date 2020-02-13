@@ -59,9 +59,10 @@ class FormTareas extends Component {
         }
     }
 
-    handleFormSubmit() {
+    async handleFormSubmit() {
         const id = this.props.actividadId;
-        if(this.detachTareas(id)) {
+        const success = await this.detachTareas(id);
+        if(success) {
             this.props.chosenTareas.forEach(tarea => this.addTareaToActividad(id, tarea));
         }
     }
