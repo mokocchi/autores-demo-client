@@ -176,9 +176,9 @@ class FormTarea extends Component {
                         return
                     }
                 });
-                if (!extra.plano) {
-                    elementErrors = true;
-                }
+                // if (!extra.plano) {
+                //     elementErrors = true;
+                // }
                 if (elementErrors) {
                     return;
                 }
@@ -218,19 +218,19 @@ class FormTarea extends Component {
                 return
             }
 
-            if (TIPOS_PLANO.includes(tipo)) {
-                const plano = new File([extra.plano], codigo + '.png');
-                const formData = new FormData();
-                formData.append('plano',plano);
-                const planoData = await tokenManager.addPlanoToTarea(formData, data.id);
-                if(planoData.errors) {
-                    this.setState({
-                        isLoading: false,
-                        error: true,
-                        errorMessage: planoData.errors
-                    });
-                }
-            }
+            // if (TIPOS_PLANO.includes(tipo)) {
+            //     const plano = new File([extra.plano], codigo + '.png');
+            //     const formData = new FormData();
+            //     formData.append('plano',plano);
+            //     const planoData = await tokenManager.addPlanoToTarea(formData, data.id);
+            //     if(planoData.errors) {
+            //         this.setState({
+            //             isLoading: false,
+            //             error: true,
+            //             errorMessage: planoData.errors
+            //         });
+            //     }
+            // }
         }
 
         const lastData = await tokenManager.getTarea(data.id);
