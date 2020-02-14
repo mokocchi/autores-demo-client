@@ -130,7 +130,10 @@ export default function tareaExtra(state = INIT_STATE, action) {
         case ADD_FILE_TO_EXTRA:
             return {
                 ...state,
-                plano: action.file
+                plano: {
+                    file: action.file,
+                    filetype: action.filetype
+                }
             }
         default:
             return state;

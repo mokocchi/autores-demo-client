@@ -3,7 +3,8 @@ import React from 'react';
 import FormElegirOpcion from './FormElegirOpcion';
 import FormMultipleChoice from './FormMultipleChoice';
 import FormContadores from './FormContadores';
-import { TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION } from './config';
+import { TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPO_DEPOSITO } from './config';
+import FormDeposito from './FormDeposito';
 
 function TareaExtra(props) {
     switch (props.tipoTarea) {
@@ -22,6 +23,10 @@ function TareaExtra(props) {
         case TIPO_RECOLECCION:
             return (
                 <FormMultipleChoice title={"Recolección"} recoleccion/>
+            );
+        case TIPO_DEPOSITO:
+            return (
+                <FormDeposito />
             )
         default:
             return null;

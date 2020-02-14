@@ -55,7 +55,7 @@ class FormMultipleChoice extends Component {
 
         if (file) {
             console.log(file);
-            this.props.dispatch(addFileToExtra(window.URL.createObjectURL(file)));
+            this.props.dispatch(addFileToExtra(window.URL.createObjectURL(file), file.type));
         }
         else {
             console.log("no files selected");
