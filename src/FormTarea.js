@@ -217,20 +217,22 @@ class FormTarea extends Component {
                 });
                 return
             }
+        }
 
-            if (TIPOS_PLANO.includes(tipo)) {
-                const plano = new File([extra.plano.file], codigo + '.png', { type: extra.plano.filetype });
-                const formData = new FormData();
-                formData.append('plano', plano);
-                const planoData = await tokenManager.addPlanoToTarea(formData, data.id);
-                if (planoData.errors) {
-                    this.setState({
-                        isLoading: false,
-                        error: true,
-                        errorMessage: planoData.errors
-                    });
-                    return;
-                }
+        if (TIPOS_PLANO.includes(tipo)) {
+            const response = await fetch(extra.plano.url);
+            const blob = await response.blob();
+            const plano = new File([blob], codigo + '.png', { type: extra.plano.filetype });
+            const formData = new FormData();
+            formData.append('plano', plano);
+            const planoData = await tokenManager.addPlanoToTarea(formData, data.id);
+            if (planoData.errors) {
+                this.setState({
+                    isLoading: false,
+                    error: true,
+                    errorMessage: planoData.errors
+                });
+                return;
             }
         }
 

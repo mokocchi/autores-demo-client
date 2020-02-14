@@ -50,11 +50,9 @@ class FormMultipleChoice extends Component {
 
     handlePlano = (event) => {
         event.preventDefault();
-        console.log(event.target);
         const file = event.target.files[0];
 
         if (file) {
-            console.log(file);
             this.props.dispatch(addFileToExtra(window.URL.createObjectURL(file), file.type));
         }
         else {

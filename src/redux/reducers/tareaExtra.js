@@ -131,7 +131,7 @@ export default function tareaExtra(state = INIT_STATE, action) {
             return {
                 ...state,
                 plano: {
-                    file: action.file,
+                    url: action.url,
                     filetype: action.filetype
                 }
             }

@@ -214,10 +214,10 @@ export function removeDepositFromElement(elementCode, depositCode) {
 
 export const ADD_FILE_TO_EXTRA = "ADD_FILE_TO_EXTRA"
 
-export function addFileToExtra(file, filetype) {
+export function addFileToExtra(url, filetype) {
   return {
     type: ADD_FILE_TO_EXTRA,
-    file,
+    url,
     filetype
   }
 }

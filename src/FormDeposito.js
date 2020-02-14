@@ -20,31 +20,9 @@ class FormMultipleChoice extends Component {
 
     async handlePlano(event) {
         event.preventDefault();
-        console.log(event.target);
-        const file = event.target.files[0];
+        const plano = event.target.files[0];
 
-        if (file) {
-            console.log(file);
-
-            const url = window.URL.createObjectURL(file);
-            console.log(url.substr(5));
-            const filetype = file.type;
-
-            const plano = new File([url], 'img.jpg', { type: filetype });
-            console.log(plano);
-
-            const formData = new FormData();
-            formData.append('plano', plano);
-            const planoData = await tokenManager.addPlanoToTarea(formData, 12);
-            if (planoData.errors) {
-                this.setState({
-                    isLoading: false,
-                    error: true,
-                    errorMessage: planoData.errors
-                });
-                return;
-            }
-
+        if (plano) {
             this.props.dispatch(addFileToExtra(window.URL.createObjectURL(plano), plano.type));
         }
         else {
