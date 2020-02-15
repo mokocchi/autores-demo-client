@@ -176,16 +176,16 @@ class FormTarea extends Component {
                         return
                     }
                 });
-                // if (!extra.plano) {
-                //     elementErrors = true;
-                // }
+                if (!extra.plano) {
+                    elementErrors = true;
+                }
                 if (elementErrors) {
                     return;
                 }
             }
         }
 
-        const data = await tokenManager.createTarea({
+        const id = await tokenManager.createTarea({
             "nombre": nombre,
             "consigna": consigna,
             "codigo": codigo,
@@ -193,11 +193,11 @@ class FormTarea extends Component {
             "dominio": dominio,
             "estado": estado
         });
-        if (data.errors) {
+        if (id.errors) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: data.errors
+                errorMessage: id.errors
             });
             return
         }
@@ -208,7 +208,7 @@ class FormTarea extends Component {
 
             const extraData = await tokenManager.addExtraToTarea({
                 "extra": processedExtra,
-            }, data.id)
+            }, id)
             if (extraData.errors) {
                 this.setState({
                     isLoading: false,
@@ -225,7 +225,7 @@ class FormTarea extends Component {
             const plano = new File([blob], codigo + '.png', { type: extra.plano.filetype });
             const formData = new FormData();
             formData.append('plano', plano);
-            const planoData = await tokenManager.addPlanoToTarea(formData, data.id);
+            const planoData = await tokenManager.addPlanoToTarea(formData, id);
             if (planoData.errors) {
                 this.setState({
                     isLoading: false,
@@ -236,7 +236,7 @@ class FormTarea extends Component {
             }
         }
 
-        const lastData = await tokenManager.getTarea(data.id);
+        const lastData = await tokenManager.getTarea(id);
 
         this.props.dispatch(addTarea(lastData));
 

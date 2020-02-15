@@ -66,13 +66,20 @@ export default class APIClient {
                 "Authorization": "Bearer " + token.accessToken
             }
             const response = await fetch(API_BASE_URL + uri, parameters);
-            return await response.json();
+
+            const location = response.headers.get('location');
+            if (location) {
+                const splitLocation = location.split("/");
+                return splitLocation[splitLocation.length - 1];
+            } else {
+                return await response.json();
+            }
         } else {
             return { errors: "No autorizado" }
         }
     }
 
-    async unauthorizedRequest(uri, parameters={}) {
+    async unauthorizedRequest(uri, parameters = {}) {
         const response = await fetch(API_BASE_URL + '/public' + uri, parameters);
         return await response.json();
     }
@@ -82,7 +89,7 @@ export default class APIClient {
         return this.authorizedRequest(token, uri);
     }
 
-    authorizedPostRequest(uri, object, stringify=true) {
+    authorizedPostRequest(uri, object, stringify = true) {
         const token = this.getToken();
         return this.authorizedRequest(token, uri, {
             body: stringify ? JSON.stringify(object) : object,
@@ -119,6 +126,14 @@ export default class APIClient {
 
     getTarea(id) {
         return this.authorizedGetRequest('/tareas/' + id);
+    }
+
+    getTareaPublic(id) {
+        return this.unauthorizedRequest('/tareas/' + id);
+    }
+
+    getTareasPublic() {
+        return this.unauthorizedRequest('/tareas');
     }
 
     getTareasForActividad(id) {
@@ -162,6 +177,6 @@ export default class APIClient {
     }
 
     deleteTareasFromActividad(actividad) {
-        return this.authorizedDeleteRequest('/actividades/' +  actividad + '/tareas');
+        return this.authorizedDeleteRequest('/actividades/' + actividad + '/tareas');
     }
 }

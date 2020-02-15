@@ -3,28 +3,27 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import tokenManager from './tokenManager';
-import loggedIn from './loggedIn';
 
-class ListaActividades extends Component {
+class ListaTareas extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            actividades: [],
+            tareas: [],
             success: false
         }
-        this.getActividades = this.getActividades.bind(this);
+        this.getTareas = this.getTareas.bind(this);
     }
 
     componentDidMount() {
-        this.getActividades();
+        this.getTareas();
     }
 
-    async getActividades() {
-        const data = await tokenManager.getActividadesPublic();
+    async getTareas() {
+        const data = await tokenManager.getTareasPublic();
         if (!data.errors) {
             this.setState({
-                actividades: data,
+                tareas: data,
                 success: true
             })
         }
@@ -32,9 +31,9 @@ class ListaActividades extends Component {
     render() {
         return (
             <ul>
-                {this.state.success && this.state.actividades.map((actividad, index) =>
-                    <Link key={index} to={'/actividad/' + actividad.id + '/mostrar'}>
-                        <li>{actividad.nombre}</li>
+                {this.state.success && this.state.tareas.map((tarea, index) =>
+                    <Link key={index} to={'/tarea/' + tarea.id + '/mostrar'}>
+                        <li>{tarea.nombre}</li>
                     </Link>
                 )}
             </ul>
@@ -46,4 +45,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default connect(mapStateToProps)(ListaActividades);
+export default connect(mapStateToProps)(ListaTareas);

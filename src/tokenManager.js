@@ -72,8 +72,8 @@ export default class tokenManager {
         return this.client.unauthorizedRequest(uri);
     }
 
-    static getActividades() {
-        return this.client.getActividades();
+    static getActividadesPublic() {
+        return this.client.getActividadesPublic();
     }
 
     static getActividad(id) {
@@ -82,6 +82,14 @@ export default class tokenManager {
 
     static getTarea(id) {
         return this.client.getTarea(id);
+    }
+
+    static getTareaPublic(id) {
+        return this.client.getTareaPublic(id);
+    }
+
+    static getTareasPublic() {
+        return this.client.getTareasPublic();
     }
 
     static getTareasForActividad(id) {

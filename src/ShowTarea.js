@@ -17,7 +17,7 @@ class ShowTarea extends Component {
     }
 
     async getTarea() {
-        const data = await tokenManager.getTarea(this.props.tareaId)
+        const data = await tokenManager.getTareaPublic(this.props.tareaId)
         if (!data.errors) {
             this.setState({
                 tarea: data
@@ -34,7 +34,7 @@ class ShowTarea extends Component {
         return (
             <>
                 {
-                    tarea ?
+                    tarea &&
                         <>
                             <Row>
                                 <Col>Nombre: {tarea.nombre}</Col>
@@ -58,7 +58,6 @@ class ShowTarea extends Component {
                                 </Col>
                             </Row>
                         </>
-                        : "not tarea"
                 }
                 {errors && <legend>Tarea no encontrada</legend>}
             </>

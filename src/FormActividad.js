@@ -90,7 +90,7 @@ class FormActividad extends Component {
             })
         }
 
-        const data = await tokenManager.createActividad({
+        const id = await tokenManager.createActividad({
             "nombre": nombre,
             "objetivo": objetivo,
             "dominio": dominio,
@@ -98,21 +98,32 @@ class FormActividad extends Component {
             "tipoPlanificacion": tipoPlanificacion,
             "estado": estado
         })
-        if (data.errors) {
+        if (id.errors) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: data.errors
+                errorMessage: id.errors
             });
             return
         }
+
+        const actividad = await tokenManager.getActividad(id);
+        if (actividad.errors) {
+            this.setState({
+                isLoading: false,
+                error: true,
+                errorMessage: actividad.errors
+            });
+            return
+        }
+
         this.setState({
             success: true,
             isLoading: false,
             error: false,
             errorMessage: ''
         });
-        this.props.dispatch(setCurrentActividad(data));
+        this.props.dispatch(setCurrentActividad(actividad));
     }
 
     handleInput(e) {
