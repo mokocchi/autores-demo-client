@@ -113,6 +113,10 @@ export default class APIClient {
         return this.authorizedGetRequest('/actividades/' + id);
     }
 
+    getMisTareas() {
+        return this.authorizedGetRequest('/tareas/user');
+    }
+
     getTarea(id) {
         return this.authorizedGetRequest('/tareas/' + id);
     }

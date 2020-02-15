@@ -18,6 +18,7 @@ function Menu({ user, token }) {
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/actividades/">Lista Actividades</Nav.Link>
                     <Nav.Link href="/mis-actividades/">Mis actividades</Nav.Link>
+                    <Nav.Link href="/mis-tareas/">Mis tareas</Nav.Link>
                     <Nav.Link href="/nuevaActividad/">Crear Actividad</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
