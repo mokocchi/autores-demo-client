@@ -10,6 +10,7 @@ import SelectAPI from './SelectAPI';
 
 import { API_BASE_URL } from './config';
 import tokenManager from './tokenManager';
+import { getRandomSlug } from './utils';
 
 class FormActividad extends Component {
 
@@ -22,7 +23,8 @@ class FormActividad extends Component {
                 idioma: '',
                 tipoPlanificacion: '',
                 dominio: '',
-                estado: ''
+                estado: '',
+                codigo: getRandomSlug()
             },
             isLoading: false,
             success: false,
@@ -34,7 +36,7 @@ class FormActividad extends Component {
     }
 
     async handleFormSubmit(e) {
-        const { nombre, objetivo, idioma, tipoPlanificacion, dominio, estado } = this.state.newActividad;
+        const { nombre, objetivo, idioma, tipoPlanificacion, dominio, estado, codigo } = this.state.newActividad;
         e.preventDefault();
         this.setState({
             isLoading: true,
@@ -93,6 +95,7 @@ class FormActividad extends Component {
         const id = await tokenManager.createActividad({
             "nombre": nombre,
             "objetivo": objetivo,
+            "codigo": codigo,
             "dominio": dominio,
             "idioma": idioma,
             "tipoPlanificacion": tipoPlanificacion,
