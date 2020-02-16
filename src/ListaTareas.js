@@ -21,7 +21,7 @@ class ListaTareas extends Component {
 
     async getTareas() {
         const data = await tokenManager.getTareasPublic();
-        if (!data.errors) {
+        if (!data.error_code) {
             this.setState({
                 tareas: data,
                 success: true

@@ -40,11 +40,11 @@ class FormDominio extends Component {
             "nombre": this.state.dominio
         });
 
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: data.errors
+                errorMessage: data.user_message
             });
         } else {
             this.props.dispatch(addSelectOption("dominio", data));

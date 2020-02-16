@@ -18,7 +18,7 @@ class ShowTarea extends Component {
 
     async getTarea() {
         const data = await tokenManager.getTareaPublic(this.props.tareaId)
-        if (!data.errors) {
+        if (!data.error_code) {
             this.setState({
                 tarea: data
             })

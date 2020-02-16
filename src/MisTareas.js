@@ -31,7 +31,7 @@ class MisTareas extends Component {
             })
         } else {
             tarea = await tokenManager.getTarea(e.target.value);
-            if (!tarea.errors) {
+            if (!tarea.error_code) {
                 const tareasCache = this.state.tareasCache;
                 tareasCache[tarea.id] = tarea;
                 this.setState({

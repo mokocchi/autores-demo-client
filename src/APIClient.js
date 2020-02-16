@@ -48,7 +48,7 @@ export default class APIClient {
             })
         });
         const data = await response.json();
-        if (data.errors) {
+        if (data.error_code) {
             return null
         } else {
             const token = {
@@ -75,7 +75,7 @@ export default class APIClient {
                 return await response.json();
             }
         } else {
-            return { errors: "No autorizado" }
+            return { user_message: "No autorizado", error_code: 0 }
         }
     }
 

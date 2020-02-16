@@ -22,7 +22,7 @@ class ListaMisActividades extends Component {
 
     async getActividades() {
         const data = await tokenManager.getMisActividades();
-        if (!data.errors) {
+        if (!data.error_code) {
             this.setState({
                 actividades: data,
                 success: true

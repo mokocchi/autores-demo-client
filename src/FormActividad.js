@@ -98,21 +98,21 @@ class FormActividad extends Component {
             "tipoPlanificacion": tipoPlanificacion,
             "estado": estado
         })
-        if (id.errors) {
+        if (id.error_code) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: id.errors
+                errorMessage: id.user_message
             });
             return
         }
 
         const actividad = await tokenManager.getActividad(id);
-        if (actividad.errors) {
+        if (actividad.error_code) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: actividad.errors
+                errorMessage: actividad.user_message
             });
             return
         }

@@ -40,10 +40,10 @@ class FormTarea extends Component {
 
     async setCurrentActividad(id) {
         const data = await tokenManager.getActividad(id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 error: true,
-                errorMessage: data.errors
+                errorMessage: data.user_message
             });
             return;
         }
@@ -193,11 +193,11 @@ class FormTarea extends Component {
             "dominio": dominio,
             "estado": estado
         });
-        if (id.errors) {
+        if (id.error_code) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: id.errors
+                errorMessage: id.user_message
             });
             return
         }
@@ -209,11 +209,11 @@ class FormTarea extends Component {
             const extraData = await tokenManager.addExtraToTarea({
                 "extra": processedExtra,
             }, id)
-            if (extraData.errors) {
+            if (extraData.error_code) {
                 this.setState({
                     isLoading: false,
                     error: true,
-                    errorMessage: extraData.errors
+                    errorMessage: extraData.user_message
                 });
                 return
             }
@@ -226,17 +226,25 @@ class FormTarea extends Component {
             const formData = new FormData();
             formData.append('plano', plano);
             const planoData = await tokenManager.addPlanoToTarea(formData, id);
-            if (planoData.errors) {
+            if (planoData.error_code) {
                 this.setState({
                     isLoading: false,
                     error: true,
-                    errorMessage: planoData.errors
+                    errorMessage: planoData.user_message
                 });
                 return;
             }
         }
 
         const lastData = await tokenManager.getTarea(id);
+        if (lastData.error_code) {
+            this.setState({
+                isLoading: false,
+                error: true,
+                errorMessage: lastData.user_message
+            });
+            return;
+        }
 
         this.props.dispatch(addTarea(lastData));
 

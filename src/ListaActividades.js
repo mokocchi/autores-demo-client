@@ -22,7 +22,7 @@ class ListaActividades extends Component {
 
     async getActividades() {
         const data = await tokenManager.getActividadesPublic();
-        if (!data.errors) {
+        if (!data.error_code) {
             this.setState({
                 actividades: data,
                 success: true

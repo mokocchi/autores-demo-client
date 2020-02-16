@@ -65,19 +65,19 @@ class FlujoTareas extends Component {
 
     async setCurrentActividad(id) {
         const data = await tokenManager.getActividad(id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 error: true,
-                errorMessage: data.errors
+                errorMessage: data.user_message
             });
             return;
         }
         this.props.dispatch(setCurrentActividad(data));
         const dataTareas = await tokenManager.getTareasForActividad(id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 error: true,
-                errorMessage: data.errors
+                errorMessage: data.user_message
             });
             return;
         }
@@ -195,10 +195,10 @@ class FlujoTareas extends Component {
 
     async deleteJumps(id) {
         const data = await tokenManager.deleteSaltosFromActividad(id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 saveSuccess: false,
-                errors: data.errors
+                errors: data.user_message
             });
             return false;
         } else {
@@ -212,10 +212,10 @@ class FlujoTareas extends Component {
             "condicion": "ALL",
             "destinos": targets
         }, id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 saveSuccess: false,
-                errors: data.errors
+                errors: data.user_message
             });
             return false;
         } else {
@@ -230,10 +230,10 @@ class FlujoTareas extends Component {
             "destinos": salto.to,
             "respuesta": salto.answer
         }, id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 saveSuccess: false,
-                errors: data.errors
+                errors: data.user_message
             });
             return false;
         } else {
@@ -246,10 +246,10 @@ class FlujoTareas extends Component {
             "iniciales": iniciales,
             "opcionales": opcionales
         }, id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 saveSuccess: false,
-                errors: data.errors
+                errors: data.user_message
             })
             return false;
         } else {

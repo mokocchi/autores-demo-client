@@ -23,7 +23,7 @@ class SelectAPI extends Component {
                 } else {
                     data = await tokenManager.publicGetRequest(this.props.uri);
                 }
-                if (data.errors) {
+                if (data.error_code) {
                     dispatch(failAttribute(attribute))
                 } else {
                     dispatch(receiveOptions(attribute, data))
@@ -44,6 +44,7 @@ class SelectAPI extends Component {
                 }
                 {optionsByAttribute[attribute] && !optionsByAttribute[attribute].isFetching && optionsByAttribute[attribute].items !== [] &&
                     <Select
+                        error={optionsByAttribute[attribute].error}
                         controlId={this.props.controlId}
                         label={this.props.label}
                         name={this.props.name}

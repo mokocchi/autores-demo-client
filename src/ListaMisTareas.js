@@ -22,7 +22,7 @@ class ListaMisTareas extends Component {
 
     async getTareas() {
         const data = await tokenManager.getMisTareas();
-        if (!data.errors) {
+        if (!data.error_code) {
             this.setState({
                 tareas: data,
                 success: true

@@ -13,15 +13,13 @@ class ShowActividad extends Component {
             tareas: [],
             errors: false
         }
-        this.getActividad = this.getActividad.bind(this);
-        this.getTareas = this.getTareas.bind(this);
-        this.getActividad();
-        this.getTareas();
+        this.getActividadAndTareas = this.getActividadAndTareas.bind(this);
+        this.getActividadAndTareas();
     }
 
-    async getActividad() {
+    async getActividadAndTareas() {
         const data = await tokenManager.getActividad(this.props.actividadId)
-        if (!data.errors) {
+        if (!data.error_code) {
             this.setState({
                 actividad: data
             })
@@ -29,12 +27,11 @@ class ShowActividad extends Component {
             this.setState({
                 errors: true
             })
+            return;
         }
-    }
 
-    async getTareas() {
-        const data = await tokenManager.getTareasForActividad(this.props.actividadId);
-        if (!data.errors) {
+        const tareasData = await tokenManager.getTareasForActividad(this.props.actividadId);
+        if (!data.error_code) {
             this.setState({
                 tareas: data
             })

@@ -4,13 +4,14 @@ function options(
     state = {
         isFetching: false,
         didInvalidate: false,
+        error: false,
         items: []
     },
     action
 ) {
     switch (action.type) {
         case FAIL_ATTRIBUTE:
-            return { ...state, isFetching: false }
+            return { ...state, isFetching: false, error: true }
         case INVALIDATE_ATTRIBUTE:
             return { ...state, didInvalidate: true }
         case REQUEST_OPTIONS:
@@ -19,7 +20,7 @@ function options(
             return {
                 ...state,
                 isFetching: false,
-                didInvalidate: false,
+                error: false,
                 items: action.options,
                 lastUpdated: action.receivedAt
             }

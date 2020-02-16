@@ -32,10 +32,10 @@ class FormTareas extends Component {
 
     async setCurrentActividad(id) {
         const data = await tokenManager.getActividad(id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 error: true,
-                errorMessage: data.errors
+                errorMessage: data.user_message
             });
             return;
         }
@@ -47,10 +47,10 @@ class FormTareas extends Component {
         const data = await tokenManager.addTareaToActividad({
             "tarea": tarea.id
         }, id)
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 error: true,
-                errorMessage: data.errors,
+                errorMessage: data.user_message,
                 success: false
             })
             return;
@@ -69,10 +69,10 @@ class FormTareas extends Component {
 
     async detachTareas(id) {
         const data = await tokenManager.deleteTareasFromActividad(id);
-        if (data.errors) {
+        if (data.error_code) {
             this.setState({
                 saveSuccess: false,
-                errors: data.errors
+                errors: data.user_message
             });
             return false;
         } else {
