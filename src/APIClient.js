@@ -108,7 +108,7 @@ export default class APIClient {
     }
 
 
-    getActividades() {
+    getActividadesPublic() {
         return this.unauthorizedRequest('/actividades');
     }
 
