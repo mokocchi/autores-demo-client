@@ -27,7 +27,7 @@ class FormTareas extends Component {
 
     async addTareas(id) {
         const tareas = await tokenManager.getTareasForActividad(id);
-        tareas.forEach(tarea => this.props.dispatch(addTarea(tarea)));
+        tareas.results.forEach(tarea => this.props.dispatch(addTarea(tarea)));
     }
 
     async setCurrentActividad(id) {

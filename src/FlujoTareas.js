@@ -81,7 +81,7 @@ class FlujoTareas extends Component {
             });
             return;
         }
-        const tareas = dataTareas.map((tarea, index) => {
+        const tareas = dataTareas.results.map((tarea, index) => {
             return {
                 ...tarea,
                 nombre: (index + 1) + ". " + tarea.nombre,

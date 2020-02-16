@@ -31,9 +31,9 @@ class ShowActividad extends Component {
         }
 
         const tareasData = await tokenManager.getTareasForActividad(this.props.actividadId);
-        if (!data.error_code) {
+        if (!tareasData.error_code) {
             this.setState({
-                tareas: data
+                tareas: tareasData.results
             })
         } else {
             this.setState({

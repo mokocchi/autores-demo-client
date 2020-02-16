@@ -4,16 +4,16 @@ import APIClient from './APIClient';
 import { userSignedOut } from 'redux-oidc';
 
 export default class tokenManager {
-    
+
     static store = null;
-    
+
     static initialize(store) {
         this.store = store;
         this.client = new APIClient();
         this.client._events._tokenNotFound.addHandler(() => {
             this.store.dispatch(userSignedOut());
         })
-        this.client._events._apiUserFound.addHandler((auth)=> {
+        this.client._events._apiUserFound.addHandler((auth) => {
             this.store.dispatch(apiUserFound(auth));
             tokenManager.storeApiUser(auth.token);
         })
@@ -33,14 +33,18 @@ export default class tokenManager {
         if (tokenString) {
             token = JSON.parse(tokenString);
         };
-        if(token && token.accessToken && expired(token.expiresAt)) {
-            if(this.store.getState().oidc.isLoadingUser) {
+        if (token && token.accessToken && expired(token.expiresAt)) {
+            if (this.store.getState().oidc.isLoadingUser) {
                 await this.delay();
                 console.log("retry");
-                if(!this.store.getState().oidc.isLoadingUser) {
-                    const auth = await this.fetchAuth(this.store.getState().oidc.user.id_token)
-                    token = auth.token;
-                    this.storeApiUser(token);
+                if (!this.store.getState().oidc.isLoadingUser) {
+                    if (this.store.getState().oidc.user) {
+                        const auth = await this.fetchAuth(this.store.getState().oidc.user.id_token)
+                        token = auth.token;
+                        this.storeApiUser(token);
+                    } else {
+                        console.log("not logged in");
+                    }
                 } else {
                     console.log("still no")
                 }
@@ -49,7 +53,7 @@ export default class tokenManager {
         if (token && token.accessToken && !expired(token.expiresAt)) {
             this.client.setToken(token);
             const user = await this.client.me();
-            this.store.dispatch(apiUserFound({token, user}));
+            this.store.dispatch(apiUserFound({ token, user }));
         } else {
             this.store.dispatch(apiUserExpired());
         }
@@ -95,7 +99,7 @@ export default class tokenManager {
     static getTareasForActividad(id) {
         return this.client.getTareasForActividad(id);
     }
-    
+
     static getMisActividades() {
         return this.client.getMisActividades();
     }
@@ -131,7 +135,7 @@ export default class tokenManager {
     static addSaltoToActividad(salto, actividad) {
         return this.client.postSaltoToActividad(salto, actividad);
     }
-    
+
     static setPlanificacionInActividad(planificacion, actividad) {
         return this.client.postPlanificacionToActividad(planificacion, actividad);
     }

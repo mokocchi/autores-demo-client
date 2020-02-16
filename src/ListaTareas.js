@@ -23,7 +23,7 @@ class ListaTareas extends Component {
         const data = await tokenManager.getTareasPublic();
         if (!data.error_code) {
             this.setState({
-                tareas: data,
+                tareas: data.results,
                 success: true
             })
         }

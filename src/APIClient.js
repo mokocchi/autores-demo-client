@@ -15,11 +15,17 @@ export default class APIClient {
     getToken() {
         const token = this.token;
         if (!token || expired(token.expiresAt)) {
-            const id_token = tokenManager.store.getState().oidc.user.id_token;
-            const auth = tokenManager.fetchAuth(id_token);
-            if (auth && auth.token && auth.token.accessToken) {
-                this._events._apiUserFound.raise(auth);
-                return token;
+            const state = tokenManager.store.getState();
+            if (state.oidc && state.oidc.user) {
+                const id_token = tokenManager.store.getState().oidc.user.id_token;
+                const auth = tokenManager.fetchAuth(id_token);
+                if (auth && auth.token && auth.token.accessToken) {
+                    this._events._apiUserFound.raise(auth);
+                    return token;
+                } else {
+                    this._events._tokenNotFound.raise();
+                    return null
+                }
             } else {
                 this._events._tokenNotFound.raise();
                 return null

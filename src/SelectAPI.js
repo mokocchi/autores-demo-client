@@ -26,7 +26,7 @@ class SelectAPI extends Component {
                 if (data.error_code) {
                     dispatch(failAttribute(attribute))
                 } else {
-                    dispatch(receiveOptions(attribute, data))
+                    dispatch(receiveOptions(attribute, data.results))
                 }
             } catch (err) {
                 dispatch(failAttribute(attribute))
