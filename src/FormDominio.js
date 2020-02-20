@@ -3,11 +3,9 @@ import { InputGroup, FormControl, Button, Form, Col, Row } from 'react-bootstrap
 import { connect } from 'react-redux'
 import { addSelectOption } from './redux/actions'
 
-import { API_BASE_URL } from './config'
 import LoadSpinner from './LoadSpinner'
 import tokenManager from './tokenManager';
 
-const HTTP_CREATED = 201;
 class FormDominio extends Component {
 
     constructor(props) {

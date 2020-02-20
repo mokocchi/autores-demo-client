@@ -72,14 +72,7 @@ export default class APIClient {
                 "Authorization": "Bearer " + token.accessToken
             }
             const response = await fetch(API_BASE_URL + uri, parameters);
-
-            const location = response.headers.get('location');
-            if (location) {
-                const splitLocation = location.split("/");
-                return splitLocation[splitLocation.length - 1];
-            } else {
-                return await response.json();
-            }
+            return await response.json();
         } else {
             return { user_message: "No autorizado", error_code: 0 }
         }
@@ -100,6 +93,14 @@ export default class APIClient {
         return this.authorizedRequest(token, uri, {
             body: stringify ? JSON.stringify(object) : object,
             method: 'POST'
+        })
+    }
+
+    authorizedPutRequest(uri, object, stringify = true) {
+        const token = this.getToken();
+        return this.authorizedRequest(token, uri, {
+            body: stringify ? JSON.stringify(object) : object,
+            method: 'PUT'
         })
     }
 
@@ -162,8 +163,8 @@ export default class APIClient {
         return this.authorizedPostRequest('/tareas/' + tarea + '/extra', extra);
     }
 
-    postTareaToActividad(tarea, actividad) {
-        return this.authorizedPostRequest('/actividades/' + actividad + '/tareas', tarea);
+    putTareasToActividad(tarea, actividad) {
+        return this.authorizedPutRequest('/actividades/' + actividad + '/tareas', tarea);
     }
 
     postSaltoToActividad(salto, actividad) {

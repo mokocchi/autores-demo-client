@@ -92,7 +92,7 @@ class FormActividad extends Component {
             })
         }
 
-        const id = await tokenManager.createActividad({
+        const actividad = await tokenManager.createActividad({
             "nombre": nombre,
             "objetivo": objetivo,
             "codigo": codigo,
@@ -101,16 +101,6 @@ class FormActividad extends Component {
             "tipoPlanificacion": tipoPlanificacion,
             "estado": estado
         })
-        if (id.error_code) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: id.user_message
-            });
-            return
-        }
-
-        const actividad = await tokenManager.getActividad(id);
         if (actividad.error_code) {
             this.setState({
                 isLoading: false,

@@ -43,9 +43,9 @@ class FormTareas extends Component {
         this.addTareas(id);
     }
 
-    async addTareaToActividad(id, tarea) {
-        const data = await tokenManager.addTareaToActividad({
-            "tarea": tarea.id
+    async setTareasToActividad(id, tareasIds) {
+        const data = await tokenManager.setTareasToActividad({
+            "tareas": tareasIds
         }, id)
         if (data.error_code) {
             this.setState({
@@ -61,23 +61,8 @@ class FormTareas extends Component {
 
     async handleFormSubmit() {
         const id = this.props.actividadId;
-        const success = await this.detachTareas(id);
-        if(success) {
-            this.props.chosenTareas.forEach(tarea => this.addTareaToActividad(id, tarea));
-        }
-    }
-
-    async detachTareas(id) {
-        const data = await tokenManager.deleteTareasFromActividad(id);
-        if (data.error_code) {
-            this.setState({
-                saveSuccess: false,
-                errors: data.user_message
-            });
-            return false;
-        } else {
-            return true;
-        }
+        const tareasIds = this.props.chosenTareas.map(tarea => tarea.id);
+        this.setTareasToActividad(id, tareasIds);
     }
 
     render() {

@@ -185,7 +185,7 @@ class FormTarea extends Component {
             }
         }
 
-        const id = await tokenManager.createTarea({
+        const tarea = await tokenManager.createTarea({
             "nombre": nombre,
             "consigna": consigna,
             "codigo": codigo,
@@ -193,14 +193,16 @@ class FormTarea extends Component {
             "dominio": dominio,
             "estado": estado
         });
-        if (id.error_code) {
+        if (tarea.error_code) {
             this.setState({
                 isLoading: false,
                 error: true,
-                errorMessage: id.user_message
+                errorMessage: tarea.user_message
             });
             return
         }
+
+        const id = tarea.id;
 
         if (TIPOS_EXTRA.includes(tipo)) {
 

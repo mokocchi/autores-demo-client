@@ -128,8 +128,8 @@ export default class tokenManager {
         return this.client.postFilePlanoToTarea(plano, tarea)
     }
 
-    static addTareaToActividad(tarea, actividad) {
-        return this.client.postTareaToActividad(tarea, actividad);
+    static setTareasToActividad(tarea, actividad) {
+        return this.client.putTareasToActividad(tarea, actividad);
     }
 
     static addSaltoToActividad(salto, actividad) {
