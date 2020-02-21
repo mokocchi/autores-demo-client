@@ -100,6 +100,10 @@ export default class tokenManager {
         return this.client.getTareasForActividad(id);
     }
 
+    static getPlanificacionForActividad(id) {
+        return this.client.getPlanificacionForActividad(id);
+    }
+
     static getMisActividades() {
         return this.client.getMisActividades();
     }
@@ -137,7 +141,7 @@ export default class tokenManager {
     }
 
     static setPlanificacionInActividad(planificacion, actividad) {
-        return this.client.postPlanificacionToActividad(planificacion, actividad);
+        return this.client.putPlanificacionToActividad(planificacion, actividad);
     }
 
     static deleteSaltosFromActividad(actividad) {

@@ -147,6 +147,10 @@ export default class APIClient {
         return this.authorizedGetRequest('/actividades/' + id + '/tareas');
     }
 
+    getPlanificacionForActividad(id) {
+        return this.authorizedGetRequest('/actividades/' + id + '/planificaciones/1')
+    }
+
     postDominio(dominio) {
         return this.authorizedPostRequest('/dominios', dominio);
     }
@@ -171,8 +175,8 @@ export default class APIClient {
         return this.authorizedPostRequest('/actividades/' + actividad + '/saltos', salto);
     }
 
-    postPlanificacionToActividad(planificacion, actividad) {
-        return this.authorizedPostRequest('/actividades/' + actividad + '/planificaciones', planificacion);
+    putPlanificacionToActividad(planificacion, actividad) {
+        return this.authorizedPutRequest('/actividades/' + actividad + '/planificaciones/1', planificacion);
     }
 
     postFilePlanoToTarea(plano, tarea) {

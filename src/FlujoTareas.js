@@ -81,19 +81,10 @@ class FlujoTareas extends Component {
             });
             return;
         }
-        const tareas = dataTareas.results.map((tarea, index) => {
-            return {
-                ...tarea,
-                nombre: (index + 1) + ". " + tarea.nombre,
-                id: tarea.id,
-                graphId: index + 1,
-                optional: false,
-                initial: false,
-                saltos: []
-            }
-        })
         const conexiones = [];
-        data.planificacion.saltos.forEach(salto => {
+        const planificacion = await tokenManager.getPlanificacionForActividad(id);
+
+        planificacion.saltos.forEach(salto => {
             const origen = salto.origen_id;
             const destinos = salto.destino_ids;
             destinos.forEach(destino => {
@@ -115,7 +106,7 @@ class FlujoTareas extends Component {
                             name: tareaNombre
                         };
                     } else {
-                        const respuestaNombre = tareas.find(item => item.id == salto.origen_id).extra.elements.find(item=>item.code == salto.respuesta).name;
+                        const respuestaNombre = tareas.find(item => item.id == salto.origen_id).extra.elements.find(item => item.code == salto.respuesta).name;
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: respuestaNombre
@@ -124,6 +115,17 @@ class FlujoTareas extends Component {
                 }
                 conexiones.push(conexion);
             })
+        });
+
+        const tareas = dataTareas.results.map((tarea, index) => {
+            return {
+                ...tarea,
+                nombre: (index + 1) + ". " + tarea.nombre,
+                id: tarea.id,
+                graphId: index + 1,
+                optional: planificacion.opcionales_ids.find(o => o === tarea.id),
+                initial: planificacion.iniciales_ids.find(i => i === tarea.id)
+            }
         })
         this.setState({
             graphTareas: tareas,
@@ -132,38 +134,43 @@ class FlujoTareas extends Component {
         });
     }
 
-    saveJumps(tarea, graphNodes, actividadId) {
-        {
-            const jumps = graphNodes[tarea.id];
-            const conditionalJumps = jumps.filter(jump => jump.condicion);
-            const jumpsByAnswer = {};
-            conditionalJumps.forEach(jump => {
-                (jumpsByAnswer[jump.respuesta.id] = jumpsByAnswer[jump.respuesta.id] || []).push(jump)
+    createJumps(tarea, graphNodes) {
+        const saltos = [];
+        const jumps = graphNodes[tarea.id];
+        const conditionalJumps = jumps.filter(jump => jump.condicion);
+        console.log(conditionalJumps);
+        const jumpsByAnswer = {};
+        conditionalJumps.forEach(jump => {
+            (jumpsByAnswer[jump.respuesta.id] = jumpsByAnswer[jump.respuesta.id] || []).push(jump)
+        })
+        Object.keys(jumpsByAnswer).forEach(key => {
+            const targetByCondition = {};
+            jumpsByAnswer[key].forEach(jump => {
+                (targetByCondition[jump.condicion.code] = targetByCondition[jump.condicion.code] || []).push(jump.destino)
             })
-            Object.keys(jumpsByAnswer).forEach(key => {
-                const targetByCondition = {};
-                jumpsByAnswer[key].forEach(jump => {
-                    (targetByCondition[jump.condicion.code] = targetByCondition[jump.condicion.code] || []).push(jump.destino)
-                })
-                Object.keys(targetByCondition).forEach(k => {
-                    const salto = {
-                        on: k,
-                        answer: key,
-                        to: targetByCondition[k],
-                    }
-                    if (!this.saveConditionalJump(tarea.id, salto, actividadId)) {
-                        return;
-                    }
-                })
+            Object.keys(targetByCondition).forEach(k => {
+                console.log("salto condicional");
+                saltos.push({
+                    "origen": tarea.id,
+                    "condicion": k,
+                    "destinos": targetByCondition[k],
+                    "respuesta": key
+                });
             })
-            const targets = jumps.filter(jump => jump.condicion === undefined).map(jump => jump.destino);
-            //conditionalJumps.length === 0 && 
-            if (targets.length > 0) {
-                if (!this.saveForcedJumps(tarea.id, targets, actividadId)) {
-                    return;
-                }
-            }
+        })
+        const targets = jumps.filter(jump => jump.condicion === undefined).map(jump => jump.destino);
+        //conditionalJumps.length === 0 && 
+
+        console.log(targets);
+        if (targets.length > 0) {
+            console.log("salto forzado");
+            saltos.push({
+                "origen": tarea.id,
+                "condicion": "ALL",
+                "destinos": targets
+            });
         }
+        return saltos;
     }
 
     onGuardarClick = () => {
@@ -175,74 +182,26 @@ class FlujoTareas extends Component {
         conexiones.forEach(conexion => {
             graphNodes[conexion.origen].push(conexion);
         })
-        if (this.deleteJumps(actividadId)) {
-            tareas.forEach(tarea => this.saveJumps(tarea, graphNodes, actividadId));
-            const opcionalIds = this.state.graphTareas.filter(tarea => tarea.optional).map(tarea => tarea.id);
-            let inicialIds = this.state.graphTareas.filter(tarea => tarea.initial).map(tarea => tarea.id);
-            const destinos = this.state.graphConexiones.map(conexion => conexion.destino);
-            this.state.graphTareas.forEach(tarea => {
-                if (!destinos.includes(tarea.id)) {
-                    inicialIds = [...inicialIds.filter(id => id !== tarea.id), tarea.id]
-                }
-            })
-            if (this.updatePlanificacionSettings(opcionalIds, inicialIds, actividadId)) {
-                this.setState({
-                    saveSuccess: true
-                })
+        let saltos = [];
+        tareas.forEach(tarea => saltos = saltos.concat(this.createJumps(tarea, graphNodes)));
+        const opcionalIds = this.state.graphTareas.filter(tarea => tarea.optional).map(tarea => tarea.id);
+        let inicialIds = this.state.graphTareas.filter(tarea => tarea.initial).map(tarea => tarea.id);
+        const destinos = this.state.graphConexiones.map(conexion => conexion.destino);
+        this.state.graphTareas.forEach(tarea => {
+            if (!destinos.includes(tarea.id)) {
+                inicialIds = [...inicialIds.filter(id => id !== tarea.id), tarea.id]
             }
-        }
-    }
-
-    async deleteJumps(id) {
-        const data = await tokenManager.deleteSaltosFromActividad(id);
-        if (data.error_code) {
+        })
+        if (this.setPlanificacion(opcionalIds, inicialIds, saltos, actividadId)) {
             this.setState({
-                saveSuccess: false,
-                errors: data.user_message
-            });
-            return false;
-        } else {
-            return true;
+                saveSuccess: true
+            })
         }
     }
 
-    async saveForcedJumps(tareaId, targets, id) {
-        const data = await tokenManager.addSaltoToActividad({
-            "origen": tareaId,
-            "condicion": "ALL",
-            "destinos": targets
-        }, id);
-        if (data.error_code) {
-            this.setState({
-                saveSuccess: false,
-                errors: data.user_message
-            });
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    async saveConditionalJump(tareaId, salto, id) {
-        const data = await tokenManager.addSaltoToActividad({
-            "origen": tareaId,
-            "condicion": salto.on,
-            "destinos": salto.to,
-            "respuesta": salto.answer
-        }, id);
-        if (data.error_code) {
-            this.setState({
-                saveSuccess: false,
-                errors: data.user_message
-            });
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    async updatePlanificacionSettings(opcionales, iniciales, id) {
+    async setPlanificacion(opcionales, iniciales, saltos, id) {
         const data = await tokenManager.setPlanificacionInActividad({
+            "saltos": saltos,
             "iniciales": iniciales,
             "opcionales": opcionales
         }, id);
