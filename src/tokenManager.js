@@ -52,8 +52,12 @@ export default class tokenManager {
         }
         if (token && token.accessToken && !expired(token.expiresAt)) {
             this.client.setToken(token);
-            const user = await this.client.me();
-            this.store.dispatch(apiUserFound({ token, user }));
+            try {
+                const user = await this.client.me();
+                this.store.dispatch(apiUserFound({ token, user }));
+            } catch (error) {
+                this.store.dispatch(apiUserExpired());
+            }
         } else {
             this.store.dispatch(apiUserExpired());
         }

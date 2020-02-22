@@ -4,14 +4,15 @@ import LoginPage from "./LoginPage";
 import Main from "./Main";
 
 function HomePage(props) {
-  const { user } = props;
+  const { user, accessToken } = props;
 
-  return !user || user.expired ? <LoginPage /> : <Main />;
+  return !user || user.expired || !accessToken ? <LoginPage /> : <Main />;
 }
 
 function mapStateToProps(state) {
   return {
-    user: state.oidc.user
+    user: state.oidc.user,
+    accessToken: state.auth.token.accessToken
   };
 }
 

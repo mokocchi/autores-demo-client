@@ -5,7 +5,8 @@ import LoginPage from './LoginPage'
 
 function mapStateToProps(state) {
     return {
-        user: state.oidc.user
+        user: state.oidc.user,
+        token: state.auth.token
     }
 }
 export default function loggedIn(WrappedComponent, data) {
@@ -13,7 +14,7 @@ export default function loggedIn(WrappedComponent, data) {
         class extends Component {
             render() {
                 return (
-                    !this.props.user || this.props.user.expired ?
+                    !this.props.user || this.props.user.expired || !this.props.token ?
                         <LoginPage />
                         :
                         <WrappedComponent {...this.props} />

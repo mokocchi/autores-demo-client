@@ -24,7 +24,7 @@ function Menu({ user, token }) {
                 </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">
-                {(user && !user.isLoading) ?
+                {(user && !user.isLoading && token && token.accessToken) ?
                     <Button onClick={event => {
                         event.preventDefault();
                         userManager.removeUser();
