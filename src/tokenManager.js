@@ -140,10 +140,6 @@ export default class tokenManager {
         return this.client.putTareasToActividad(tarea, actividad);
     }
 
-    static addSaltoToActividad(salto, actividad) {
-        return this.client.postSaltoToActividad(salto, actividad);
-    }
-
     static setPlanificacionInActividad(planificacion, actividad) {
         return this.client.putPlanificacionToActividad(planificacion, actividad);
     }
