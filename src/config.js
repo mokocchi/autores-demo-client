@@ -16,8 +16,8 @@ export const TIPOS_PLANO = [TIPO_RECOLECCION, TIPO_DEPOSITO]
 
 export const CONDITIONS_ARRAY = [{ name: "SÍ se elige", code: "YES" },
 { name: "NO se elige", code: "NO" },
-{ name: "SÍ se pasó por", code: "YES_START" },
-{ name: "NO se pasó por", code: "NO_START" }]
+{ name: "SÍ se pasó por", code: "YES_TASK" },
+{ name: "NO se pasó por", code: "NO_TASK" }]
 
-export const TASK_CONDITIONS_ARRAY = [{ name: "SÍ se pasó por", code: "YES_START" },
-{ name: "NO se pasó por", code: "NO_START" }]
+export const TASK_CONDITIONS_ARRAY = [{ name: "SÍ se pasó por", code: "YES_TASK" },
+{ name: "NO se pasó por", code: "NO_TASK" }]

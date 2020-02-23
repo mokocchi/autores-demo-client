@@ -116,8 +116,8 @@ class ModalTarea extends Component {
                 case "YES":
                 case "NO":
                     return "la opción";
-                case "YES_START":
-                case "NO_START":
+                case "YES_TASK":
+                case "NO_TASK":
                     return "la tarea";
             }
         } else return "la opción/tarea..."
@@ -133,8 +133,8 @@ class ModalTarea extends Component {
                         <Select key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
-                case "YES_START":
-                case "NO_START":
+                case "YES_TASK":
+                case "NO_TASK":
                     return (
                         <Select key={this.state.selectedCondition.code} options={this.props.tareas} defaultValue={""} value={"id"} field={"nombre"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
