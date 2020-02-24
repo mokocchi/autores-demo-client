@@ -29,6 +29,7 @@ function App() {
         <Route path="/nuevaActividad" exact component={Autor(Actividad)} />
         <Route path="/actividad/:id" exact component={Autor(Tareas)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(Tarea)} />
+        <Route path="/nuevaTarea" exact component={Autor(Tarea)} />
         <Route path="/actividad/:id/flujo" exact component={Autor(FlujoTareas)} />
         <Route path="/actividades" exact component={ListaActividades} />
         <Route path="/mis-actividades/" exact component={Autor(ListaMisActividades)} />

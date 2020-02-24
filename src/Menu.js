@@ -21,6 +21,7 @@ function Menu({ user, token }) {
                     <Nav.Link href="/tareas/">Lista tareas</Nav.Link>
                     <Nav.Link href="/mis-tareas/">Mis tareas</Nav.Link>
                     <Nav.Link href="/nuevaActividad/">Crear Actividad</Nav.Link>
+                    <Nav.Link href="/nuevaTarea/">Crear Tarea</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">

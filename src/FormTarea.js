@@ -9,7 +9,7 @@ import SelectAPI from './SelectAPI';
 import FormDominio from './FormDominio';
 import TareaExtra from './TareaExtra';
 
-import { API_BASE_URL, TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from './config';
+import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from './config';
 import { getRandomSlug } from './utils'
 import tokenManager from './tokenManager';
 
@@ -32,7 +32,9 @@ class FormTarea extends Component {
             errorMessage: ""
         }
         let id = this.props.actividadId;
-        this.setCurrentActividad(id);
+        if (id) {
+            this.setCurrentActividad(id);
+        }
         this.props.dispatch(clearTareaExtra())
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.handleInput = this.handleInput.bind(this);
@@ -261,6 +263,9 @@ class FormTarea extends Component {
     handleInput(e) {
         let value = e.target.value;
         let name = e.target.name;
+        if(name === "tipo") {
+            this.props.dispatch(clearTareaExtra())
+        }
         this.setState({
             newTarea: {
                 ...this.state.newTarea, [name]: value
@@ -367,9 +372,14 @@ class FormTarea extends Component {
                     </Button>
                     :
                     this.state.success ?
-                        <Link to={"/actividad/" + this.props.currentActividad.id}>
-                            <Button variant="primary" type="button" >Continuar</Button>
-                        </Link>
+                        this.props.currentActividad ?
+                            <Link to={"/actividad/" + this.props.currentActividad.id}>
+                                <Button variant="primary" type="button" >Continuar</Button>
+                            </Link>
+                            :
+                            <Link to={"/mis-tareas"}>
+                                <Button variant="primary" type="button" >Ir a Mis tareas</Button>
+                            </Link>
                         :
                         <Button variant="info" type="button" disabled={this.state.success} onClick={this.handleFormSubmit}>
                             Guardar
