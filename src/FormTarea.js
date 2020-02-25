@@ -187,13 +187,19 @@ class FormTarea extends Component {
             }
         }
 
+        let processedExtra = null;
+        if (TIPOS_EXTRA.includes(tipo)) {
+            processedExtra = this.processExtra(extra, tipo);
+        }
+
         const tarea = await tokenManager.createTarea({
             "nombre": nombre,
             "consigna": consigna,
             "codigo": codigo,
             "tipo": tipo,
             "dominio": dominio,
-            "estado": estado
+            "estado": estado,
+            "extraData": processedExtra
         });
         if (tarea.error_code) {
             this.setState({
@@ -205,23 +211,6 @@ class FormTarea extends Component {
         }
 
         const id = tarea.id;
-
-        if (TIPOS_EXTRA.includes(tipo)) {
-
-            const processedExtra = this.processExtra(extra, tipo);
-
-            const extraData = await tokenManager.addExtraToTarea({
-                "extra": processedExtra,
-            }, id)
-            if (extraData.error_code) {
-                this.setState({
-                    isLoading: false,
-                    error: true,
-                    errorMessage: extraData.user_message
-                });
-                return
-            }
-        }
 
         if (TIPOS_PLANO.includes(tipo)) {
             const response = await fetch(extra.plano.url);
@@ -240,17 +229,7 @@ class FormTarea extends Component {
             }
         }
 
-        const lastData = await tokenManager.getTarea(id);
-        if (lastData.error_code) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: lastData.user_message
-            });
-            return;
-        }
-
-        this.props.dispatch(addTarea(lastData));
+        this.props.dispatch(addTarea(tarea));
 
         this.setState({
             success: true,
