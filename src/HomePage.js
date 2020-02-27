@@ -4,9 +4,9 @@ import LoginPage from "./LoginPage";
 import Main from "./Main";
 
 function HomePage(props) {
-  const { user, accessToken } = props;
+  const { accessToken } = props;
 
-  return !user || user.expired || !accessToken ? <LoginPage /> : <Main />;
+  return !accessToken ? <LoginPage /> : <Main />;
 }
 
 function mapStateToProps(state) {

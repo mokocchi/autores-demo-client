@@ -1,17 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import loggedIn from './loggedIn';
 
 function Main({user}) {
     return <div>
         <div>
-            Bienvenido, {user.profile.name}!
+            Bienvenido, {user.nombre} {user.apellido}!
         </div>
     </div>
 }
 
 function mapStateToProps(state) {
     return {
-        user: state.oidc.user
+        user: state.auth.user
     }
 }
-export default connect(mapStateToProps)(Main);
+export default loggedIn(connect(mapStateToProps)(Main));

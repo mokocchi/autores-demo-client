@@ -6,7 +6,7 @@ const INITIAL_STATE = {
         expiresAt: null
     },
     roles: [],
-    googleid: null,
+    user: {},
     isLoading: false
 }
 
@@ -17,7 +17,11 @@ export default function auth(state = INITIAL_STATE, action) {
                 ...state,
                 token: action.auth.token,
                 role: action.auth.user.roles[0].name,
-                googleid: action.auth.user.googleid,
+                user: {
+                    nombre: action.auth.user.nombre,
+                    apellido: action.auth.user.apellido,
+                    email: action.auth.user.email
+                },
                 isLoading: false
             }
         case API_USER_EXPIRED:
