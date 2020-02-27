@@ -23,3 +23,21 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('login', () => {
+    cy.request({
+        method: 'POST',
+        url: 'http://localhost:8080/api/oauth/v2/token',
+        form: true,
+        body: {
+            client_id: Cypress.env("client_id"),
+            client_secret: Cypress.env("client_secret")
+        },
+        headers: {
+            'X-AUTH-CREDENTIALS': true,
+        },
+    })
+        .then((resp) => {
+            window.localStorage.setItem('auth.token', JSON.stringify({ accessToken: resp.body.access_token, expiresAt: Date.now() + resp.body.expires_in * 1000 }))
+        })
+})

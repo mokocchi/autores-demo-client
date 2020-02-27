@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import tokenManager from './tokenManager';
 import loggedIn from './loggedIn';
+import { Container, Row, Col } from 'react-bootstrap';
 
 class ListaActividades extends Component {
 
@@ -31,13 +32,24 @@ class ListaActividades extends Component {
     }
     render() {
         return (
-            <ul>
-                {this.state.success && this.state.actividades.map((actividad, index) =>
-                    <Link key={index} to={'/actividad/' + actividad.id + '/mostrar'}>
-                        <li>{actividad.nombre}</li>
-                    </Link>
-                )}
-            </ul>
+            <Container>
+                <Row>
+                    <Col>
+                        <h2>Actividades Públicas</h2>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col style={{ border: "1px solid black", padding: "2em" }}>
+                        <ul>
+                            {this.state.success && this.state.actividades.map((actividad, index) =>
+                                <Link key={index} to={'/actividad/' + actividad.id + '/mostrar'}>
+                                    <li>{actividad.nombre}</li>
+                                </Link>
+                            )}
+                        </ul>
+                    </Col>
+                </Row>
+            </Container >
         )
     }
 }
