@@ -1,19 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Button, Col, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { addTarea, setCurrentActividad, clearTareaExtra } from './redux/actions';
+import { addTarea, setCurrentActividad, clearTareaExtra } from '../redux/actions';
 
-import Input from './Input';
-import SelectAPI from './SelectAPI';
-import FormDominio from './FormDominio';
-import TareaExtra from './TareaExtra';
+import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from '../config';
+import { getRandomSlug } from '../utils'
+import tokenManager from '../tokenManager';
+import Tarea from '../components/Tarea';
 
-import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from './config';
-import { getRandomSlug } from './utils'
-import tokenManager from './tokenManager';
-
-class FormTarea extends Component {
+class FormTareaContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -31,7 +25,7 @@ class FormTarea extends Component {
             error: false,
             errorMessage: ""
         }
-        let id = this.props.actividadId;
+        let id = this.props.match.params.id;
         if (id) {
             this.setCurrentActividad(id);
         }
@@ -242,7 +236,7 @@ class FormTarea extends Component {
     handleInput(e) {
         let value = e.target.value;
         let name = e.target.name;
-        if(name === "tipo") {
+        if (name === "tipo") {
             this.props.dispatch(clearTareaExtra())
         }
         this.setState({
@@ -262,110 +256,11 @@ class FormTarea extends Component {
 
     render() {
         return (
-            <Form>
-                <Form.Row>
-                    <Col>
-                        <Input controlId={"formNombre"}
-                            label={"Nombre"}
-                            name={"nombre"}
-                            type={"text"}
-                            placeholder={"Nombre"}
-                            onChange={this.handleInput} />
-                    </Col>
-                    <Col>
-                        <Input controlId={"formConsigna"}
-                            label={"Consigna"}
-                            name={"consigna"}
-                            type={"text"}
-                            placeholder={"Consigna"}
-                            onChange={this.handleInput} />
-                    </Col>
-                </Form.Row>
-
-                <Form.Row>
-                    <Col>
-                        <SelectAPI
-                            uri={"/tipos-tarea"}
-                            attribute={"tipo"}
-                            controlId={"formTipo"}
-                            label={"Tipo"}
-                            name={"tipo"}
-                            defaultValue={""}
-                            placeholder={"Elegí un tipo"}
-                            onChange={this.handleInput}
-                        />
-                    </Col>
-                    <Col>
-                        <SelectAPI
-                            uri={'/estados'}
-                            attribute={"estado"}
-                            controlId={"formEstado"}
-                            label={"Estado"}
-                            name={"estado"}
-                            defaultValue={""}
-                            placeholder={"Elegí un estado"}
-                            onChange={this.handleInput}
-                        />
-                    </Col>
-                </Form.Row>
-                <Form.Row>
-                    <Col>
-                        <SelectAPI
-                            uri={'/dominios'}
-                            attribute={"dominio"}
-                            controlId={"formDominio"}
-                            label={"Dominio"}
-                            name={"dominio"}
-                            defaultValue={""}
-                            placeholder={"Elegí un dominio"}
-                            onChange={this.handleInput}
-                            onPropsChangeMore={this.onPropsChangeMore}
-                        />
-                    </Col>
-                    <Col></Col>
-                </Form.Row>
-                <Form.Row>
-                    <FormDominio />
-                    <Col></Col>
-                </Form.Row>
-
-                <hr />
-
-                <TareaExtra tipoTarea={this.state.newTarea.tipo} />
-
-                {this.state.error &&
-                    <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
-                        {this.state.errorMessage}
-                    </Form.Text>
-                }
-                {this.state.isLoading ?
-                    <Button variant="info" disabled>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        Cargando...
-                    </Button>
-                    :
-                    this.state.success ?
-                        this.props.currentActividad ?
-                            <Link to={"/actividad/" + this.props.currentActividad.id}>
-                                <Button variant="primary" type="button" >Continuar</Button>
-                            </Link>
-                            :
-                            <Link to={"/mis-tareas"}>
-                                <Button variant="primary" type="button" >Ir a Mis tareas</Button>
-                            </Link>
-                        :
-                        <Button variant="info" type="button" disabled={this.state.success} onClick={this.handleFormSubmit}>
-                            Guardar
-                        </Button>
-                }
-            </Form>
-
+            <Tarea onChange={this.handleInput} onPropsChangeMore={this.onPropsChangeMore}
+                tipoTarea={this.state.newTarea.tipo} error={this.state.error} errorMessage={this.state.errorMessage}
+                isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
+                onSubmit={this.handleFormSubmit}
+            />
         )
     }
 }
@@ -379,4 +274,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(FormTarea);
+export default connect(mapStateToProps)(FormTareaContainer);

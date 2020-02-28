@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { setCurrentActividad, addTarea } from '../redux/actions'
 
 import tokenManager from '../tokenManager';
-import FormTareas from '../components/FormTareas';
+import loggedIn from '../loggedIn';
+import Tareas from '../components/Tareas';
 
-class FormTareasContainer extends Component {
+class TareasContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -15,7 +16,7 @@ class FormTareasContainer extends Component {
             error: false,
             errorMessage: ""
         }
-        let id = this.props.actividadId;
+        let id = this.props.match.params.id;
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.setCurrentActividad(id);
     }
@@ -62,7 +63,7 @@ class FormTareasContainer extends Component {
 
     render() {
         return (
-            <FormTareas isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
+            <Tareas isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
                 onSubmit={this.handleFormSubmit}
             />
         )
@@ -76,4 +77,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default connect(mapStateToProps)(FormTareasContainer);
+export default loggedIn(connect(mapStateToProps)(TareasContainer));

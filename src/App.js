@@ -4,8 +4,6 @@ import { Container } from 'react-bootstrap'
 
 import Menu from './Menu'
 import Actividad from './Actividad'
-import Tareas from './Tareas'
-import Tarea from './Tarea'
 import FlujoTareas from './FlujoTareas';
 import ResolverActividad from './ResolverActividad';
 import HomePage from './HomePage';
@@ -16,6 +14,8 @@ import MostrarTarea from './MostrarTarea';
 import ListaTareas from './ListaTareas';
 import ListaActividadesContainer from './containers/ListaActividadesContainer';
 import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
+import TareaContainer from './containers/TareaContainer';
+import TareasContainer from './containers/TareasContainer';
 
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
@@ -27,9 +27,9 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/callback" component={CallbackPage} />
         <Route path="/nuevaActividad" exact component={Autor(Actividad)} />
-        <Route path="/actividad/:id" exact component={Autor(Tareas)} />
-        <Route path="/actividad/:id/nuevaTarea" exact component={Autor(Tarea)} />
-        <Route path="/nuevaTarea" exact component={Autor(Tarea)} />
+        <Route path="/actividad/:id" exact component={Autor(TareasContainer)} />
+        <Route path="/actividad/:id/nuevaTarea" exact component={Autor(TareaContainer)} />
+        <Route path="/nuevaTarea" exact component={Autor(TareaContainer)} />
         <Route path="/actividad/:id/flujo" exact component={Autor(FlujoTareas)} />
         <Route path="/actividades" exact component={ListaActividadesContainer} />
         <Route path="/mis-actividades/" exact component={Autor(ListaMisActividadesContainer)} />
