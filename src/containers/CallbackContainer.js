@@ -1,19 +1,19 @@
 import React from "react";
 import { connect } from "react-redux";
-import { CallbackComponent, userSignedOut } from "redux-oidc";
-import userManager from "./userManager";
-import { apiUserFound, loadingApiUser } from "./redux/actions";
-import LoadSpinner from "./LoadSpinner";
-import tokenManager from "./tokenManager";
+import { userSignedOut } from "redux-oidc";
+import userManager from "../userManager";
+import { apiUserFound, loadingApiUser } from "../redux/actions";
+import tokenManager from "../tokenManager";
+import Callback from "../components/Callback";
 
-class CallbackPage extends React.Component {
+class CallbackContainer extends React.Component {
 
     constructor(props) {
         super(props);
         this.onSuccess = this.onSuccess.bind(this);
     }
 
-    async onSuccess () {
+    async onSuccess() {
         this.props.dispatch(loadingApiUser());
         const auth = await tokenManager.fetchAuth(this.props.user.id_token);
         if (!auth) {
@@ -31,13 +31,11 @@ class CallbackPage extends React.Component {
     }
     render() {
         return (
-            <CallbackComponent
+            <Callback
                 userManager={userManager}
                 successCallback={this.onSuccess}
                 errorCallback={this.onError}
-            >
-                <LoadSpinner />
-            </CallbackComponent>
+            />
         );
     }
 }
@@ -47,4 +45,4 @@ function mapStateToProps(state) {
         user: state.oidc.user
     }
 }
-export default connect(mapStateToProps)(CallbackPage);
+export default connect(mapStateToProps)(CallbackContainer);

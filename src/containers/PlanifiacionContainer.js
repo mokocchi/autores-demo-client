@@ -1,20 +1,15 @@
 import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setCurrentActividad } from './redux/actions'
+import { setCurrentActividad } from '../redux/actions'
 
 
-import Graph from './Graph';
-
-import ModalTarea from './ModalTarea';
-import ModalConexion from './ModalConexion';
-import { Link } from 'react-router-dom';
-import tokenManager from './tokenManager';
-import loggedIn from './loggedIn';
+import tokenManager from '../tokenManager';
+import loggedIn from '../loggedIn';
 import md5 from 'md5';
-import { CONDITIONS_ARRAY } from './config';
+import { CONDITIONS_ARRAY } from '../config';
+import Planificacion from '../components/Planificacion';
 
-class FlujoTareas extends Component {
+class PlanificacionContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -250,46 +245,19 @@ class FlujoTareas extends Component {
 
     render() {
         return (
-            <Container>
-                <Row>
-                    <Col>
-                        <h2>Planificación de tareas</h2>
-                        <h6 style={{ color: 'gray' }}><i>
-                            {this.state.graphConexiones.length === 0 ?
-                                "Para iniciar la conexión entre tareas selecione una tarea incial"
-                                : "Para conectar dos tareas seleccione una tarea"
-                            }
-                        </i></h6>
-                    </Col>
-                </Row>
-                <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
-                    <Col>
-                        {this.state.success &&
-                            <Graph ref={el => (this.Graph = el)} tareas={this.state.graphTareas}
-                                conexiones={this.state.graphConexiones} actividadId={this.props.match.params.id}
-                                onClickNode={this.handleShowTarea} onClickEdge={this.handleShowConexion} />
-                        }
-                        {this.state.success && !this.state.saveSuccess &&
-                            <Button type="button" className="float-right" variant="info" onClick={this.onGuardarClick} >Guardar</Button>
-                        }
-                        {this.state.saveSuccess &&
-                            <Link to="./mostrar">
-                                <Button type="button" className="float-right" variant="info" onClick={this.props.outputJumps} >Continuar</Button>
-                            </Link>
-                        }
-                        {this.state.selectedTarea &&
-                            <ModalTarea key={this.state.selectedTarea.id} handleClose={this.handleCloseTarea}
-                                show={this.state.showTarea} tarea={this.state.selectedTarea} tareas={this.state.graphTareas}
-                                conexiones={this.state.graphConexiones} onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
-                            />}
-                        {this.state.selectedConexion &&
-                            <ModalConexion key={this.state.selectedConexion.id} handleClose={this.handleCloseConexion}
-                                show={this.state.showConexion} conexion={this.state.selectedConexion} tareas={this.state.graphTareas}
-                                onRemoveConexion={this.onRemoveConexion} />
-                        }
-                    </Col>
-                </Row>
-            </Container>
+            <Planificacion graphConexiones={this.state.graphConexiones} tareas={this.state.graphTareas}
+                conexiones={this.state.graphConexiones} actividadId={this.props.match.params.id}
+
+                selectedTarea={this.state.selectedTarea} handleCloseTarea={this.handleCloseTarea}
+                showTarea={this.handleShowTarea}
+                onClickNode={this.handleShowTarea} onClickEdge={this.handleShowConexion}
+                onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
+
+                selectedConexion={this.state.selectedConexion} handleCloseConexion={this.handleCloseConexion}
+                showConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
+                success={this.state.success} saveSuccess={this.state.saveSuccess}
+                onGuardarClick={this.onGuardarClick}
+            />
         )
     }
 }
@@ -302,4 +270,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default loggedIn(connect(mapStateToProps)(FlujoTareas));
+export default loggedIn(connect(mapStateToProps)(PlanificacionContainer));

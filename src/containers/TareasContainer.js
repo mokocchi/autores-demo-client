@@ -56,14 +56,14 @@ class TareasContainer extends Component {
     }
 
     async handleFormSubmit() {
-        const id = this.props.actividadId;
+        const id = this.props.match.params.id;
         const tareasIds = this.props.chosenTareas.map(tarea => tarea.id);
         this.setTareasToActividad(id, tareasIds);
     }
 
     render() {
         return (
-            <Tareas isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
+            <Tareas isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.match.params.id}
                 onSubmit={this.handleFormSubmit}
             />
         )

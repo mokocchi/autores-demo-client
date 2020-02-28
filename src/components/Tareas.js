@@ -34,7 +34,7 @@ const Tareas = (props) => {
                     </Button>
                             :
                             props.success ?
-                                <Link to={"/actividad/" + props.actividadId + "/flujo"}>
+                                <Link to={"/actividad/" + props.actividadId + "/planificacion"}>
                                     <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                                 </Link>
                                 :
