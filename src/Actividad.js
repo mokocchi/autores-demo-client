@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap'
 
-import FormActividad from './FormActividad'
 import loggedIn from './loggedIn';
+import FormActividadContainer from './containers/FormActividadContainer';
 
 function Actividad() {
     return (
@@ -14,7 +14,7 @@ function Actividad() {
             </Row>
             <Row>
                 <Col style={{ border: "1px solid black", padding: "2em" }}>
-                    <FormActividad />
+                    <FormActividadContainer />
                 </Col>
             </Row>
         </Container >

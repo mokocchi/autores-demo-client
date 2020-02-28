@@ -2,10 +2,10 @@ import React from 'react';
 import { Row, Col, Container } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
-import FormTareas from './FormTareas'
 import loggedIn from './loggedIn';
+import FormTareasContainer from './containers/FormTareasContainer';
 
-function Tareas(props) {
+function Tareas() {
     let { id } = useParams();
     return (
         <Container>
@@ -16,7 +16,7 @@ function Tareas(props) {
             </Row>
             <Row>
                 <Col style={{ border: "1px solid black", padding: "2em" }}>
-                    <FormTareas actividadId={id}/>
+                    <FormTareasContainer actividadId={id}/>
                 </Col>
             </Row>
         </Container>

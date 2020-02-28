@@ -11,11 +11,11 @@ import ResolverActividad from './ResolverActividad';
 import HomePage from './HomePage';
 import CallbackPage from './CallbackPage';
 import withAuthorization from './withAuthorization';
-import ListaMisActividades from './ListaMisActividades';
 import ListaMisTareas from './ListaMisTareas';
 import MostrarTarea from './MostrarTarea';
 import ListaTareas from './ListaTareas';
 import ListaActividadesContainer from './containers/ListaActividadesContainer';
+import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
 
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
@@ -32,7 +32,7 @@ function App() {
         <Route path="/nuevaTarea" exact component={Autor(Tarea)} />
         <Route path="/actividad/:id/flujo" exact component={Autor(FlujoTareas)} />
         <Route path="/actividades" exact component={ListaActividadesContainer} />
-        <Route path="/mis-actividades/" exact component={Autor(ListaMisActividades)} />
+        <Route path="/mis-actividades/" exact component={Autor(ListaMisActividadesContainer)} />
         <Route path="/actividad/:id/mostrar" exact component={ResolverActividad} />
         <Route path="/tareas" exact component={ListaTareas} />
         <Route path="/mis-tareas" exact component={Autor(ListaMisTareas)} />

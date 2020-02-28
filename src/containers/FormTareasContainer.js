@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
-import { Button, Spinner } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setCurrentActividad, addTarea } from './redux/actions'
+import { setCurrentActividad, addTarea } from '../redux/actions'
 
-import BuscarTarea from './BuscarTarea';
-import ListTareas from './ListTareas';
-import MisTareas from './MisTareas';
+import tokenManager from '../tokenManager';
+import FormTareas from '../components/FormTareas';
 
-import tokenManager from './tokenManager';
-
-class FormTareas extends Component {
+class FormTareasContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -67,34 +62,9 @@ class FormTareas extends Component {
 
     render() {
         return (
-            <>
-                <BuscarTarea />
-                <MisTareas />
-                <ListTareas />
-
-                {
-                    this.state.isLoading ?
-                        <Button variant="info" disabled>
-                            <Spinner
-                                as="span"
-                                animation="border"
-                                size="sm"
-                                role="status"
-                                aria-hidden="true"
-                            />
-                            Cargando...
-                    </Button>
-                        :
-                        this.state.success ?
-                            <Link to={"/actividad/" + this.props.actividadId + "/flujo"}>
-                                <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
-                            </Link>
-                            :
-                            <Button variant="info" type="button" disabled={this.state.success} onClick={this.handleFormSubmit}>
-                                Guardar
-                        </Button>
-                }
-            </>
+            <FormTareas isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
+                onSubmit={this.handleFormSubmit}
+            />
         )
     }
 
@@ -106,4 +76,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default connect(mapStateToProps)(FormTareas);
+export default connect(mapStateToProps)(FormTareasContainer);
