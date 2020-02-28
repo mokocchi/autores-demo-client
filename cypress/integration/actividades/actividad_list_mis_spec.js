@@ -1,5 +1,5 @@
 /// <reference types="Cypress" />
-describe("Actividades list test", function(){
+describe("Mis Actividades list test", function(){
     it("Has a Mis actividades header", () =>{
         cy.login()
 

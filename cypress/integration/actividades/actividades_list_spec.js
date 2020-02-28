@@ -3,5 +3,7 @@ describe("Actividades list test", function(){
     it("Has an Actividades Públicas header", () =>{
         cy.visit("/actividades")
         cy.get("h2").should("contain", "Actividades Públicas")
+
+        cy.get("ul").children().should("have.length", 10)
     })
 })
