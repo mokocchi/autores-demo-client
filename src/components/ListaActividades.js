@@ -8,7 +8,7 @@ const ListaActividades = ({success, actividades}) => {
         <Container>
             <Row>
                 <Col>
-                    <h2>Actividades Públicas</h2>
+                    <h2>Actividades públicas</h2>
                 </Col>
             </Row>
             <Row>

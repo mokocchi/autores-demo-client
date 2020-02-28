@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import tokenManager from './tokenManager';
-import loggedIn from './loggedIn';
+import tokenManager from '../tokenManager';
+import ListaTareas from '../components/ListaTareas';
 
-class ListaMisTareas extends Component {
+class ListaTareasContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +20,7 @@ class ListaMisTareas extends Component {
     }
 
     async getTareas() {
-        const data = await tokenManager.getMisTareas();
+        const data = await tokenManager.getTareasPublic();
         if (!data.error_code) {
             this.setState({
                 tareas: data.results,
@@ -31,13 +30,7 @@ class ListaMisTareas extends Component {
     }
     render() {
         return (
-            <ul>
-                {this.state.success && this.state.tareas.map((tarea, index) =>
-                    <Link key={index} to={'/tarea/' + tarea.id + '/mostrar'}>
-                        <li>{tarea.nombre}</li>
-                    </Link>
-                )}
-            </ul>
+            <ListaTareas success={this.state.success} tareas={this.state.tareas} />
         )
     }
 }
@@ -46,4 +39,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default loggedIn(connect(mapStateToProps)(ListaMisTareas));
+export default connect(mapStateToProps)(ListaTareasContainer);
