@@ -3,10 +3,8 @@ import { Route, HashRouter, BrowserRouter } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 
 import Menu from './Menu'
-import Actividad from './Actividad'
 import FlujoTareas from './FlujoTareas';
 import ResolverActividad from './ResolverActividad';
-import HomePage from './HomePage';
 import CallbackPage from './CallbackPage';
 import withAuthorization from './withAuthorization';
 import ListaMisTareas from './ListaMisTareas';
@@ -16,6 +14,8 @@ import ListaActividadesContainer from './containers/ListaActividadesContainer';
 import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
 import TareaContainer from './containers/TareaContainer';
 import TareasContainer from './containers/TareasContainer';
+import ActividadContainer from './containers/ActividadContainer';
+import MainContainer from './containers/MainContainer';
 
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
@@ -24,9 +24,9 @@ function App() {
     <BrowserRouter basename="/">
       <Menu />
       <Container style={{ marginTop: '1em' }}>
-        <Route path="/" exact component={HomePage} />
+        <Route path="/" exact component={MainContainer} />
         <Route path="/callback" component={CallbackPage} />
-        <Route path="/nuevaActividad" exact component={Autor(Actividad)} />
+        <Route path="/nuevaActividad" exact component={Autor(ActividadContainer)} />
         <Route path="/actividad/:id" exact component={Autor(TareasContainer)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(TareaContainer)} />
         <Route path="/nuevaTarea" exact component={Autor(TareaContainer)} />

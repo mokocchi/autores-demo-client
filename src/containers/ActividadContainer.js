@@ -4,9 +4,10 @@ import { setCurrentActividad } from '../redux/actions'
 
 import tokenManager from '../tokenManager';
 import { getRandomSlug } from '../utils';
-import FormActividad from '../components/FormActividad';
+import loggedIn from '../loggedIn';
+import Actividad from '../components/Actividad';
 
-class FormActividadContainer extends Component {
+class ActividadContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -133,7 +134,7 @@ class FormActividadContainer extends Component {
 
     render() {
         return (
-            <FormActividad onChange={this.handleInput} dominioDefaultValue={this.props.currentDominioId}
+            <Actividad onChange={this.handleInput} dominioDefaultValue={this.props.currentDominioId}
                 onPropsChangeMore={this.onPropsChangeMore} error={this.state.error} errorMessage={this.state.errorMessage}
                 isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
                 onSubmit={this.handleFormSubmit}
@@ -151,4 +152,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(FormActividadContainer);
+export default loggedIn(connect(mapStateToProps)(ActividadContainer));
