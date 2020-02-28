@@ -3,7 +3,6 @@ import { Route, HashRouter, BrowserRouter } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 
 import Menu from './Menu'
-import ResolverActividad from './ResolverActividad';
 import withAuthorization from './withAuthorization';
 import ListaMisTareas from './ListaMisTareas';
 import MostrarTarea from './MostrarTarea';
@@ -16,6 +15,7 @@ import ActividadContainer from './containers/ActividadContainer';
 import MainContainer from './containers/MainContainer';
 import CallbackContainer from './containers/CallbackContainer';
 import PlanifiacionContainer from './containers/PlanifiacionContainer';
+import MostrarActividadContainer from './containers/MostrarActividadContainer';
 
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
@@ -33,7 +33,7 @@ function App() {
         <Route path="/actividad/:id/planificacion" exact component={Autor(PlanifiacionContainer)} />
         <Route path="/actividades" exact component={ListaActividadesContainer} />
         <Route path="/mis-actividades/" exact component={Autor(ListaMisActividadesContainer)} />
-        <Route path="/actividad/:id/mostrar" exact component={ResolverActividad} />
+        <Route path="/actividad/:id/mostrar" exact component={MostrarActividadContainer} />
         <Route path="/tareas" exact component={ListaTareas} />
         <Route path="/mis-tareas" exact component={Autor(ListaMisTareas)} />
         <Route path="/tarea/:id/mostrar" exact component={MostrarTarea} />
