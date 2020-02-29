@@ -3,7 +3,7 @@ import { InputGroup, FormControl, Button, Form, Col, Row } from 'react-bootstrap
 import { connect } from 'react-redux'
 import { addSelectOption } from './redux/actions'
 
-import LoadSpinner from './LoadSpinner'
+import LoadSpinner from './components/UI/LoadSpinner'
 import tokenManager from './tokenManager';
 
 class FormDominio extends Component {

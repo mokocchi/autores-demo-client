@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, FormControl, InputGroup } from 'react-bootstrap';
 
 import Input from './Input';
-import SelectAPI from './SelectAPI';
-import Select from './Select';
+import SelectAPI from './components/UI/SelectAPI';
+import Select from './components/UI/Select';
 
 class TareaSearch extends Component {
 

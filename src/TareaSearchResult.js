@@ -3,7 +3,7 @@ import { InputGroup, Button, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { selectTarea, chooseTarea } from './redux/actions'
 
-import Select from './Select'
+import Select from './components/UI/Select'
 
 class TareaSearchResult extends Component {
 

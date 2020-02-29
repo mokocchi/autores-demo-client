@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { unchooseTarea } from './redux/actions'
 
-import ActionList from './ActionList';
+import ActionList from './components/UI/ActionList';
 
 class ListTareas extends Component {
 

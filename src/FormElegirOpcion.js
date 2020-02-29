@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { removeElementFromExtra } from './redux/actions'
 
-import ActionList from './ActionList'
+import ActionList from './components/UI/ActionList'
 import FormOption from './FormOption';
 
 class FormElegirOpcion extends Component {

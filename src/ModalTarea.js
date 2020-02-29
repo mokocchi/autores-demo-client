@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import memoize from 'memoize-one'
 import { Modal, Button, Card, Row, Col } from 'react-bootstrap';
-import Select from './Select';
-import CheckBox from './CheckBox';
+import Select from './components/UI/Select';
+import CheckBox from './components/UI/CheckBox';
 import { TIPOS_OPCIONES, CONDITIONS_ARRAY, TASK_CONDITIONS_ARRAY } from './config';
 import md5 from 'md5';
 

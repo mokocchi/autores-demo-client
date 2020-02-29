@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import { addTarea } from './redux/actions'
 
-import SelectAPI from './SelectAPI';
+import SelectAPI from './components/UI/SelectAPI';
 import { API_BASE_URL } from './config'
 import tokenManager from './tokenManager';
 

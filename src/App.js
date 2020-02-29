@@ -8,7 +8,7 @@ import ListaActividadesContainer from './containers/ListaActividadesContainer';
 import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
 import TareaContainer from './containers/TareaContainer';
 import TareasContainer from './containers/TareasContainer';
-import ActividadContainer from './containers/ActividadContainer';
+import ActividadForm from './Screens/Actividad/Form';
 import MainContainer from './containers/MainContainer';
 import CallbackContainer from './containers/CallbackContainer';
 import PlanifiacionContainer from './containers/PlanifiacionContainer';
@@ -26,7 +26,7 @@ function App() {
       <Container style={{ marginTop: '1em' }}>
         <Route path="/" exact component={MainContainer} />
         <Route path="/callback" component={CallbackContainer} />
-        <Route path="/nuevaActividad" exact component={Autor(ActividadContainer)} />
+        <Route path="/nuevaActividad" exact component={Autor(ActividadForm)} />
         <Route path="/actividad/:id" exact component={Autor(TareasContainer)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(TareaContainer)} />
         <Route path="/nuevaTarea" exact component={Autor(TareaContainer)} />

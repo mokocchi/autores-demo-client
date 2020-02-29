@@ -3,7 +3,7 @@ import { Row, Col, InputGroup } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { removeValidElementFromExtra, removeElementFromExtra, addDepositToElement, removeDepositFromElement, addFileToExtra } from './redux/actions'
 
-import ActionList from './ActionList';
+import ActionList from './components/UI/ActionList';
 import FormOption from './FormOption';
 import FormValidElements from './FormValidElements';
 import FormCheckInput from 'react-bootstrap/FormCheckInput';

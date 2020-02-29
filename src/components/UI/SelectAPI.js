@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { requestOptions, receiveOptions, failAttribute } from './redux/actions'
+import { requestOptions, receiveOptions, failAttribute } from '../../redux/actions'
 
 import Select from './Select';
 import LoadSpinner from './LoadSpinner';
-import tokenManager from './tokenManager';
+import tokenManager from '../../tokenManager';
 
 class SelectAPI extends Component {
 

@@ -3,7 +3,7 @@ import { Form, Button, Col, Spinner, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import Input from '../Input';
-import SelectAPI from '../SelectAPI';
+import SelectAPI from './UI/SelectAPI';
 import FormDominio from '../FormDominio';
 import TareaExtra from '../TareaExtra';
 

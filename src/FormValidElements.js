@@ -3,7 +3,7 @@ import { InputGroup, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { addValidElementToExtra } from './redux/actions'
 
-import Select from './Select';
+import Select from './components/UI/Select';
 
 class FormValidElements extends Component {
 
