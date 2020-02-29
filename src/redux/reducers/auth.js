@@ -1,4 +1,4 @@
-import { API_USER_FOUND, API_USER_EXPIRED, LOADING_API_USER } from "../actions";
+import { API_USER_FOUND, API_USER_EXPIRED, LOADING_API_USER, API_USER_LOGGED_OUT } from "../actions";
 
 const INITIAL_STATE = {
     token: {
@@ -25,6 +25,8 @@ export default function auth(state = INITIAL_STATE, action) {
                 isLoading: false
             }
         case API_USER_EXPIRED:
+            return INITIAL_STATE;
+        case API_USER_LOGGED_OUT:
             return INITIAL_STATE;
         case LOADING_API_USER:
             return {

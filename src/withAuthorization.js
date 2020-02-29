@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import Unauthorized from "./Unauthorized";
-import { Spinner } from "react-bootstrap";
+import loggedIn from "./loggedIn";
 
 function mapStateToProps(state) {
   return {
@@ -11,8 +11,8 @@ function mapStateToProps(state) {
 }
 
 export default allowedRoles => WrappedComponent => {
-  return connect(mapStateToProps)((props) =>
+  return loggedIn(connect(mapStateToProps)((props) =>
     props.isLoading ? <span>Cargando...</span> :
       allowedRoles.includes(props.role) ? <WrappedComponent {...props} /> : <Unauthorized />
-  );
+  ));
 };

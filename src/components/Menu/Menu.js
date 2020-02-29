@@ -1,14 +1,8 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap'
 import { Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
 
-import userManager from './userManager';
-import tokenManager from './tokenManager';
-import history from './history';
-import { expired } from './utils';
-
-function Menu({ user, token }) {
+function Menu(props) {
     return (
         <Navbar bg="light" expand="lg">
             <Navbar.Brand href="/">Autores Demo</Navbar.Brand>
@@ -25,19 +19,10 @@ function Menu({ user, token }) {
                 </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">
-                {(token && token.accessToken) ?
-                    <Button onClick={event => {
-                        event.preventDefault();
-                        userManager.removeUser();
-                        tokenManager.removeApiUser();
-                        history.push("/")
-                    }}>Cerrar sesión</Button>
+                {(props.token.accessToken) ?
+                    <Button onClick={props.onClickCerrarSesion}>Cerrar sesión</Button>
                     :
-                    <Button onClick={
-                        event => {
-                            event.preventDefault();
-                            userManager.signinRedirect();
-                        }} variant={"outline-dark"} role="button" style={{ textTransform: "none" }}>
+                    <Button onClick={props.onClickIniciarSesion} variant={"outline-dark"} role="button" style={{ textTransform: "none" }}>
                         <img width="20px" style={{ marginBotton: "3px", marginRight: "5px" }} alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
                         Iniciar sesión con Google
                     </Button>
@@ -47,11 +32,4 @@ function Menu({ user, token }) {
     )
 }
 
-function mapStateToProps(state) {
-    return {
-        user: state.oidc.user,
-        token: state.auth.token
-    }
-}
-
-export default connect(mapStateToProps)(Menu);
+export default Menu;

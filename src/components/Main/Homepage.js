@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Main({ user }) {
+function Homepage({ user }) {
     return <div>
         <div>
             Bienvenido, {user.nombre} {user.apellido}!
@@ -8,4 +8,4 @@ function Main({ user }) {
     </div>
 }
 
-export default Main;
+export default Homepage;

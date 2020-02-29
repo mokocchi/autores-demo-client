@@ -1,10 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { userSignedOut } from "redux-oidc";
-import userManager from "../userManager";
-import { apiUserFound, loadingApiUser } from "../redux/actions";
-import tokenManager from "../tokenManager";
-import Callback from "../components/Callback";
+import userManager from "../../userManager";
+import { apiUserFound, loadingApiUser } from "../../redux/actions";
+import tokenManager from "../../tokenManager";
+
+import Callback from "./Callback";
 
 class CallbackContainer extends React.Component {
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { CallbackComponent } from "redux-oidc";
-import LoadSpinner from "./UI/LoadSpinner";
+import LoadSpinner from "../UI/LoadSpinner";
 
 const Callback = (props) => {
     return (

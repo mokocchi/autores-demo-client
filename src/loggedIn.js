@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import LoginContainer from "./containers/LoginContainer";
 
@@ -7,17 +7,11 @@ function mapStateToProps(state) {
         token: state.auth.token
     }
 }
-export default function loggedIn(WrappedComponent, data) {
-    return connect(mapStateToProps)(
-        class extends Component {
-            render() {
-                return (
-                    !this.props.token.accessToken ?
-                        <LoginContainer />
-                        :
-                        <WrappedComponent {...this.props} />
-                )
-            }
-        }
+export default (WrappedComponent) => {
+    return connect(mapStateToProps)((props) =>
+        props.token.accessToken ?
+            < WrappedComponent {...props} />
+            :
+            <LoginContainer />
     )
 }

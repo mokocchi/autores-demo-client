@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addTarea, setCurrentActividad, clearTareaExtra } from '../redux/actions';
+import { addTarea, setCurrentActividad, clearTareaExtra } from '../../redux/actions';
 
-import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from '../config';
-import { getRandomSlug } from '../utils'
-import tokenManager from '../tokenManager';
-import Tarea from '../components/Tarea';
+import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from '../../config';
+import { getRandomSlug } from '../../utils'
+import tokenManager from '../../tokenManager';
+import Tarea from './Tarea/Form';
 
 class FormTareaContainer extends Component {
 

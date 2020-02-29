@@ -88,7 +88,7 @@ export function setResultTareas(tareas) {
   return {
     type: SET_RESULT_TAREAS,
     tareas
-  } 
+  }
 }
 
 //actividad
@@ -185,7 +185,7 @@ export function addScoreToCriterion(score, criterionName) {
 
 export const REMOVE_SCORE_FROM_CRITERIA = "REMOVE_SCORE_FROM_CRITERIA"
 
-export function removeScoreFromCriteria(code){
+export function removeScoreFromCriteria(code) {
   return {
     type: REMOVE_SCORE_FROM_CRITERIA,
     code
@@ -244,5 +244,13 @@ export const LOADING_API_USER = "LOADING_API_USER"
 export function loadingApiUser() {
   return {
     type: LOADING_API_USER
+  }
+}
+
+export const API_USER_LOGGED_OUT = "API_USER_LOGGED_OUT"
+
+export function apiUserLoggedOut() {
+  return {
+    type: API_USER_LOGGED_OUT
   }
 }
