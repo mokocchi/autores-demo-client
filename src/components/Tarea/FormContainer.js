@@ -5,7 +5,7 @@ import { addTarea, setCurrentActividad, clearTareaExtra } from '../../redux/acti
 import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from '../../config';
 import { getRandomSlug } from '../../utils'
 import tokenManager from '../../tokenManager';
-import Tarea from './Tarea/Form';
+import TareaForm from './Form';
 
 class FormTareaContainer extends Component {
 
@@ -25,7 +25,7 @@ class FormTareaContainer extends Component {
             error: false,
             errorMessage: ""
         }
-        let id = this.props.match.params.id;
+        let id = this.props.actividadId;
         if (id) {
             this.setCurrentActividad(id);
         }
@@ -256,7 +256,7 @@ class FormTareaContainer extends Component {
 
     render() {
         return (
-            <Tarea onChange={this.handleInput} onPropsChangeMore={this.onPropsChangeMore}
+            <TareaForm onChange={this.handleInput} onPropsChangeMore={this.onPropsChangeMore}
                 tipoTarea={this.state.newTarea.tipo} error={this.state.error} errorMessage={this.state.errorMessage}
                 isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
                 onSubmit={this.handleFormSubmit}

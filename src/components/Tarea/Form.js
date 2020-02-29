@@ -2,10 +2,10 @@ import React from 'react';
 import { Form, Button, Col, Spinner, Container, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import Input from '../../Input';
+import Input from '../UI/Input';
 import SelectAPI from '../UI/SelectAPI';
 import FormDominioContainer from '../Dominio/FormContainer';
-import TareaExtra from '../../TareaExtra';
+import TareaExtra from './TareaExtra';
 
 const FormTarea = (props) => {
     return (

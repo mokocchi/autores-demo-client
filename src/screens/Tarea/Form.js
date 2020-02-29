@@ -1,6 +1,6 @@
 import React from 'react';
-import TareaContainer from '../../components/Tarea/Form';
 import { Container, Row, Col } from 'react-bootstrap';
+import FormTareaContainer from '../../components/Tarea/FormContainer';
 
 const FormTarea = ({ match: { params } }) => {
     return (
@@ -12,7 +12,7 @@ const FormTarea = ({ match: { params } }) => {
             </Row>
             <Row>
                 <Col style={{ border: "1px solid black", padding: "2em" }}>
-                    <TareaContainer />
+                    <FormTareaContainer actividadId={params.id} />
                 </Col>
             </Row>
         </Container>

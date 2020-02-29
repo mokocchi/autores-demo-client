@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, FormControl } from 'react-bootstrap';
 
-import Input from '../../Input';
+import Input from '../UI/Input';
 import Select from '../UI/Select';
 import SelectAPI from '../UI/SelectAPI';
 

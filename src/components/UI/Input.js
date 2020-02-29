@@ -16,6 +16,7 @@ function Input(props) {
                                 onChange={props.onChange}
                                 onKeyPress={props.onKeyPress}
                                 name={props.name}
+                                value={props.value}
                                 disabled={props.disabled}
                             />
                         </Col>
@@ -30,6 +31,7 @@ function Input(props) {
                             onChange={props.onChange}
                             onKeyPress={props.onKeyPress}
                             name={props.name}
+                            value={props.value}
                             disabled={props.disabled}
                         //className="form-input"
                         />

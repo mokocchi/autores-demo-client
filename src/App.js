@@ -8,12 +8,12 @@ import Homepage from './screens/Main/Homepage';
 import Callback from './screens/Main/Callback';
 import ActividadForm from './screens/Actividad/Form';
 import ActividadAddTareas from './screens/Actividad/AddTareas';
+import TareaForm from './screens/Tarea/Form'
 
 
 
 import ListaActividadesContainer from './containers/ListaActividadesContainer';
 import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
-import TareaForm from './screens/Tarea/Form'
 import PlanifiacionContainer from './containers/PlanifiacionContainer';
 import MostrarActividadContainer from './containers/MostrarActividadContainer';
 import ListaTareasContainer from './containers/ListaTareasContainer';

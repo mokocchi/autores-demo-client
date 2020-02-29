@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addByScoreCriterion } from './redux/actions'
+import { addByScoreCriterion } from '../../../redux/actions'
 
-import Input from './Input'
+import Input from '../../UI/Input'
+import FormContador from './FormContador';
 
-class FormContador extends Component {
+class FormContadorContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -44,21 +45,8 @@ class FormContador extends Component {
     }
 
     render() {
-        return (
-            <div>
-                <h4>Nuevo criterio</h4>
-                <Input value={this.state.nombre} label={"Nombre"} placeholder={"Nombre"}
-                    controlId={"formNombre"} horizontal name={"nombre"}
-                    onChange={this.handleInput}
-                />
-                <Input value={this.state.mensaje} label={"Mensaje"} placeholder={"Mensaje"}
-                    controlId={"formMensaje"} horizontal name={"mensaje"}
-                    onChange={this.handleInput} onKeyPress={this.onKeyPress}
-                />
-                <Button type="button" variant="success" className="float-right" onClick={this.onClick}
-                    disabled={(this.state.nombre === '') || (this.state.mensaje === '')}>Agregar</Button>
-            </div>
-        )
+        return <FormContador nombre={this.state.nombre} onChange={this.handleInput} mensaje={this.state.mensaje}
+            onKeyPress={this.onKeyPress} onClick={this.onClick} disabled={(this.state.nombre === '') || (this.state.mensaje === '')} />
     }
 }
 
@@ -69,4 +57,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(FormContador);
+export default connect(mapStateToProps)(FormContadorContainer);
