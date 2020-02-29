@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setCurrentActividad, addTarea } from '../redux/actions'
+import { setCurrentActividad, addTarea } from '../../../redux/actions'
 
-import tokenManager from '../tokenManager';
-import loggedIn from '../loggedIn';
-import Tareas from '../components/Tareas';
+import tokenManager from '../../../tokenManager';
+import loggedIn from '../../../loggedIn';
+import AddTareasButton from './Button';
 
-class TareasContainer extends Component {
+class AddTareasButtonContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -16,7 +16,7 @@ class TareasContainer extends Component {
             error: false,
             errorMessage: ""
         }
-        let id = this.props.match.params.id;
+        let id = props.actividadId;
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
         this.setCurrentActividad(id);
     }
@@ -40,6 +40,9 @@ class TareasContainer extends Component {
     }
 
     async setTareasToActividad(id, tareasIds) {
+        this.setState({
+            isLoading: true
+        })
         const data = await tokenManager.setTareasToActividad({
             "tareas": tareasIds
         }, id)
@@ -47,23 +50,24 @@ class TareasContainer extends Component {
             this.setState({
                 error: true,
                 errorMessage: data.user_message,
-                success: false
+                success: false,
+                isLoading: false
             })
             return;
         } else {
-            this.setState({ success: true });
+            this.setState({ success: true, isLoading: false});
         }
     }
 
     async handleFormSubmit() {
-        const id = this.props.match.params.id;
+        const id = this.props.actividadId;
         const tareasIds = this.props.chosenTareas.map(tarea => tarea.id);
         this.setTareasToActividad(id, tareasIds);
     }
 
     render() {
         return (
-            <Tareas isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.match.params.id}
+            <AddTareasButton isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
                 onSubmit={this.handleFormSubmit}
             />
         )
@@ -77,4 +81,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default loggedIn(connect(mapStateToProps)(TareasContainer));
+export default loggedIn(connect(mapStateToProps)(AddTareasButtonContainer));

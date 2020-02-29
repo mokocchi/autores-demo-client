@@ -25,8 +25,8 @@ export default ListaMisActividades;
 
 ListaMisActividades.propTypes = {
     success: PropTypes.bool.isRequired,
-    actividades: PropTypes.shape({
+    actividades: PropTypes.arrayOf(PropTypes.shape({
         nombre: PropTypes.string,
         id: PropTypes.number
-    })
+    }))
 }

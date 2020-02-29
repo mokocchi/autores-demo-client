@@ -7,13 +7,13 @@ import MenuContainer from './components/Menu/MenuContainer';
 import Homepage from './screens/Main/Homepage';
 import Callback from './screens/Main/Callback';
 import ActividadForm from './screens/Actividad/Form';
+import ActividadAddTareas from './screens/Actividad/AddTareas';
 
 
 
 import ListaActividadesContainer from './containers/ListaActividadesContainer';
 import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
 import TareaForm from './screens/Tarea/Form'
-import TareasContainer from './containers/TareasContainer';
 import PlanifiacionContainer from './containers/PlanifiacionContainer';
 import MostrarActividadContainer from './containers/MostrarActividadContainer';
 import ListaTareasContainer from './containers/ListaTareasContainer';
@@ -31,7 +31,7 @@ function App() {
         <Route path="/" exact component={Usuario(Homepage)} />
         <Route path="/callback" component={Callback} />
         <Route path="/nuevaActividad" exact component={Autor(ActividadForm)} />
-        <Route path="/actividad/:id" exact component={Autor(TareasContainer)} />
+        <Route path="/actividad/:id" exact component={Autor(ActividadAddTareas)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(TareaForm)} />
         <Route path="/nuevaTarea" exact component={Autor(TareaForm)} />
         <Route path="/actividad/:id/planificacion" exact component={Autor(PlanifiacionContainer)} />
