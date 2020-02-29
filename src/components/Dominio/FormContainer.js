@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { InputGroup, FormControl, Button, Form, Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { addSelectOption } from './redux/actions'
+import { addSelectOption } from '../../redux/actions'
 
-import LoadSpinner from './components/UI/LoadSpinner'
-import tokenManager from './tokenManager';
+import tokenManager from '../../tokenManager';
+import FormDominio from './Form';
 
-class FormDominio extends Component {
+class FormDominioContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -65,33 +64,9 @@ class FormDominio extends Component {
 
     render() {
         return (
-            <Col>
-                <Row>
-                    <Col>
-                        <InputGroup className="mb-3">
-                            <FormControl type="text" value={this.state.dominio} placeholder="Nuevo dominio" onChange={this.handleChange} onKeyPress={this.onKeyPress} />
-                            <InputGroup.Append>
-                                {this.state.isLoading ?
-                                    <LoadSpinner />
-                                    :
-                                    <Button variant="success" disabled={this.state.dominio === ""} type="button" onClick={this.onClick}>
-                                        Agregar
-                                    </Button>
-                                }
-                            </InputGroup.Append>
-                        </InputGroup>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {this.state.error &&
-                            <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
-                                {this.state.errorMessage}
-                            </Form.Text>
-                        }
-                    </Col>
-                </Row>
-            </Col>
+            <FormDominio dominio={this.state.dominio} onChange={this.handleChange} onKeyPress={this.onKeyPress}
+                isLoading={this.state.isLoading} onClick={this.onClick} error={this.state.error} errorMessage={this.state.errorMessage}
+            />
         )
     }
 }
@@ -104,7 +79,7 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(FormDominio);
+export default connect(mapStateToProps)(FormDominioContainer);
 
 
 

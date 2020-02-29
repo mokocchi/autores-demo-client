@@ -3,7 +3,7 @@ import { Form, Button, Col, Spinner } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 import Input from '../../Input';
-import FormDominio from '../../FormDominio';
+import FormDominioContainer from '../Dominio/FormContainer';
 import SelectAPI from '../UI/SelectAPI';
 
 const Actividad = (props) => {
@@ -82,7 +82,7 @@ const Actividad = (props) => {
                 </Col>
             </Form.Row>
             <Form.Row>
-                <FormDominio />
+                <FormDominioContainer />
                 <Col></Col>
             </Form.Row>
             {props.error &&

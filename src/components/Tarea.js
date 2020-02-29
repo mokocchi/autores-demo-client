@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import Input from '../Input';
 import SelectAPI from './UI/SelectAPI';
-import FormDominio from '../FormDominio';
+import FormDominioContainer from './Dominio/FormContainer';
 import TareaExtra from '../TareaExtra';
 
 const Tarea = (props) => {
@@ -80,7 +80,7 @@ const Tarea = (props) => {
                             <Col></Col>
                         </Form.Row>
                         <Form.Row>
-                            <FormDominio />
+                            <FormDominioContainer />
                             <Col></Col>
                         </Form.Row>
 
