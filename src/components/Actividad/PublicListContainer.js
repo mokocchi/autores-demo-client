@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import tokenManager from '../tokenManager';
-import loggedIn from '../loggedIn';
-import ListaMisActividades from '../components/ListaMisActividades';
+import tokenManager from '../../tokenManager';
+import ListaActividades from './PublicList'
 
-class ListaMisActividadesContainer extends Component {
+class ActividadPublicListContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -21,7 +20,7 @@ class ListaMisActividadesContainer extends Component {
     }
 
     async getActividades() {
-        const data = await tokenManager.getMisActividades();
+        const data = await tokenManager.getActividadesPublic();
         if (!data.error_code) {
             this.setState({
                 actividades: data.results,
@@ -31,7 +30,7 @@ class ListaMisActividadesContainer extends Component {
     }
     render() {
         return (
-            <ListaMisActividades success={this.state.success} actividades={this.state.actividades}/>
+            <ListaActividades actividades={this.state.actividades} success={this.state.success} />
         )
     }
 }
@@ -40,4 +39,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default loggedIn(connect(mapStateToProps)(ListaMisActividadesContainer));
+export default connect(mapStateToProps)(ActividadPublicListContainer);

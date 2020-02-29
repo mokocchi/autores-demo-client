@@ -1,22 +1,22 @@
 import React from 'react';
-import ShowLinksList from './ShowLinksList';
+import ActividadListUserContainer from '../../components/Actividad/ListUserContainer';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const ListaMisTareas = (props) => {
+const ActividadListUser = (props) => {
     return (
         <Container>
             <Row>
                 <Col>
-                    <h2>Mis tareas</h2>
+                    <h2>Mis actividades</h2>
                 </Col>
             </Row>
             <Row>
                 <Col style={{ border: "1px solid black", padding: "2em" }}>
-                    {props.success && <ShowLinksList uriPrefix="/tarea" items={props.tareas} />}
+                    <ActividadListUserContainer />
                 </Col>
             </Row>
-        </Container>
+        </Container >
     )
 }
 
-export default ListaMisTareas;
+export default ActividadListUser;

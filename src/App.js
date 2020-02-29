@@ -9,15 +9,15 @@ import Callback from './screens/Main/Callback';
 import ActividadForm from './screens/Actividad/Form';
 import ActividadAddTareas from './screens/Actividad/AddTareas';
 import TareaForm from './screens/Tarea/Form'
+import ActividadPublicList from './screens/Actividad/PublicList';
+import ActividadListUser from './screens/Actividad/ListUser';
+import ActividadShow from './screens/Actividad/Show';
 
 
 
-import ListaActividadesContainer from './containers/ListaActividadesContainer';
-import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
 import PlanifiacionContainer from './containers/PlanifiacionContainer';
-import MostrarActividadContainer from './containers/MostrarActividadContainer';
-import ListaTareasContainer from './containers/ListaTareasContainer';
-import ListaMisTareasContainer from './containers/ListaMisTareasContainer';
+import ListaTareasContainer from './components/Tarea/ListaTareasContainer';
+import ListaMisTareasContainer from './components/Tarea/ListaMisTareasContainer';
 import ShowTareaContainer from './containers/ShowTareaContainer';
 import Usuario from './loggedIn';
 
@@ -35,9 +35,9 @@ function App() {
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(TareaForm)} />
         <Route path="/nuevaTarea" exact component={Autor(TareaForm)} />
         <Route path="/actividad/:id/planificacion" exact component={Autor(PlanifiacionContainer)} />
-        <Route path="/actividades" exact component={ListaActividadesContainer} />
-        <Route path="/mis-actividades/" exact component={Autor(ListaMisActividadesContainer)} />
-        <Route path="/actividad/:id/mostrar" exact component={MostrarActividadContainer} />
+        <Route path="/actividades" exact component={ActividadPublicList} />
+        <Route path="/mis-actividades/" exact component={Autor(ActividadListUser)} />
+        <Route path="/actividad/:id/mostrar" exact component={ActividadShow} />
         <Route path="/tareas" exact component={ListaTareasContainer} />
         <Route path="/mis-tareas" exact component={Autor(ListaMisTareasContainer)} />
         <Route path="/tarea/:id/mostrar" exact component={ShowTareaContainer} />

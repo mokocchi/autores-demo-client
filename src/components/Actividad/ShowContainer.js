@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
-import tokenManager from '../tokenManager';
-import MostrarActividad from '../components/MostrarActividad';
+import tokenManager from '../../tokenManager';
+import ActividadShow from './Show';
 
-class MostrarActividadContainer extends Component {
+class ActividadShowContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ class MostrarActividadContainer extends Component {
     }
 
     async getActividadAndTareas() {
-        const data = await tokenManager.getActividad(this.props.match.params.id)
+        const data = await tokenManager.getActividad(this.props.actividadId)
         if (!data.error_code) {
             this.setState({
                 actividad: data
@@ -43,8 +43,8 @@ class MostrarActividadContainer extends Component {
 
     render() {
         const { actividad, tareas, errors } = this.state;
-        return <MostrarActividad actividad={actividad} tareas={tareas} errors={errors} />
+        return <ActividadShow actividad={actividad} tareas={tareas} errors={errors} />
     }
 }
 
-export default MostrarActividadContainer;
+export default ActividadShowContainer;
