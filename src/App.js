@@ -4,8 +4,6 @@ import { Container } from 'react-bootstrap'
 
 import Menu from './Menu'
 import withAuthorization from './withAuthorization';
-import ListaMisTareas from './components/ListaMisTareas';
-import MostrarTarea from './MostrarTarea';
 import ListaActividadesContainer from './containers/ListaActividadesContainer';
 import ListaMisActividadesContainer from './containers/ListaMisActividadesContainer';
 import TareaContainer from './containers/TareaContainer';
@@ -17,6 +15,7 @@ import PlanifiacionContainer from './containers/PlanifiacionContainer';
 import MostrarActividadContainer from './containers/MostrarActividadContainer';
 import ListaTareasContainer from './containers/ListaTareasContainer';
 import ListaMisTareasContainer from './containers/ListaMisTareasContainer';
+import ShowTareaContainer from './containers/ShowTareaContainer';
 
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
@@ -37,7 +36,7 @@ function App() {
         <Route path="/actividad/:id/mostrar" exact component={MostrarActividadContainer} />
         <Route path="/tareas" exact component={ListaTareasContainer} />
         <Route path="/mis-tareas" exact component={Autor(ListaMisTareasContainer)} />
-        <Route path="/tarea/:id/mostrar" exact component={MostrarTarea} />
+        <Route path="/tarea/:id/mostrar" exact component={ShowTareaContainer} />
       </Container>
     </BrowserRouter>
   );
