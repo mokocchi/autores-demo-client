@@ -10,6 +10,11 @@ import userManager from "./userManager";
 import App from './App';
 import tokenManager from './tokenManager';
 
+//@ts-ignore
+if (process.env.NODE_ENV === "development") {
+    require('whatwg-fetch'); //for polyfill cypress test 
+}
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
     reducer,

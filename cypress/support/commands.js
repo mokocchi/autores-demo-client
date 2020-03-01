@@ -60,3 +60,14 @@ Cypress.Commands.add("clearLocalStorageCache", () => {
     localStorage.clear();
     LOCAL_STORAGE_MEMORY = {};
 });
+
+Cypress.Commands.add('visitWithDelWinFetch', (path, opts = {}) => {
+    cy.visit(
+        path,
+        Object.assign(opts, {
+            onBeforeLoad(win) {
+                delete win.fetch;
+            },
+        })
+    );
+});

@@ -47,7 +47,6 @@ const Actividad = (props) => {
             }
             onSubmit={(values, { setSubmitting }) => {
                 setSubmitting(false);
-                alert("submitting")
                 props.onSubmit(values);
             }}
         >
