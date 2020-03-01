@@ -57,7 +57,7 @@ describe("Actividades form test", () => {
         cy.contains("Guardar").should("have.class", "btn-info")
     })
 
-    it.only("Populates the select fields", () => {
+    it("Populates the select fields", () => {
         cy.get("#formIdioma").children().should("have.length", 4)
 
         cy.get("#formTipoPlanificacion").children().should("have.length", 4)
