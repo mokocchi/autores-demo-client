@@ -7,7 +7,7 @@ const FormTarea = ({ match: { params } }) => {
         <Container>
             <Row>
                 <Col>
-                    <h2>{!params.id ? "Crear" : "Editar"} tarea</h2>
+                    <h2>{!params.tareaid ? "Crear" : "Editar"} tarea</h2>
                 </Col>
             </Row>
             <Row>

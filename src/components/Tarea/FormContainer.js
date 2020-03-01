@@ -81,55 +81,14 @@ class FormTareaContainer extends Component {
 
     }
 
-    async handleFormSubmit(e) {
-        const { nombre, consigna, tipo, dominio, codigo, estado } = this.state.newTarea;
+    async handleFormSubmit(values) {
+        const { nombre, consigna, tipo, dominio, codigo, estado } = values;
         const { extra } = this.props;
-        e.preventDefault();
         this.setState({
             isLoading: true,
             error: false,
             errorMessage: ''
         });
-        if (nombre === "") {
-            this.setState({
-                errorMessage: "Falta nombre",
-                error: true,
-                isLoading: false,
-            })
-            return;
-        }
-        if (consigna === "") {
-            this.setState({
-                errorMessage: "Falta consigna",
-                error: true,
-                isLoading: false,
-            })
-            return;
-        }
-        if (tipo === "") {
-            this.setState({
-                errorMessage: "Falta tipo",
-                error: true,
-                isLoading: false,
-            })
-            return;
-        }
-        if (dominio === "") {
-            this.setState({
-                errorMessage: "Falta dominio",
-                error: true,
-                isLoading: false,
-            })
-            return;
-        }
-        if (estado === "") {
-            this.setState({
-                errorMessage: "Falta estado",
-                error: true,
-                isLoading: false,
-            })
-            return;
-        }
 
         if (TIPOS_EXTRA.includes(tipo)) {
             if (extra.elements.length === 0) {
