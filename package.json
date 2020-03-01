@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "cypress": "^4.0.2",
+    "cypress-file-upload": "^3.5.3",
     "gh-pages": "^2.2.0"
   }
 }

@@ -276,4 +276,43 @@ describe("Actividades form test", () => {
                 .to.have.nested.property("[0].name", "Plomo")
         })
     })
+
+    it("Submits the form for a Contadores", () => {
+        cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
+        cy.route("POST", /tareas\/\d+\/plano/).as("plano")
+        cy.get("#formNombre").type("Nombre")
+        cy.get("#formConsigna").type("Consigna")
+        cy.get("#formTipo").select("9")
+        cy.get("#formDominio").select("1")
+        cy.get("#formEstado").select("1")
+
+        cy.contains("Guardar").click()
+
+        cy.contains("Falta imagen para el plano").should("have.class", "text-danger")
+
+        const fileName = 'suelo.png';
+
+        cy.fixture(fileName).then(fileContent => {
+            cy.get('[data-cy="file-input"]').upload({ fileContent, fileName, mimeType: 'image/png' });
+        });
+
+        cy.contains("Guardar").click()
+        cy.wait("@tareas")
+        cy.get("@tareas").should((xhr) => {
+            expect(xhr.url).to.match(/v1.0\/tareas$/)
+            expect(xhr.status).to.eq(201)
+            expect(xhr.method).to.eq("POST")
+            expect(xhr.requestHeaders).to.have.property('authorization').match(/^Bearer /)
+
+            expect(xhr.request.body).to.have.property("tipo", "9")
+        })
+
+        cy.wait("@plano")
+        cy.get("@plano").should(xhr => {
+            expect(xhr.url).to.match(/v1.0\/tareas\/\d+\/plano/)
+            expect(xhr.status).to.eq(200)
+            expect(xhr.method).to.eq("POST")
+            expect(xhr.requestHeaders).to.have.property('authorization').match(/^Bearer /)
+        })
+    })
 })

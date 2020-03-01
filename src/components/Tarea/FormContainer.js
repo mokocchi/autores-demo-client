@@ -12,14 +12,7 @@ class FormTareaContainer extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            newTarea: {
-                nombre: '',
-                consigna: '',
-                tipo: '',
-                dominio: '',
-                codigo: getRandomSlug(),
-                estado: ''
-            },
+            tarea: null,
             isLoading: false,
             success: false,
             error: false,
@@ -144,34 +137,47 @@ class FormTareaContainer extends Component {
         if (TIPOS_EXTRA.includes(tipo)) {
             processedExtra = this.processExtra(extra, tipo);
         }
-
-        const tarea = await tokenManager.createTarea({
-            "nombre": nombre,
-            "consigna": consigna,
-            "codigo": codigo,
-            "tipo": tipo,
-            "dominio": dominio,
-            "estado": estado,
-            "extraData": processedExtra
-        });
-        if (tarea.error_code) {
-            this.setState({
-                isLoading: false,
-                error: true,
-                errorMessage: tarea.user_message
+        
+        let tarea = this.state.tarea;
+        if(!tarea) {
+            const tarea = await tokenManager.createTarea({
+                "nombre": nombre,
+                "consigna": consigna,
+                "codigo": codigo,
+                "tipo": tipo,
+                "dominio": dominio,
+                "estado": estado,
+                "extraData": processedExtra
             });
-            return
+            if (tarea.error_code) {
+                this.setState({
+                    isLoading: false,
+                    error: true,
+                    errorMessage: tarea.user_message
+                });
+                return
+            }
+
+            this.setState({
+                tarea: tarea
+            })
         }
 
-        const id = tarea.id;
-
         if (TIPOS_PLANO.includes(tipo)) {
+            if(!extra.plano || !extra.plano.url) {
+                this.setState({
+                    isLoading: false,
+                    error: true,
+                    errorMessage: "Falta imagen para el plano"
+                });
+                return
+            }
             const response = await fetch(extra.plano.url);
             const blob = await response.blob();
             const plano = new File([blob], codigo + '.png', { type: extra.plano.filetype });
             const formData = new FormData();
             formData.append('plano', plano);
-            const planoData = await tokenManager.addPlanoToTarea(formData, id);
+            const planoData = await tokenManager.addPlanoToTarea(formData, tarea.id);
             if (planoData.error_code) {
                 this.setState({
                     isLoading: false,
@@ -216,7 +222,7 @@ class FormTareaContainer extends Component {
     render() {
         return (
             <TareaForm onChange={this.handleInput} onPropsChangeMore={this.onPropsChangeMore}
-                tipoTarea={this.state.newTarea.tipo} error={this.state.error} errorMessage={this.state.errorMessage}
+                error={this.state.error} errorMessage={this.state.errorMessage}
                 isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
                 onSubmit={this.handleFormSubmit}
             />

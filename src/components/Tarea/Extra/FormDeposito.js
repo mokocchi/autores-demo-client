@@ -13,7 +13,7 @@ const FormDeposito = (props) => {
                     <Col>
                         <FormGroup>
                             <Form.Label>Plano</Form.Label>
-                            <FormControl name="images" type="file" onChange={props.handlePlano} />
+                            <FormControl name="images" data-cy={"file-input"} type="file" onChange={props.handlePlano} />
                         </FormGroup>
                     </Col>
                 </Row>
