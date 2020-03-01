@@ -10,7 +10,7 @@ const ActividadAddTareas = ({ match: { params } }) => {
         <Container>
             <Row>
                 <Col>
-                    <h2>Tareas</h2>
+                    <h2>Elegir tareas</h2>
                 </Col>
             </Row>
             <Row>

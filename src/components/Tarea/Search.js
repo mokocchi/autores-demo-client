@@ -51,7 +51,7 @@ function searchBox(criterionId) {
 const TareaSearch = (props) => {
     return (
         <div>
-            <h2>Buscar Tarea</h2>
+            <h3>Buscar Tarea</h3>
             <Row>
                 <Col>
                     <Select

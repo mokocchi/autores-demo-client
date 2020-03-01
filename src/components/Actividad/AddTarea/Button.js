@@ -1,10 +1,15 @@
 import React from 'react';
-import { Button, Spinner } from 'react-bootstrap';
+import { Button, Spinner, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const AddTareasButton = (props) => {
     return (
         <>
+            {props.error &&
+                <Form.Text className="text-danger">
+                    {props.errorMessage}
+                </Form.Text>
+            }
             {
                 props.isLoading ?
                     <Button variant="info" disabled>

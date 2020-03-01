@@ -37,7 +37,7 @@ function ActionList(props) {
                         }
                         {props.action &&
                             < Button variant="danger" type="button" className="float-right"
-                                onClick={() => props.onClick(item, props.group)}>
+                                onClick={() => props.onClick(item, props.group)} data-cy={"quitar_" + (props.group? props.group + "_" : "") + item.id || item}>
                                 Quitar
                             </Button>
                         }

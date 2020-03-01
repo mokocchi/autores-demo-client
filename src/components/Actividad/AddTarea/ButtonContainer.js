@@ -61,13 +61,20 @@ class AddTareasButtonContainer extends Component {
     async handleFormSubmit() {
         const id = this.props.actividadId;
         const tareasIds = this.props.chosenTareas.map(tarea => tarea.id);
+        if(tareasIds.length === 0) {
+            this.setState({
+                error: true,
+                errorMessage: "No se eligieron tareas"
+            });
+            return;
+        }
         this.setTareasToActividad(id, tareasIds);
     }
 
     render() {
         return (
             <AddTareasButton isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
-                onSubmit={this.handleFormSubmit}
+                onSubmit={this.handleFormSubmit} error={this.state.error} errorMessage={this.state.errorMessage}
             />
         )
     }
