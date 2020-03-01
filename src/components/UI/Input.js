@@ -18,6 +18,7 @@ function Input(props) {
                                 name={props.name}
                                 value={props.value}
                                 disabled={props.disabled}
+                                onBlur={props.onBlur}
                             />
                         </Col>
                     </Form.Group>
@@ -33,6 +34,7 @@ function Input(props) {
                             name={props.name}
                             value={props.value}
                             disabled={props.disabled}
+                            onBlur={props.onBlur}
                         //className="form-input"
                         />
                     </Form.Group>

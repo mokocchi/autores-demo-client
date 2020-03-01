@@ -8,7 +8,8 @@ const FormDominio = (props) => {
             <Row>
                 <Col>
                     <InputGroup className="mb-3">
-                        <FormControl type="text" value={props.dominio} placeholder="Nuevo dominio" onChange={props.onChange} onKeyPress={props.onKeyPress} />
+                        <FormControl type="text" value={props.dominio} placeholder="Nuevo dominio" id="formNewDominio"
+                        onChange={props.onChange} onKeyPress={props.onKeyPress} />
                         <InputGroup.Append>
                             {props.isLoading ?
                                 <LoadSpinner />

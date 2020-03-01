@@ -18,7 +18,7 @@ class SelectAPI extends Component {
             try {
                 dispatch(requestOptions(attribute));
                 let data = null;
-                if(authorized){
+                if (authorized) {
                     data = await tokenManager.authorizedGetRequest(this.props.uri);
                 } else {
                     data = await tokenManager.publicGetRequest(this.props.uri);
@@ -54,7 +54,9 @@ class SelectAPI extends Component {
                         field={"nombre"}
                         placeholder={this.props.placeholder}
                         onPropsChangeMore={this.props.onPropsChangeMore}
-                        onChange={this.props.onChange} />
+                        onChange={this.props.onChange}
+                        onBlur={this.props.onBlur}
+                    />
                 }
             </div>
         )

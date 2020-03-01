@@ -44,7 +44,8 @@ class Select extends Component {
         return (
             <Form.Group controlId={props.controlId}>
                 {props.label && <Form.Label>{props.label}</Form.Label>}
-                <Form.Control defaultValue={props.defaultValue} as="select" name={props.name} onChange={props.onChange} disabled={props.disabled}>
+                <Form.Control defaultValue={props.defaultValue} as="select" name={props.name} onChange={props.onChange} disabled={props.disabled}
+                onBlur={props.onBlur}>
                     {props.placeholder && <option value="" disabled>{props.error? "No se pudo obtener los elementos" : props.placeholder}</option>}
                     {!props.error && props.options.map((item, index) =>
                         <option value={props.value ? item[props.value] : item} key={index}>{props.field ? item[props.field] : item}</option>
