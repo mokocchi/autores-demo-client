@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { addByScoreCriterion } from '../../../redux/actions'
 
-import Input from '../../UI/Input'
 import FormContador from './FormContador';
 
 class FormContadorContainer extends Component {

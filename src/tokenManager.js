@@ -1,5 +1,5 @@
 import { apiUserFound, apiUserExpired, loadingApiUser } from './redux/actions';
-import { expired, expiresAt } from './utils';
+import { expired } from './utils';
 import APIClient from './APIClient';
 import { userSignedOut } from 'redux-oidc';
 

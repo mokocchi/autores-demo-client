@@ -1,6 +1,5 @@
 import React from 'react';
 import { InputGroup, Button } from 'react-bootstrap';
-import { connect } from 'react-redux';
 
 import Select from '../../UI/Select';
 

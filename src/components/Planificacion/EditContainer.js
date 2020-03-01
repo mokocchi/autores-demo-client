@@ -88,19 +88,19 @@ class PlanificacionEditContainer extends Component {
                     id: md5(origen + "_" + destino + (salto.condicion ? "_" + salto.condicion + "_" + salto.respuesta : ""))
                 }
                 if (salto.respuesta) {
-                    const condicionName = CONDITIONS_ARRAY.find(item => item.code == salto.condicion).name;
+                    const condicionName = CONDITIONS_ARRAY.find(item => item.code === salto.condicion).name;
                     conexion.condicion = {
                         code: salto.condicion,
                         name: condicionName
                     };
                     if (!["YES", "NO"].includes(salto.condicion)) {
-                        const tareaNombre = tareas.find(item => item.id == salto.respuesta).nombre
+                        const tareaNombre = tareas.find(item => item.id === salto.respuesta).nombre
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: tareaNombre
                         };
                     } else {
-                        const respuestaNombre = tareas.find(item => item.id == salto.origen_id).extra.elements.find(item => item.code == salto.respuesta).name;
+                        const respuestaNombre = tareas.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta).name;
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: respuestaNombre

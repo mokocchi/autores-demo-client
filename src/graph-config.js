@@ -42,12 +42,12 @@ const OptionalStartShape = (
 )
 
 //triggerShape
-const OptionalTriggerShape = (
-  <symbol viewBox="0 0 160 160" width="160" height="160" id="start">
-    <circle cx="77" cy="77" r="56" stroke="green" strokeWidth="3px" fill="#ebebe0" />
-    <path fill="orange" d="m 105,85 12.23866,0.0477 -10.89815,12.91207 12.63192,0.0395 -34.4828,25.47706 15.35055,-19.99263 -11.04267,-0.0851 z" />
-  </symbol>
-);
+// const OptionalTriggerShape = (
+//   <symbol viewBox="0 0 160 160" width="160" height="160" id="start">
+//     <circle cx="77" cy="77" r="56" stroke="green" strokeWidth="3px" fill="#ebebe0" />
+//     <path fill="orange" d="m 105,85 12.23866,0.0477 -10.89815,12.91207 12.63192,0.0395 -34.4828,25.47706 15.35055,-19.99263 -11.04267,-0.0851 z" />
+//   </symbol>
+// );
 
 const EndShape = (
   <symbol viewBox="0 0 160 160" width="160" height="160" id="end">

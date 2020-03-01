@@ -1,6 +1,5 @@
 import React from 'react';
 import ShowLinksList from '../UI/ShowLinksList';
-import { Container, Row, Col } from 'react-bootstrap';
 
 const TareaListUser = (props) => {
     return (

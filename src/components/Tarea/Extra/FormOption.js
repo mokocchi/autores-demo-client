@@ -1,9 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { InputGroup, FormControl, Button, Col, Row } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import { addElementToExtra } from '../../../redux/actions';
-
-import { getRandomSlug } from '../../../utils'
 
 const FormOption = (props) => {
     return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, HashRouter, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 
 import withAuthorization from './components/Main/withAuthorization';

@@ -25,8 +25,8 @@ function options(
                 lastUpdated: action.receivedAt
             }
         case ADD_SELECT_OPTION:
-            const index = state.items.findIndex(item => item.nombre == action.option.nombre);
-            if (index == -1) {
+            const index = state.items.findIndex(item => item.nombre === action.option.nombre);
+            if (index === -1) {
                 return {
                     ...state,
                     items: [...state.items, action.option]

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import React from 'react';
+import { Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import Graph from './Graph';
