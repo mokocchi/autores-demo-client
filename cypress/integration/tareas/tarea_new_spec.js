@@ -140,7 +140,6 @@ describe("Actividades form test", () => {
             expect(xhr.status).to.eq(201)
             expect(xhr.method).to.eq("POST")
             expect(xhr.requestHeaders).to.have.property('authorization').match(/^Bearer /)
-
             expect(xhr.request.body).to.have.property("nombre", "Nombre")
             expect(xhr.request.body).to.have.property("consigna", "Consigna")
             expect(xhr.request.body).to.have.property("tipo", "1")
