@@ -13,7 +13,7 @@ const FormContadores = (props) => {
             <Row>
                 <Col>
                     <FormOptionContainer />
-                    <ActionList items={elements} action onClick={props.onClick}
+                    <ActionList dataCy={"opciones"} items={elements} action onClick={props.onClick}
                         group={"elements"} value={"code"} field={"name"} />
                 </Col>
                 <Col></Col>
@@ -24,7 +24,7 @@ const FormContadores = (props) => {
                     <i>{item.message}</i>
                     <Row>
                         <Col>
-                            <ActionList items={elements}
+                            <ActionList dataCy={"contadores"} items={elements}
                                 input={{ type: "number", onChange: props.onChange }}
                                 group={item.name} value={"code"} field={"name"} />
                         </Col>

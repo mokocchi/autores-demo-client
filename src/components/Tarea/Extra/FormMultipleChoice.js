@@ -56,7 +56,7 @@ const FormMultipleChoice = (props) => {
                                 <Col>
                                     <InputGroup className="mb-3">
                                         <FormCheckLabel>
-                                            <FormCheckInput type={"checkbox"} onChange={props.onChangeCheck} />
+                                            <FormCheckInput type={"checkbox"} data-cy={"validCheckbox"} onChange={props.onChangeCheck} />
                                             Indicar elementos válidos
                                             </FormCheckLabel>
                                     </InputGroup>
@@ -69,14 +69,14 @@ const FormMultipleChoice = (props) => {
                             <>
                                 <Row>
                                     <Col>
-                                        <ActionList items={
+                                        <ActionList dataCy={"actionListValids"} items={
                                             validElements.map(item => {
                                                 return {
                                                     code: item,
                                                     name: elements.find(element => element.code === item).name
                                                 }
                                             })
-                                        } action={true} onClick={props.onClickValids} value={"code"} field={"name"} />
+                                        } action={true} group={"valids"} onClick={props.onClickValids} value={"code"} field={"name"} />
                                     </Col>
                                     <Col />
                                 </Row>

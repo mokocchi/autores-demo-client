@@ -158,7 +158,7 @@ const FormTarea = (props) => {
 
                     <hr />
 
-                    <TareaExtra tipoTarea={props.tipoTarea} />
+                    <TareaExtra tipoTarea={values.tipo} />
 
                     {props.error &&
                         <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>

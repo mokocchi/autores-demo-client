@@ -8,9 +8,9 @@ const FormOption = (props) => {
                 <Col>
                     Elementos
                         <InputGroup className="mb-3">
-                        <FormControl type="text" value={props.elementName} placeholder="Nuevo elemento" onChange={props.onChange} onKeyPress={props.onKeyPress} />
+                        <FormControl type="text" value={props.elementName} placeholder="Nuevo elemento" data-cy="formOption" onChange={props.onChange} onKeyPress={props.onKeyPress} />
                         <InputGroup.Append>
-                            <Button variant="success" disabled={props.elementName === ""} type="button" onClick={props.onClick}>
+                            <Button variant="success" disabled={props.elementName === ""} type="button" data-cy="buttonAgregarOption" onClick={props.onClick}>
                                 Agregar
                                     </Button>
                         </InputGroup.Append>

@@ -6,7 +6,7 @@ import CheckboxGroup from './CheckboxGroup';
 
 function ActionList(props) {
     return (
-        <ListGroup>
+        <ListGroup data-cy={props.dataCy}>
             {
                 props.items.map((item) =>
                     <ListGroup.Item key={(props.value ? item[props.value] : item) + (props.group ? "-" + props.group : "")}>
@@ -37,7 +37,7 @@ function ActionList(props) {
                         }
                         {props.action &&
                             < Button variant="danger" type="button" className="float-right"
-                                onClick={() => props.onClick(item, props.group)} data-cy={"quitar_" + (props.group? props.group + "_" : "") + item.id || item}>
+                                onClick={() => props.onClick(item, props.group)} data-cy={"quitar_" + (props.group? props.group + "_" : "") + (item.id || item.name || item)}>
                                 Quitar
                             </Button>
                         }

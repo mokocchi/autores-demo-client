@@ -17,7 +17,7 @@ const FormValidElements = (props) => {
                 controlId={"valids-select"}
             />
             <span>
-                <Button variant="info" type="button" onClick={props.onClick} disabled={props.disabled} >
+                <Button variant="info" type="button" data-cy={"buttonAgregarValid"} onClick={props.onClick} disabled={props.disabled} >
                     Agregar
                     </Button>
             </span>
