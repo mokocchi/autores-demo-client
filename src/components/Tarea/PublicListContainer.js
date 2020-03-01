@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import tokenManager from '../../tokenManager';
-import ListaTareas from './ListaTareas';
+import TareasPublicList from './PublicList';
 
-class ListaTareasContainer extends Component {
+class TareasPublicListContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -30,7 +30,7 @@ class ListaTareasContainer extends Component {
     }
     render() {
         return (
-            <ListaTareas success={this.state.success} tareas={this.state.tareas} />
+            <TareasPublicList success={this.state.success} tareas={this.state.tareas} />
         )
     }
 }
@@ -39,4 +39,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default connect(mapStateToProps)(ListaTareasContainer);
+export default connect(mapStateToProps)(TareasPublicListContainer);

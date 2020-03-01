@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import tokenManager from '../../tokenManager';
 import loggedIn from '../../loggedIn';
-import ListaMisTareas from './ListaMisTareas';
+import ListaMisTareas from './ListUser';
 
-class ListaMisTareasContainer extends Component {
+class TareaListUserContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -40,4 +40,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default loggedIn(connect(mapStateToProps)(ListaMisTareasContainer));
+export default loggedIn(connect(mapStateToProps)(TareaListUserContainer));

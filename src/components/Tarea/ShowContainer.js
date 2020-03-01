@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 
-import { TIPOS_PLANO } from '../config';
-import tokenManager from '../tokenManager';
-import ShowTarea from '../components/ShowTarea';
+import { TIPOS_PLANO } from '../../config';
+import tokenManager from '../../tokenManager';
+import TareaShow from './Show';
 
-class ShowTareaContainer extends Component {
+class TareaShowContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -17,7 +17,7 @@ class ShowTareaContainer extends Component {
     }
 
     async getTarea() {
-        const data = await tokenManager.getTareaPublic(this.props.match.params.id)
+        const data = await tokenManager.getTareaPublic(this.props.actividadId)
         if (!data.error_code) {
             this.setState({
                 tarea: data
@@ -34,8 +34,8 @@ class ShowTareaContainer extends Component {
         if(this.state.tarea) {
             imgSrc = TIPOS_PLANO.includes(this.state.tarea.tipo.id.toString()) ? "http://localhost:8080/uploads/planos/" + this.state.tarea.codigo + ".png" : null
         }
-        return <ShowTarea tarea={this.state.tarea} errors={this.state.errors} imgSrc={imgSrc} />
+        return <TareaShow tarea={this.state.tarea} errors={this.state.errors} imgSrc={imgSrc} />
     }
 }
 
-export default ShowTareaContainer;
+export default TareaShowContainer;

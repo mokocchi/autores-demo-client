@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setCurrentActividad } from '../redux/actions'
+import { setCurrentActividad } from '../../redux/actions'
 
 
-import tokenManager from '../tokenManager';
-import loggedIn from '../loggedIn';
+import tokenManager from '../../tokenManager';
+import loggedIn from '../../loggedIn';
 import md5 from 'md5';
-import { CONDITIONS_ARRAY } from '../config';
-import Planificacion from '../components/Planificacion';
+import { CONDITIONS_ARRAY } from '../../config';
+import PlanificacionEdit from './Edit';
 
-class PlanificacionContainer extends Component {
+class PlanificacionEditContainer extends Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +24,7 @@ class PlanificacionContainer extends Component {
             errors: "",
             saveSuccess: false
         }
-        this.setCurrentActividad(props.match.params.id);
+        this.setCurrentActividad(this.props.actividadId);
         this.Graph = React.createRef();
     }
 
@@ -245,8 +245,8 @@ class PlanificacionContainer extends Component {
 
     render() {
         return (
-            <Planificacion graphConexiones={this.state.graphConexiones} tareas={this.state.graphTareas}
-                conexiones={this.state.graphConexiones} actividadId={this.props.match.params.id}
+            <PlanificacionEdit graphConexiones={this.state.graphConexiones} tareas={this.state.graphTareas}
+                conexiones={this.state.graphConexiones} actividadId={this.props.actividadId}
 
                 selectedTarea={this.state.selectedTarea} handleCloseTarea={this.handleCloseTarea}
                 showTarea={this.handleShowTarea}
@@ -270,4 +270,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default loggedIn(connect(mapStateToProps)(PlanificacionContainer));
+export default loggedIn(connect(mapStateToProps)(PlanificacionEditContainer));

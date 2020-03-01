@@ -2,24 +2,19 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import Graph from '../Graph';
-import ModalTarea from '../ModalTarea';
-import ModalConexion from '../ModalConexion';
+import Graph from '../../Graph';
+import ModalTarea from '../../ModalTarea';
+import ModalConexion from '../../ModalConexion';
 
-const Planificacion = (props) => {
+const PlanificacionEdit = (props) => {
     return (
-        <Container>
-            <Row>
-                <Col>
-                    <h2>Planificación de tareas</h2>
-                    <h6 style={{ color: 'gray' }}><i>
-                        {props.graphConexiones.length === 0 ?
-                            "Para iniciar la conexión entre tareas selecione una tarea incial"
-                            : "Para conectar dos tareas seleccione una tarea"
-                        }
-                    </i></h6>
-                </Col>
-            </Row>
+        <>
+            <h6 style={{ color: 'gray' }}><i>
+                {props.graphConexiones.length === 0 ?
+                    "Para iniciar la conexión entre tareas selecione una tarea incial"
+                    : "Para conectar dos tareas seleccione una tarea"
+                }
+            </i></h6>
             <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                 <Col>
                     {props.success &&
@@ -47,8 +42,8 @@ const Planificacion = (props) => {
                     }
                 </Col>
             </Row>
-        </Container>
+        </>
     )
 }
 
-export default Planificacion;
+export default PlanificacionEdit;

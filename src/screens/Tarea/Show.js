@@ -1,22 +1,22 @@
 import React from 'react';
-import ShowLinksList from '../UI/ShowLinksList';
+import TareaShowContainer from '../../components/Tarea/ShowContainer';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const ListaTareas = (props) => {
+const TareaShow = ({ match: { params } }) => {
     return (
         <Container>
             <Row>
                 <Col>
-                    <h2>Tareas públicas</h2>
+                    <h2>Tarea</h2>
                 </Col>
             </Row>
             <Row>
                 <Col style={{ border: "1px solid black", padding: "2em" }}>
-                    {props.success && <ShowLinksList uriPrefix="/tarea" items={props.tareas} />}
+                    <TareaShowContainer actividadId={params.id} />
                 </Col>
             </Row>
         </Container>
     )
 }
 
-export default ListaTareas;
+export default TareaShow;

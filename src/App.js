@@ -12,15 +12,12 @@ import TareaForm from './screens/Tarea/Form'
 import ActividadPublicList from './screens/Actividad/PublicList';
 import ActividadListUser from './screens/Actividad/ListUser';
 import ActividadShow from './screens/Actividad/Show';
+import PlanificacionEdit from './screens/Planificacion/Edit';
+import TareaPublicList from './screens/Tarea/PublicList';
+import TareaListUser from './screens/Tarea/ListUser';
+import TareaShow from './screens/Tarea/Show';
 
-
-
-import PlanifiacionContainer from './containers/PlanifiacionContainer';
-import ListaTareasContainer from './components/Tarea/ListaTareasContainer';
-import ListaMisTareasContainer from './components/Tarea/ListaMisTareasContainer';
-import ShowTareaContainer from './containers/ShowTareaContainer';
 import Usuario from './loggedIn';
-
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
 function App() {
@@ -34,13 +31,13 @@ function App() {
         <Route path="/actividad/:id" exact component={Autor(ActividadAddTareas)} />
         <Route path="/actividad/:id/nuevaTarea" exact component={Autor(TareaForm)} />
         <Route path="/nuevaTarea" exact component={Autor(TareaForm)} />
-        <Route path="/actividad/:id/planificacion" exact component={Autor(PlanifiacionContainer)} />
+        <Route path="/actividad/:id/planificacion" exact component={Autor(PlanificacionEdit)} />
         <Route path="/actividades" exact component={ActividadPublicList} />
         <Route path="/mis-actividades/" exact component={Autor(ActividadListUser)} />
         <Route path="/actividad/:id/mostrar" exact component={ActividadShow} />
-        <Route path="/tareas" exact component={ListaTareasContainer} />
-        <Route path="/mis-tareas" exact component={Autor(ListaMisTareasContainer)} />
-        <Route path="/tarea/:id/mostrar" exact component={ShowTareaContainer} />
+        <Route path="/tareas" exact component={TareaPublicList} />
+        <Route path="/mis-tareas" exact component={Autor(TareaListUser)} />
+        <Route path="/tarea/:id/mostrar" exact component={TareaShow} />
       </Container>
     </BrowserRouter>
   );

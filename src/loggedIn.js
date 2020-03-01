@@ -1,17 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import LoginContainer from "./containers/LoginContainer";
+import LoadSpinner from "./components/UI/LoadSpinner";
+import LoginContainer from "./components/Main/LoginContainer";
 
 function mapStateToProps(state) {
     return {
-        token: state.auth.token
+        token: state.auth.token,
+        oidc: state.auth
     }
 }
 export default (WrappedComponent) => {
     return connect(mapStateToProps)((props) =>
-        props.token.accessToken ?
-            < WrappedComponent {...props} />
+        props.token.isLoading || props.oidc.isLoading ?
+            <LoadSpinner /> 
             :
-            <LoginContainer />
+            props.token.accessToken ?
+                < WrappedComponent {...props} />
+                :
+                <LoginContainer />
     )
 }

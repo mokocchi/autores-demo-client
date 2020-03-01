@@ -1,6 +1,6 @@
 import React from "react";
-import userManager from "../userManager";
-import Login from "../components/Login";
+import userManager from "../../userManager";
+import Login from "./Login";
 
 class LoginContainer extends React.Component {
   onLoginButtonClick(event) {
