@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import Graph from '../../Graph';
-import ModalTarea from '../../ModalTarea';
-import ModalConexion from '../../ModalConexion';
+import Graph from './Graph';
+import ModalTarea from './ModalTarea';
+import ModalConexion from './ModalConexion';
 
 const PlanificacionEdit = (props) => {
     return (

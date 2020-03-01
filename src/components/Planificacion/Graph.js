@@ -1,12 +1,6 @@
 import * as React from 'react';
-import { Button } from 'react-bootstrap';
 
-import {
-  GraphView,
-  IEdgeType as IEdge,
-  type INodeType as INode,
-  type LayoutEngineType,
-} from 'react-digraph';
+import { GraphView } from 'react-digraph';
 
 import GraphConfig, {
   EMPTY_EDGE_TYPE,
@@ -18,21 +12,7 @@ import GraphConfig, {
   OPTIONAL_END_TYPE,
   SQUARE_EDGE_TYPE,
   NODE_KEY,
-} from './graph-config'; // Configures node/edge types
-import { API_BASE_URL } from './config';
-type IGraph = {
-  nodes: INode[],
-  edges: IEdge[],
-};
-
-type IGraphProps = {};
-
-type IGraphState = {
-  graph: any,
-  selected: any,
-  copiedNode: any,
-  layoutEngineType?: LayoutEngineType,
-};
+} from '../../graph-config'; // Configures node/edge types
 
 function getGraph(tareas) {
   const nodes = tareas.map((tarea, index) => {
@@ -78,10 +58,10 @@ function getNodesWithTypeUpdated(nodes, edges) {
   return newNodes;
 }
 
-class Graph extends React.Component<IGraphProps, IGraphState> {
+class Graph extends React.Component {
   GraphView;
 
-  constructor(props: IGraphProps) {
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -94,14 +74,14 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   }
 
   // Helper to find the index of a given node
-  getNodeIndex(searchNode: INode | any) {
+  getNodeIndex(searchNode) {
     return this.state.graph.nodes.findIndex(node => {
       return node[NODE_KEY] === searchNode[NODE_KEY];
     });
   }
 
   // Helper to find the index of a given edge
-  getEdgeIndex(searchEdge: IEdge) {
+  getEdgeIndex(searchEdge) {
     return this.state.graph.edges.findIndex(edge => {
       return (
         edge.source === searchEdge.source && edge.target === searchEdge.target
@@ -110,7 +90,7 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   }
 
   // Given a nodeKey, return the corresponding node
-  getViewNode(nodeKey: string) {
+  getViewNode(nodeKey) {
     const searchNode = {};
 
     searchNode[NODE_KEY] = nodeKey;
@@ -128,14 +108,14 @@ class Graph extends React.Component<IGraphProps, IGraphState> {
   onUpdateNode = () => { };
 
   // Node 'mouseUp' handler
-  onSelectNode = (viewNode: INode | null) => {
+  onSelectNode = (viewNode) => {
     if (viewNode != null) {
       this.props.onClickNode(viewNode.id);
     }
   };
 
   // Edge 'mouseUp' handler
-  onSelectEdge = (viewEdge: IEdge) => {
+  onSelectEdge = (viewEdge) => {
     if (viewEdge != null) {
       this.props.onClickEdge(viewEdge.id);
     }
