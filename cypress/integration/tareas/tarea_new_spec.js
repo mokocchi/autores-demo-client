@@ -277,7 +277,7 @@ describe("Actividades form test", () => {
         })
     })
 
-    it("Submits the form for a Contadores", () => {
+    it("Submits the form for a Depósito", () => {
         cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
         cy.route("POST", /tareas\/\d+\/plano/).as("plano")
         cy.get("#formNombre").type("Nombre")
@@ -314,5 +314,10 @@ describe("Actividades form test", () => {
             expect(xhr.method).to.eq("POST")
             expect(xhr.requestHeaders).to.have.property('authorization').match(/^Bearer /)
         })
+    })
+
+    it("Expects deposits for a Recolección", () => {
+        cy.get("#formTipo").select("8")
+        cy.contains("No hay depósitos, agregá tareas de depósito primero")
     })
 })

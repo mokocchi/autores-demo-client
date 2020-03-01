@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { addTarea, setCurrentActividad, clearTareaExtra } from '../../redux/actions';
 
 import { TIPOS_EXTRA, TIPO_SELECCION, TIPO_MULTIPLE_CHOICE, TIPO_CONTADORES, TIPO_RECOLECCION, TIPOS_PLANO } from '../../config';
-import { getRandomSlug } from '../../utils'
 import tokenManager from '../../tokenManager';
 import TareaForm from './Form';
 
@@ -140,7 +139,7 @@ class FormTareaContainer extends Component {
         
         let tarea = this.state.tarea;
         if(!tarea) {
-            const tarea = await tokenManager.createTarea({
+            const tareaData = await tokenManager.createTarea({
                 "nombre": nombre,
                 "consigna": consigna,
                 "codigo": codigo,
@@ -149,18 +148,19 @@ class FormTareaContainer extends Component {
                 "estado": estado,
                 "extraData": processedExtra
             });
-            if (tarea.error_code) {
+            if (tareaData.error_code) {
                 this.setState({
                     isLoading: false,
                     error: true,
-                    errorMessage: tarea.user_message
+                    errorMessage: tareaData.user_message
                 });
                 return
             }
 
             this.setState({
-                tarea: tarea
-            })
+                tarea: tareaData
+            });
+            tarea = tareaData;
         }
 
         if (TIPOS_PLANO.includes(tipo)) {

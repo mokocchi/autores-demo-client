@@ -29,14 +29,14 @@ const FormMultipleChoice = (props) => {
                                 <Col>
                                     <FormGroup>
                                         <Form.Label>Plano</Form.Label>
-                                        <FormControl name="images" type="file" onChange={props.onChangePlano} />
+                                        <FormControl name="images" type="file" data-cy={"file-input"} onChange={props.onChangePlano} />
                                     </FormGroup>
                                 </Col>
                             </Row>}
                         <Row>
                             <Col>
                                 {props.recoleccion ?
-                                    <ActionList items={elements} field={"name"} value={"code"} action={true} onClick={props.onClickElements}
+                                    <ActionList dataCy={"elements"} items={elements} field={"name"} value={"code"} action={true} onClick={props.onClickElements}
                                         checkboxGroup={{
                                             items: depositos, onChange: props.onChangeChecks, label: "Depósitos",
                                             field: "nombre", value: "codigo"
