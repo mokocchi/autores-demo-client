@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import tokenManager from '../../tokenManager';
-import loggedIn from '../../loggedIn';
 import ListaMisActividades from './ListUser';
 
 class ActividadListUserContainer extends Component {
@@ -40,4 +39,4 @@ function mapStateToProps(state) {
     return state
 }
 
-export default loggedIn(connect(mapStateToProps)(ActividadListUserContainer));
+export default connect(mapStateToProps)(ActividadListUserContainer);

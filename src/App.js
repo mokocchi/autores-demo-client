@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, HashRouter, BrowserRouter } from 'react-router-dom';
 import { Container } from 'react-bootstrap'
 
-import withAuthorization from './withAuthorization';
+import withAuthorization from './components/Main/withAuthorization';
 import MenuContainer from './components/Menu/MenuContainer';
 import Homepage from './screens/Main/Homepage';
 import Callback from './screens/Main/Callback';
@@ -17,7 +17,7 @@ import TareaPublicList from './screens/Tarea/PublicList';
 import TareaListUser from './screens/Tarea/ListUser';
 import TareaShow from './screens/Tarea/Show';
 
-import Usuario from './loggedIn';
+import Usuario from './components/Main/loggedIn';
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
 function App() {

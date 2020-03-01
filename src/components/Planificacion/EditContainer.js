@@ -4,7 +4,6 @@ import { setCurrentActividad } from '../../redux/actions'
 
 
 import tokenManager from '../../tokenManager';
-import loggedIn from '../../loggedIn';
 import md5 from 'md5';
 import { CONDITIONS_ARRAY } from '../../config';
 import PlanificacionEdit from './Edit';
@@ -270,4 +269,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default loggedIn(connect(mapStateToProps)(PlanificacionEditContainer));
+export default connect(mapStateToProps)(PlanificacionEditContainer);

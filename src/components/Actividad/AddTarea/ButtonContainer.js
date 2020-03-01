@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { setCurrentActividad, addTarea } from '../../../redux/actions'
 
 import tokenManager from '../../../tokenManager';
-import loggedIn from '../../../loggedIn';
 import AddTareasButton from './Button';
 
 class AddTareasButtonContainer extends Component {
@@ -55,7 +54,7 @@ class AddTareasButtonContainer extends Component {
             })
             return;
         } else {
-            this.setState({ success: true, isLoading: false});
+            this.setState({ success: true, isLoading: false });
         }
     }
 
@@ -81,4 +80,4 @@ function mapStateToProps(state) {
         chosenTareas
     }
 }
-export default loggedIn(connect(mapStateToProps)(AddTareasButtonContainer));
+export default connect(mapStateToProps)(AddTareasButtonContainer);

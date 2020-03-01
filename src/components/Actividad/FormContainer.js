@@ -6,7 +6,6 @@ import tokenManager from '../../tokenManager';
 import { getRandomSlug } from '../../utils';
 
 import ActividadForm from './Form';
-import loggedIn from '../../loggedIn';
 
 class ActividadFormContainer extends Component {
 
@@ -153,4 +152,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default loggedIn(connect(mapStateToProps)(ActividadFormContainer));
+export default connect(mapStateToProps)(ActividadFormContainer);

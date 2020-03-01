@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import LoadSpinner from "./components/UI/LoadSpinner";
-import LoginContainer from "./components/Main/LoginContainer";
+import LoadSpinner from "../UI/LoadSpinner";
+import LoginContainer from "./LoginContainer";
 
 function mapStateToProps(state) {
     return {
