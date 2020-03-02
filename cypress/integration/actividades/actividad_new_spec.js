@@ -141,7 +141,7 @@ describe("Actividades form test", () => {
     })
 
     it("Submits the form", () => {
-        cy.route("POST", Cypress.env("api_base_url") + "actividades").as("actividades")
+        cy.route("POST", Cypress.env("api_base_url") + "/actividades").as("actividades")
         cy.get("#formNombre").type("Nombre")
         cy.get("#formObjetivo").type("Objetivo")
         cy.get("#formIdioma").select("1")

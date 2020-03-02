@@ -20,8 +20,8 @@ describe("Actividades form test (recolección)", () => {
         cy.visitWithDelWinFetch("/actividad/1")
         cy.wait("@tareas")
 
-        cy.route("GET", Cypress.env("api_base_url") + "tareas/1").as("tarea1")
-        cy.route("GET", Cypress.env("api_base_url") + "tareas/2").as("tarea2")
+        cy.route("GET", Cypress.env("api_base_url") + "/tareas/1").as("tarea1")
+        cy.route("GET", Cypress.env("api_base_url") + "/tareas/2").as("tarea2")
         cy.route("PUT", Cypress.env("api_base_url") + "/actividades/1/tareas").as("tareas")
         cy.get("#formTarea").as("formTarea").select("1")
         cy.wait("@tarea1")

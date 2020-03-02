@@ -126,7 +126,7 @@ describe("Actividades form test", () => {
     })
 
     it("Submits the form", () => {
-        cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
+        cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.get("#formNombre").type("Nombre")
         cy.get("#formConsigna").type("Consigna")
         cy.get("#formTipo").select("1")
@@ -159,7 +159,7 @@ describe("Actividades form test", () => {
     })
 
     it("Submits the form for an Elegir opción", () => {
-        cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
+        cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.get("#formNombre").type("Nombre")
         cy.get("#formConsigna").type("Consigna")
         cy.get("#formTipo").select("5")
@@ -189,7 +189,7 @@ describe("Actividades form test", () => {
     })
 
     it("Submits the form for an Opción Múltiple", () => {
-        cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
+        cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.get("#formNombre").type("Nombre")
         cy.get("#formConsigna").type("Consigna")
         cy.get("#formTipo").select("6")
@@ -237,7 +237,7 @@ describe("Actividades form test", () => {
     })
 
     it("Submits the form for a Contadores", () => {
-        cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
+        cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.get("#formNombre").type("Nombre")
         cy.get("#formConsigna").type("Consigna")
         cy.get("#formTipo").select("7")
@@ -277,7 +277,7 @@ describe("Actividades form test", () => {
     })
 
     it("Submits the form for a Depósito", () => {
-        cy.route("POST", Cypress.env("api_base_url") + "tareas").as("tareas")
+        cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.route("POST", /tareas\/\d+\/plano/).as("plano")
         cy.get("#formNombre").type("Nombre")
         cy.get("#formConsigna").type("Consigna")
