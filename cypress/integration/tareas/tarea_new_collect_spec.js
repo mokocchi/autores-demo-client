@@ -12,17 +12,18 @@ describe("Actividades form test (recolección)", () => {
     it("Submits a Recolección", () => {
         cy.server()
         cy.route("GET", Cypress.env("api_base_url") + "/me").as("me")
-        cy.route("GET", Cypress.env("api_base_url") + "/actividades/1/tareas").as("tareas")
+        cy.route("GET", Cypress.env("api_base_url") + "/actividades/3/tareas").as("tareas")
         cy.route("GET", Cypress.env("api_base_url") + "/public/tipos-tarea").as("tipos-planificacion")
         cy.route("GET", Cypress.env("api_base_url") + "/public/dominios").as("dominios")
         cy.route("GET", Cypress.env("api_base_url") + "/public/estados").as("estados")
+        cy.route("POST", /tareas\/\d+\/plano/).as("plano")
         cy.restoreLocalStorageCache();
-        cy.visitWithDelWinFetch("/actividad/1")
+        cy.visitWithDelWinFetch("/actividad/3")
         cy.wait("@tareas")
 
         cy.route("GET", Cypress.env("api_base_url") + "/tareas/1").as("tarea1")
         cy.route("GET", Cypress.env("api_base_url") + "/tareas/2").as("tarea2")
-        cy.route("PUT", Cypress.env("api_base_url") + "/actividades/1/tareas").as("tareas")
+        cy.route("PUT", Cypress.env("api_base_url") + "/actividades/3/tareas").as("tareas")
         cy.get("#formTarea").as("formTarea").select("1")
         cy.wait("@tarea1")
         cy.contains("Agregar").click()
@@ -57,6 +58,14 @@ describe("Actividades form test (recolección)", () => {
         cy.get("@checkboxes").eq(5).check()
 
         cy.contains("Guardar").click()
+
+        cy.wait("@plano")
+        cy.get("@plano").should(xhr => {
+            expect(xhr.url).to.match(/v1.0\/tareas\/\d+\/plano/)
+            expect(xhr.status).to.eq(200)
+            expect(xhr.method).to.eq("POST")
+            expect(xhr.requestHeaders).to.have.property('authorization').match(/^Bearer /)
+        })
     })
 
 })
