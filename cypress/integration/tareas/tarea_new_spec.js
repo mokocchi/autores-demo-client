@@ -295,6 +295,9 @@ describe("Actividades form test", () => {
             cy.get('[data-cy="file-input"]').upload({ fileContent, fileName, mimeType: 'image/png' });
         });
 
+        //for firefox 
+        cy.get('[data-cy="file-input"]').trigger("change");
+
         cy.contains("Guardar").click()
         cy.wait("@tareas")
         cy.get("@tareas").should((xhr) => {
