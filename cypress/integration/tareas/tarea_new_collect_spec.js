@@ -49,6 +49,9 @@ describe("Actividades form test (recolección)", () => {
             cy.get('[data-cy="file-input"]').upload({ fileContent, fileName, mimeType: 'image/png' });
         });
 
+        //for firefox 
+        cy.get('[data-cy="file-input"]').trigger("change");
+
         cy.get("[data-cy=formOption]").type("Uno{enter}Dos{enter}Tres")
         cy.get("[data-cy=buttonAgregarOption]").click()
         cy.get(".list-group").children().should("have.length", 3)
