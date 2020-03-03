@@ -132,13 +132,13 @@ class ModalTarea extends Component {
                 case "YES":
                 case "NO":
                     return (
-                        <Select key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
+                        <Select dataCy="condicionRespuesta" key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
                 case "YES_TASK":
                 case "NO_TASK":
                     return (
-                        <Select key={this.state.selectedCondition.code} options={this.props.tareas} defaultValue={""} value={"id"} field={"nombre"}
+                        <Select dataCy="condicionTarea" key={this.state.selectedCondition.code} options={this.props.tareas} defaultValue={""} value={"id"} field={"nombre"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
                 default:
@@ -168,7 +168,7 @@ class ModalTarea extends Component {
                                 <CheckBox checked={tarea.initial} onChange={this.onInicialChange} label={"Inicial"} />
                             </Col>
                             <Col>
-                                {!this.state.showConexiones && <Button variant="primary" onClick={this.onClickMostrarConexiones} >Agregar conexiones</Button>}
+                                {!this.state.showConexiones && <Button variant="primary" data-cy="agregarConexiones" onClick={this.onClickMostrarConexiones} >Agregar conexiones</Button>}
                             </Col>
                         </Row>
                         {this.state.showConexiones && this.getSelectableTareas().length > 0 &&
@@ -187,7 +187,7 @@ class ModalTarea extends Component {
                                 {this.state.selectedSiguiente &&
                                     <Row>
                                         <Col md={6}>
-                                            <CheckBox checked={this.state.showCondicion} onChange={this.onCondicionCheckboxChange} label={"Mostrar condición"} />
+                                            <CheckBox dataCy="mostrarCondicion" checked={this.state.showCondicion} onChange={this.onCondicionCheckboxChange} label={"Mostrar condición"} />
                                         </Col>
                                     </Row>}
                                 {this.state.showCondicion &&
@@ -195,7 +195,7 @@ class ModalTarea extends Component {
                                         <Row>
                                             <Col>Cuando...</Col>
                                             <Col>
-                                                <Select options={ this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
+                                                <Select dataCy="cuando" options={ this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
                                                     placeholder={"Elegir..."} onChange={this.onCondicionSelectChange} />
                                             </Col>
                                         </Row>
@@ -210,7 +210,7 @@ class ModalTarea extends Component {
                                     </>
                                 }
                                 <Button variant="success" className="float-right" disabled={this.state.agregarConexionDisabled}
-                                    onClick={this.onClickAgregarConexion}>Agregar conexión</Button>
+                                    onClick={this.onClickAgregarConexion} data-cy="agregarConexion">Agregar conexión</Button>
                             </Card>
                         }
                     </Card>
