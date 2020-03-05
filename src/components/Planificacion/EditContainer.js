@@ -94,13 +94,13 @@ class PlanificacionEditContainer extends Component {
                         name: condicionName
                     };
                     if (!["YES", "NO"].includes(salto.condicion)) {
-                        const tareaNombre = tareas.find(item => item.id === salto.respuesta).nombre
+                        const tareaNombre = dataTareas.results.find(item => item.id === salto.respuesta).nombre
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: tareaNombre
                         };
                     } else {
-                        const respuestaNombre = tareas.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta).name;
+                        const respuestaNombre = dataTareas.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta).name;
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: respuestaNombre

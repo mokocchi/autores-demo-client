@@ -200,7 +200,7 @@ class Graph extends React.Component {
     const { NodeTypes, NodeSubtypes, EdgeTypes } = GraphConfig;
 
     return (
-      <div id="graph" style={{ height: "26em" }}>
+      <div id="graph" data-cy={this.props.dataCy} style={{ height: "26em" }}>
         <GraphView
           ref={el => (this.GraphView = el)}
           nodeKey={NODE_KEY}

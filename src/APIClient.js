@@ -119,6 +119,10 @@ export default class APIClient {
         return this.unauthorizedRequest('/actividades');
     }
 
+    getActividadPublic(id) {
+        return this.unauthorizedRequest(`/actividades/${id}`)
+    }
+
     getMisActividades() {
         return this.authorizedGetRequest('/actividades/user');
     }
@@ -147,8 +151,16 @@ export default class APIClient {
         return this.authorizedGetRequest('/actividades/' + id + '/tareas');
     }
 
+    getTareasForActividadPublic(id) {
+        return this.unauthorizedRequest(`/actividades/${id}/tareas`)
+    }
+
     getPlanificacionForActividad(id) {
         return this.authorizedGetRequest('/planificaciones/' + id)
+    }
+
+    getPlanificacionForActividadPublic(id) {
+        return this.unauthorizedRequest(`/planificaciones/${id}`)
     }
 
     postDominio(dominio) {

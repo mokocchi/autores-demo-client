@@ -84,6 +84,10 @@ export default class tokenManager {
         return this.client.getActividadesPublic();
     }
 
+    static getActividadPublic(id) {
+        return this.client.getActividadPublic(id);
+    }
+
     static getActividad(id) {
         return this.client.getActividad(id);
     }
@@ -104,8 +108,16 @@ export default class tokenManager {
         return this.client.getTareasForActividad(id);
     }
 
+    static getTareasForActividadPublic(id) {
+        return this.client.getTareasForActividadPublic(id);
+    }
+
     static getPlanificacionForActividad(id) {
         return this.client.getPlanificacionForActividad(id);
+    }
+
+    static getPlanificacionForActividadPublic(id) {
+        return this.client.getPlanificacionForActividadPublic(id);
     }
 
     static getMisActividades() {
