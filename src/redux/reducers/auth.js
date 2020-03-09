@@ -5,7 +5,7 @@ const INITIAL_STATE = {
         accessToken: null,
         expiresAt: null
     },
-    roles: [],
+    role: null,
     user: {},
     isLoading: false
 }
@@ -16,7 +16,7 @@ export default function auth(state = INITIAL_STATE, action) {
             return {
                 ...state,
                 token: action.auth.token,
-                role: action.auth.user.roles[0].name,
+                role: action.auth.user.roles[0],
                 user: {
                     nombre: action.auth.user.nombre,
                     apellido: action.auth.user.apellido,

@@ -10,7 +10,9 @@ class ActividadPublicListContainer extends Component {
         super(props);
         this.state = {
             actividades: [],
-            success: false
+            success: false,
+            error: false,
+            errorMessage: null
         }
         this.getActividades = this.getActividades.bind(this);
     }
@@ -21,16 +23,29 @@ class ActividadPublicListContainer extends Component {
 
     async getActividades() {
         const data = await tokenManager.getActividadesPublic();
-        if (!data.error_code) {
+        try {
+            if (!data.error_code) {
+                this.setState({
+                    actividades: data.results,
+                    success: true
+                })
+            } else {
+                this.setState({
+                    error: true,
+                    errorMessage: "Ocurrió un error"
+                })
+            }
+        } catch (error) {
             this.setState({
-                actividades: data.results,
-                success: true
+                error: true,
+                errorMessage: "Ocurrió un error"
             })
         }
     }
     render() {
         return (
-            <ListaActividades actividades={this.state.actividades} success={this.state.success} />
+            <ListaActividades actividades={this.state.actividades} success={this.state.success}
+                error={this.state.error} errorMessage={this.state.errorMessage} />
         )
     }
 }
