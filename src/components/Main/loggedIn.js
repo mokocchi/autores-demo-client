@@ -17,6 +17,6 @@ export default (WrappedComponent) => {
             props.token.accessToken ?
                 < WrappedComponent {...props} />
                 :
-                <LoginContainer />
+                <LoginContainer {...props} />
     )
 }

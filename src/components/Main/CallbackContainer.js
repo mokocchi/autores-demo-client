@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { userSignedOut } from "redux-oidc";
 import userManager from "../../userManager";
-import { apiUserFound, loadingApiUser } from "../../redux/actions";
+import { apiUserFound, loadingApiUser, apiUserLoggedOut } from "../../redux/actions";
 import tokenManager from "../../tokenManager";
 
 import Callback from "./Callback";
@@ -19,11 +19,13 @@ class CallbackContainer extends React.Component {
         const auth = await tokenManager.fetchAuth(this.props.user.id_token);
         if (!auth) {
             this.props.dispatch(userSignedOut());
+            this.props.dispatch(apiUserLoggedOut())
+            this.props.history.push("/?error")
         } else {
             this.props.dispatch(apiUserFound(auth));
             tokenManager.storeApiUser(auth.token);
+            this.props.history.push("/")
         }
-        this.props.history.push("/")
     }
 
     onError = (error) => {

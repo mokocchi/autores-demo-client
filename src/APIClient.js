@@ -37,6 +37,9 @@ export default class APIClient {
 
     async fetchAuth(id_token) {
         const token = await this.fetchToken(id_token);
+        if (!token) {
+            return null
+        }
         const user = await this.authorizedRequest(token, '/me');
         return {
             token, user
@@ -47,32 +50,44 @@ export default class APIClient {
         const response = await fetch(TOKEN_AUTH_URL, {
             method: 'POST',
             headers: {
-                "X-AUTH-TOKEN": true
+                "X-AUTH-TOKEN": true,
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 "token": id_token
             })
         });
-        const data = await response.json();
-        if (data.error_code) {
-            return null
-        } else {
-            const token = {
-                accessToken: data.access_token,
-                expiresAt: expiresAt(data.expires_in)
+        try {
+            const data = await response.json();
+            if (data.error_code) {
+                return null
+            } else {
+                const token = {
+                    accessToken: data.access_token,
+                    expiresAt: expiresAt(data.expires_in)
+                }
+                this.token = token;
+                return token;
             }
-            this.token = token;
-            return token;
+        } catch (error) {
+            return null;
         }
     }
 
     async authorizedRequest(token, uri, parameters = {}) {
         if (token && token.accessToken) {
             parameters.headers = {
-                "Authorization": "Bearer " + token.accessToken
+                "Authorization": "Bearer " + token.accessToken,
+                "Content-Type": "application/json"
             }
-            const response = await fetch(API_BASE_URL + uri, parameters);
-            return await response.json();
+            try {
+                const response = await fetch(API_BASE_URL + uri, parameters);
+                return await response.json();
+            } catch (error) {
+                return {
+                    user_message: "Ocurrió un error", error_code: 0
+                }
+            }
         } else {
             return { user_message: "No autorizado", error_code: 0 }
         }
