@@ -1,7 +1,7 @@
 describe("Header test", () => {
     it("Shows a iniciar sesión button when not logged in", () => {
         cy.visit("/")
-        cy.get("[data-cy=iniciarSesionButton]").as("loginButton").should("have.text", "Iniciar sesión con Google")
+        cy.get("nav [data-cy=iniciarSesionButton]").as("loginButton").should("have.text", "Iniciar sesión con Google")
         cy.get("@loginButton").should("have.class", "btn-outline-dark")
     })
 

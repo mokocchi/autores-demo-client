@@ -276,7 +276,7 @@ describe("Actividades form test", () => {
         })
     })
 
-    it("Submits the form for a Depósito", () => {
+    it.only("Submits the form for a Depósito", () => {
         cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.route("POST", /tareas\/\d+\/plano/).as("plano")
         cy.get("#formNombre").type("Nombre")

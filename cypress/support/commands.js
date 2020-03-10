@@ -3,7 +3,7 @@ import 'cypress-file-upload';
 Cypress.Commands.add('login', () => {
     cy.request({
         method: 'POST',
-        url: 'http://localhost:8080/api/oauth/v2/token',
+        url: 'http://localhost:8000/api/oauth/v2/token',
         form: true,
         body: {
             client_id: Cypress.env("client_id"),

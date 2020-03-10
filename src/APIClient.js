@@ -74,11 +74,13 @@ export default class APIClient {
         }
     }
 
-    async authorizedRequest(token, uri, parameters = {}) {
+    async authorizedRequest(token, uri, parameters = {}, json = true) {
         if (token && token.accessToken) {
             parameters.headers = {
-                "Authorization": "Bearer " + token.accessToken,
-                "Content-Type": "application/json"
+                "Authorization": "Bearer " + token.accessToken
+            }
+            if(json) {
+                parameters.headers["Content-Type"] = "application/json"
             }
             try {
                 const response = await fetch(API_BASE_URL + uri, parameters);
@@ -108,7 +110,7 @@ export default class APIClient {
         return this.authorizedRequest(token, uri, {
             body: stringify ? JSON.stringify(object) : object,
             method: 'POST'
-        })
+        }, stringify)
     }
 
     authorizedPutRequest(uri, object, stringify = true) {
@@ -203,6 +205,7 @@ export default class APIClient {
     }
 
     postFilePlanoToTarea(plano, tarea) {
+        const token = this.getToken();
         return this.authorizedPostRequest('/tareas/' + tarea + '/plano', plano, false)
     }
 
