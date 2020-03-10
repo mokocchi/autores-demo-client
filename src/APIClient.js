@@ -205,7 +205,6 @@ export default class APIClient {
     }
 
     postFilePlanoToTarea(plano, tarea) {
-        const token = this.getToken();
         return this.authorizedPostRequest('/tareas/' + tarea + '/plano', plano, false)
     }
 
