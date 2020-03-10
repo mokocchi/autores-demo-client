@@ -131,12 +131,23 @@ class FormTareaContainer extends Component {
                 }
             }
         }
+        
+        if (TIPOS_PLANO.includes(tipo)) {
+            if(!extra.plano || !extra.plano.url) {
+                this.setState({
+                    isLoading: false,
+                    error: true,
+                    errorMessage: "Falta imagen para el plano"
+                });
+                return
+            }
+        }
 
         let processedExtra = null;
         if (TIPOS_EXTRA.includes(tipo)) {
             processedExtra = this.processExtra(extra, tipo);
         }
-        
+
         let tarea = this.state.tarea;
         if(!tarea) {
             const tareaData = await tokenManager.createTarea({
@@ -164,14 +175,6 @@ class FormTareaContainer extends Component {
         }
 
         if (TIPOS_PLANO.includes(tipo)) {
-            if(!extra.plano || !extra.plano.url) {
-                this.setState({
-                    isLoading: false,
-                    error: true,
-                    errorMessage: "Falta imagen para el plano"
-                });
-                return
-            }
             const response = await fetch(extra.plano.url);
             const blob = await response.blob();
             const plano = new File([blob], codigo + '.png', { type: extra.plano.filetype });

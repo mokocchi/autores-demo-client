@@ -309,7 +309,7 @@ describe("Actividades form test", () => {
             expect(xhr.request.body).to.have.property("tipo", "9")
         })
 
-        cy.wait("@plano")
+        cy.wait("@plano",{timeout:100000})
         cy.get("@plano").should(xhr => {
             expect(xhr.url).to.match(/v1.0\/tareas\/\d+\/plano/)
             expect(xhr.status).to.eq(200)
