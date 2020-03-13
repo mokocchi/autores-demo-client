@@ -276,7 +276,7 @@ describe("Actividades form test", () => {
         })
     })
 
-    it.only("Submits the form for a Depósito", () => {
+    it("Submits the form for a Depósito", () => {
         cy.route("POST", Cypress.env("api_base_url") + "/tareas").as("tareas")
         cy.route("POST", /tareas\/\d+\/plano/).as("plano")
         cy.get("#formNombre").type("Nombre")
@@ -309,7 +309,7 @@ describe("Actividades form test", () => {
             expect(xhr.request.body).to.have.property("tipo", "9")
         })
 
-        cy.wait("@plano",{timeout:100000})
+        cy.wait("@plano")
         cy.get("@plano").should(xhr => {
             expect(xhr.url).to.match(/v1.0\/tareas\/\d+\/plano/)
             expect(xhr.status).to.eq(200)
