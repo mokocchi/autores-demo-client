@@ -7,11 +7,11 @@ describe("Actividades add tareas test", () => {
 
     beforeEach(() => {
         cy.server()
-        cy.route("GET", Cypress.env("api_base_url") + "/actividades/5/tareas").as("tareas")
+        cy.route("GET", Cypress.env("api_base_url") + "/actividades/5").as("actividad")
         cy.route("GET", Cypress.env("api_base_url") + "/actividades/4/tareas").as("clonedTareas")
         cy.restoreLocalStorageCache();
         cy.visitWithDelWinFetch("/actividad/5?clone=4")
-        cy.wait("@tareas")
+        cy.wait("@actividad")
         cy.wait("@clonedTareas")
     });
 
@@ -20,7 +20,7 @@ describe("Actividades add tareas test", () => {
     });
 
     it("Has a Elegir tareas header", () => {
-        cy.get("h2").should("contain", "Elegir tareas (clonando Actividad test 4)")
+        cy.get("h2").should("contain", "Elegir tareas (clonando actividad)")
     })
 
     it("Has the correct subtitles and labels", () => {
@@ -29,11 +29,10 @@ describe("Actividades add tareas test", () => {
         cy.contains("Mis tareas")
         cy.get("#formTarea").children().first().should("contain.text", "Elegí una tarea")
         cy.contains("Tareas de la actividad (10 más)")
-        cy.contains("Nueva").parent().should("have.attr", "href", "/actividad/1/nuevaTarea")
+        cy.contains("Nueva").parent().should("have.attr", "href", "/actividad/5/nuevaTarea")
         cy.get("ul").children().as("pendientes").should("have.length", 10)
-        cy.get("@pendientes").eq(0).should("contain", "Reemplazar a la tarea Tarea prueba1")
-        cy.contains("Planificación")
-        cy.get("[class='node start']").as("nodes").should("have.length", 10)
+        cy.get("@pendientes").eq(0).should("contain", 'Reemplazar la tarea "Tarea prueba1"')
+        cy.get("[class='node']").as("nodes").should("have.length", 10)
     })
 
     it("Populates the tareas select", () => {
@@ -41,7 +40,6 @@ describe("Actividades add tareas test", () => {
     })
 
     it("Prevents submitting actividades without tareas", () => {
-        cy.get("[data-cy^=quitar]").click({ multiple: true })
         cy.contains("Guardar").click()
         cy.contains("No se eligieron tareas").should("have.class", "text-danger")
     })
@@ -58,9 +56,7 @@ describe("Actividades add tareas test", () => {
         cy.route("GET", Cypress.env("api_base_url") + "/tareas/8").as("tarea8")
         cy.route("GET", Cypress.env("api_base_url") + "/tareas/9").as("tarea9")
         cy.route("GET", Cypress.env("api_base_url") + "/tareas/10").as("tarea10")
-        cy.route("PUT", Cypress.env("api_base_url") + "/actividades/1/tareas").as("tareas")
-        cy.get("[data-cy^=quitar]").click({ multiple: true })
-        
+        cy.route("PUT", Cypress.env("api_base_url") + "/actividades/1/tareas").as("tareas")        
         
         cy.get("#formTarea").as("formTarea").select("6")
         cy.wait("@tarea6")

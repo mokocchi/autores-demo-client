@@ -47,10 +47,9 @@ class AddTareasSelectTareaContainer extends Component {
     }
 
     render() {
-        const { currentActividad } = this.props
         return (
-            <AddTareasSelectTarea actividadId={currentActividad.id} onChange={this.onChange} onClick={this.onClick}
-            selectedTarea={this.state.selectedTarea} />
+            <AddTareasSelectTarea actividadId={this.props.actividadId} onChange={this.onChange} onClick={this.onClick}
+            selectedTarea={this.state.selectedTarea} disabled={this.props.disabled}/>
         )
     }
 }

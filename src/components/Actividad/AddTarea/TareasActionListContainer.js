@@ -11,7 +11,15 @@ class AddTareasActionListContainer extends Component {
     }
 
     render() {
-        return <AddTareasActionList chosenTareas={this.props.chosenTareas} onClick={this.onClick} />
+        const clonedTareas = this.props.clonedTareas;
+        const tareas = this.props.chosenTareas.map(
+            (tarea, index) => {
+                return {
+                    ...tarea,
+                    nombre: `Reemplazando a la tarea ${clonedTareas[index].nombre}: ${tarea.nombre}`
+                }
+            })
+        return <AddTareasActionList clone={this.props.clone} remainingTareas={this.props.remainingTareas} chosenTareas={tareas} onClick={this.onClick} />
     }
 }
 

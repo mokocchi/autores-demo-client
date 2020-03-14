@@ -28,7 +28,7 @@ const AddTareasSelectTarea = (props) => {
                 <Col sm={2}>
                     <span>
                         <Button className="float-left" variant="info" type="button"
-                            onClick={props.onClick} disabled={props.selectedTarea.id === ""} >
+                            onClick={props.onClick} disabled={props.selectedTarea.id === "" || props.disabled} >
                             Agregar
                             </Button>
                     </span>
