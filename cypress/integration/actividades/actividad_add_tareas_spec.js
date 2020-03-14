@@ -48,10 +48,10 @@ describe("Actividades add tareas test", () => {
         cy.get("#formTarea").as("formTarea").select("1")
         cy.wait("@tarea1")
         cy.contains("Agregar").click()
-        cy.get("#formTarea").as("formTarea").select("2")
+        cy.get("@formTarea").select("2")
         cy.wait("@tarea2")
         cy.contains("Agregar").click()
-        cy.get("#formTarea").as("formTarea").select("3")
+        cy.get("@formTarea").select("3")
         cy.wait("@tarea3")
         cy.contains("Agregar").click()
 

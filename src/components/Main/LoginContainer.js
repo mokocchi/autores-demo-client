@@ -11,7 +11,7 @@ class LoginContainer extends React.Component {
 
   error() {
     const values = queryString.parse(this.props.location.search)
-    return values.error
+    return Object.keys(values).indexOf("error") !== -1
   }
 
   render() {
