@@ -5,14 +5,25 @@ import loggedIn from "./loggedIn";
 
 function mapStateToProps(state) {
   return {
-    role: state.auth.role,
+    roles: state.auth.roles,
     isLoading: state.auth.isLoading
   };
+}
+
+function isAllowed(roles, allowedRoles) {
+  let allowed = false;
+  roles.forEach(role => {
+    if(allowedRoles.includes(role)) {
+      allowed = true;
+      return;
+    }
+  });
+  return allowed;
 }
 
 export default allowedRoles => WrappedComponent => {
   return loggedIn(connect(mapStateToProps)((props) =>
     props.isLoading ? <span>Cargando...</span> :
-      allowedRoles.includes(props.role) ? <WrappedComponent {...props} /> : <Unauthorized />
+      isAllowed(props.roles, allowedRoles) ? <WrappedComponent {...props} /> : <Unauthorized />
   ));
 };
