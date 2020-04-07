@@ -50,7 +50,7 @@ class GraphContainer extends Component {
                         name: condicionName
                     };
                     if (!["YES", "NO"].includes(salto.condicion)) {
-                        const tareaNombre = tareasData.results.find(item => item.id === salto.respuesta).nombre
+                        const tareaNombre = tareasData.results.find(item => item.codigo === salto.respuesta).nombre
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: tareaNombre

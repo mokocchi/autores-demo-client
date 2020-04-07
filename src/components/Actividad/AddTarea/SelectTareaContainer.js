@@ -49,7 +49,7 @@ class AddTareasSelectTareaContainer extends Component {
     render() {
         return (
             <AddTareasSelectTarea actividadId={this.props.actividadId} onChange={this.onChange} onClick={this.onClick}
-            selectedTarea={this.state.selectedTarea} disabled={this.props.disabled}/>
+                selectedTarea={this.state.selectedTarea} disabled={this.state.selectedTarea.id === "" || (this.props.clone ? this.props.disabled : false)} />
         )
     }
 }

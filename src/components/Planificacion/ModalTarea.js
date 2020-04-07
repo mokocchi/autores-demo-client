@@ -138,7 +138,7 @@ class ModalTarea extends Component {
                 case "YES_TASK":
                 case "NO_TASK":
                     return (
-                        <Select dataCy="condicionTarea" key={this.state.selectedCondition.code} options={this.props.tareas} defaultValue={""} value={"id"} field={"nombre"}
+                        <Select dataCy="condicionTarea" key={this.state.selectedCondition.code} options={this.props.tareas} defaultValue={""} value={"codigo"} field={"nombre"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
                 default:
