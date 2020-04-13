@@ -168,7 +168,7 @@ class ModalTarea extends Component {
                                 <CheckBox checked={tarea.initial} onChange={this.onInicialChange} label={"Inicial"} />
                             </Col>
                             <Col>
-                                {!this.state.showConexiones && <Button variant="primary" data-cy="agregarConexiones" onClick={this.onClickMostrarConexiones} >Agregar conexiones</Button>}
+                                {this.getSelectableTareas().length > 0 && !this.state.showConexiones && <Button variant="primary" data-cy="agregarConexiones" onClick={this.onClickMostrarConexiones} >Agregar conexiones</Button>}
                             </Col>
                         </Row>
                         {this.state.showConexiones && this.getSelectableTareas().length > 0 &&
