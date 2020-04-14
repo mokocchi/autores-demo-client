@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
 import SelectAPI from '../../UI/SelectAPI';
+import { TIPOS_OPCIONES } from '../../../config';
 
 const AddTareasSelectTarea = (props) => {
     return (
@@ -33,7 +34,13 @@ const AddTareasSelectTarea = (props) => {
                             </Button>
                     </span>
                 </Col>
-                <Col>Consigna:<br />{props.selectedTarea && <span>{props.selectedTarea.consigna}</span>}</Col>
+                <Col>{(props.selectedTarea.id !== "") &&
+                    <p><b>Consigna:</b><br />
+                        <span>{props.selectedTarea.consigna}</span> <br />
+                        <span><b>Tipo:</b> {props.selectedTarea.tipo.nombre}</span> <br />
+                        <span><b>{TIPOS_OPCIONES.includes(props.selectedTarea.tipo.id) ? "Tiene opciones" : "No tiene opciones"}</b></span>
+                    </p>
+                }</Col>
             </Row>
         </>
     )
