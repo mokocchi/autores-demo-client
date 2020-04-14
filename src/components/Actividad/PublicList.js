@@ -5,9 +5,10 @@ import ShowLinksList from '../UI/ShowLinksList';
 const ActividadPublicList = ({ success, actividades, error, errorMessage }) => {
     return (
         error ? <span className="text-danger">{errorMessage}</span>
-            : success &&
+            : success ?
                 actividades.length > 0 ? <ShowLinksList items={actividades} uriPrefix="/actividad" />
-                : "No hay actividades"
+                    : "No hay actividades"
+                : "Cargando..."
     )
 
 
