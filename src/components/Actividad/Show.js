@@ -34,6 +34,7 @@ function ActividadShow({ actividad, tareas, conexiones, errors }) {
                         </Col>
                     </Row>
                     {conexiones && <Graph dataCy={"graphShow"} tareas={tareas} conexiones={conexiones} onClickNode={() => {}}/>}
+                    {(actividad.tipo_planificacion.nombre === "Bifurcada") && <Button className="float-right" href={`/nuevaActividad/?clone=${actividad.id}`}>Clonar planificación</Button>}
                 </>
             }
             {errors && <legend>Actividad no encontrada</legend>}

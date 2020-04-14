@@ -14,7 +14,7 @@ const ActividadForm = ({ match: { params }, location: { search } }) => {
             <Row>
                 <Col>
                     <h2>
-                        {!params.id ? "Crear" : "Editar"} actividad { getClone(search) && "(Clonando)"}
+                        {!params.id ? "Crear" : "Editar"} actividad { getClone(search) && "(Clonando planificación)"}
                     </h2>
                 </Col>
             </Row>

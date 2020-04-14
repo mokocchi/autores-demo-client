@@ -13,7 +13,7 @@ const ActividadAddTareas = ({ match: { params }, location: { search } }) => {
         <Container>
             <Row>
                 <Col>
-                    <h2>Elegir tareas {getClone(search) && "(clonando actividad)"}</h2>
+                    <h2>Elegir tareas {getClone(search) && "(clonando planificación)"}</h2>
                 </Col>
             </Row>
             <Row>
