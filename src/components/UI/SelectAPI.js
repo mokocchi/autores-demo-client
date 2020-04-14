@@ -56,6 +56,7 @@ class SelectAPI extends Component {
                         onPropsChangeMore={this.props.onPropsChangeMore}
                         onChange={this.props.onChange}
                         onBlur={this.props.onBlur}
+                        disabled={this.props.disabled}
                     />
                 }
             </div>

@@ -14,9 +14,31 @@ class ActividadFormContainer extends Component {
             isLoading: false,
             success: false,
             error: false,
-            errorMessage: ""
+            errorMessage: "",
+            clonedActividad: null
         }
+        this.getClonedActividad = this.getClonedActividad.bind(this);
         this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    }
+
+    componentDidMount() {
+        if(this.props.clone) {
+            this.getClonedActividad(this.props.clone);
+        }
+    }
+
+    async getClonedActividad(id) {
+        const clonedActividad = await tokenManager.getActividad(id);
+        if (clonedActividad.error_code) {
+            this.setState({
+                error: true,
+                errorMessage: clonedActividad.user_message
+            });
+            return
+        }
+        this.setState({
+            clonedActividad: clonedActividad
+        });
     }
 
     async handleFormSubmit(values) {
@@ -32,7 +54,7 @@ class ActividadFormContainer extends Component {
             "codigo": codigo,
             "dominio": dominio,
             "idioma": idioma,
-            "tipoPlanificacion": tipoPlanificacion,
+            "tipoPlanificacion": this.props.clone ? this.state.clonedActividad.tipo_planificacion.id : tipoPlanificacion,
             "estado": estado
         })
         if (actividad.error_code) {
@@ -58,7 +80,7 @@ class ActividadFormContainer extends Component {
             <ActividadForm onChange={this.handleInput} dominioDefaultValue={this.props.currentDominioId}
                 error={this.state.error} errorMessage={this.state.errorMessage}
                 isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
-                onSubmit={this.handleFormSubmit}
+                onSubmit={this.handleFormSubmit} clone={this.props.clone} clonedActividad={this.state.clonedActividad}
             />
         )
     }

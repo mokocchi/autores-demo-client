@@ -7,6 +7,7 @@ import Input from '../UI/Input';
 import FormDominioContainer from '../Dominio/FormContainer';
 import SelectAPI from '../UI/SelectAPI';
 import { getRandomSlug } from '../../utils';
+import LoadSpinner from '../UI/LoadSpinner';
 
 const Actividad = (props) => {
     return (
@@ -33,7 +34,7 @@ const Actividad = (props) => {
                     if (!values.idioma) {
                         errors.idioma = "Falta idioma";
                     }
-                    if (!values.tipoPlanificacion) {
+                    if (!props.clone && !values.tipoPlanificacion) {
                         errors.tipoPlanificacion = "Falta tipo de planificación";
                     }
                     if (!values.dominio) {
@@ -115,18 +116,35 @@ const Actividad = (props) => {
                             }
                         </Col>
                         <Col>
-                            <SelectAPI
-                                uri={'/tipos-planificacion'}
-                                attribute={"tipo-planificacion"}
-                                controlId={"formTipoPlanificacion"}
-                                label={"Tipo de planificación"}
-                                name={"tipoPlanificacion"}
-                                defaultValue={""}
-                                placeholder={"Elegí un tipo"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                            />
-                            {errors.tipoPlanificacion && touched.tipoPlanificacion && errors.tipoPlanificacion &&
+                            {props.clone ? props.clonedActividad ?
+                                <SelectAPI
+                                    uri={'/tipos-planificacion'}
+                                    attribute={"tipo-planificacion"}
+                                    controlId={"formTipoPlanificacion"}
+                                    label={"Tipo de planificación"}
+                                    name={"tipoPlanificacion"}
+                                    defaultValue={props.clonedActividad.tipo_planificacion.id}
+                                    placeholder={"Elegí un tipo"}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    disabled={true}
+                                /> :
+                                <LoadSpinner />
+                                :
+                                <SelectAPI
+                                    uri={'/tipos-planificacion'}
+                                    attribute={"tipo-planificacion"}
+                                    controlId={"formTipoPlanificacion"}
+                                    label={"Tipo de planificación"}
+                                    name={"tipoPlanificacion"}
+                                    defaultValue={""}
+                                    placeholder={"Elegí un tipo"}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                />
+                            }
+                            {
+                                errors.tipoPlanificacion && touched.tipoPlanificacion && errors.tipoPlanificacion &&
                                 <Form.Text className="text-danger" style={{ marginTop: "-1em" }}>
                                     {errors.tipoPlanificacion}
                                 </Form.Text>
