@@ -53,7 +53,7 @@ class AddTareasButtonContainer extends Component {
     render() {
         return (
             <AddTareasButton isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
-                onSubmit={this.handleFormSubmit} error={this.state.error} errorMessage={this.state.errorMessage}
+                onSubmit={this.handleFormSubmit} error={this.state.error} errorMessage={this.state.errorMessage} bifurcada={this.props.bifurcada}
             />
         )
     }

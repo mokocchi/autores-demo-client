@@ -24,7 +24,7 @@ const AddTareasButton = (props) => {
                     </Button>
                     :
                     props.success ?
-                        <Link to={"/actividad/" + props.actividadId + "/planificacion"}>
+                        <Link to={"/actividad/" + props.actividadId + (props.bifurcada ? "/planificacion" : "/mostrar")}>
                             <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                         </Link>
                         :
