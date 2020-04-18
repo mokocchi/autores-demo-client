@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { TIPOS_PLANO } from '../../config';
+import { TIPOS_PLANO, PLANOS_URL } from '../../config';
 import tokenManager from '../../tokenManager';
 import TareaShow from './Show';
 
@@ -32,7 +32,7 @@ class TareaShowContainer extends Component {
     render() {
         let imgSrc = null;
         if(this.state.tarea) {
-            imgSrc = TIPOS_PLANO.includes(this.state.tarea.tipo.id.toString()) ? "http://localhost:8080/uploads/planos/" + this.state.tarea.codigo + ".png" : null
+            imgSrc = TIPOS_PLANO.includes(this.state.tarea.tipo.id.toString()) ? PLANOS_URL + "/" + this.state.tarea.codigo + ".png" : null
         }
         return <TareaShow tarea={this.state.tarea} errors={this.state.errors} imgSrc={imgSrc} />
     }
