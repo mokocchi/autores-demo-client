@@ -71,7 +71,7 @@ class AddTareaContainer extends Component {
                 />
                 {this.props.clone && <PendingTareasListContainer remainingTareas={this.remainingTareas()} />}
                 {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
-                    bifurcada={this.state.actividad.tipo_planificacion.nombre === "Bifurcada"}/>}
+                    bifurcada={this.clone && this.state.actividad.tipo_planificacion.nombre === "Bifurcada"}/>}
                 {this.props.clone &&
                     <GraphContainer actividadId={this.props.clone} />
                 }

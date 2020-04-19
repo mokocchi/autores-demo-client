@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
-import SelectAPI from '../../UI/SelectAPI';
 import { TIPOS_OPCIONES } from '../../../config';
+import SearchBar from '../../UI/SearchBar';
 
 const AddTareasSelectTarea = (props) => {
     return (
@@ -14,31 +14,25 @@ const AddTareasSelectTarea = (props) => {
             </h2>
             <Row>
                 <Col>
-                    <SelectAPI
+                    <SearchBar
                         uri={'/tareas/user'}
                         authorized
-                        attribute={"tarea"}
-                        controlId={"formTarea"}
-                        label={""}
-                        name={"tarea"}
-                        defaultValue={""}
-                        placeholder={"Elegí una tarea"}
+                        placeholder={"Buscar tarea por nombre..."}
                         onChange={props.onChange}
+                        onSelect={props.onSelect}
                     />
-                </Col>
-                <Col sm={2}>
-                    <span>
-                        <Button className="float-left" variant="info" type="button"
-                            onClick={props.onClick} disabled={props.selectedTarea.id === "" || props.disabled} >
-                            Agregar
-                            </Button>
-                    </span>
                 </Col>
                 <Col>{(props.selectedTarea.id !== "") &&
                     <p><b>Consigna:</b><br />
                         <span>{props.selectedTarea.consigna}</span> <br />
                         <span><b>Tipo:</b> {props.selectedTarea.tipo.nombre}</span> <br />
-                        <span><b>{TIPOS_OPCIONES.includes(props.selectedTarea.tipo.id) ? "Tiene opciones" : "No tiene opciones"}</b></span>
+                        <span><b>{TIPOS_OPCIONES.includes(props.selectedTarea.tipo.id.toString()) ? "Tiene opciones" : "No tiene opciones"}</b></span>
+                        <span>
+                            <Button className="float-right" variant="info" type="button"
+                                onClick={props.onClick} disabled={props.selectedTarea.id === "" || props.disabled} >
+                                Agregar
+                            </Button>
+                        </span>
                     </p>
                 }</Col>
             </Row>

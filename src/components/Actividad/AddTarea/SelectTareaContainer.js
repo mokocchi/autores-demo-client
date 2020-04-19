@@ -17,17 +17,17 @@ class AddTareasSelectTareaContainer extends Component {
             tareasCache: {}
         }
         this.onClick = this.onClick.bind(this);
-        this.onChange = this.onChange.bind(this);
+        this.onSelect = this.onSelect.bind(this);
     }
 
-    async onChange(e) {
-        let tarea = this.state.tareasCache[e.target.value];
+    async onSelect(selected) {
+        let tarea = this.state.tareasCache[selected.id];
         if (tarea) {
             this.setState({
                 selectedTarea: tarea
             })
         } else {
-            tarea = await tokenManager.getTarea(e.target.value);
+            tarea = await tokenManager.getTarea(selected.id);
             if (!tarea.error_code) {
                 const tareasCache = this.state.tareasCache;
                 tareasCache[tarea.id] = tarea;
@@ -43,12 +43,18 @@ class AddTareasSelectTareaContainer extends Component {
     onClick(e) {
         if (this.state.selectedTarea.id !== "") {
             this.props.dispatch(addTarea(this.state.selectedTarea));
+            this.setState({
+                selectedTarea: {
+                    nombre: "",
+                    id: ""
+                }
+            })
         }
     }
 
     render() {
         return (
-            <AddTareasSelectTarea actividadId={this.props.actividadId} onChange={this.onChange} onClick={this.onClick}
+            <AddTareasSelectTarea actividadId={this.props.actividadId} onSelect={this.onSelect} onClick={this.onClick}
                 selectedTarea={this.state.selectedTarea} disabled={this.state.selectedTarea.id === "" || (this.props.clone ? this.props.disabled : false)} />
         )
     }

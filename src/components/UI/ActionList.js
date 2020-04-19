@@ -36,9 +36,9 @@ function ActionList(props) {
                                 field={props.checkboxGroup.field} value={props.checkboxGroup.value} label={props.checkboxGroup.label} group={(props.value ? item[props.value] : item)} />
                         }
                         {props.action &&
-                            < Button variant="danger" type="button" className="float-right"
+                            < Button variant={props.action.variant || "danger"} type="button" className="float-right"
                                 onClick={() => props.onClick(item, props.group)} data-cy={"quitar_" + (props.group? props.group + "_" : "") + (item.id || item.name || item)}>
-                                Quitar
+                                {props.action.label || "Quitar"}
                             </Button>
                         }
                     </ListGroup.Item>
