@@ -7,10 +7,8 @@ class PendingTareasListContainer extends Component {
             <ul>
                 {this.props.remainingTareas.map(
                     (item, index) =>
-                        <li key={index}>
-                            {index === 0 && "▶▶▶"}
-                            Reemplazar la tarea "{item.nombre}" ({TIPOS_OPCIONES.includes(item.tipo.id) ? "Tiene opciones" : "No tiene opciones"})
-                            {index === 0 && "◀◀◀"}
+                        <li key={index} style={{fontWeight: (index === 0) ? "bold": null, textDecoration: (index === 0) ? "underline" : null}}>
+                            {(index === 0) ? "Reemplazando" : "Falta remplazar"} la tarea {index + 1}.{item.nombre} ({TIPOS_OPCIONES.includes(item.tipo.id.toString()) ? "Tiene opciones" : "No tiene opciones"})
                         </li>)
                 }
             </ul>
