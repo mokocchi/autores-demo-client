@@ -13,7 +13,8 @@ class AddTareasSelectTareaContainer extends Component {
                 nombre: "",
                 id: ""
             },
-            tareasCache: {}
+            opciones: false,
+            todas: false
         }
         this.onClick = this.onClick.bind(this);
     }
@@ -36,10 +37,25 @@ class AddTareasSelectTareaContainer extends Component {
         }
     }
 
+    onOpcionesChange = () => {
+        this.setState({
+            opciones: !this.state.opciones
+        });
+    }
+
+    onTodasChange = () => {
+        this.setState({
+            todas: !this.state.todas
+        });
+    }
+
     render() {
         return (
             <AddTareasSelectTarea actividadId={this.props.actividadId} onSelect={this.onSelect} onClick={this.onClick} clone={this.props.clone}
-                selectedTarea={this.state.selectedTarea} disabled={this.state.selectedTarea.id === "" || (this.props.clone ? this.props.disabled : false)} />
+                selectedTarea={this.state.selectedTarea} opciones={this.state.opciones} todas={this.state.todas}
+                onOpcionesChange={this.onOpcionesChange} onTodasChange={this.onTodasChange}
+                disabled={this.state.selectedTarea.id === "" || (this.props.clone ? this.props.disabled : false)}
+            />
         )
     }
 }

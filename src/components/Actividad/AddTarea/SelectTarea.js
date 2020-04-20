@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button, Row, Col } from 'react-bootstrap';
 import { TIPOS_OPCIONES } from '../../../config';
 import SearchBar from '../../UI/SearchBar';
+import CheckBox from '../../UI/CheckBox';
 
 const AddTareasSelectTarea = (props) => {
     return (
@@ -14,10 +15,16 @@ const AddTareasSelectTarea = (props) => {
             </h2>
             <Row>
                 <Col>
+                    <CheckBox checked={props.opciones} onChange={props.onOpcionesChange} label={"Con opciones"} />
+                    {" "}
+                    <CheckBox checked={props.todas} onChange={props.onTodasChange} label={"Mostrar todas"} />
                     <SearchBar
                         uri={'/tareas/user'}
                         authorized
+                        allResults={props.todas}
                         placeholder={"Buscar tarea por nombre..."}
+                        queryField={"nombre"}
+                        extraQuery={{ opciones: props.opciones }}
                         onChange={props.onChange}
                         onSelect={props.onSelect}
                     />
