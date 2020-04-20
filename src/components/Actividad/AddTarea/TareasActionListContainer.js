@@ -18,7 +18,7 @@ class AddTareasActionListContainer extends Component {
                 (tarea, index) => {
                     return {
                         ...tarea,
-                        nombre: `Reemplazando a la tarea ${clonedTareas[index].nombre}: ${tarea.nombre}`
+                        nombre: `${tarea.nombre} (Reemplaza a la tarea ${index + 1}. ${clonedTareas[index].nombre})`
                     }
                 })
         } else {
