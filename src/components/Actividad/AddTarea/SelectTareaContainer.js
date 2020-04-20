@@ -17,27 +17,12 @@ class AddTareasSelectTareaContainer extends Component {
             tareasCache: {}
         }
         this.onClick = this.onClick.bind(this);
-        this.onSelect = this.onSelect.bind(this);
     }
 
-    async onSelect(selected) {
-        let tarea = this.state.tareasCache[selected.id];
-        if (tarea) {
-            this.setState({
-                selectedTarea: tarea
-            })
-        } else {
-            tarea = await tokenManager.getTarea(selected.id);
-            if (!tarea.error_code) {
-                const tareasCache = this.state.tareasCache;
-                tareasCache[tarea.id] = tarea;
-                this.setState({
-                    selectedTarea: tarea,
-                    tareasCache
-                })
-            }
-
-        }
+    onSelect = (selected) => {
+        this.setState({
+            selectedTarea: selected
+        })
     }
 
     onClick(e) {
