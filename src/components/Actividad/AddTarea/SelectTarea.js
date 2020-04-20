@@ -8,7 +8,7 @@ const AddTareasSelectTarea = (props) => {
     return (
         <>
             <h2>Mis tareas{" "}
-                <Link to={"/actividad/" + props.actividadId + "/nuevaTarea"} >
+                <Link to={"/actividad/" + props.actividadId + "/nuevaTarea" + (props.clone ? "?clone=" + props.clone : "")} >
                     <Button variant="success" type="button">Nueva</Button>
                 </Link>
             </h2>

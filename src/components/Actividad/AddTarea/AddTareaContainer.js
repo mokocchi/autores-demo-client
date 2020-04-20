@@ -20,6 +20,7 @@ class AddTareaContainer extends Component {
         }
         this.getActividad = this.getActividad.bind(this);
         this.getClonedTareas = this.getClonedTareas.bind(this);
+        this.load = this.load.bind(this);
     }
 
     async getActividad() {
@@ -30,7 +31,6 @@ class AddTareaContainer extends Component {
         }
         this.setState({
             actividad: actividad,
-            isLoading: false
         });
     }
 
@@ -45,11 +45,18 @@ class AddTareaContainer extends Component {
         });
     }
 
-    componentDidMount() {
-        this.getActividad();
+    async load() {
+        await this.getActividad();
         if (this.props.clone) {
-            this.getClonedTareas();
+            await this.getClonedTareas();
         }
+        this.setState({
+            isLoading: false
+        })
+    }
+
+    componentDidMount() {
+        this.load()
     }
 
     remainingTareas = () => {

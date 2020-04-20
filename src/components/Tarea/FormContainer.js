@@ -227,7 +227,7 @@ class FormTareaContainer extends Component {
             <TareaForm onChange={this.handleInput} onPropsChangeMore={this.onPropsChangeMore}
                 error={this.state.error} errorMessage={this.state.errorMessage}
                 isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
-                onSubmit={this.handleFormSubmit}
+                onSubmit={this.handleFormSubmit} clone={this.props.clone}
             />
         )
     }

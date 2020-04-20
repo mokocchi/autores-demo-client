@@ -178,7 +178,7 @@ const FormTarea = (props) => {
                     </Button>
                         :
                         props.success ?
-                            <Link to={"/actividad/" + props.actividadId}>
+                            <Link to={"/actividad/" + props.actividadId + (props.clone ? "?clone=" + props.clone : "")}>
                                 <Button variant="primary" type="button" >Continuar</Button>
                             </Link>
                             :
