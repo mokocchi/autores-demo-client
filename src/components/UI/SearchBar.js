@@ -21,8 +21,22 @@ class SearchBar extends Component {
         return queryString;
     }
 
+    equals = (object1, object2) => {
+        const keys1 = Object.keys(object1);
+        const keys2 = Object.keys(object2);
+        if(keys1.length !== keys2.length) {
+            return false;
+        }
+        keys1.forEach(key => {
+            if(object1[key] !== object2[key]) {
+                return false;
+            }
+        });
+        return true;
+    }
+
     componentDidUpdate(prevProps) {
-        if (this.props.allResults !== prevProps.allResults || this.props.extraQuery !== prevProps.extraQuery) {
+        if (!this.equals(this.props.extraQuery, prevProps.extraQuery) || (this.props.allResults !== prevProps.allResults)) {
             this.setState({pages: 0, page: 1})
             if (this.props.allResults) {
                 this.getElements()

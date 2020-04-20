@@ -15,11 +15,13 @@ class AddTareaContainer extends Component {
         this.state = {
             actividad: null,
             clonedTareas: [],
+            referencedTareas: [],
             isLoading: true,
             errorMessage: ""
         }
         this.getActividad = this.getActividad.bind(this);
         this.getClonedTareas = this.getClonedTareas.bind(this);
+        this.getClonedPlanificacion = this.getClonedPlanificacion.bind(this);
         this.load = this.load.bind(this);
     }
 
@@ -45,10 +47,30 @@ class AddTareaContainer extends Component {
         });
     }
 
+    async getClonedPlanificacion() {
+        const clonedPlanificacion = await tokenManager.getPlanificacionForActividad(this.props.clone);
+        if (clonedPlanificacion.error_code) {
+            this.setState({ isLoading: false, errorMessage: clonedPlanificacion.user_message })
+            return;
+        }
+
+        const referencedTareas = [];
+        clonedPlanificacion.saltos.forEach(salto => {
+            if (["YES", "NO"].includes(salto.condicion)) {
+                referencedTareas.push(salto.origen_id);
+            }
+        });
+
+        this.setState({
+            referencedTareas: referencedTareas
+        });
+    }
+
     async load() {
         await this.getActividad();
         if (this.props.clone) {
             await this.getClonedTareas();
+            await this.getClonedPlanificacion();
         }
         this.setState({
             isLoading: false
@@ -73,18 +95,24 @@ class AddTareaContainer extends Component {
                 this.state.errorMessage ?
                     <legend>{this.state.errorMessage}</legend> :
                     <>
+                        <AddTareasActionListContainer
+                            clone={this.props.clone}
+                            clonedTareas={this.state.clonedTareas}
+                            remainingTareas={this.remainingTareas()}
+                            referencedTareas={this.state.referencedTareas}
+                        />
+                        {this.props.clone &&
+                            <PendingTareasListContainer
+                                remainingTareas={this.remainingTareas()}
+                                referencedTareas={this.state.referencedTareas}
+                            />
+                        }
                         <TareaSearchContainer />
                         <AddTareasSelectTareaContainer
                             actividadId={this.state.actividad ? this.props.actividadId : null}
                             clone={this.props.clone}
                             disabled={this.props.chosenTareas.length === this.state.clonedTareas.length}
                         />
-                        <AddTareasActionListContainer
-                            clone={this.props.clone}
-                            clonedTareas={this.state.clonedTareas}
-                            remainingTareas={this.remainingTareas()}
-                        />
-                        {this.props.clone && <PendingTareasListContainer remainingTareas={this.remainingTareas()} />}
                         {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
                             bifurcada={this.state.actividad.tipo_planificacion.nombre === "Bifurcada"} />}
                         {this.props.clone &&
