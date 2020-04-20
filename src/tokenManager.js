@@ -26,6 +26,12 @@ export default class tokenManager {
     static async delay() {
         await setTimeout(1);
     }
+
+    static isAuthorized() {
+        const token = this.client.getToken();
+        return token != null;
+    }
+
     static async loadApiUser() {
         this.store.dispatch(loadingApiUser());
         const tokenString = localStorage.getItem('auth.token');

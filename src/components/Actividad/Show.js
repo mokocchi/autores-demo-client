@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { API_BASE_URL } from '../../config';
 import Graph from '../Planificacion/Graph';
+import { Link } from 'react-router-dom';
 
 function ActividadShow({ actividad, tareas, conexiones, errors }) {
     return (
@@ -31,7 +32,11 @@ function ActividadShow({ actividad, tareas, conexiones, errors }) {
                             <legend>Tareas</legend>
                             <ul>
                                 {tareas.map(tarea =>
-                                    <li key={tarea.id}>{tarea.nombre}</li>
+                                    <li key={tarea.id}>
+                                        <Link to={`/tarea/${tarea.id}/mostrar`} >
+                                            {tarea.nombre}
+                                        </Link>
+                                    </li>
                                 )}
                             </ul>
                         </Col>

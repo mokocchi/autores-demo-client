@@ -17,7 +17,12 @@ class TareaShowContainer extends Component {
     }
 
     async getTarea() {
-        const data = await tokenManager.getTareaPublic(this.props.actividadId)
+        let data = null;
+        if (tokenManager.isAuthorized()) {
+            data = await tokenManager.getTarea(this.props.actividadId)
+        } else {
+            data = await tokenManager.getTareaPublic(this.props.actividadId)
+        }
         if (!data.error_code) {
             this.setState({
                 tarea: data
@@ -31,7 +36,7 @@ class TareaShowContainer extends Component {
 
     render() {
         let imgSrc = null;
-        if(this.state.tarea) {
+        if (this.state.tarea) {
             imgSrc = TIPOS_PLANO.includes(this.state.tarea.tipo.id.toString()) ? PLANOS_URL + "/" + this.state.tarea.codigo + ".png" : null
         }
         return <TareaShow tarea={this.state.tarea} errors={this.state.errors} imgSrc={imgSrc} />

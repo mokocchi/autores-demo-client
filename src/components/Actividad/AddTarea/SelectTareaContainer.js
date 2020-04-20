@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { addTarea } from '../../../redux/actions'
 
-import tokenManager from '../../../tokenManager';
 import AddTareasSelectTarea from './SelectTarea';
 
 class AddTareasSelectTareaContainer extends Component {
