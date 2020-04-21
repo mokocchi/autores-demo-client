@@ -33,6 +33,47 @@ class AddTareasButtonContainer extends Component {
             })
             return;
         } else {
+            //finish only if not cloning
+            this.setState({ success: !this.props.clone, isLoading: this.props.clone });
+        }
+    }
+
+    getNewPlanificacion() {
+        const opcionales = this.props.clonedPlanificacion.opcionales_ids.map(id => {
+            const index = this.props.clonedTareas.findIndex(tarea => tarea.id === id);
+            return this.props.chosenTareas[index].id;
+        })
+        const iniciales = this.props.clonedPlanificacion.iniciales_ids.map(id => {
+            const index = this.props.clonedTareas.findIndex(tarea => tarea.id === id);
+            return this.props.chosenTareas[index].id;
+        })
+        const saltos = this.props.clonedPlanificacion.saltos.map(salto => {
+            
+        })
+        return {
+            "saltos": [],
+            "iniciales": iniciales,
+            "opcionales": opcionales
+        }
+
+    }
+
+    async setClonedPlanificacion(id) {
+        const planificacion = this.getNewPlanificacion();
+        const data = await tokenManager.setPlanificacionInActividad(planificacion, id);
+        this.setState({
+            isLoading: true
+        })
+
+        if (data.error_code) {
+            this.setState({
+                error: true,
+                errorMessage: data.user_message,
+                success: false,
+                isLoading: false
+            })
+            return;
+        } else {
             this.setState({ success: true, isLoading: false });
         }
     }
@@ -40,20 +81,23 @@ class AddTareasButtonContainer extends Component {
     async handleFormSubmit() {
         const id = this.props.actividadId;
         const tareasIds = this.props.chosenTareas.map(tarea => tarea.id);
-        if(tareasIds.length === 0) {
+        if (tareasIds.length === 0) {
             this.setState({
                 error: true,
                 errorMessage: "No se eligieron tareas"
             });
             return;
         }
-        if(this.props.disabled) {
+        if (this.props.disabled) {
             this.setState({
                 error: true,
                 errorMessage: "Faltan tareas"
             });
         }
-        this.setTareasToActividad(id, tareasIds);
+        await this.setTareasToActividad(id, tareasIds);
+        if (this.props.clone) {
+            await this.setClonedPlanificacion(id);
+        }
     }
 
     render() {

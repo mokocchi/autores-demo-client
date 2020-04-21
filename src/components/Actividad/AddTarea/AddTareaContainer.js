@@ -16,6 +16,7 @@ class AddTareaContainer extends Component {
             actividad: null,
             clonedTareas: [],
             referencedTareas: [],
+            clonedPlanificacion: null,
             isLoading: true,
             errorMessage: ""
         }
@@ -62,7 +63,8 @@ class AddTareaContainer extends Component {
         });
 
         this.setState({
-            referencedTareas: referencedTareas
+            referencedTareas: referencedTareas,
+            clonedPlanificacion: clonedPlanificacion
         });
     }
 
@@ -112,7 +114,8 @@ class AddTareaContainer extends Component {
                             />
                         }
                         {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
-                            bifurcada={this.state.actividad.tipo_planificacion.nombre === "Bifurcada"} disabled={this.remainingTareas().length > 0}/>}
+                            bifurcada={this.state.actividad.tipo_planificacion.nombre === "Bifurcada"} disabled={this.remainingTareas().length > 0}
+                            clonedPlanificacion={this.state.clonedPlanificacion} clonedTareas={this.state.clonedTareas}/>}
                         <TareaSearchContainer />
                         <AddTareasSelectTareaContainer
                             actividadId={this.state.actividad ? this.props.actividadId : null}
