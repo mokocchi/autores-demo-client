@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { Row, Col, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import Graph from './Graph';
@@ -9,15 +9,17 @@ import ModalConexion from './ModalConexion';
 const PlanificacionEdit = (props) => {
     return (
         <>
-            <h6 style={{ color: 'gray' }}><i>
-                {props.graphConexiones.length === 0 ?
-                    "Para iniciar la conexión entre tareas selecione una tarea incial"
-                    : "Para conectar dos tareas seleccione una tarea"
-                }
-                {
-                    props.clone && " - Para adaptar las opciones hacé click en una conexión con cruz"
-                }
-            </i></h6>
+            <Alert variant="info">
+                <i>
+                    {props.graphConexiones.length === 0 ?
+                        "Para iniciar la conexión entre tareas selecioná una tarea incial"
+                        : "Para conectar dos tareas seleccioná una tarea"
+                    }
+                    {
+                        props.clone && " - Para elegir las opciones nuevas hacé click en una conexión con cruz"
+                    }
+                </i>
+            </Alert>
             <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                 <Col>
                     {props.success &&
@@ -43,7 +45,8 @@ const PlanificacionEdit = (props) => {
                     {props.selectedConexion &&
                         <ModalConexion key={props.selectedConexion.id} handleClose={props.handleCloseConexion}
                             show={props.showConexion} conexion={props.selectedConexion} tareas={props.tareas}
-                            onRemoveConexion={props.onRemoveConexion} />
+                            onRemoveConexion={props.onRemoveConexion} clone={props.clone} opciones={props.selectedOpciones}
+                            setOpcion={props.setOpcion} />
                     }
                 </Col>
             </Row>

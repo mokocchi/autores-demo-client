@@ -77,7 +77,7 @@ const SquareEdgeShape = (
 const SquareCrossedEdgeShape = (
   <symbol viewBox="0 0 50 50" id="squareCrossedEdge">
     <rect x="20" y="17" width="15" height="15" fill="currentColor"/>
-    <text  y="30" x="20" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="25" stroke="red" fill="red">X</text>
+    <text  y="30" x="20" fontSize="25" stroke="red" fill="red">X</text>
   </symbol>
 )
 

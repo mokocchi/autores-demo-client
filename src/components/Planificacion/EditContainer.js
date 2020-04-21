@@ -20,6 +20,7 @@ class PlanificacionEditContainer extends Component {
             showConexion: false,
             selectedTarea: null,
             selectedConexion: null,
+            selectedOpciones: [],
             errors: "",
             saveSuccess: false
         }
@@ -102,10 +103,10 @@ class PlanificacionEditContainer extends Component {
                     } else {
                         const opcion = dataTareas.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta);
                         let respuestaNombre = "";
-                        if(opcion) {
+                        if (opcion) {
                             respuestaNombre = opcion.name;
                         } else {
-                            respuestaNombre = "[opción inválida]";
+                            respuestaNombre = null;
                             conexion.crossed = true;
                         }
                         conexion.respuesta = {
@@ -235,9 +236,11 @@ class PlanificacionEditContainer extends Component {
 
     handleShowConexion = (conexionId) => {
         const conexion = this.state.graphConexiones.find(conexion => conexion.id === conexionId);
+        const tarea = this.state.graphTareas.find(t => t.id === conexion.origen);
         this.setState({
             showConexion: true,
-            selectedConexion: conexion
+            selectedConexion: conexion,
+            selectedOpciones: tarea.extra ? tarea.extra.elements : []
         })
     }
 
@@ -248,6 +251,24 @@ class PlanificacionEditContainer extends Component {
         })
     }
 
+    setOpcion = (code, nombre) => {
+        const conexiones = this.state.graphConexiones.map(conexion => {
+            if (conexion.id !== this.state.selectedConexion.id) {
+                return conexion
+            } else {
+                return {
+                    ...conexion,
+                    respuesta: {id: code,
+                                name: nombre},
+                    crossed: false
+                }
+            }
+        })
+        this.setState({
+            graphConexiones: [...conexiones]
+        })
+        this.handleCloseConexion();
+    }
 
     render() {
         return (
@@ -261,8 +282,8 @@ class PlanificacionEditContainer extends Component {
 
                 selectedConexion={this.state.selectedConexion} handleCloseConexion={this.handleCloseConexion}
                 showConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
-                success={this.state.success} saveSuccess={this.state.saveSuccess}
-                onGuardarClick={this.onGuardarClick}
+                success={this.state.success} saveSuccess={this.state.saveSuccess} setOpcion={this.setOpcion}
+                onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones}
             />
         )
     }
