@@ -27,12 +27,13 @@ class SearchBar extends Component {
         if(keys1.length !== keys2.length) {
             return false;
         }
+        let eq = true;
         keys1.forEach(key => {
             if(object1[key] !== object2[key]) {
-                return false;
+                eq = false;
             }
         });
-        return true;
+        return eq;
     }
 
     componentDidUpdate(prevProps) {
@@ -41,9 +42,15 @@ class SearchBar extends Component {
             if (this.props.allResults) {
                 this.getElements()
             } else {
-                this.setState({
-                    elements: []
-                })
+                if(this.props.extraQuery) {
+                    if(this.state.input.length >= 3) {
+                        this.getElements(this.state.input);
+                    }
+                } else {
+                    this.setState({
+                        elements: []
+                    })
+                }
             }
         }
     }
