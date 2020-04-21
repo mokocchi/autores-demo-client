@@ -24,8 +24,8 @@ const EmptyNodeShape = (
   </symbol>
 );
 
-const OptionalEmptyNodeShape = (
-  <symbol viewBox="0 0 154 154" width="154" height="154" id="optionalEmptyNode" fill="#ebebe0" >
+const OptionalEmptyShape = (
+  <symbol viewBox="0 0 154 154" width="154" height="154" id="optionalEmpty" fill="#ebebe0" >
     <circle cx="77" cy="77" r="56" />
   </symbol>
 );
@@ -104,9 +104,9 @@ export default {
       shapeId: '#emptyNode',
       typeText: 'Tarea',
     },
-    optionalEmptyNode: {
-      shape: OptionalEmptyNodeShape,
-      shapeId: '#optionalEmptyNode',
+    optionalEmpty: {
+      shape: OptionalEmptyShape,
+      shapeId: '#optionalEmpty',
       typeText: 'Tarea'
     },
     start: {
