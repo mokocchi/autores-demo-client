@@ -14,13 +14,18 @@ const PlanificacionEdit = (props) => {
                     "Para iniciar la conexión entre tareas selecione una tarea incial"
                     : "Para conectar dos tareas seleccione una tarea"
                 }
+                {
+                    props.clone && " - Para adaptar las opciones hacé click en una conexión con cruz"
+                }
             </i></h6>
             <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                 <Col>
                     {props.success &&
-                        <Graph tareas={props.tareas}
-                            conexiones={props.conexiones} actividadId={props.actividadId}
-                            onClickNode={props.onClickNode} onClickEdge={props.onClickEdge} />
+                        <div style={{ position: "relative" }}>
+                            <Graph tareas={props.tareas}
+                                conexiones={props.conexiones} actividadId={props.actividadId}
+                                onClickNode={props.onClickNode} onClickEdge={props.onClickEdge} />
+                        </div>
                     }
                     {props.success && !props.saveSuccess &&
                         <Button type="button" className="float-right" variant="info" onClick={props.onGuardarClick} >Guardar</Button>

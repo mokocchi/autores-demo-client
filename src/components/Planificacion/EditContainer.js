@@ -100,7 +100,14 @@ class PlanificacionEditContainer extends Component {
                             name: tareaNombre
                         };
                     } else {
-                        const respuestaNombre = dataTareas.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta).name;
+                        const opcion = dataTareas.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta);
+                        let respuestaNombre = "";
+                        if(opcion) {
+                            respuestaNombre = opcion.name;
+                        } else {
+                            respuestaNombre = "[opción inválida]";
+                            conexion.crossed = true;
+                        }
                         conexion.respuesta = {
                             id: salto.respuesta,
                             name: respuestaNombre
@@ -245,7 +252,7 @@ class PlanificacionEditContainer extends Component {
     render() {
         return (
             <PlanificacionEdit graphConexiones={this.state.graphConexiones} tareas={this.state.graphTareas}
-                conexiones={this.state.graphConexiones} actividadId={this.props.actividadId}
+                conexiones={this.state.graphConexiones} actividadId={this.props.actividadId} clone={this.props.clone}
 
                 selectedTarea={this.state.selectedTarea} handleCloseTarea={this.handleCloseTarea}
                 showTarea={this.handleShowTarea}

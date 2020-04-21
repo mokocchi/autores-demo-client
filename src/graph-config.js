@@ -13,9 +13,10 @@ export const START_TYPE = 'start';
 export const OPTIONAL_START_TYPE = 'optionalStart';
 export const EMPTY_EDGE_TYPE = 'emptyEdge';
 export const SQUARE_EDGE_TYPE = 'squareEdge';
+export const SQUARE_CROSSED_EDGE_TYPE = 'squareCrossedEdge';
 
 export const nodeTypes = [EMPTY_TYPE, OPTIONAL_EMPTY_TYPE, END_TYPE, OPTIONAL_END_TYPE, START_TYPE, OPTIONAL_START_TYPE ];
-export const edgeTypes = [EMPTY_EDGE_TYPE, SQUARE_EDGE_TYPE];
+export const edgeTypes = [EMPTY_EDGE_TYPE, SQUARE_EDGE_TYPE, SQUARE_CROSSED_EDGE_TYPE];
 
 const EmptyNodeShape = (
   <symbol viewBox="0 0 154 154" width="154" height="154" id="emptyNode">
@@ -63,13 +64,20 @@ const OptionalEndShape = (
 
 const EmptyEdgeShape = (
   <symbol viewBox="0 0 50 50" id="emptyEdge">
-    <circle cx="25" cy="25" r="8" fill="currentColor" />
+    <circle cx="28" cy="25" r="8" fill="currentColor" />
   </symbol>
 );
 
 const SquareEdgeShape = (
   <symbol viewBox="0 0 50 50" id="squareEdge">
-    <rect x="10" y="17" width="15" height="15" fill="currentColor"/>
+    <rect x="20" y="17" width="15" height="15" fill="currentColor"/>
+  </symbol>
+)
+
+const SquareCrossedEdgeShape = (
+  <symbol viewBox="0 0 50 50" id="squareCrossedEdge">
+    <rect x="20" y="17" width="15" height="15" fill="currentColor"/>
+    <text  y="30" x="20" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="25" stroke="red" fill="red">X</text>
   </symbol>
 )
 
@@ -82,6 +90,10 @@ export default {
     squareEdge: {
       shape: SquareEdgeShape,
       shapeId: "#squareEdge"
+    },
+    squareCrossedEdge: {
+      shape: SquareCrossedEdgeShape,
+      shapeId: "#squareCrossedEdge"
     }
   },
   NodeSubtypes: {

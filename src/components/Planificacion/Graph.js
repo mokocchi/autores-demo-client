@@ -11,6 +11,7 @@ import GraphConfig, {
   END_TYPE,
   OPTIONAL_END_TYPE,
   SQUARE_EDGE_TYPE,
+  SQUARE_CROSSED_EDGE_TYPE,
   NODE_KEY,
 } from '../../graph-config'; // Configures node/edge types
 
@@ -170,7 +171,9 @@ class Graph extends React.Component {
           target: conexion.destino,
           on: conexion.condicion,
           answer: conexion.respuesta,
-          type: conexion.condicion ? SQUARE_EDGE_TYPE : EMPTY_EDGE_TYPE,
+          type: conexion.condicion ? 
+            (conexion.crossed ? SQUARE_CROSSED_EDGE_TYPE : SQUARE_EDGE_TYPE) : 
+            EMPTY_EDGE_TYPE,
           id: conexion.id
         }
       })
