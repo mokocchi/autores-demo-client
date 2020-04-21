@@ -95,6 +95,11 @@ class AddTareaContainer extends Component {
                 this.state.errorMessage ?
                     <legend>{this.state.errorMessage}</legend> :
                     <>
+                        <div style={{position: "relative"}}>
+                            {this.props.clone &&
+                                <GraphContainer actividadId={this.props.clone} selected={this.remainingTareas().length > 0 ? this.remainingTareas()[0].id : null} />
+                            }
+                        </div>
                         <AddTareasActionListContainer
                             clone={this.props.clone}
                             clonedTareas={this.state.clonedTareas}
@@ -106,6 +111,8 @@ class AddTareaContainer extends Component {
                                 referencedTareas={this.state.referencedTareas}
                             />
                         }
+                        {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
+                            bifurcada={this.state.actividad.tipo_planificacion.nombre === "Bifurcada"} disabled={this.remainingTareas().length > 0}/>}
                         <TareaSearchContainer />
                         <AddTareasSelectTareaContainer
                             actividadId={this.state.actividad ? this.props.actividadId : null}
@@ -113,11 +120,6 @@ class AddTareaContainer extends Component {
                             nextTarea={this.remainingTareas().length > 0 ? this.remainingTareas()[0] : null}
                             disabled={this.props.chosenTareas.length === this.state.clonedTareas.length}
                         />
-                        {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
-                            bifurcada={this.state.actividad.tipo_planificacion.nombre === "Bifurcada"} />}
-                        {this.props.clone &&
-                            <GraphContainer actividadId={this.props.clone} />
-                        }
                     </>
         )
     }

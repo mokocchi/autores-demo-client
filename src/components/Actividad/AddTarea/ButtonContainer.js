@@ -47,12 +47,18 @@ class AddTareasButtonContainer extends Component {
             });
             return;
         }
+        if(this.props.disabled) {
+            this.setState({
+                error: true,
+                errorMessage: "Faltan tareas"
+            });
+        }
         this.setTareasToActividad(id, tareasIds);
     }
 
     render() {
         return (
-            <AddTareasButton isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId}
+            <AddTareasButton isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId} disabled={this.props.disabled}
                 onSubmit={this.handleFormSubmit} error={this.state.error} errorMessage={this.state.errorMessage} bifurcada={this.props.bifurcada}
             />
         )

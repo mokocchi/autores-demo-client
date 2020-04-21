@@ -196,7 +196,7 @@ class Graph extends React.Component {
 
   render() {
     const { nodes, edges } = this.state.graph;
-    const selected = this.state.selected;
+    const selected = this.props.selected ? this.getViewNode(this.props.selected) : null;
     const { NodeTypes, NodeSubtypes, EdgeTypes } = GraphConfig;
 
     return (

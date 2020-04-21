@@ -84,7 +84,7 @@ class GraphContainer extends Component {
     render() {
         const {tareas, conexiones} = this.state
         return (
-            conexiones && <Graph dataCy={"graphShow"} tareas={tareas} conexiones={conexiones} onClickNode={() => {}}/>
+            conexiones && <Graph dataCy={"graphShow"} tareas={tareas} conexiones={conexiones} onClickNode={() => {}} selected={this.props.selected}/>
         )
     }
 }
