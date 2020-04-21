@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { addTarea } from '../../../redux/actions'
 
 import AddTareasSelectTarea from './SelectTarea';
+import { TIPOS_OPCIONES } from '../../../config';
 
 class AddTareasSelectTareaContainer extends Component {
 
@@ -25,9 +26,15 @@ class AddTareasSelectTareaContainer extends Component {
         })
     }
 
-    onClick(e) {
-        if (this.state.selectedTarea.id !== "") {
-            this.props.dispatch(addTarea(this.state.selectedTarea));
+    onClick() {
+        const tarea = this.state.selectedTarea;
+        const referenced = this.props.referencedTareas.find(item => this.props.nextTarea.id === item);
+        if(referenced && !TIPOS_OPCIONES.includes(tarea.tipo.id.toString())) {
+            alert("La tarea " + tarea.nombre + " no tiene opciones!");
+            return;
+        }
+        if (tarea.id !== "") {
+            this.props.dispatch(addTarea(tarea));
             this.setState({
                 selectedTarea: {
                     nombre: "",

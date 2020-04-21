@@ -99,7 +99,6 @@ class AddTareaContainer extends Component {
                             clone={this.props.clone}
                             clonedTareas={this.state.clonedTareas}
                             remainingTareas={this.remainingTareas()}
-                            referencedTareas={this.state.referencedTareas}
                         />
                         {this.props.clone &&
                             <PendingTareasListContainer
@@ -110,7 +109,8 @@ class AddTareaContainer extends Component {
                         <TareaSearchContainer />
                         <AddTareasSelectTareaContainer
                             actividadId={this.state.actividad ? this.props.actividadId : null}
-                            clone={this.props.clone}
+                            clone={this.props.clone} referencedTareas={this.state.referencedTareas}
+                            nextTarea={this.remainingTareas().length > 0 ? this.remainingTareas()[0] : null}
                             disabled={this.props.chosenTareas.length === this.state.clonedTareas.length}
                         />
                         {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
