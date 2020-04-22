@@ -30,7 +30,8 @@ const AddTareasSelectTarea = (props) => {
                     />
                 </Col>
                 <Col>{(props.selectedTarea.id !== "") &&
-                    <p><b>Consigna:</b><br />
+                    <p><h5>{props.selectedTarea.nombre}</h5>
+                        <b>Consigna:</b><br />
                         <span>{props.selectedTarea.consigna}</span> <br />
                         <span><b>Tipo:</b> {props.selectedTarea.tipo.nombre}</span> <br />
                         <span><b>{TIPOS_OPCIONES.includes(props.selectedTarea.tipo.id.toString()) ? "Tiene opciones" : "No tiene opciones"}</b></span>
