@@ -42,12 +42,12 @@ const PlanificacionEdit = (props) => {
                     }
                     {props.selectedTarea &&
                         <ModalTarea key={props.selectedTarea.id} handleClose={props.handleCloseTarea}
-                            show={props.showTarea} tarea={props.selectedTarea} tareas={props.tareas}
+                            show={props.showTarea} onShow={props.onShowTarea} tarea={props.selectedTarea} tareas={props.tareas}
                             conexiones={props.conexiones} onUpdateTarea={props.onUpdateTarea} onAddConexion={props.onAddConexion}
                         />}
                     {props.selectedConexion &&
                         <ModalConexion key={props.selectedConexion.id} handleClose={props.handleCloseConexion}
-                            show={props.showConexion} conexion={props.selectedConexion} tareas={props.tareas}
+                            show={props.showConexion} onShow={props.onShowConexion} conexion={props.selectedConexion} tareas={props.tareas}
                             onRemoveConexion={props.onRemoveConexion} clone={props.clone} opciones={props.selectedOpciones}
                             setOpcion={props.setOpcion} />
                     }

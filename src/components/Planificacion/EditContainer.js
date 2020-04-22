@@ -128,8 +128,8 @@ class PlanificacionEditContainer extends Component {
                 nombre: (index + 1) + ". " + tarea.nombre,
                 id: tarea.id,
                 graphId: index + 1,
-                optional: planificacion.opcionales_ids.find(o => o === tarea.id),
-                initial: planificacion.iniciales_ids.find(i => i === tarea.id)
+                optional: planificacion.opcionales_ids.find(o => o === tarea.id) || false,
+                initial: planificacion.iniciales_ids.find(i => i === tarea.id) || false
             }
         })
         this.setState({
@@ -287,12 +287,12 @@ class PlanificacionEditContainer extends Component {
                 conexiones={this.state.graphConexiones} actividadId={this.props.actividadId} clone={this.props.clone}
 
                 selectedTarea={this.state.selectedTarea} handleCloseTarea={this.handleCloseTarea}
-                showTarea={this.handleShowTarea}
+                showTarea={this.state.showTarea} onShowTarea={this.handleShowTarea}
                 onClickNode={this.handleShowTarea} onClickEdge={this.handleShowConexion}
                 onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
 
                 selectedConexion={this.state.selectedConexion} handleCloseConexion={this.handleCloseConexion}
-                showConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
+                showConexion={this.state.showConexion} onShowConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} setOpcion={this.setOpcion}
                 onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones} errors={this.state.errors}
             />

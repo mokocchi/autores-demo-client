@@ -35,7 +35,12 @@ class ModalTarea extends Component {
     }
 
     onOptionalChange = () => {
-        const { tarea } = this.props;
+        const { tarea, conexiones } = this.props;
+        const references = conexiones.filter(c => (c.origen === tarea.id) && (c.respuesta));
+        if(references.length > 0) {
+            alert("Una tarea condicional no puede ser opcional!");
+            return;
+        }
         tarea.optional = !tarea.optional;
         this.props.onUpdateTarea(tarea);
     }
