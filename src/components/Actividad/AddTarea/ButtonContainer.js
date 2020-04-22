@@ -39,21 +39,33 @@ class AddTareasButtonContainer extends Component {
     }
 
     getNewPlanificacion() {
-        const opcionales = this.props.clonedPlanificacion.opcionales_ids.map(id => {
-            const index = this.props.clonedTareas.findIndex(tarea => tarea.id === id);
-            return this.props.chosenTareas[index].id;
+        const { chosenTareas, clonedTareas, clonedPlanificacion } = this.props;
+        const chosenById = {};
+        const chosenByCode = {};
+        for (let index = 0; index < chosenTareas.length; index++) {
+            chosenById[clonedTareas[index].id] = chosenTareas[index].id;
+            chosenByCode[clonedTareas[index].codigo] = chosenTareas[index].code;
+        }
+        const opcionales = clonedPlanificacion.opcionales_ids.map(id => {
+            return chosenById[id];
         })
-        const iniciales = this.props.clonedPlanificacion.iniciales_ids.map(id => {
-            const index = this.props.clonedTareas.findIndex(tarea => tarea.id === id);
-            return this.props.chosenTareas[index].id;
+        const iniciales = clonedPlanificacion.iniciales_ids.map(id => {
+            return chosenById[id];
         })
-        const saltos = this.props.clonedPlanificacion.saltos.map(salto => {
-            
+        const saltos = clonedPlanificacion.saltos.map(salto => {
+            const destinos = salto.destino_ids.map(dest => chosenById[dest]);
+            const respuesta = ["YES_TASK", "NO_TASK"].includes(salto.condicion) ? chosenByCode[salto.respuesta] : null
+            return {
+                origen: chosenById[salto.origen_id],
+                condicion: salto.condicion,
+                destinos: destinos,
+                respuesta: respuesta
+            }
         })
         return {
-            "saltos": [],
-            "iniciales": iniciales,
-            "opcionales": opcionales
+            saltos: saltos,
+            iniciales: iniciales,
+            opcionales: opcionales
         }
 
     }
@@ -61,10 +73,6 @@ class AddTareasButtonContainer extends Component {
     async setClonedPlanificacion(id) {
         const planificacion = this.getNewPlanificacion();
         const data = await tokenManager.setPlanificacionInActividad(planificacion, id);
-        this.setState({
-            isLoading: true
-        })
-
         if (data.error_code) {
             this.setState({
                 error: true,
