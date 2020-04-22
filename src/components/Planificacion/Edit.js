@@ -30,7 +30,10 @@ const PlanificacionEdit = (props) => {
                         </div>
                     }
                     {props.success && !props.saveSuccess &&
-                        <Button type="button" className="float-right" variant="info" onClick={props.onGuardarClick} >Guardar</Button>
+                        <>
+                            {props.errors && <span className="text-danger">{props.errors}</span>}
+                            <Button type="button" className="float-right" variant="info" onClick={props.onGuardarClick} >Guardar</Button>
+                        </>
                     }
                     {props.saveSuccess &&
                         <Link to="./mostrar">

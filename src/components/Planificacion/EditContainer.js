@@ -182,6 +182,12 @@ class PlanificacionEditContainer extends Component {
         const actividadId = this.props.currentActividad.id;
         const tareas = this.state.graphTareas;
         const conexiones = this.state.graphConexiones;
+        if(conexiones.find(c => c.crossed)) {
+            this.setState({
+                errors: "Falta corregir opciones"
+            })
+            return
+        }
         const graphNodes = {};
         tareas.forEach(tarea => { graphNodes[tarea.id] = [] });
         conexiones.forEach(conexion => {
@@ -288,7 +294,7 @@ class PlanificacionEditContainer extends Component {
                 selectedConexion={this.state.selectedConexion} handleCloseConexion={this.handleCloseConexion}
                 showConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} setOpcion={this.setOpcion}
-                onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones}
+                onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones} errors={this.state.errors}
             />
         )
     }

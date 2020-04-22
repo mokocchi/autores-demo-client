@@ -19,7 +19,7 @@ function ModalConexion({ show, conexion, handleClose, tareas, onRemoveConexion, 
                     {" "}<b>"{getTareaById(tareas, conexion.destino).nombre}"</b>
                     {conexion.condicion &&
                         <span>{" "}cuando <b>{conexion.condicion.name}</b> la {["YES", "NO"].includes(conexion.condicion.code) ? "opción" : "tarea"} <b>
-                            {conexion.respuesta.name || <Button onClick={() => setMostrarOpciones(true)}>Elegir opción nueva...</Button>}
+                            {conexion.respuesta.name || (!mostrarOpciones && <Button onClick={() => setMostrarOpciones(true)}>Elegir opción nueva...</Button>)}
                         </b></span>
                     }
                     {mostrarOpciones && <SelectNuevaOpcion onClick={setOpcion} opciones={opciones}/>}
