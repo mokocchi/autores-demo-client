@@ -62,9 +62,15 @@ export default class tokenManager {
                 const user = await this.client.me();
                 this.store.dispatch(apiUserFound({ token, user }));
             } catch (error) {
+                if(window.location.pathname !== "/callback") {
+                    localStorage.setItem('returnPath', window.location.pathname);
+                }
                 this.store.dispatch(apiUserExpired());
             }
         } else {
+            if(window.location.pathname !== "/callback") {
+                localStorage.setItem('returnPath', window.location.pathname);
+            }
             this.store.dispatch(apiUserExpired());
         }
     }
