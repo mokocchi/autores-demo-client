@@ -24,8 +24,11 @@ class PlanificacionEditContainer extends Component {
             errors: "",
             saveSuccess: false
         }
-        this.setCurrentActividad(this.props.actividadId);
         this.Graph = React.createRef();
+    }
+
+    componentDidMount() {
+        this.setCurrentActividad(this.props.actividadId);
     }
 
     onUpdateTarea = (tarea) => {
@@ -258,8 +261,10 @@ class PlanificacionEditContainer extends Component {
             } else {
                 return {
                     ...conexion,
-                    respuesta: {id: code,
-                                name: nombre},
+                    respuesta: {
+                        id: code,
+                        name: nombre
+                    },
                     crossed: false
                 }
             }

@@ -54,7 +54,7 @@ class AddTareasButtonContainer extends Component {
         })
         const saltos = clonedPlanificacion.saltos.map(salto => {
             const destinos = salto.destino_ids.map(dest => chosenById[dest]);
-            const respuesta = ["YES_TASK", "NO_TASK"].includes(salto.condicion) ? chosenByCode[salto.respuesta] : null
+            const respuesta = ["YES_TASK", "NO_TASK"].includes(salto.condicion) ? chosenByCode[salto.respuesta] : salto.respuesta
             return {
                 origen: chosenById[salto.origen_id],
                 condicion: salto.condicion,
