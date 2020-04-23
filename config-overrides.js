@@ -1,3 +1,4 @@
+const path = require('path');
 const multipleEntry = require('react-app-rewire-multiple-entry')([
     {
         entry: 'src/silent_renew/index.js',
@@ -9,6 +10,13 @@ const multipleEntry = require('react-app-rewire-multiple-entry')([
   module.exports = {
     webpack: function(config, env) {
       multipleEntry.addMultiEntry(config);
+
+      config.module.rules.push({
+        test: /\.ttf$/,
+        loader: 'file-loader',
+        include: path.resolve(__dirname, './static/media/[name].[ext]'),
+      });
+      
       return config;
     }
   };

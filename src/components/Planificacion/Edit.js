@@ -1,10 +1,12 @@
 import React from 'react';
 import { Row, Col, Button, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import Icon from 'react-web-vector-icons';
 
 import Graph from './Graph';
 import ModalTarea from './ModalTarea';
 import ModalConexion from './ModalConexion';
+import ReferencesModal from './ReferencesModal';
 
 const PlanificacionEdit = (props) => {
     return (
@@ -19,6 +21,7 @@ const PlanificacionEdit = (props) => {
                         props.clone && " - Para elegir las opciones nuevas hacé click en una conexión con cruz"
                     }
                 </i>
+                {" "}<Button size="xs" onClick={props.onClickReferences}><Icon name="md-information-circle-outline" font="Ionicons" color="white" size={"1rem"}/></Button>
             </Alert>
             <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                 <Col>
@@ -50,6 +53,9 @@ const PlanificacionEdit = (props) => {
                             show={props.showConexion} onShow={props.onShowConexion} conexion={props.selectedConexion} tareas={props.tareas}
                             onRemoveConexion={props.onRemoveConexion} clone={props.clone} opciones={props.selectedOpciones}
                             setOpcion={props.setOpcion} />
+                    }
+                    {props.showReferences &&
+                        <ReferencesModal show={props.showReferences} onHide={props.onHideReferences}/>
                     }
                 </Col>
             </Row>

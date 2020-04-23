@@ -22,7 +22,8 @@ class PlanificacionEditContainer extends Component {
             selectedConexion: null,
             selectedOpciones: [],
             errors: "",
-            saveSuccess: false
+            saveSuccess: false,
+            showReferences: false
         }
         this.Graph = React.createRef();
     }
@@ -182,7 +183,7 @@ class PlanificacionEditContainer extends Component {
         const actividadId = this.props.currentActividad.id;
         const tareas = this.state.graphTareas;
         const conexiones = this.state.graphConexiones;
-        if(conexiones.find(c => c.crossed)) {
+        if (conexiones.find(c => c.crossed)) {
             this.setState({
                 errors: "Falta corregir opciones"
             })
@@ -281,6 +282,10 @@ class PlanificacionEditContainer extends Component {
         this.handleCloseConexion();
     }
 
+    onClickReferences = () => this.setState({ showReferences: true })
+
+    onHideReferences = () => this.setState({ showReferences: false })
+
     render() {
         return (
             <PlanificacionEdit graphConexiones={this.state.graphConexiones} tareas={this.state.graphTareas}
@@ -295,6 +300,8 @@ class PlanificacionEditContainer extends Component {
                 showConexion={this.state.showConexion} onShowConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} setOpcion={this.setOpcion}
                 onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones} errors={this.state.errors}
+
+                showReferences={this.state.showReferences} onHideReferences={this.onHideReferences} onClickReferences={this.onClickReferences}
             />
         )
     }

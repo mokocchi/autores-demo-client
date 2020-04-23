@@ -4,7 +4,8 @@ import { createStore, compose } from 'redux'
 import { Provider } from 'react-redux'
 import { loadUser } from "redux-oidc";
 import { OidcProvider } from 'redux-oidc';
-import reducer from './redux/index'
+import reducer from './redux/index';
+import './icons';
 
 import userManager from "./userManager";
 import App from './App';
