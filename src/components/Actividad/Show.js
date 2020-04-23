@@ -34,7 +34,7 @@ function ActividadShow({ actividad, tareas, conexiones, errors }) {
                                 {tareas.map(tarea =>
                                     <li key={tarea.id}>
                                         <Link to={`/tarea/${tarea.id}/mostrar`} >
-                                            {tarea.nombre}
+                                            {tarea.nombre} {tarea.optional && "(Opcional)"}
                                         </Link>
                                     </li>
                                 )}

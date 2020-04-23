@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Spinner, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import ButtonSpinner from '../../UI/ButtonSpinner';
 
 const AddTareasButton = (props) => {
     return (
@@ -12,19 +13,10 @@ const AddTareasButton = (props) => {
             }
             {
                 props.isLoading ?
-                    <Button variant="info" disabled>
-                        <Spinner
-                            as="span"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        />
-                        Cargando...
-                    </Button>
+                    <ButtonSpinner />
                     :
                     props.success ?
-                        <Link to={"/actividad/" + props.actividadId + (props.bifurcada ? "/planificacion" : "/mostrar")}>
+                        <Link to={"/actividad/" + props.actividadId + "/planificacion"}>
                             <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                         </Link>
                         :
