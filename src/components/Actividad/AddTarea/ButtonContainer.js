@@ -111,7 +111,7 @@ class AddTareasButtonContainer extends Component {
     render() {
         return (
             <AddTareasButton isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.actividadId} disabled={this.props.disabled}
-                onSubmit={this.handleFormSubmit} error={this.state.error} errorMessage={this.state.errorMessage}
+                onSubmit={this.handleFormSubmit} error={this.state.error} errorMessage={this.state.errorMessage} clone={this.props.clone}
             />
         )
     }

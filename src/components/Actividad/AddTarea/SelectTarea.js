@@ -8,16 +8,16 @@ import CheckBox from '../../UI/CheckBox';
 const AddTareasSelectTarea = (props) => {
     return (
         <>
-            <h2>Mis tareas{" "}
+            <h2>Buscar en Mis tareas{" "}
                 <Link to={"/actividad/" + props.actividadId + "/nuevaTarea" + (props.clone ? "?clone=" + props.clone : "")} >
                     <Button variant="success" type="button">Nueva</Button>
                 </Link>
             </h2>
             <Row>
                 <Col>
-                    <CheckBox checked={props.opciones} onChange={props.onOpcionesChange} label={"Con opciones"} />
+                    <Button onClick={props.onTodasChange}>{props.todas ? "Buscar" : "Mostrar todas"}</Button>
                     {" "}
-                    <CheckBox checked={props.todas} onChange={props.onTodasChange} label={"Mostrar todas"} />
+                    <CheckBox checked={props.opciones} onChange={props.onOpcionesChange} label={"Mostrar solo las que tienen opciones"} />
                     <SearchBar
                         uri={'/tareas/user'}
                         authorized

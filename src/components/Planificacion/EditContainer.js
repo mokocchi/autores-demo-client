@@ -38,7 +38,7 @@ class EditPlanificacion extends Component {
                 : this.state.errorMessage ?
                     <span className="text-danger">{this.state.errorMessage}</span>
                     : (this.state.actividad.tipo_planificacion.nombre === "Bifurcada") ?
-                        <PlanificacionEditJumpsContainer actividad={this.state.actividad} />
+                        <PlanificacionEditJumpsContainer actividad={this.state.actividad} clone={this.props.clone} />
                         : <PlanificacionEditNoJumpsContainer actividad={this.state.actividad} />
         )
     }

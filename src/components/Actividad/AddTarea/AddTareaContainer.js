@@ -116,7 +116,7 @@ class AddTareaContainer extends Component {
                         {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
                             disabled={this.remainingTareas().length > 0}
                             clonedPlanificacion={this.state.clonedPlanificacion} clonedTareas={this.state.clonedTareas}/>}
-                        <TareaSearchContainer />
+                        {/* <TareaSearchContainer /> */}
                         <AddTareasSelectTareaContainer
                             actividadId={this.state.actividad ? this.props.actividadId : null}
                             clone={this.props.clone} referencedTareas={this.state.referencedTareas}

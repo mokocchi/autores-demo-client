@@ -8,7 +8,7 @@ function ActionList(props) {
     return (
         <ListGroup data-cy={props.dataCy}>
             {
-                props.items.map((item) =>
+                props.items.map((item, index) =>
                     <ListGroup.Item key={(props.value ? item[props.value] : item) + (props.group ? "-" + props.group : "")}>
                         {props.input ?
                             <Form.Group as={Row} controlId={(props.value ? item[props.value] : item) + (props.group ? "-" + props.group : "")}>
@@ -35,7 +35,7 @@ function ActionList(props) {
                             <CheckboxGroup items={props.checkboxGroup.items} onChange={props.checkboxGroup.onChange}
                                 field={props.checkboxGroup.field} value={props.checkboxGroup.value} label={props.checkboxGroup.label} group={(props.value ? item[props.value] : item)} />
                         }
-                        {props.action &&
+                        {(props.action && (props.onlyLastAction ? (index === props.items.length - 1) : true) )&&
                             < Button variant={props.action.variant || "danger"} type="button" className="float-right"
                                 onClick={() => props.onClick(item, props.group)} data-cy={"quitar_" + (props.group? props.group + "_" : "") + (item.id || item.name || item)}>
                                 {props.action.label || "Quitar"}

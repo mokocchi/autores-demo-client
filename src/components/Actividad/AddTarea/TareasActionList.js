@@ -6,7 +6,7 @@ const AddTareasActionList = (props) => {
     return (
         <div>
             <h3>Tareas de la actividad {props.clone && `(${props.remainingTareas.length} más)`}</h3>
-            <ActionList items={props.chosenTareas} action={true} onClick={props.onClick} field={"nombre"} value={"id"} />
+            <ActionList items={props.chosenTareas} action={true} onlyLastAction onClick={props.onClick} field={"nombre"} value={"id"} />
         </div>
     )
 }

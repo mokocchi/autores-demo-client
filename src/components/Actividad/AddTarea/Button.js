@@ -16,7 +16,7 @@ const AddTareasButton = (props) => {
                     <ButtonSpinner />
                     :
                     props.success ?
-                        <Link to={"/actividad/" + props.actividadId + "/planificacion"}>
+                        <Link to={"/actividad/" + props.actividadId + "/planificacion" + (props.clone ? "?clone=" + props.clone : "")}>
                             <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                         </Link>
                         :
