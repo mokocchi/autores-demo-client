@@ -23,7 +23,8 @@ class PlanificacionEditJumpsContainer extends Component {
             selectedOpciones: [],
             errors: "",
             saveSuccess: false,
-            showReferences: false
+            showReferences: false,
+            isLoadingSave: false
         }
         this.Graph = React.createRef();
     }
@@ -173,6 +174,7 @@ class PlanificacionEditJumpsContainer extends Component {
     }
 
     onGuardarClick = () => {
+        this.setState({isLoadingSave: true})
         const actividadId = this.props.currentActividad.id;
         const tareas = this.state.graphTareas;
         const conexiones = this.state.graphConexiones;
@@ -197,11 +199,7 @@ class PlanificacionEditJumpsContainer extends Component {
                 inicialIds = [...inicialIds.filter(id => id !== tarea.id), tarea.id]
             }
         })
-        if (this.setPlanificacion(opcionalIds, inicialIds, saltos, actividadId)) {
-            this.setState({
-                saveSuccess: true
-            })
-        }
+        this.setPlanificacion(opcionalIds, inicialIds, saltos, actividadId);
     }
 
     async setPlanificacion(opcionales, iniciales, saltos, id) {
@@ -213,11 +211,14 @@ class PlanificacionEditJumpsContainer extends Component {
         if (data.error_code) {
             this.setState({
                 saveSuccess: false,
+                isLoadingSave: false,
                 errors: data.user_message
             })
-            return false;
         } else {
-            return true;
+            this.setState({
+                saveSuccess: true,
+                isLoadingSave: false
+            })
         }
     }
 
@@ -290,11 +291,12 @@ class PlanificacionEditJumpsContainer extends Component {
                 onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
 
                 selectedConexion={this.state.selectedConexion} handleCloseConexion={this.handleCloseConexion}
-                showConexion={this.state.showConexion} onShowConexion={this.handleShowConexion} onRemoveConexion={this.onRemoveConexion}
-                success={this.state.success} saveSuccess={this.state.saveSuccess} setOpcion={this.setOpcion}
+                showConexion={this.state.showConexion} onShowConexion={this.handleShowConexion} 
+                onRemoveConexion={this.onRemoveConexion} setOpcion={this.setOpcion}
                 onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones} errors={this.state.errors}
 
                 showReferences={this.state.showReferences} onHideReferences={this.onHideReferences} onClickReferences={this.onClickReferences}
+                success={this.state.success} saveSuccess={this.state.saveSuccess} isLoadingSave={this.state.isLoadingSave}
             />
         )
     }

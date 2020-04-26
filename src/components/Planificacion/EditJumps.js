@@ -7,6 +7,7 @@ import Graph from './Graph';
 import ModalTarea from './ModalTarea';
 import ModalConexion from './ModalConexion';
 import ReferencesModal from './ReferencesModal';
+import ButtonSpinner from '../UI/ButtonSpinner';
 
 const PlanificacionEdit = (props) => {
     return (
@@ -21,7 +22,7 @@ const PlanificacionEdit = (props) => {
                         props.clone && " - Para elegir las opciones nuevas hacé click en una conexión con cruz"
                     }
                 </i>
-                {" "}<Button size="xs" onClick={props.onClickReferences}><Icon name="md-information-circle-outline" font="Ionicons" color="white" size={"1rem"}/></Button>
+                {" "}<Button size="xs" onClick={props.onClickReferences}><Icon name="md-information-circle-outline" font="Ionicons" color="white" size={"1rem"} /></Button>
             </Alert>
             <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                 <Col>
@@ -32,16 +33,18 @@ const PlanificacionEdit = (props) => {
                                 onClickNode={props.onClickNode} onClickEdge={props.onClickEdge} />
                         </div>
                     }
-                    {props.success && !props.saveSuccess &&
-                        <>
-                            {props.errors && <span className="text-danger">{props.errors}</span>}
-                            <Button type="button" className="float-right" variant="info" onClick={props.onGuardarClick} >Guardar</Button>
-                        </>
-                    }
-                    {props.saveSuccess &&
+                    {props.success &&
+                        props.saveSuccess ?
                         <Link to="./mostrar">
                             <Button type="button" className="float-right" variant="info">Continuar</Button>
                         </Link>
+                        :
+                        props.isLoadingSave ? <ButtonSpinner className="float-right" />
+                            :
+                            <>
+                                {props.errors && <span className="text-danger">{props.errors}</span>}
+                                <Button type="button" className="float-right" variant="info" onClick={props.onGuardarClick} >Guardar</Button>
+                            </>
                     }
                     {props.selectedTarea &&
                         <ModalTarea key={props.selectedTarea.id} handleClose={props.handleCloseTarea}
@@ -55,7 +58,7 @@ const PlanificacionEdit = (props) => {
                             setOpcion={props.setOpcion} />
                     }
                     {props.showReferences &&
-                        <ReferencesModal show={props.showReferences} onHide={props.onHideReferences}/>
+                        <ReferencesModal show={props.showReferences} onHide={props.onHideReferences} />
                     }
                 </Col>
             </Row>

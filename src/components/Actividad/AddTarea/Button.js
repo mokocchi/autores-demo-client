@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Spinner, Form } from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ButtonSpinner from '../../UI/ButtonSpinner';
 
