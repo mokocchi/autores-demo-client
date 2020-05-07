@@ -18,6 +18,7 @@ import TareaListUser from './screens/Tarea/ListUser';
 import TareaShow from './screens/Tarea/Show';
 
 import Usuario from './components/Main/loggedIn';
+import MaquetaVerResultados from './MaquetaVerResultados';
 const Autor = withAuthorization(['ROLE_AUTOR']);
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/tareas" exact component={TareaPublicList} />
         <Route path="/mis-tareas" exact component={Autor(TareaListUser)} />
         <Route path="/tarea/:id/mostrar" exact component={TareaShow} />
+        <Route path="/actividad/:id/resultados" exact component={MaquetaVerResultados} />
       </Container>
     </BrowserRouter>
   );
