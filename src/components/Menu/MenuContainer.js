@@ -29,7 +29,7 @@ class MenuContainer extends Component {
 
     render() {
         return (
-            <Menu token={this.props.token} onClickCerrarSesion={this.onClickCerrarSesion} onClickIniciarSesion={this.onClickIniciarSesion} />
+            <Menu token={this.props.token} user={this.props.user} onClickCerrarSesion={this.onClickCerrarSesion} onClickIniciarSesion={this.onClickIniciarSesion} />
         )
     }
 }

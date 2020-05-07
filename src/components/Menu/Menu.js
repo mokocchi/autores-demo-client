@@ -1,6 +1,7 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap'
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Button } from 'react-bootstrap';
+import Icon from 'react-web-vector-icons';
 
 function Menu(props) {
     return (
@@ -19,6 +20,12 @@ function Menu(props) {
                 </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">
+                {(props.token.accessToken) &&
+                    <Navbar.Text><Icon name="user" font="FontAwesome" color="black" size={"1rem"} /> {props.user.profile.name}</Navbar.Text>
+                }
+                <NavDropdown title={<span><Icon name="language" font="Entypo" color="black" size={"1rem"} /> ES</span>} id="nav-dropdown">
+                    <NavDropdown.Item>Inglés (English)</NavDropdown.Item>
+                </NavDropdown>
                 {(props.token.accessToken) ?
                     <Button onClick={props.onClickCerrarSesion} data-cy={"cerrarSesionButton"}>Cerrar sesión</Button>
                     :

@@ -15,14 +15,16 @@ class AddTareasSelectTareaContainer extends Component {
                 id: ""
             },
             opciones: false,
-            todas: false
+            todas: false,
+            showModal: false
         }
         this.onClick = this.onClick.bind(this);
     }
 
     onSelect = (selected) => {
         this.setState({
-            selectedTarea: selected
+            selectedTarea: selected,
+            showModal: true
         })
     }
 
@@ -30,7 +32,10 @@ class AddTareasSelectTareaContainer extends Component {
         const tarea = this.state.selectedTarea;
         const referenced = this.props.referencedTareas.find(item => this.props.nextTarea.id === item);
         if(referenced && !TIPOS_OPCIONES.includes(tarea.tipo.id.toString())) {
-            alert("La tarea " + tarea.nombre + " no tiene opciones!");
+            alert("La tarea de reemplazo tiene que tener opciones");
+            this.setState({
+                showModal: false
+            })
             return;
         }
         if (tarea.id !== "") {
@@ -56,12 +61,15 @@ class AddTareasSelectTareaContainer extends Component {
         });
     }
 
+    toggleShowModal = () => this.setState({showModal: !this.state.showModal});
+
     render() {
         return (
             <AddTareasSelectTarea actividadId={this.props.actividadId} onSelect={this.onSelect} onClick={this.onClick} clone={this.props.clone}
                 selectedTarea={this.state.selectedTarea} opciones={this.state.opciones} todas={this.state.todas}
                 onOpcionesChange={this.onOpcionesChange} onTodasChange={this.onTodasChange}
                 disabled={this.state.selectedTarea.id === "" || (this.props.clone ? this.props.disabled : false)}
+                showModal={this.state.showModal} toggleShowModal={this.toggleShowModal}
             />
         )
     }

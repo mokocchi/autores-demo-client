@@ -13,14 +13,14 @@ const AddTareasButton = (props) => {
             }
             {
                 props.isLoading ?
-                    <ButtonSpinner />
+                    <ButtonSpinner className="float-right"/>
                     :
                     props.success ?
                         <Link to={"/actividad/" + props.actividadId + "/planificacion" + (props.clone ? "?clone=" + props.clone : "")}>
-                            <Button variant="primary" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
+                            <Button variant="success" className="float-right" type="button" style={{ marginTop: "1em" }}>Continuar</Button>
                         </Link>
                         :
-                        <Button variant="info" type="button" disabled={props.success || props.disabled} onClick={props.onSubmit}>
+                        <Button variant="info" type="button" className="float-right" disabled={props.success || props.disabled} onClick={props.onSubmit}>
                             Guardar
                         </Button>
             }
