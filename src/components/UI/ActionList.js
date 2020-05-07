@@ -9,7 +9,7 @@ function ActionList(props) {
         <ListGroup data-cy={props.dataCy}>
             {
                 props.items.map((item, index) =>
-                    <ListGroup.Item key={(props.value ? item[props.value] : item) + (props.group ? "-" + props.group : "")}>
+                    <ListGroup.Item key={(props.value ? item[props.value] : item) + (props.group ? "-" + props.group : "")} variant={props.variant}>
                         {props.input ?
                             <Form.Group as={Row} controlId={(props.value ? item[props.value] : item) + (props.group ? "-" + props.group : "")}>
                                 <Form.Label column sm={3}>

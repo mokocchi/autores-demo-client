@@ -10,8 +10,8 @@ class PendingTareasListContainer extends Component {
                         const referenced = this.props.referencedTareas.find(tarea => item.id === tarea);
                         return (
                             <li key={index} style={{listStyleType: "none"}}>
-                                {(index === 0) ? <Alert variant="info">Reemplazando la tarea {item.orden}.{item.nombre}{referenced && <b> - Tiene que tener opciones</b>}</Alert> :
-                                 <Alert variant="secondary">Falta remplazar la tarea {item.orden}.{item.nombre} {referenced && <b> - Tiene que tener opciones</b>}</Alert>
+                                {(index === 0) ? <Alert variant="warning">Reemplazando la tarea {item.orden}.{item.nombre}{referenced && <b> - Tiene que tener opciones</b>}</Alert> :
+                                 <Alert variant="light">Falta remplazar la tarea {item.orden}.{item.nombre} {referenced && <b> - Tiene que tener opciones</b>}</Alert>
                                  }
                             </li>)
                     }

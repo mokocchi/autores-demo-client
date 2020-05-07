@@ -102,29 +102,22 @@ class AddTareaContainer extends Component {
                         {this.props.clone &&
                             <Alert variant="info">
                                 <Icon name="md-information-circle-outline" font="Ionicons" color="black" size={"1rem"} />
-                                <span> Para reemplazar la próxima tarea, buscá una nueva en Buscar en Mis Tareas</span>
+                                <span> Para reemplazar la próxima tarea, buscá una en Buscar en Mis Tareas o creá una nueva</span>
                             </Alert>}
                         <div style={{ position: "relative" }}>
                             {this.props.clone &&
                                 <GraphContainer actividadId={this.props.clone} selected={this.remainingTareas().length > 0 ? this.remainingTareas()[0].id : null} />
                             }
                         </div>
+                        <br/>
                         <Row>
-                            <Col>
-                                {/* <TareaSearchContainer /> */}
-                                <AddTareasSelectTareaContainer
-                                    actividadId={this.state.actividad ? this.props.actividadId : null}
-                                    clone={this.props.clone} referencedTareas={this.state.referencedTareas}
-                                    nextTarea={this.remainingTareas().length > 0 ? this.remainingTareas()[0] : null}
-                                    disabled={this.props.chosenTareas.length === this.state.clonedTareas.length}
-                                />
-                            </Col>
                             <Col>
                                 <AddTareasActionListContainer
                                     clone={this.props.clone}
                                     clonedTareas={this.state.clonedTareas}
                                     remainingTareas={this.remainingTareas()}
                                 />
+                                <br/>
                                 {this.props.clone &&
                                     <PendingTareasListContainer
                                         remainingTareas={this.remainingTareas()}
@@ -134,6 +127,16 @@ class AddTareaContainer extends Component {
                                 {this.state.actividad && <ActividadAddTareasButtonContainer actividadId={this.state.actividad.id} clone={this.props.clone}
                                     disabled={this.remainingTareas().length > 0}
                                     clonedPlanificacion={this.state.clonedPlanificacion} clonedTareas={this.state.clonedTareas} />}
+                            </Col>
+                            <Col>
+                                {/* <TareaSearchContainer /> */}
+                                <AddTareasSelectTareaContainer
+                                    actividadId={this.state.actividad ? this.props.actividadId : null}
+                                    clone={this.props.clone} referencedTareas={this.state.referencedTareas}
+                                    nextTarea={this.remainingTareas().length > 0 ? this.remainingTareas()[0] : null}
+                                    disabled={this.props.chosenTareas.length === this.state.clonedTareas.length}
+                                    chosenTareas={this.props.chosenTareas}
+                                />
                             </Col>
                         </Row>
                     </>

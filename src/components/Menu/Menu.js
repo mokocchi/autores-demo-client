@@ -6,7 +6,7 @@ import Icon from 'react-web-vector-icons';
 function Menu(props) {
     return (
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="/">Autores Demo</Navbar.Brand>
+            <Navbar.Brand href="/">DEHIA</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
@@ -20,7 +20,7 @@ function Menu(props) {
                 </Nav>
             </Navbar.Collapse>
             <Navbar.Collapse className="justify-content-end">
-                {(props.token.accessToken) &&
+                {(props.token.accessToken && props.user) &&
                     <Navbar.Text><Icon name="user" font="FontAwesome" color="black" size={"1rem"} /> {props.user.profile.name}</Navbar.Text>
                 }
                 <NavDropdown title={<span><Icon name="language" font="Entypo" color="black" size={"1rem"} /> ES</span>} id="nav-dropdown">
