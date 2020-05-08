@@ -2,7 +2,7 @@ export const API_BASE_URL = 'http://localhost:8000/api/v1.0';
 
 export const PLANOS_URL = "http://localhost:8000/uploads/planos"
 
-export const TOKEN_AUTH_URL = "http://localhost:8000/api/oauth/v2/token";
+export const TOKEN_AUTH_URL = "http://localhost:8000/api/v1.0/tokens";
 
 export const TIPO_SELECCION = "5";
 export const TIPO_MULTIPLE_CHOICE = "6";
