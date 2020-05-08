@@ -14,7 +14,7 @@ Cypress.Commands.add('login', () => {
         },
     })
         .then((resp) => {
-            window.localStorage.setItem('auth.token', JSON.stringify({ accessToken: resp.body.access_token, expiresAt: Date.now() + resp.body.expires_in * 1000 }))
+            window.localStorage.setItem('auth.token', JSON.stringify({ oauth: true, accessToken: resp.body.access_token, expiresAt: Date.now() + resp.body.expires_in * 1000 }))
         })
 })
 

@@ -12,6 +12,10 @@ export default class APIClient {
         this.token = token;
     }
 
+    setOauth() {
+        this.oauth = true;
+    }
+
     getToken() {
         const token = this.token;
         if (!token || expired(token.expiresAt)) {
@@ -81,6 +85,9 @@ export default class APIClient {
             if(json) {
                 parameters.headers["Content-Type"] = "application/json"
             }
+            if(this.oauth) {
+                parameters.headers["X-Authorization-OAuth"] = true;
+            }
             try {
                 const response = await fetch(API_BASE_URL + uri, parameters);
                 return await response.json();
@@ -127,7 +134,7 @@ export default class APIClient {
 
 
     me() {
-        return this.authorizedGetRequest('/users/me');
+        return this.authorizedGetRequest('/me');
     }
 
 
