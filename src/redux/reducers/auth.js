@@ -20,7 +20,8 @@ export default function auth(state = INITIAL_STATE, action) {
                 user: {
                     nombre: action.auth.user.nombre,
                     apellido: action.auth.user.apellido,
-                    email: action.auth.user.email
+                    email: action.auth.user.email,
+                    gid: action.auth.user.googleid
                 },
                 isLoading: false
             }

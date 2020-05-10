@@ -44,7 +44,7 @@ const AddTareasSelectTarea = (props) => {
                     <Modal.Footer>
                         <Button className="float-right" variant="info" type="button"
                             onClick={props.onClick} disabled={props.selectedTarea.id === "" || props.disabled} >
-                            Usar como reemplazo
+                            {props.clone ? "Usar como reemplazo" : "Usar"}
                             </Button>
                     </Modal.Footer>
                 </Modal>

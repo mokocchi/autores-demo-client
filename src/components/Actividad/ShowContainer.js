@@ -4,6 +4,7 @@ import tokenManager from '../../tokenManager';
 import ActividadShow from './Show';
 import md5 from 'md5';
 import { CONDITIONS_ARRAY } from '../../config';
+import { connect } from 'react-redux';
 
 class ActividadShowContainer extends Component {
 
@@ -12,17 +13,32 @@ class ActividadShowContainer extends Component {
         this.state = {
             actividad: null,
             tareas: [],
-            errors: false
+            errors: false,
+            showModalPublicar: true,
+            modalPublicarLoading: false
         }
         this.getActividadAndTareas = this.getActividadAndTareas.bind(this);
     }
 
     componentDidMount() {
-        this.getActividadAndTareas();
+        if (!this.state.actividad && !this.props.userLoading) {
+            this.getActividadAndTareas();
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.userLoading && !this.props.userLoading && !this.state.actividad) {
+            this.getActividadAndTareas();
+        }
     }
 
     async getActividadAndTareas() {
-        const data = await tokenManager.getActividadPublic(this.props.actividadId)
+        let data = {};
+        if (this.props.user.gid) {
+            data = await tokenManager.getActividad(this.props.actividadId);
+        } else {
+            data = await tokenManager.getActividadPublic(this.props.actividadId);
+        }
         if (!data.error_code) {
             this.setState({
                 actividad: data
@@ -34,7 +50,12 @@ class ActividadShowContainer extends Component {
             return;
         }
 
-        const tareasData = await tokenManager.getTareasForActividadPublic(data.id);
+        let tareasData;
+        if (this.props.user.gid) {
+            tareasData = await tokenManager.getTareasForActividad(data.id);
+        } else {
+            tareasData = await tokenManager.getTareasForActividadPublic(data.id);
+        }
         if (tareasData.error_code) {
             this.setState({
                 errors: true
@@ -43,7 +64,12 @@ class ActividadShowContainer extends Component {
         }
 
         const conexiones = [];
-        const planificacion = await tokenManager.getPlanificacionForActividadPublic(data.id);
+        let planificacion;
+        if (this.props.user.gid) {
+            planificacion = await tokenManager.getPlanificacionForActividad(data.id);
+        } else {
+            planificacion = await tokenManager.getPlanificacionForActividadPublic(data.id);
+        }
         if (planificacion.error_code) {
             this.setState({
                 errors: true,
@@ -84,7 +110,7 @@ class ActividadShowContainer extends Component {
                 conexiones.push(conexion);
             })
         })
-        
+
         this.setState({
             conexiones: conexiones,
             tareas: tareasData.results.map((tarea, index) => {
@@ -99,10 +125,99 @@ class ActividadShowContainer extends Component {
         })
     }
 
+    onClickPublicar = () => {
+        this.setState({
+            showModalPublicar: true
+        })
+    }
+
+    onClickCerrar = () => {
+        this.setState({
+            showModalCerrar: true
+        })
+    }
+
+    onHidePublicar = () => {
+        this.setState({
+            showModalPublicar: false
+        })
+    }
+
+    onHideCerrar = () => {
+        this.setState({
+            showModalCerrar: false
+        })
+    }
+
+    async publishActividad(id) {
+        this.setState({
+            modalPublicarLoading: true
+        })
+        const data = await tokenManager.publishActividad({ actividad: id });
+        if (data.error_code) {
+            this.setState({
+                modalPublicarLoading: false
+            })
+            return;
+        }
+        const actividad = {
+            ...this.state.actividad,
+            definitiva: true
+        }
+        this.setState({
+            showModalPublicar: false,
+            actividad: actividad,
+            modalPublicarLoading: false
+        })
+    }
+
+    async closeActividad(id) {
+        this.setState({
+            modalCerrarLoading: true
+        })
+        const data = await tokenManager.closeActividad({ actividad: id });
+        if (data.error_code) {
+            this.setState({
+                modalCerrarLoading: false
+            })
+            return;
+        }
+        const actividad = {
+            ...this.state.actividad,
+            cerrada: true
+        }
+        this.setState({
+            showModalCerrar: false,
+            actividad: actividad,
+            modalCerrarLoading: false
+        })
+    }
+
+    onClickInModalPublicar = () => {
+        this.publishActividad(this.props.actividadId);
+    }
+
+    onClickInModalCerrar = () => {
+        this.closeActividad(this.props.actividadId);
+    }
+
     render() {
         const { actividad, tareas, conexiones, errors } = this.state;
-        return <ActividadShow actividad={actividad} tareas={tareas} errors={errors} conexiones={conexiones} />
+        return actividad && !this.props.userLoading && <ActividadShow actividad={actividad} tareas={tareas} errors={errors} conexiones={conexiones}
+            propia={actividad.autor && this.props.user.gid && (this.props.user.gid === actividad.autor.googleid)}
+            onClickPublicar={this.onClickPublicar} showModalPublicar={this.state.showModalPublicar} onHidePublicar={this.onHidePublicar}
+            onClickInModalPublicar={this.onClickInModalPublicar} modalPublicarLoading={this.state.modalPublicarLoading}
+            onClickCerrar={this.onClickCerrar} showModalCerrar={this.state.showModalCerrar} onHideCerrar={this.onHideCerrar}
+            onClickInModalCerrar={this.onClickInModalCerrar} modalCerrarLoading={this.state.modalCerrarLoading}
+        />
     }
 }
 
-export default ActividadShowContainer;
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user,
+        userLoading: state.auth.isLoading
+    }
+}
+
+export default connect(mapStateToProps)(ActividadShowContainer);

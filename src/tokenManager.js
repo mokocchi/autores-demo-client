@@ -59,19 +59,19 @@ export default class tokenManager {
         if (token && token.accessToken && !expired(token.expiresAt)) {
             this.client.setToken(token);
             try {
-                if(token.oauth) {
+                if (token.oauth) {
                     this.client.setOauth();
                 }
                 const user = await this.client.me();
                 this.store.dispatch(apiUserFound({ token, user }));
             } catch (error) {
-                if(window.location.pathname !== "/callback") {
+                if (window.location.pathname !== "/callback") {
                     localStorage.setItem('returnPath', window.location.pathname + window.location.search);
                 }
                 this.store.dispatch(apiUserExpired());
             }
         } else {
-            if(window.location.pathname !== "/callback") {
+            if (window.location.pathname !== "/callback") {
                 localStorage.setItem('returnPath', window.location.pathname + window.location.search);
             }
             this.store.dispatch(apiUserExpired());
@@ -149,6 +149,14 @@ export default class tokenManager {
 
     static createActividad(actividad) {
         return this.client.postActividad(actividad);
+    }
+
+    static publishActividad(publish) {
+        return this.client.publishActividad(publish);
+    }
+    
+    static closeActividad(close) {
+        return this.client.closeActividad(close);
     }
 
     static createTarea(tarea) {

@@ -201,6 +201,14 @@ export default class APIClient {
     postExtraToTarea(extra, tarea) {
         return this.authorizedPostRequest('/tareas/' + tarea + '/extra', extra);
     }
+    
+    publishActividad(publish) {
+        return this.authorizedPostRequest('/actividades/publicadas', publish);
+    }
+
+    closeActividad(close) {
+        return this.authorizedPostRequest('/actividades/cerradas', close);
+    }
 
     putTareasToActividad(tarea, actividad) {
         return this.authorizedPutRequest('/actividades/' + actividad + '/tareas', tarea);
