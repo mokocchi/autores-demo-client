@@ -2,6 +2,7 @@
 import FontAwesome_ttf from 'react-web-vector-icons/fonts/FontAwesome.ttf';
 import Entypo_ttf from 'react-web-vector-icons/fonts/Entypo.ttf';
 import Ionicons_ttf from 'react-web-vector-icons/fonts/Ionicons.ttf';
+import MaterialIcons_ttf from 'react-web-vector-icons/fonts/MaterialIcons.ttf';
 
 const IconsCSS = `
 @font-face {
@@ -15,7 +16,11 @@ const IconsCSS = `
 @font-face {
     src: url(${Ionicons_ttf});
     font-family: Ionicons;
-  }
+}
+@font-face {
+    src: url(${MaterialIcons_ttf});
+    font-family: MaterialIcons;
+}
 `;
 
 const style = document.createElement('style');

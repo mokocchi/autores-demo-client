@@ -15,7 +15,15 @@ class ActividadShowContainer extends Component {
             tareas: [],
             errors: false,
             showModalPublicar: true,
-            modalPublicarLoading: false
+            showModalCerrar: false,
+            showModalReabrir: false,
+            showModalMostrar: false,
+            showModalOcultar: false,
+            modalPublicarLoading: false,
+            modalCerrarLoading: false,
+            modalReabrirLoading: false,
+            modalMostrarLoading: false,
+            modalOcultarLoading: false
         }
         this.getActividadAndTareas = this.getActividadAndTareas.bind(this);
     }
@@ -125,30 +133,26 @@ class ActividadShowContainer extends Component {
         })
     }
 
-    onClickPublicar = () => {
-        this.setState({
-            showModalPublicar: true
-        })
-    }
+    onClickPublicar = () => this.setState({showModalPublicar: true})
 
-    onClickCerrar = () => {
-        this.setState({
-            showModalCerrar: true
-        })
-    }
+    onClickCerrar = () => this.setState({showModalCerrar: true})
 
-    onHidePublicar = () => {
-        this.setState({
-            showModalPublicar: false
-        })
-    }
+    onClickReabrir = () => this.setState({showModalReabrir: true})
+    
+    onClickMostrar = () => this.setState({showModalMostrar: true})
 
-    onHideCerrar = () => {
-        this.setState({
-            showModalCerrar: false
-        })
-    }
+    onClickOcultar = () => this.setState({showModalOcultar: true})
 
+    onHidePublicar = () => this.setState({showModalPublicar: false})
+
+    onHideCerrar = () => this.setState({showModalCerrar: false})
+    
+    onHideReabrir = () => this.setState({showModalReabrir: false})
+
+    onHideMostrar = () => this.setState({showModalMostrar: false})
+
+    onHideOcultar = () => this.setState({showModalOcultar: false})
+    
     async publishActividad(id) {
         this.setState({
             modalPublicarLoading: true
@@ -193,12 +197,46 @@ class ActividadShowContainer extends Component {
         })
     }
 
+    async reopenActividad(id) {
+        this.setState({
+            modalReabrirLoading: true
+        })
+        const data = await tokenManager.reopenActividad({ actividad: id });
+        if (data.error_code) {
+            this.setState({
+                modalReabrirLoading: false
+            })
+            return;
+        }
+        const actividad = {
+            ...this.state.actividad,
+            bajada: true
+        }
+        this.setState({
+            showModalReabrir: false,
+            actividad: actividad,
+            modalReabrirLoading: false
+        })
+    }
+
     onClickInModalPublicar = () => {
         this.publishActividad(this.props.actividadId);
     }
 
     onClickInModalCerrar = () => {
         this.closeActividad(this.props.actividadId);
+    }
+    
+    onClickInModalReabrir = () => {
+        this.reopenActividad(this.props.actividadId);
+    }
+
+    onClickInModalMostrar = () => {
+        this.showActividad(this.props.actividadId);
+    }
+
+    onClickInModalOcultar = () => {
+        this.hideActividad(this.props.actividadId)
     }
 
     render() {
@@ -209,6 +247,12 @@ class ActividadShowContainer extends Component {
             onClickInModalPublicar={this.onClickInModalPublicar} modalPublicarLoading={this.state.modalPublicarLoading}
             onClickCerrar={this.onClickCerrar} showModalCerrar={this.state.showModalCerrar} onHideCerrar={this.onHideCerrar}
             onClickInModalCerrar={this.onClickInModalCerrar} modalCerrarLoading={this.state.modalCerrarLoading}
+            onClickReabir={this.onClickReabrir} showModalReabrir={this.state.showModalReabrir} onHideReabrir={this.onHideReabrir}
+            onClickInModalReabrir={this.onClickInModalReabrir} modalReabrirLoading={this.state.modalReabrirLoading}
+            onClickMostrar={this.onClickMostrar} showModalMostrar={this.state.showModalMostrar} onHideMostrar={this.onHideMostrar}
+            onClickInModalMostrar={this.onClickInModalMostrar} modalMostrarLoading={this.state.modalMostrarLoading}
+            onClickOcultar={this.onClickOcultar} showModalOcultar={this.state.showModalOcultar} onHideOcultar={this.onHideOcultar}
+            onClickInModalOcultar={this.onClickInModalOcultar} modalOcultarLoading={this.state.modalOcultarLoading}
         />
     }
 }
