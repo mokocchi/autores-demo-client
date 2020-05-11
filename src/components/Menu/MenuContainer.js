@@ -29,7 +29,8 @@ class MenuContainer extends Component {
 
     render() {
         return (
-            <Menu token={this.props.token} user={this.props.user} onClickCerrarSesion={this.onClickCerrarSesion} onClickIniciarSesion={this.onClickIniciarSesion} />
+            <Menu token={this.props.token} user={this.props.user} loading={this.props.loading}
+            onClickCerrarSesion={this.onClickCerrarSesion} onClickIniciarSesion={this.onClickIniciarSesion} />
         )
     }
 }
@@ -37,6 +38,7 @@ class MenuContainer extends Component {
 function mapStateToProps(state) {
     return {
         user: state.oidc.user,
+        loading: state.auth.isLoading,
         token: state.auth.token
     }
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { Button } from 'react-bootstrap';
 import Icon from 'react-web-vector-icons';
+import ButtonSpinner from '../UI/ButtonSpinner';
 
 function Menu(props) {
     return (
@@ -29,8 +30,10 @@ function Menu(props) {
                 {(props.token.accessToken) ?
                     <Button onClick={props.onClickCerrarSesion} data-cy={"cerrarSesionButton"}>Cerrar sesión</Button>
                     :
-                    <Button onClick={props.onClickIniciarSesion} variant={"outline-dark"} data-cy={"iniciarSesionButton"} role="button" style={{ textTransform: "none" }}>
-                        <img width="20px" style={{ marginBotton: "3px", marginRight: "5px" }} alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                    props.loading ?
+                        <ButtonSpinner />
+                        : <Button onClick={props.onClickIniciarSesion} variant={"outline-dark"} data-cy={"iniciarSesionButton"} role="button" style={{ textTransform: "none" }}>
+                            <img width="20px" style={{ marginBotton: "3px", marginRight: "5px" }} alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
                         Iniciar sesión con Google
                     </Button>
                 }
