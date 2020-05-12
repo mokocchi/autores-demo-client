@@ -143,6 +143,10 @@ export default class tokenManager {
         return this.client.getMisTareas();
     }
 
+    static getResults(code) {
+        return this.client.getResults(code);
+    }
+
     static createDominio(dominio) {
         return this.client.postDominio(dominio);
     }

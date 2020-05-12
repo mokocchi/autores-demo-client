@@ -186,6 +186,10 @@ export default class APIClient {
         return this.unauthorizedRequest(`/planificaciones/${id}`)
     }
 
+    getResults(code) {
+        return this.authorizedGetRequest(`/resultados?code=${code}`)
+    }
+
     postDominio(dominio) {
         return this.authorizedPostRequest('/dominios', dominio);
     }
