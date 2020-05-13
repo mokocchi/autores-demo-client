@@ -4,6 +4,18 @@ export const PLANOS_URL = "http://localhost:8000/uploads/planos"
 
 export const TOKEN_AUTH_URL = "http://localhost:8000/api/v1.0/tokens";
 
+export const TIPO_SIMPLE = "simple";
+export const TIPO_TEXT_INPUT = "textInput";
+export const TIPO_NUMBER_INPUT = "numberInput";
+export const TIPO_CAMERA_INPUT = "cameraInput";
+export const TIPO_SELECT = "select";
+export const TIPO_MULTIPLE = "multiple";
+export const TIPO_COUNTERS = "counters";
+export const TIPO_COLLECT = "collect";
+export const TIPO_DEPOSIT = "deposit";
+export const TIPO_GPS_INPUT = "GPSInput";
+export const TIPO_AUDIO_INPUT = "audioInput";
+
 export const TIPO_SELECCION = "5";
 export const TIPO_MULTIPLE_CHOICE = "6";
 export const TIPO_CONTADORES = "7";

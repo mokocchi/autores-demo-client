@@ -27,6 +27,10 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
                             Dominio: {actividad.dominio.nombre}<br />
                             Tipo de planificación: {actividad.tipo_planificacion.nombre}<br />
                             <Button href={API_BASE_URL + "/public/actividades/" + actividad.id + "/data"}><Icon name="download" font="Entypo" color="white" size={"1rem"} /> Descargar</Button>
+                            {" "}
+                            <Link to={`/actividad/${actividad.id}/resultados`}>
+                                <Button variant="dark"><Icon name="md-list" font="Ionicons" color="white" size={"1rem"} /> Ver resultados</Button>
+                            </Link>
                         </Col>
                         <Col>
                             <br />
