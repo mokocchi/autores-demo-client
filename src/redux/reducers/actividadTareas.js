@@ -1,6 +1,6 @@
 import {
     CHOOSE_TAREA, SELECT_TAREA, UNCHOOSE_TAREA,
-    ADD_TAREA, SET_RESULT_TAREAS
+    ADD_TAREA, SET_RESULT_TAREAS, SET_CHOSEN_TAREAS
 } from '../actions'
 
 export default function actividadTareas(
@@ -51,6 +51,11 @@ export default function actividadTareas(
             return {
                 ...state,
                 resultTareas: action.tareas
+            }
+        case SET_CHOSEN_TAREAS:
+            return {
+                ...state,
+                chosenTareas: action.tareas
             }
         default:
             return state;

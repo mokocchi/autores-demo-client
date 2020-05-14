@@ -132,7 +132,7 @@ class SearchBar extends Component {
                 }
                 {!this.state.isLoading &&
                     <>
-                        <ActionList items={this.state.elements} field="nombre" value="id"
+                        <ActionList items={this.state.elements} field="nombre" value="id" group={"search"}
                             action={{ variant: "info", label: "Ver" }} onClick={this.props.onSelect} onSelect={this.props.onSelect} />
                         {this.state.elements.length !== 0 &&
                             <Pagination>

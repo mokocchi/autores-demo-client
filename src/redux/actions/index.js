@@ -91,6 +91,15 @@ export function setResultTareas(tareas) {
   }
 }
 
+export const SET_CHOSEN_TAREAS = 'SET_CHOSEN_TAREAS'
+
+export function setChosenTareas(tareas) {
+  return {
+    type: SET_CHOSEN_TAREAS,
+    tareas
+  }
+}
+
 //actividad
 export const SET_CURRENT_ACTIVIDAD = "SET_CURRRENT_ACTIVIDAD"
 

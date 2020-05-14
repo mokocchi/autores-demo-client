@@ -24,7 +24,7 @@ const PlanificacionEditNoJumps = ({ elements, onChangeChecks, isLoading, errorMe
                             checkboxGroup={{
                                 items: [{ nombre: "Opcional", codigo: "opt" }], onChange: onChangeChecks,
                                 field: "nombre", value: "codigo"
-                            }} />
+                            }} group={"planificacion"}/>
                         {saveSuccess ?
                             <Link to={`/actividad/${actividadId}/mostrar`}>
                                 <Button className="float-right">Continuar</Button>
