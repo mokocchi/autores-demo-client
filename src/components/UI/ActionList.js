@@ -42,7 +42,8 @@ function ActionList(props) {
                             <span className={"no-select"}>
                                 {props.reorder &&
                                     ((index === 0) ?
-                                        <Icon name="long-arrow-down" font="FontAwesome" color="black" size={"1rem"} />
+                                        ((props.items.length !== 0) &&
+                                            <Icon name="long-arrow-down" font="FontAwesome" color="black" size={"1rem"} />)
                                         : (index === props.items.length - 1) ?
                                             <Icon name="long-arrow-up" font="FontAwesome" color="black" size={"1rem"} />
                                             :
