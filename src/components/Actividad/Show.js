@@ -50,7 +50,18 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
                                             <>
                                                 <Button variant="warning" onClick={onClickCerrar}><Icon name="lock" font="FontAwesome" color="black" size={"1rem"} /> Desactivar temporalmente</Button>
                                             </>
-                                            : <Button variant="warning" onClick={onClickPublicar}><Icon name="publish" font="Entypo" color="black" size={"1rem"} /> Guardar como definitiva</Button>
+                                            :
+                                            <>
+                                                <Link to={`/actividad/${actividad.id}/planificacion`}>
+                                                    <Button variant="light"><Icon name="pencil" font="FontAwesome" color="black" size={"1rem"} /> Modificar planificación</Button>
+                                                </Link>
+                                                {" "}
+                                                <Link to={`/actividad/${actividad.id}/`}>
+                                                    <Button variant="light"><Icon name="pencil" font="FontAwesome" color="black" size={"1rem"} /> Elegir tareas y rehacer planificación</Button>
+                                                </Link>
+                                                <br />
+                                                <Button variant="warning" onClick={onClickPublicar}><Icon name="publish" font="Entypo" color="black" size={"1rem"} /> Guardar como definitiva</Button>
+                                            </>
                                     )
                             )}
                             <br />
