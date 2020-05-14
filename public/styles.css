@@ -1,0 +1,20 @@
+.dragged {
+    z-index: 1;
+    transform: scale(.98, .98);
+    background-color: skyblue;
+}
+
+.no-select {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.reorder-item:hover {
+    font-weight: bold;
+}
+
+.reorder-item {
+    cursor: pointer;
+}
