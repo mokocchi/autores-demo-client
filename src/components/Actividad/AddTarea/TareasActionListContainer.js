@@ -28,8 +28,8 @@ class AddTareasActionListContainer extends Component {
                 return "calculator";
             case TIPO_CAMERA_INPUT:
                 return "camera";
-                case TIPO_SELECT:
-                    return "dot-circle-o";
+            case TIPO_SELECT:
+                return "dot-circle-o";
             case TIPO_MULTIPLE:
                 return "check-square-o";
             case TIPO_COUNTERS:
@@ -55,7 +55,11 @@ class AddTareasActionListContainer extends Component {
                 (tarea, index) => {
                     return {
                         ...tarea,
-                        nombre: `${tarea.nombre} (Reemplaza a la tarea ${index + 1}. ${clonedTareas[index].nombre})`
+                        nombre: <span>{tarea.nombre}<br />
+                        (Reemplaza a la tarea {index + 1}. {clonedTareas[index].nombre})
+                                <br />
+                            <i><Icon name={this.getIconName(tarea.tipo.codigo)} font="FontAwesome" color="black" size={"1rem"} /> {tarea.tipo.nombre}</i>
+                        </span>
                     }
                 })
         } else {
@@ -64,14 +68,14 @@ class AddTareasActionListContainer extends Component {
                     return {
                         ...tarea,
                         nombre: <span>{tarea.nombre}<br />
-                        <i><Icon name={this.getIconName(tarea.tipo.codigo)} font="FontAwesome" color="black" size={"1rem"} /> {tarea.tipo.nombre}</i>
+                            <i><Icon name={this.getIconName(tarea.tipo.codigo)} font="FontAwesome" color="black" size={"1rem"} /> {tarea.tipo.nombre}</i>
                         </span>
                     }
                 }
             );
         }
         return <AddTareasActionList clone={this.props.clone} remainingTareas={this.props.remainingTareas} chosenTareas={tareas} onClick={this.onClick}
-            onReorder={this.onReorder}/>
+            onReorder={this.onReorder} />
     }
 }
 
