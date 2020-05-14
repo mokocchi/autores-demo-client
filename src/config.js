@@ -30,6 +30,8 @@ export const TIPOS_PLANO = [TIPO_RECOLECCION, TIPO_DEPOSITO]
 
 export const CONDITIONS_ARRAY = [{ name: "SÍ se elige", code: "YES" },
 { name: "NO se elige", code: "NO" },
+{ name: "Se contestó bien", code: "CORRECT"},
+{ name: "No se contestó bien", code: "INCORRECT"},
 { name: "SÍ se pasó por", code: "YES_TASK" },
 { name: "NO se pasó por", code: "NO_TASK" }]
 

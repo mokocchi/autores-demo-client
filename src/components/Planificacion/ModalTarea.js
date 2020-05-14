@@ -37,7 +37,7 @@ class ModalTarea extends Component {
     onOptionalChange = () => {
         const { tarea, conexiones } = this.props;
         const references = conexiones.filter(c => (c.origen === tarea.id) && (c.respuesta));
-        if(references.length > 0) {
+        if (references.length > 0) {
             alert("Una tarea condicional no puede ser opcional!");
             return;
         }
@@ -121,6 +121,9 @@ class ModalTarea extends Component {
                 case "YES":
                 case "NO":
                     return "la opción";
+                case "CORRECT":
+                case "INCORRECT":
+                    return null;
                 case "YES_TASK":
                 case "NO_TASK":
                     return "la tarea";
@@ -140,6 +143,16 @@ class ModalTarea extends Component {
                         <Select dataCy="condicionRespuesta" key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
+                case "CORRECT":
+                    return (
+                        <Select dataCy="condicionCorrectas" key={this.state.selectedCondition.code} options={[{ code: "CORRECT", name: "todas las opciones" }]} defaultValue={""} value={"code"} field={"name"}
+                            placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
+                    )
+                case "INCORRECT":
+                    return (
+                        <Select dataCy="condicionCorrectas" key={this.state.selectedCondition.code} options={[{ code: "INCORRECT", name: "algunas opciones" }]} defaultValue={""} value={"code"} field={"name"}
+                            placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
+                    )
                 case "YES_TASK":
                 case "NO_TASK":
                     return (
@@ -200,7 +213,7 @@ class ModalTarea extends Component {
                                         <Row>
                                             <Col>Cuando...</Col>
                                             <Col>
-                                                <Select dataCy="cuando" options={ this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
+                                                <Select dataCy="cuando" options={this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
                                                     placeholder={"Elegir..."} onChange={this.onCondicionSelectChange} />
                                             </Col>
                                         </Row>

@@ -93,11 +93,30 @@ class PlanificacionEditJumpsContainer extends Component {
                         name: condicionName
                     };
                     if (!["YES", "NO"].includes(salto.condicion)) {
-                        const tareaNombre = dataTareas.results.find(item => item.codigo === salto.respuesta).nombre
-                        conexion.respuesta = {
-                            id: salto.respuesta,
-                            name: tareaNombre
-                        };
+                        switch (salto.condicion) {
+                            case "CORRECT":
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: "todos"
+                                }
+                                break;
+                            case "INCORRECT":
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: "no todos"
+                                }
+                                break;
+                            case "YES_TASK":
+                            case "NO_TASK":
+                                const tareaNombre = dataTareas.results.find(item => item.codigo === salto.respuesta).nombre
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: tareaNombre
+                                };
+                                break;
+                            default:
+                                break;
+                        }
                     } else {
                         const opcion = dataTareas.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta);
                         let respuestaNombre = "";
@@ -174,7 +193,7 @@ class PlanificacionEditJumpsContainer extends Component {
     }
 
     onGuardarClick = () => {
-        this.setState({isLoadingSave: true})
+        this.setState({ isLoadingSave: true })
         const actividadId = this.props.currentActividad.id;
         const tareas = this.state.graphTareas;
         const conexiones = this.state.graphConexiones;
@@ -291,7 +310,7 @@ class PlanificacionEditJumpsContainer extends Component {
                 onUpdateTarea={this.onUpdateTarea} onAddConexion={this.onAddConexion}
 
                 selectedConexion={this.state.selectedConexion} handleCloseConexion={this.handleCloseConexion}
-                showConexion={this.state.showConexion} onShowConexion={this.handleShowConexion} 
+                showConexion={this.state.showConexion} onShowConexion={this.handleShowConexion}
                 onRemoveConexion={this.onRemoveConexion} setOpcion={this.setOpcion}
                 onGuardarClick={this.onGuardarClick} selectedOpciones={this.state.selectedOpciones} errors={this.state.errors}
 

@@ -102,11 +102,30 @@ class ActividadShowContainer extends Component {
                         name: condicionName
                     };
                     if (!["YES", "NO"].includes(salto.condicion)) {
-                        const tareaNombre = tareasData.results.find(item => item.codigo === salto.respuesta).nombre
-                        conexion.respuesta = {
-                            id: salto.respuesta,
-                            name: tareaNombre
-                        };
+                        switch (salto.condicion) {
+                            case "CORRECT":
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: "todos"
+                                }
+                                break;
+                            case "INCORRECT":
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: "no todos"
+                                }
+                                break;
+                            case "YES_TASK":
+                            case "NO_TASK":
+                                const tareaNombre = tareasData.results.find(item => item.codigo === salto.respuesta).nombre
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: tareaNombre
+                                };
+                                break;
+                            default:
+                                break;
+                        }
                     } else {
                         const respuestaNombre = tareasData.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta).name;
                         conexion.respuesta = {
@@ -133,26 +152,26 @@ class ActividadShowContainer extends Component {
         })
     }
 
-    onClickPublicar = () => this.setState({showModalPublicar: true})
+    onClickPublicar = () => this.setState({ showModalPublicar: true })
 
-    onClickCerrar = () => this.setState({showModalCerrar: true})
+    onClickCerrar = () => this.setState({ showModalCerrar: true })
 
-    onClickReabrir = () => this.setState({showModalReabrir: true})
-    
-    onClickMostrar = () => this.setState({showModalMostrar: true})
+    onClickReabrir = () => this.setState({ showModalReabrir: true })
 
-    onClickOcultar = () => this.setState({showModalOcultar: true})
+    onClickMostrar = () => this.setState({ showModalMostrar: true })
 
-    onHidePublicar = () => this.setState({showModalPublicar: false})
+    onClickOcultar = () => this.setState({ showModalOcultar: true })
 
-    onHideCerrar = () => this.setState({showModalCerrar: false})
-    
-    onHideReabrir = () => this.setState({showModalReabrir: false})
+    onHidePublicar = () => this.setState({ showModalPublicar: false })
 
-    onHideMostrar = () => this.setState({showModalMostrar: false})
+    onHideCerrar = () => this.setState({ showModalCerrar: false })
 
-    onHideOcultar = () => this.setState({showModalOcultar: false})
-    
+    onHideReabrir = () => this.setState({ showModalReabrir: false })
+
+    onHideMostrar = () => this.setState({ showModalMostrar: false })
+
+    onHideOcultar = () => this.setState({ showModalOcultar: false })
+
     async publishActividad(id) {
         this.setState({
             modalPublicarLoading: true
@@ -226,7 +245,7 @@ class ActividadShowContainer extends Component {
     onClickInModalCerrar = () => {
         this.closeActividad(this.props.actividadId);
     }
-    
+
     onClickInModalReabrir = () => {
         this.reopenActividad(this.props.actividadId);
     }

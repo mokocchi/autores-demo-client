@@ -20,7 +20,7 @@ class GraphContainer extends Component {
 
     async loadTareas() {
         const tareasData = await tokenManager.getTareasForActividad(this.props.actividadId);
-        if(tareasData.error_code) {
+        if (tareasData.error_code) {
             //set error message
             return;
         }
@@ -50,10 +50,29 @@ class GraphContainer extends Component {
                         name: condicionName
                     };
                     if (!["YES", "NO"].includes(salto.condicion)) {
-                        const tareaNombre = tareasData.results.find(item => item.codigo === salto.respuesta).nombre
-                        conexion.respuesta = {
-                            id: salto.respuesta,
-                            name: tareaNombre
+                        switch (salto.condicion) {
+                            case "CORRECT":
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: "todos"
+                                }
+                                break;
+                            case "INCORRECT":
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: "no todos"
+                                }
+                                break;
+                            case "YES_TASK":
+                            case "NO_TASK":
+                                const tareaNombre = tareasData.results.find(item => item.codigo === salto.respuesta).nombre
+                                conexion.respuesta = {
+                                    id: salto.respuesta,
+                                    name: tareaNombre
+                                };
+                                break;
+                            default:
+                                break;
                         };
                     } else {
                         const respuestaNombre = tareasData.results.find(item => item.id === salto.origen_id).extra.elements.find(item => item.code === salto.respuesta).name;
@@ -66,7 +85,7 @@ class GraphContainer extends Component {
                 conexiones.push(conexion);
             })
         })
-        
+
         this.setState({
             conexiones: conexiones,
             tareas: tareasData.results.map((tarea, index) => {
@@ -82,9 +101,9 @@ class GraphContainer extends Component {
     }
 
     render() {
-        const {tareas, conexiones} = this.state
+        const { tareas, conexiones } = this.state
         return (
-            conexiones && <Graph dataCy={"graphShow"} tareas={tareas} conexiones={conexiones} onClickNode={() => {}} selected={this.props.selected}/>
+            conexiones && <Graph dataCy={"graphShow"} tareas={tareas} conexiones={conexiones} onClickNode={() => { }} selected={this.props.selected} />
         )
     }
 }
