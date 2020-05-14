@@ -24,7 +24,7 @@ class CallbackContainer extends React.Component {
         } else {
             this.props.dispatch(apiUserFound(auth));
             tokenManager.storeApiUser(auth.token);
-            const returnPath = localStorage.getItem('returnPath') || "/";
+            const returnPath = sessionStorage.getItem('returnPath') || "/";
             localStorage.removeItem('returnPath');
             this.props.history.push(returnPath);
         }

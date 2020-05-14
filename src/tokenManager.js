@@ -66,13 +66,13 @@ export default class tokenManager {
                 this.store.dispatch(apiUserFound({ token, user }));
             } catch (error) {
                 if (window.location.pathname !== "/callback") {
-                    localStorage.setItem('returnPath', window.location.pathname + window.location.search);
+                    sessionStorage.setItem('returnPath', window.location.pathname + window.location.search);
                 }
                 this.store.dispatch(apiUserExpired());
             }
         } else {
             if (window.location.pathname !== "/callback") {
-                localStorage.setItem('returnPath', window.location.pathname + window.location.search);
+                sessionStorage.setItem('returnPath', window.location.pathname + window.location.search);
             }
             this.store.dispatch(apiUserExpired());
         }
