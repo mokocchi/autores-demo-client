@@ -10,6 +10,7 @@ import tokenManager from '../../../tokenManager';
 import LoadSpinner from '../../UI/LoadSpinner';
 import Icon from 'react-web-vector-icons';
 import { Alert, Row, Col } from 'react-bootstrap';
+import { addTarea } from '../../../redux/actions';
 
 class AddTareaContainer extends Component {
     constructor() {
@@ -36,6 +37,17 @@ class AddTareaContainer extends Component {
         }
         this.setState({
             actividad: actividad,
+        });
+    }
+
+    async getTareas() {
+        const tareas = await tokenManager.getTareasForActividad(this.props.actividadId);
+        if (tareas.error_code) {
+            this.setState({ isLoading: false, errorMessage: tareas.user_message })
+            return;
+        }
+        tareas.results.forEach(tarea => {
+            this.props.dispatch(addTarea(tarea))
         });
     }
 
@@ -72,6 +84,7 @@ class AddTareaContainer extends Component {
 
     async load() {
         await this.getActividad();
+        await this.getTareas();
         if (this.props.clone) {
             await this.getClonedTareas();
             await this.getClonedPlanificacion();
@@ -109,7 +122,7 @@ class AddTareaContainer extends Component {
                                 <GraphContainer actividadId={this.props.clone} selected={this.remainingTareas().length > 0 ? this.remainingTareas()[0].id : null} />
                             }
                         </div>
-                        <br/>
+                        <br />
                         <Row>
                             <Col>
                                 <AddTareasActionListContainer
@@ -117,7 +130,7 @@ class AddTareaContainer extends Component {
                                     clonedTareas={this.state.clonedTareas}
                                     remainingTareas={this.remainingTareas()}
                                 />
-                                <br/>
+                                <br />
                                 {this.props.clone &&
                                     <PendingTareasListContainer
                                         remainingTareas={this.remainingTareas()}
