@@ -11,8 +11,8 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
     onClickPublicar, showModalPublicar, onHidePublicar, onClickInModalPublicar, modalPublicarLoading,
     onClickCerrar, showModalCerrar, onHideCerrar, onClickInModalCerrar, modalCerrarLoading,
     onClickReabir, showModalReabrir, onHideReabrir, onClickInModalReabrir, modalReabrirLoading,
-    onClickOcultar, showModalOcultar, onHideOcultar, onClickInModalOcultar, modalOcultarLoading,
-    onClickMostrar, showModalMostrar, onHideMostrar, onClickInModalMostrar, modalMostrarLoading
+    onClickHacerPrivada, showModalHacerPrivada, onHideHacerPrivada, onClickInModalHacerPrivada, modalHacerPrivadaLoading,
+    onClickHacerPublica, showModalHacerPublica, onHideHacerPublica, onClickInModalHacerPublica, modalHacerPublicaLoading
 }) {
     return (
         <>
@@ -37,9 +37,9 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
                                 <br />
                                 {propia && actividad.definitiva &&
                                     ((actividad.estado.nombre === "Público") ?
-                                        < Button variant="secondary" onClick={onClickOcultar}><Icon name="block" font="Entypo" color="white" size={"1rem"} /> Hacer privada</Button>
+                                        < Button variant="secondary" onClick={onClickHacerPrivada}><Icon name="block" font="Entypo" color="white" size={"1rem"} /> Hacer privada</Button>
                                         :
-                                        < Button variant="success" onClick={onClickMostrar}><Icon name="public" font="MaterialIcons" color="white" size={"1rem"} /> Hacer pública</Button>
+                                        < Button variant="success" onClick={onClickHacerPublica}><Icon name="public" font="MaterialIcons" color="white" size={"1rem"} /> Hacer pública</Button>
                                     )
                                 }
                                 {" "}
@@ -147,7 +147,7 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
                                 }
                                 {propia &&
                                     <>
-                                        <Modal show={showModalMostrar} onHide={onHideMostrar}>
+                                        <Modal show={showModalHacerPublica} onHide={onHideHacerPublica}>
                                             <Modal.Header closeButton>
                                                 Hacer pública
                         </Modal.Header>
@@ -156,14 +156,14 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
                                                 Cualquiera podrá enviar respuestas.
                         </Modal.Body>
                                             <Modal.Footer>
-                                                {modalMostrarLoading ?
+                                                {modalHacerPublicaLoading ?
                                                     <ButtonSpinner />
                                                     :
-                                                    <Button variant="success" onClick={onClickInModalMostrar}><Icon name="eye" font="FontAwesome" color="white" size={"1rem"} /> Mostrar en el listado</Button>
+                                                    <Button variant="success" onClick={onClickInModalHacerPublica}><Icon name="eye" font="FontAwesome" color="white" size={"1rem"} /> Hacer Pública</Button>
                                                 }
                                             </Modal.Footer>
                                         </Modal>
-                                        <Modal show={showModalOcultar} onHide={onHideOcultar}>
+                                        <Modal show={showModalHacerPrivada} onHide={onHideHacerPrivada}>
                                             <Modal.Header closeButton>
                                                 Hacer privada
                    </Modal.Header>
@@ -172,10 +172,10 @@ function ActividadShow({ actividad, tareas, conexiones, errors, propia,
                                                 Se requerirá un código para enviar respuestas.
                    </Modal.Body>
                                             <Modal.Footer>
-                                                {modalOcultarLoading ?
+                                                {modalHacerPrivadaLoading ?
                                                     <ButtonSpinner />
                                                     :
-                                                    <Button variant="secondary" onClick={onClickInModalOcultar}><Icon name="block" font="Entypo" color="white" size={"1rem"} /> Hacer privada</Button>
+                                                    <Button variant="secondary" onClick={onClickInModalHacerPrivada}><Icon name="block" font="Entypo" color="white" size={"1rem"} /> Hacer privada</Button>
                                                 }
                                             </Modal.Footer>
                                         </Modal>

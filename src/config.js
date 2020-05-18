@@ -28,6 +28,9 @@ export const TIPO_DEPOSITO = "9";
 
 export const TIPOS_PLANO = [TIPO_RECOLECCION, TIPO_DEPOSITO]
 
+export const PUBLIC_ID = "1";
+export const PRIVATE_ID = "2";
+
 export const CONDITIONS_ARRAY = [{ name: "SÍ se elige", code: "YES" },
 { name: "NO se elige", code: "NO" },
 { name: "Se contestó bien", code: "CORRECT"},

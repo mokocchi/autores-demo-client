@@ -17,13 +17,13 @@ class ActividadShowContainer extends Component {
             showModalPublicar: true,
             showModalCerrar: false,
             showModalReabrir: false,
-            showModalMostrar: false,
-            showModalOcultar: false,
+            showModalHacerPublica: false,
+            showModalHacerPrivada: false,
             modalPublicarLoading: false,
             modalCerrarLoading: false,
             modalReabrirLoading: false,
-            modalMostrarLoading: false,
-            modalOcultarLoading: false
+            modalHacerPublicaLoading: false,
+            modalHacerPrivadaLoading: false
         }
         this.getActividadAndTareas = this.getActividadAndTareas.bind(this);
     }
@@ -158,9 +158,9 @@ class ActividadShowContainer extends Component {
 
     onClickReabrir = () => this.setState({ showModalReabrir: true })
 
-    onClickMostrar = () => this.setState({ showModalMostrar: true })
+    onClickHacerPublica = () => this.setState({ showModalHacerPublica: true })
 
-    onClickOcultar = () => this.setState({ showModalOcultar: true })
+    onClickHacerPrivada = () => this.setState({ showModalHacerPrivada: true })
 
     onHidePublicar = () => this.setState({ showModalPublicar: false })
 
@@ -168,28 +168,24 @@ class ActividadShowContainer extends Component {
 
     onHideReabrir = () => this.setState({ showModalReabrir: false })
 
-    onHideMostrar = () => this.setState({ showModalMostrar: false })
+    onHideHacerPublica = () => this.setState({ showModalHacerPublica: false })
 
-    onHideOcultar = () => this.setState({ showModalOcultar: false })
+    onHideHacerPrivada = () => this.setState({ showModalHacerPrivada: false })
 
     async publishActividad(id) {
         this.setState({
             modalPublicarLoading: true
         })
-        const data = await tokenManager.publishActividad({ actividad: id });
+        const data = await tokenManager.publishActividad(id);
         if (data.error_code) {
             this.setState({
                 modalPublicarLoading: false
             })
             return;
         }
-        const actividad = {
-            ...this.state.actividad,
-            definitiva: true
-        }
         this.setState({
             showModalPublicar: false,
-            actividad: actividad,
+            actividad: data,
             modalPublicarLoading: false
         })
     }
@@ -198,20 +194,16 @@ class ActividadShowContainer extends Component {
         this.setState({
             modalCerrarLoading: true
         })
-        const data = await tokenManager.closeActividad({ actividad: id });
+        const data = await tokenManager.closeActividad(id);
         if (data.error_code) {
             this.setState({
                 modalCerrarLoading: false
             })
             return;
         }
-        const actividad = {
-            ...this.state.actividad,
-            cerrada: true
-        }
         this.setState({
             showModalCerrar: false,
-            actividad: actividad,
+            actividad: data,
             modalCerrarLoading: false
         })
     }
@@ -220,21 +212,53 @@ class ActividadShowContainer extends Component {
         this.setState({
             modalReabrirLoading: true
         })
-        const data = await tokenManager.reopenActividad({ actividad: id });
+        const data = await tokenManager.reopenActividad(id);
         if (data.error_code) {
             this.setState({
                 modalReabrirLoading: false
             })
             return;
         }
-        const actividad = {
-            ...this.state.actividad,
-            bajada: true
-        }
         this.setState({
             showModalReabrir: false,
-            actividad: actividad,
-            modalReabrirLoading: false
+            actividad: data,
+            modalHacerPublicaLoading: false
+        })
+    }
+
+    makeActividadPublic = async (id) => {
+        this.setState({
+            modalHacerPublicaLoading: true
+        })
+        const data = await tokenManager.makeActividadPublic(id);
+        if (data.error_code) {
+            this.setState({
+                modalHacerPublicaLoading: false
+            })
+            return;
+        }
+        this.setState({
+            showModalHacerPublica: false,
+            actividad: data,
+            modalHacerPublicaLoading: false
+        })
+    }
+
+    makeActividadPrivate = async (id) => {
+        this.setState({
+            modalHacerPrivadaLoading: true
+        })
+        const data = await tokenManager.makeActividadPrivate(id);
+        if (data.error_code) {
+            this.setState({
+                modalHacerPrivadaLoading: false
+            })
+            return;
+        }
+        this.setState({
+            showModalHacerPrivada: false,
+            actividad: data,
+            modalHacerPrivadaLoading: false
         })
     }
 
@@ -250,12 +274,12 @@ class ActividadShowContainer extends Component {
         this.reopenActividad(this.props.actividadId);
     }
 
-    onClickInModalMostrar = () => {
-        this.showActividad(this.props.actividadId);
+    onClickInModalHacerPublica = () => {
+        this.makeActividadPublic(this.props.actividadId);
     }
 
-    onClickInModalOcultar = () => {
-        this.hideActividad(this.props.actividadId)
+    onClickInModalHacerPrivada = () => {
+        this.makeActividadPrivate(this.props.actividadId)
     }
 
     render() {
@@ -268,10 +292,10 @@ class ActividadShowContainer extends Component {
             onClickInModalCerrar={this.onClickInModalCerrar} modalCerrarLoading={this.state.modalCerrarLoading}
             onClickReabir={this.onClickReabrir} showModalReabrir={this.state.showModalReabrir} onHideReabrir={this.onHideReabrir}
             onClickInModalReabrir={this.onClickInModalReabrir} modalReabrirLoading={this.state.modalReabrirLoading}
-            onClickMostrar={this.onClickMostrar} showModalMostrar={this.state.showModalMostrar} onHideMostrar={this.onHideMostrar}
-            onClickInModalMostrar={this.onClickInModalMostrar} modalMostrarLoading={this.state.modalMostrarLoading}
-            onClickOcultar={this.onClickOcultar} showModalOcultar={this.state.showModalOcultar} onHideOcultar={this.onHideOcultar}
-            onClickInModalOcultar={this.onClickInModalOcultar} modalOcultarLoading={this.state.modalOcultarLoading}
+            onClickHacerPublica={this.onClickHacerPublica} showModalHacerPublica={this.state.showModalHacerPublica} onHideHacerPublica={this.onHideHacerPublica}
+            onClickInModalHacerPublica={this.onClickInModalHacerPublica} modalHacerPublicaLoading={this.state.modalHacerPublicaLoading}
+            onClickHacerPrivada={this.onClickHacerPrivada} showModalHacerPrivada={this.state.showModalHacerPrivada} onHideHacerPrivada={this.onHideHacerPrivada}
+            onClickInModalHacerPrivada={this.onClickInModalHacerPrivada} modalHacerPrivadaLoading={this.state.modalHacerPrivadaLoading}
         />
     }
 }

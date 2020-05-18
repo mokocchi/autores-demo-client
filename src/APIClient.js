@@ -1,6 +1,6 @@
 import tokenManager from "./tokenManager";
 import APIClientEvents from "./APIClientEvents";
-import { TOKEN_AUTH_URL, API_BASE_URL } from "./config";
+import { TOKEN_AUTH_URL, API_BASE_URL, PUBLIC_ID, PRIVATE_ID } from "./config";
 import { expired, expiresAt } from "./utils";
 
 export default class APIClient {
@@ -127,6 +127,14 @@ export default class APIClient {
         })
     }
 
+    authorizedPatchRequest(uri, object, stringify = true) {
+        const token = this.getToken();
+        return this.authorizedRequest(token, uri, {
+            body: stringify ? JSON.stringify(object) : object,
+            method: 'PATCH'
+        })
+    }
+
     authorizedDeleteRequest(uri) {
         const token = this.getToken();
         return this.authorizedRequest(token, uri, { method: 'DELETE' });
@@ -206,12 +214,24 @@ export default class APIClient {
         return this.authorizedPostRequest('/tareas/' + tarea + '/extra', extra);
     }
     
-    publishActividad(publish) {
-        return this.authorizedPostRequest('/actividades/publicadas', publish);
+    publishActividad(idActividad) {
+        return this.authorizedPatchRequest('/actividades/' + idActividad, {definitiva: true});
     }
 
-    closeActividad(close) {
-        return this.authorizedPostRequest('/actividades/cerradas', close);
+    closeActividad(idActividad) {
+        return this.authorizedPatchRequest('/actividades/' + idActividad, {cerrada: true});
+    }
+
+    reopenActividad(idActividad) {
+        return this.authorizedPatchRequest('/actividades/' + idActividad, {cerrada: false});
+    }
+
+    makeActividadPublic(idActividad) {
+        return this.authorizedPatchRequest('/actividades/' + idActividad, {estado: PUBLIC_ID});
+    }
+
+    makeActividadPrivate(idActividad) {
+        return this.authorizedPatchRequest('/actividades/' + idActividad, {estado: PRIVATE_ID});
     }
 
     putTareasToActividad(tarea, actividad) {

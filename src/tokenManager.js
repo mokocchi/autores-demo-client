@@ -155,12 +155,24 @@ export default class tokenManager {
         return this.client.postActividad(actividad);
     }
 
-    static publishActividad(publish) {
-        return this.client.publishActividad(publish);
+    static publishActividad(id) {
+        return this.client.publishActividad(id);
     }
     
-    static closeActividad(close) {
-        return this.client.closeActividad(close);
+    static closeActividad(id) {
+        return this.client.closeActividad(id);
+    }
+
+    static reopenActividad(id) {
+        return this.client.reopenActividad(id);
+    }
+
+    static makeActividadPublic(id) {
+        return this.client.makeActividadPublic(id);
+    }
+
+    static makeActividadPrivate(id) {
+        return this.client.makeActividadPrivate(id);
     }
 
     static createTarea(tarea) {
