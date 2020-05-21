@@ -75,7 +75,9 @@ const FormTarea = (props) => {
                             }
                         </Col>
                         <Col>
-                            <Input controlId={"formConsigna"}
+                            <Input
+                                textArea
+                                controlId={"formConsigna"}
                                 label={"Consigna"}
                                 name={"consigna"}
                                 type={"text"}

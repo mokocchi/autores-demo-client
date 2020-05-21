@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 const Login = (props) => {
   return (
     <div style={styles.root}>
-      <h3>Bienvienido a AutoresDemo</h3>
+      <h3>Bienvienido a DEHIA</h3>
       <p>Iniciá sesión para continuar</p>
       <Button onClick={props.onClick} variant={"outline-dark"} data-cy={"iniciarSesionButton"} role="button" style={{ textTransform: "none" }}>
         <img width="20px" style={{ marginBotton: "3px", marginRight: "5px" }} alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />

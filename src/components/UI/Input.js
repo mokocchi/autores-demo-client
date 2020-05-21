@@ -27,7 +27,7 @@ function Input(props) {
                         { props.label &&
                             <Form.Label>{props.label}</Form.Label>
                         }
-                        <Form.Control type={props.type}
+                        <Form.Control as={props.textArea && "textarea"} type={props.type}
                             placeholder={props.placeholder}
                             onChange={props.onChange}
                             onKeyPress={props.onKeyPress}
