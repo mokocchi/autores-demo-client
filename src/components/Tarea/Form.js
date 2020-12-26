@@ -8,6 +8,7 @@ import FormDominioContainer from '../Dominio/FormContainer';
 import TareaExtra from './TareaExtra';
 import { Formik } from 'formik';
 import { getRandomSlug } from '../../utils';
+import PreviewTareaContainer from './PreviewContainer';
 
 const FormTarea = (props) => {
     return (
@@ -167,6 +168,7 @@ const FormTarea = (props) => {
                             {props.errorMessage}
                         </Form.Text>
                     }
+                    <Button variant="outline-warning" onClick={props.onClickPreview}>Vista previa</Button>&nbsp;
                     {props.isLoading ?
                         <Button variant="info" disabled>
                             <Spinner
@@ -188,6 +190,17 @@ const FormTarea = (props) => {
                                 Guardar
                         </Button>
                     }
+                    <PreviewTareaContainer onCloseModal={props.onCloseModal}
+                    modalOpened={props.modalOpened}
+                    tarea={
+                        {
+                            title: values.nombre,
+                            subtitle: values.consigna,
+                            idioma: props.idioma,
+                            tipo: values.tipo
+                        }
+                    }
+                    />
                 </Form>)}
         </Formik>
     )

@@ -44,7 +44,7 @@ export default class APIClient {
         if (!token) {
             return null
         }
-        const user = await this.authorizedRequest(token, '/me');
+        const user = await this.authorizedRequest(token, '/users/me');
         return {
             token, user
         }
@@ -142,7 +142,7 @@ export default class APIClient {
 
 
     me() {
-        return this.authorizedGetRequest('/me');
+        return this.authorizedGetRequest('/users/me');
     }
 
 

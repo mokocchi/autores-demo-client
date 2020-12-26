@@ -15,7 +15,8 @@ class FormTareaContainer extends Component {
             isLoading: false,
             success: false,
             error: false,
-            errorMessage: ""
+            errorMessage: "",
+            modalOpened: false
         }
         let id = this.props.actividadId;
         if (id) {
@@ -222,12 +223,26 @@ class FormTareaContainer extends Component {
         })
     }
 
+    onClickPreview = (e) => {
+        this.setState({
+            modalOpened: true
+        })
+    }
+
+    onCloseModal = () => {
+        this.setState({
+            modalOpened: false
+        })
+    }
+
     render() {
         return (
             <TareaForm onChange={this.handleInput} onPropsChangeMore={this.onPropsChangeMore}
                 error={this.state.error} errorMessage={this.state.errorMessage}
                 isLoading={this.state.isLoading} success={this.state.success} actividadId={this.props.currentActividad.id}
                 onSubmit={this.handleFormSubmit} clone={this.props.clone}
+                onClickPreview={this.onClickPreview} modalOpened={this.state.modalOpened}
+                onCloseModal={this.onCloseModal} idioma={this.props.currentActividad.idioma ? this.props.currentActividad.idioma.code : null}
             />
         )
     }
