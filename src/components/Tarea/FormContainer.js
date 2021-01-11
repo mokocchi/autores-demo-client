@@ -243,6 +243,7 @@ class FormTareaContainer extends Component {
                 onSubmit={this.handleFormSubmit} clone={this.props.clone}
                 onClickPreview={this.onClickPreview} modalOpened={this.state.modalOpened}
                 onCloseModal={this.onCloseModal} idioma={this.props.currentActividad.idioma ? this.props.currentActividad.idioma.code : null}
+                elementos={this.props.extra.elements}
             />
         )
     }

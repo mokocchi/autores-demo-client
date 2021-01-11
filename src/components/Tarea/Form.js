@@ -197,7 +197,8 @@ const FormTarea = (props) => {
                             title: values.nombre,
                             subtitle: values.consigna,
                             idioma: props.idioma,
-                            tipo: values.tipo
+                            tipo: values.tipo,
+                            elementos: props.elementos
                         }
                     }
                     />

@@ -3,6 +3,8 @@ import { Card, Modal } from "react-bootstrap";
 import PreviewTareaSimple from "../UI/PreviewTareas/PreviewTareaSimple";
 import PreviewTareaIngresarTexto from "../UI/PreviewTareas/PreviewTareaIngresarTexto";
 import PreviewTareaSacarFoto from "../UI/PreviewTareas/PreviewTareaSacarFoto";
+import PreviewTareaElegirOpcion from "../UI/PreviewTareas/PreviewTareaElegirOpcion";
+import PreviewTareaOpcionMultiple from "../UI/PreviewTareas/PreviewTareaOpcionMultiple";
 
 
 const tareaPorTipo = (tarea) => {
@@ -16,6 +18,10 @@ const tareaPorTipo = (tarea) => {
             return <PreviewTareaIngresarTexto tarea={tarea} numero />
         case "4":
             return <PreviewTareaSacarFoto tarea={tarea} />
+        case "5":
+            return <PreviewTareaElegirOpcion tarea={tarea} />
+        case "6":
+            return <PreviewTareaOpcionMultiple tarea={tarea} />
         default:
             return <PreviewTareaSimple tarea={tarea} />
     }
