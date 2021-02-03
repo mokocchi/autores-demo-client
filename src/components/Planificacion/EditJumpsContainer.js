@@ -24,13 +24,42 @@ class PlanificacionEditJumpsContainer extends Component {
             errors: "",
             saveSuccess: false,
             showReferences: false,
-            isLoadingSave: false
+            isLoadingSave: false,
+            firstCircle: { x: 0, y: 0, width: 0 },
         }
         this.Graph = React.createRef();
     }
 
     componentDidMount() {
         this.setCurrentActividad(this.props.actividadId);
+
+        function isInTheMiddle() {
+            let nodeX = document.getElementById("node-12").getBoundingClientRect().x;
+            let colRect = document.getElementById("graph-col").getBoundingClientRect();
+            return (((nodeX - colRect.x) / colRect.width) > 0.46)
+        }
+
+        function waitFor(conditionFunction) {
+            const poll = resolve => {
+                if (conditionFunction()) resolve();
+                else setTimeout(_ => poll(resolve), 400);
+            }
+            return new Promise(poll);
+        }
+
+        document.arrive(".slider", () =>
+            waitFor(_ => isInTheMiddle()).then(_ => {
+                let nodeRect = document.getElementById("node-12").getBoundingClientRect();
+                this.setState({
+                    firstCircle: {
+                        x: nodeRect.x,
+                        y: nodeRect.y,
+                        width: nodeRect.width
+                    }
+                });
+            })
+        );
+
     }
 
     onUpdateTarea = (tarea) => {
@@ -316,6 +345,8 @@ class PlanificacionEditJumpsContainer extends Component {
 
                 showReferences={this.state.showReferences} onHideReferences={this.onHideReferences} onClickReferences={this.onClickReferences}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} isLoadingSave={this.state.isLoadingSave}
+
+                firstCircle={this.state.firstCircle}
             />
         )
     }

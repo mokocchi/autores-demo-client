@@ -8,6 +8,7 @@ import ModalTarea from './ModalTarea';
 import ModalConexion from './ModalConexion';
 import ReferencesModal from './ReferencesModal';
 import ButtonSpinner from '../UI/ButtonSpinner';
+import Arrow from '../UI/Shapes/Arrow';
 
 const PlanificacionEdit = (props) => {
     return (
@@ -24,8 +25,10 @@ const PlanificacionEdit = (props) => {
                 </i>
                 {" "}<Button size="xs" onClick={props.onClickReferences}><Icon name="md-information-circle-outline" font="Ionicons" color="white" size={"1rem"} /></Button>
             </Alert>
+            <Arrow rotation="90" x={props.firstCircle.x - (props.firstCircle.width * 0.25)}
+                y={props.firstCircle.y} fill={"orange"} />
             <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
-                <Col>
+                <Col id="graph-col">
                     {props.success &&
                         <div style={{ position: "relative" }}>
                             <Graph tareas={props.tareas}

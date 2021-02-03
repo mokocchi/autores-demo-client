@@ -15,7 +15,7 @@ export const EMPTY_EDGE_TYPE = 'emptyEdge';
 export const SQUARE_EDGE_TYPE = 'squareEdge';
 export const SQUARE_CROSSED_EDGE_TYPE = 'squareCrossedEdge';
 
-export const nodeTypes = [EMPTY_TYPE, OPTIONAL_EMPTY_TYPE, END_TYPE, OPTIONAL_END_TYPE, START_TYPE, OPTIONAL_START_TYPE ];
+export const nodeTypes = [EMPTY_TYPE, OPTIONAL_EMPTY_TYPE, END_TYPE, OPTIONAL_END_TYPE, START_TYPE, OPTIONAL_START_TYPE];
 export const edgeTypes = [EMPTY_EDGE_TYPE, SQUARE_EDGE_TYPE, SQUARE_CROSSED_EDGE_TYPE];
 
 const EmptyNodeShape = (
@@ -32,7 +32,7 @@ const OptionalEmptyShape = (
 
 const StartShape = (
   <symbol viewBox="0 0 160 160" width="160" height="160" id="start">
-    <circle cx="77" cy="77" r="56" stroke="green" strokeWidth="3px" />
+    <circle className="start-circle" cx="77" cy="77" r="56" stroke="green" strokeWidth="3px" />
   </symbol>
 );
 
@@ -70,14 +70,14 @@ const EmptyEdgeShape = (
 
 const SquareEdgeShape = (
   <symbol viewBox="0 0 50 50" id="squareEdge">
-    <rect x="20" y="17" width="15" height="15" fill="currentColor"/>
+    <rect x="20" y="17" width="15" height="15" fill="currentColor" />
   </symbol>
 )
 
 const SquareCrossedEdgeShape = (
   <symbol viewBox="0 0 50 50" id="squareCrossedEdge">
-    <rect x="20" y="17" width="15" height="15" fill="currentColor"/>
-    <text  y="30" x="20" fontSize="25" stroke="red" fill="red">X</text>
+    <rect x="20" y="17" width="15" height="15" fill="currentColor" />
+    <text y="30" x="20" fontSize="25" stroke="red" fill="red">X</text>
   </symbol>
 )
 
