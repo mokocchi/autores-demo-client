@@ -41,6 +41,11 @@ class PlanificacionEditJumpsContainer extends Component {
             return (((nodeX - colRect.x) / colRect.width) > 0.44)
         }
 
+        function didZoomIn() {
+            let slider = document.getElementsByClassName("slider")[0];
+            return slider.getAttribute("value") > 90
+        }
+
         function waitFor(conditionFunction) {
             const poll = resolve => {
                 if (conditionFunction()) resolve();
@@ -67,6 +72,18 @@ class PlanificacionEditJumpsContainer extends Component {
                         height: rightPanelRect.height
                     }
                 });
+            })
+
+            waitFor(_ => didZoomIn()).then(_ => {
+                let firstCircleRect = document.getElementById("node-12").getBoundingClientRect();
+                this.setState({
+                    step: 2,
+                    firstCircle: {
+                        x: firstCircleRect.x,
+                        y: firstCircleRect.y,
+                        width: firstCircleRect.width
+                    }
+                })
             })
         }
         );
@@ -357,7 +374,7 @@ class PlanificacionEditJumpsContainer extends Component {
                 showReferences={this.state.showReferences} onHideReferences={this.onHideReferences} onClickReferences={this.onClickReferences}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} isLoadingSave={this.state.isLoadingSave}
 
-                firstCircle={this.state.firstCircle} rightPanel={this.state.rightPanel} slider={this.state.slider}
+                step={this.state.step} firstCircle={this.state.firstCircle} rightPanel={this.state.rightPanel} slider={this.state.slider}
             />
         )
     }

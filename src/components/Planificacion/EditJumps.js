@@ -103,14 +103,15 @@ const PlanificacionEdit = (props) => {
                     </Card>
                 </Col>
                 <Col id="right-panel" >
-                    <div style={{
+                    <div id="opacity" style={{
                         backgroundColor: "black",
-                        opacity: "50%",
+                        opacity: "25%",
                         width: props.rightPanel.width,
                         height: props.rightPanel.height,
                         zIndex: 1,
                         position: "absolute",
-                        marginLeft: "-15px"
+                        marginLeft: "-15px",
+                        display: (props.step > 1)? "none": "auto"
                     }} />
                     <Alert variant="info">
                         <i>
@@ -124,7 +125,8 @@ const PlanificacionEdit = (props) => {
                         </i>
                         {" "}<Button size="xs" onClick={props.onClickReferences}><Icon name="md-information-circle-outline" font="Ionicons" color="white" size={"1rem"} /></Button>
                     </Alert>
-                    <img src={dehia_arrow} style={{left: props.slider.x - (props.slider.width * 0.5) - (props.slider.width * 0.25) - (props.rightPanel.width / 2), top: (props.slider.y - 200), position: "absolute", zIndex: 2}} />
+                    <img src={dehia_arrow} style={{left: props.slider.x - (props.slider.width * 0.35) - (props.rightPanel.width / 2), top: (props.slider.y - 200), position: "absolute", zIndex: 2, display: (props.step > 1) ? "none": "auto"}} />
+                    <img src={dehia_arrow} style={{left: props.firstCircle.x - (props.firstCircle.width * 0.25)  - (props.rightPanel.width / 2), top: (props.firstCircle.y - 170), position: "absolute", zIndex: 2, display: (props.step > 2)? "none": "auto"}} />
                     <Row style={{ border: "1px solid black", paddingTop: "2em", paddingBottom: "2em" }}>
                         <Col id="graph-col">
                             {props.success &&
