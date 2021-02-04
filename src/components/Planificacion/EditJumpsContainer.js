@@ -25,7 +25,9 @@ class PlanificacionEditJumpsContainer extends Component {
             saveSuccess: false,
             showReferences: false,
             isLoadingSave: false,
-            firstCircle: { x: 0, y: 0, width: 0 },
+            firstCircle: { x: 0, y: 0, width: 0, offset: 0 },
+            rightPanel: { width: 0, height: 0 },
+            slider: { x: 0, y: 0, width: 0 }
         }
         this.Graph = React.createRef();
     }
@@ -36,7 +38,7 @@ class PlanificacionEditJumpsContainer extends Component {
         function isInTheMiddle() {
             let nodeX = document.getElementById("node-12").getBoundingClientRect().x;
             let colRect = document.getElementById("graph-col").getBoundingClientRect();
-            return (((nodeX - colRect.x) / colRect.width) > 0.46)
+            return (((nodeX - colRect.x) / colRect.width) > 0.44)
         }
 
         function waitFor(conditionFunction) {
@@ -47,17 +49,26 @@ class PlanificacionEditJumpsContainer extends Component {
             return new Promise(poll);
         }
 
-        document.arrive(".slider", () =>
+        document.arrive(".slider", () => {
+            let sliderRect = document.getElementsByClassName("slider")[0].getBoundingClientRect();
+            this.setState({
+                slider: {
+                    x: sliderRect.x,
+                    y: sliderRect.y,
+                    width: sliderRect.width
+                }
+            })
+
             waitFor(_ => isInTheMiddle()).then(_ => {
-                let nodeRect = document.getElementById("node-12").getBoundingClientRect();
+                let rightPanelRect = document.getElementById("right-panel").getBoundingClientRect();
                 this.setState({
-                    firstCircle: {
-                        x: nodeRect.x,
-                        y: nodeRect.y,
-                        width: nodeRect.width
+                    rightPanel: {
+                        width: rightPanelRect.width,
+                        height: rightPanelRect.height
                     }
                 });
             })
+        }
         );
 
     }
@@ -346,7 +357,7 @@ class PlanificacionEditJumpsContainer extends Component {
                 showReferences={this.state.showReferences} onHideReferences={this.onHideReferences} onClickReferences={this.onClickReferences}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} isLoadingSave={this.state.isLoadingSave}
 
-                firstCircle={this.state.firstCircle}
+                firstCircle={this.state.firstCircle} rightPanel={this.state.rightPanel} slider={this.state.slider}
             />
         )
     }
