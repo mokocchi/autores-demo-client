@@ -34,7 +34,7 @@ function ModalConexion({ show, conexion, handleClose, tareas, onRemoveConexion, 
                 </Card>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="danger" onClick={() => { onRemoveConexion(conexion); handleClose() }}>Quitar conexión</Button>
+                <Button id="quitar-conexion-button" variant="danger" onClick={() => { onRemoveConexion(conexion); handleClose() }}>Quitar conexión</Button>
             </Modal.Footer>
         </Modal>
     )

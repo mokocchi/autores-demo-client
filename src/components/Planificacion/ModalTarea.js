@@ -140,7 +140,7 @@ class ModalTarea extends Component {
                 case "YES":
                 case "NO":
                     return (
-                        <Select dataCy="condicionRespuesta" key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
+                        <Select id="yes-no-select" dataCy="condicionRespuesta" key={this.state.selectedCondition.code} options={this.props.tarea.extra.elements} defaultValue={""} value={"code"} field={"name"}
                             placeholder={"Elegir..."} onChange={this.onAnswerTaskChange} />
                     );
                 case "CORRECT":
@@ -205,7 +205,7 @@ class ModalTarea extends Component {
                                 {this.state.selectedSiguiente &&
                                     <Row>
                                         <Col md={6}>
-                                            <CheckBox dataCy="mostrarCondicion" checked={this.state.showCondicion} onChange={this.onCondicionCheckboxChange} label={"Mostrar condición"} />
+                                            <CheckBox id="check-condicion" dataCy="mostrarCondicion" checked={this.state.showCondicion} onChange={this.onCondicionCheckboxChange} label={"Mostrar condición"} />
                                         </Col>
                                     </Row>}
                                 {this.state.showCondicion &&
@@ -213,7 +213,7 @@ class ModalTarea extends Component {
                                         <Row>
                                             <Col>Cuando...</Col>
                                             <Col>
-                                                <Select dataCy="cuando" options={this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
+                                                <Select id="cuando-select" dataCy="cuando" options={this.tareaHasOptions() ? CONDITIONS_ARRAY : TASK_CONDITIONS_ARRAY} defaultValue={""} value={"code"} field={"name"}
                                                     placeholder={"Elegir..."} onChange={this.onCondicionSelectChange} />
                                             </Col>
                                         </Row>
@@ -227,7 +227,7 @@ class ModalTarea extends Component {
                                         </Row>
                                     </>
                                 }
-                                <Button variant="success" className="float-right" disabled={this.state.agregarConexionDisabled}
+                                <Button id="agregar-conexion-button" variant="success" className="float-right" disabled={this.state.agregarConexionDisabled}
                                     onClick={this.onClickAgregarConexion} data-cy="agregarConexion">Agregar conexión</Button>
                             </Card>
                         }

@@ -76,6 +76,7 @@ const PlanificacionEdit = (props) => {
                                         {(props.step > 4) &&
                                             <ListGroupItem id="step-5" variant={props.step > 5 ? "secondary" : "none"}
                                                 style={{
+                                                    zIndex: (props.step == 5) ? 1060 : "auto", 
                                                     borderWidth: (props.step == 5) && "3px",
                                                     borderColor: (props.step == 5) && "black"
                                                 }}>
@@ -103,6 +104,7 @@ const PlanificacionEdit = (props) => {
                                         {(props.step > 7) &&
                                             <ListGroupItem id="step-8" variant={props.step > 8 ? "secondary" : "none"}
                                                 style={{
+                                                    zIndex: (props.step == 8) ? 1060 : "auto", 
                                                     borderWidth: (props.step == 8) && "3px",
                                                     borderColor: (props.step == 8) && "black"
                                                 }}>
@@ -143,12 +145,13 @@ const PlanificacionEdit = (props) => {
                                                     borderWidth: (props.step == 11) && "3px",
                                                     borderColor: (props.step == 11) && "black"
                                                 }}>
-                                                11 - Ahora vamos a crear una conexión con una condición, de la segunda tarea a la tercera. Hacé click en la segunda tarea.
+                                                11 - Ahora vamos a crear una conexión con una condición, de la segunda tarea a la tercera. Hacé click en la segunda tarea (la que dice <b>Fin 2</b>).
                                 </ListGroupItem>
                                         }
                                         {(props.step > 11) &&
                                             <ListGroupItem id="step-12" variant={props.step > 12 ? "secondary" : "none"}
                                                 style={{
+                                                    zIndex: (props.step == 12) ? 1060 : "auto", 
                                                     borderWidth: (props.step == 12) && "3px",
                                                     borderColor: (props.step == 12) && "black"
                                                 }}>
@@ -158,6 +161,7 @@ const PlanificacionEdit = (props) => {
                                         {(props.step > 12) &&
                                             <ListGroupItem id="step-13" variant={props.step > 13 ? "secondary" : "none"}
                                                 style={{
+                                                    zIndex: (props.step == 13) ? 1060 : "auto", 
                                                     borderWidth: (props.step == 13) && "3px",
                                                     borderColor: (props.step == 13) && "black"
                                                 }}>
@@ -167,6 +171,7 @@ const PlanificacionEdit = (props) => {
                                         {(props.step > 13) &&
                                             <ListGroupItem id="step-14" variant={props.step > 14 ? "secondary" : "none"}
                                                 style={{
+                                                    zIndex: (props.step == 14) ? 1060 : "auto", 
                                                     borderWidth: (props.step == 14) && "3px",
                                                     borderColor: (props.step == 14) && "black"
                                                 }}>
@@ -177,6 +182,7 @@ const PlanificacionEdit = (props) => {
                                         {(props.step > 14) &&
                                             <ListGroupItem id="step-15" variant={props.step > 15 ? "secondary" : "none"}
                                                 style={{
+                                                    zIndex: (props.step == 15) ? 1060 : "auto", 
                                                     borderWidth: (props.step == 15) && "3px",
                                                     borderColor: (props.step == 15) && "black"
                                                 }}>

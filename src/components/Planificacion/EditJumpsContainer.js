@@ -26,7 +26,7 @@ class PlanificacionEditJumpsContainer extends Component {
             saveSuccess: false,
             showReferences: false,
             isLoadingSave: false,
-            
+
             firstCircle: { x: 0, y: 0, width: 0, offset: 0 },
             rightPanel: { width: 0, height: 0 },
             slider: { x: 0, y: 0, width: 0 },
@@ -35,6 +35,12 @@ class PlanificacionEditJumpsContainer extends Component {
             tour: true,
             clickedButtonStep4: false,
             selectedStep5: false,
+            clickedButtonStep6: false,
+            clickedButtonStep9: false,
+            selectedStep13: false,
+            clickCheckStep14: false,
+            selectedStep15a: false,
+            selectedStep15b: false,
         }
         this.Graph = React.createRef();
     }
@@ -56,11 +62,28 @@ class PlanificacionEditJumpsContainer extends Component {
         //step 2
         const didZoomIn = () => {
             const slider = document.getElementsByClassName("slider")[0];
-            return slider.getAttribute("value") > 90
+            return slider.getAttribute("value") > 80
         }
 
-        //step 3 - 4
+        //step 3 - 6
         //nothing
+
+        //step 7
+        const node2Visible = () => {
+            const node2Rect = document.getElementById("node-2").getBoundingClientRect();
+            const rightPanelRect = document.getElementById("right-panel").getBoundingClientRect()
+            return node2Rect.right < rightPanelRect.right + (node2Rect.width * 0.6);
+        }
+
+        //step 10
+        const createdConnection = () => {
+            let arrows = document.getElementsByClassName("edge-overlay-path");
+            if (arrows.length == 0) {
+                return false;
+            } else {
+                return arrows[0].getAttribute("id") == "1_2";
+            }
+        }
 
         const waitFor = (conditionFunction) => {
             const poll = resolve => {
@@ -132,16 +155,174 @@ class PlanificacionEditJumpsContainer extends Component {
             })
         }
 
+        const onClickButtonStep6 = () => {
+            this.setState({
+                clickedButtonStep6: true
+            })
+        }
+
         const waitForStep5 = () => {
             waitFor(_ => this.state.selectedStep5).then(_ => {
                 this.setState({ step: 5 })
                 document.getElementById("step-5").scrollIntoView();
                 const select = document.getElementById("select-siguiente-tarea");
                 select.removeEventListener("change", onChangeSelectStep5);
-                //waitForStep6
+                const button = document.getElementById("agregar-conexion-button");
+                button.addEventListener("click", onClickButtonStep6);
+                waitForStep6();
             })
         }
 
+        const waitForStep6 = () => {
+            waitFor(_ => this.state.clickedButtonStep6).then(_ => {
+                this.setState({
+                    step: 6
+                })
+                document.getElementById("step-6").scrollIntoView();
+                waitForStep7();
+            })
+        }
+
+        const waitForStep7 = () => {
+            waitFor(_ => node2Visible()).then(_ => {
+                this.setState({
+                    step: 7
+                })
+                document.getElementById("step-7").scrollIntoView();
+                waitForStep8();
+            })
+        }
+
+        const onClickButtonStep9 = () => {
+            this.setState({
+                clickedButtonStep9: true
+            })
+        }
+
+        const waitForStep8 = () => {
+            waitFor(_ => this.state.step == 8).then(_ => {
+                document.getElementById("quitar-conexion-button").addEventListener("click", onClickButtonStep9);
+                document.getElementById("step-8").scrollIntoView()
+                waitForStep9();
+            })
+        }
+
+        const waitForStep9 = () => {
+            waitFor(_ => this.state.clickedButtonStep9).then(_ => {
+                this.setState({
+                    step: 9
+                })
+                document.getElementById("step-9").scrollIntoView();
+                waitForStep10();
+            })
+        }
+
+        const waitForStep10 = () => {
+            waitFor(_ => isInTheMiddle()).then(_ => {
+                this.setState({
+                    step: 10
+                })
+                document.getElementById("step-10").scrollIntoView();
+                waitForStep11();
+            })
+        }
+
+        const waitForStep11 = () => {
+            waitFor(_ => createdConnection()).then(_ => {
+                this.setState({
+                    step: 11
+                })
+                document.getElementById("step-11").scrollIntoView();
+                waitForStep12();
+            })
+        }
+
+        const onChangeSelectStep13 = (ev) => {
+            if (ev.target.value == "3") {
+                this.setState({
+                    selectedStep13: true
+                })
+            }
+        }
+
+        const waitForStep12 = () => {
+            waitFor(_ => this.state.step == 12).then(_ => {
+                document.getElementById("step-12").scrollIntoView();
+
+                waitFor(_ => document.getElementById("select-siguiente-tarea") != null).then(_ =>
+                    document.getElementById("select-siguiente-tarea").addEventListener("change", onChangeSelectStep13)
+                );
+                waitForStep13();
+            })
+        }
+
+        const onClickCheckStep14 = () => {
+            this.setState({
+                clickCheckStep14: true
+            })
+        }
+
+        const waitForStep13 = () => {
+            waitFor(_ => this.state.selectedStep13).then(_ => {
+                this.setState({
+                    step: 13
+                })
+                document.getElementById("step-13").scrollIntoView();
+                document.getElementById("select-siguiente-tarea").removeEventListener("change", onChangeSelectStep13)
+                document.getElementById("check-condicion").addEventListener("click", onClickCheckStep14)
+                waitForStep14();
+            })
+        }
+
+        const onChangeSelectStep15a = () => {
+            this.setState({
+                selectedStep14a: true
+            })
+        }
+
+        const onChangeSelectStep15b = () => {
+            this.setState({
+                selectedStep14b: true
+            })
+        }
+
+        const waitForStep14 = () => {
+            waitFor(_ => this.state.clickCheckStep14).then(_ => {
+                this.setState({
+                    step: 14
+                })
+                document.getElementById("step-14").scrollIntoView();
+                document.getElementById("check-condicion").removeEventListener("click", onClickCheckStep14)
+
+
+                //!!!!!! revisar !!!!!
+                waitFor(_ => document.getElementById("cuando-select") != null)
+                    .then(_ => {
+                        document.getElementById("cuando-select").addEventListener("change", onChangeSelectStep15a);
+                        waitFor(_ => document.getElementById("yes-no-select") != null)
+                            .then(
+                                document.getElementById("yes-no-select").addEventListener("change", onChangeSelectStep15b)
+                            )
+                    })
+                waitForStep15();
+            })
+        }
+
+        const waitForStep15 = () => {
+            waitFor(_ => this.state.selectedStep14a && this.state.selectedStep14b).then(_ => {
+                this.setState({
+                    step: 15
+                })
+                document.getElementById("cuando-select").removeEventListener("change", onChangeSelectStep15a)
+                document.getElementById("yes-no-select").removeEventListener("change", onChangeSelectStep15b)
+                document.getElementById("step-15").scrollIntoView();
+                waitForStep16();
+            })
+        }
+
+        const waitForStep16 = () => {
+
+        }
 
         document.arrive(".slider", () => {
             const sliderRect = document.getElementsByClassName("slider")[0].getBoundingClientRect();
@@ -203,7 +384,22 @@ class PlanificacionEditJumpsContainer extends Component {
             },
             {
                 nombre: "Tarea con opciones 1",
-                id: 2
+                id: 2,
+                tipo: {
+                    id: "6",
+                },
+                extra: {
+                    elements: [
+                        {
+                            code: "1",
+                            name: "Uno"
+                        },
+                        {
+                            code: "2",
+                            name: "Dos"
+                        },
+                    ]
+                }
             },
             {
                 nombre: "Tarea simple 2",
@@ -425,6 +621,11 @@ class PlanificacionEditJumpsContainer extends Component {
                 step: 3
             })
         }
+        if (this.state.step == 11) {
+            this.setState({
+                step: 12
+            })
+        }
     }
 
     handleCloseTarea = () => {
@@ -442,6 +643,11 @@ class PlanificacionEditJumpsContainer extends Component {
             selectedConexion: conexion,
             selectedOpciones: tarea.extra ? tarea.extra.elements : []
         })
+        if ((this.state.step == 7) && (tarea.id == 1)) {
+            this.setState({
+                step: 8
+            })
+        }
     }
 
     handleCloseConexion = () => {
