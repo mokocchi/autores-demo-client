@@ -26,6 +26,7 @@ class PlanificacionEditJumpsContainer extends Component {
             saveSuccess: false,
             showReferences: false,
             isLoadingSave: false,
+            
             firstCircle: { x: 0, y: 0, width: 0, offset: 0 },
             rightPanel: { width: 0, height: 0 },
             slider: { x: 0, y: 0, width: 0 },
@@ -39,11 +40,15 @@ class PlanificacionEditJumpsContainer extends Component {
     }
 
     componentDidMount() {
-        this.setCurrentActividad(this.props.actividadId);
+        if (this.state.tour) {
+            this.loadTourDummy()
+        } else {
+            this.setCurrentActividad(this.props.actividadId);
+        }
 
         //step 1
         const isInTheMiddle = () => {
-            const nodeX = document.getElementById("node-12").getBoundingClientRect().x;
+            const nodeX = document.getElementById("node-1").getBoundingClientRect().x;
             const colRect = document.getElementById("graph-col").getBoundingClientRect();
             return (((nodeX - colRect.x) / colRect.width) > 0.44)
         }
@@ -80,7 +85,7 @@ class PlanificacionEditJumpsContainer extends Component {
 
         const waitForStep2 = () => {
             waitFor(_ => didZoomIn()).then(_ => {
-                const firstCircle = document.getElementById("node-12");
+                const firstCircle = document.getElementById("node-1");
                 const firstCircleRect = firstCircle.getBoundingClientRect();
                 this.setState({
                     step: 2,
@@ -108,8 +113,7 @@ class PlanificacionEditJumpsContainer extends Component {
         }
 
         const onChangeSelectStep5 = (ev) => {
-            //TODO: actualizar con valor dummy
-            if (ev.target.value == "13") {
+            if (ev.target.value == "2") {
                 this.setState({
                     selectedStep5: true
                 })
@@ -188,6 +192,47 @@ class PlanificacionEditJumpsContainer extends Component {
         this.setState({
             graphConexiones: [...newConexiones]
         })
+    }
+
+    loadTourDummy() {
+        const conexiones = [];
+        const dataTareas = [
+            {
+                nombre: "Tarea simple 1",
+                id: 1
+            },
+            {
+                nombre: "Tarea con opciones 1",
+                id: 2
+            },
+            {
+                nombre: "Tarea simple 2",
+                id: 3
+            },
+            {
+                nombre: "Tarea simple 3",
+                id: 4
+            },
+            {
+                nombre: "Tarea simple 4",
+                id: 5
+            }
+        ]
+        const tareas = dataTareas.map((tarea, index) => {
+            return {
+                ...tarea,
+                nombre: (index + 1) + ". " + tarea.nombre,
+                id: tarea.id,
+                graphId: index + 1,
+                optional: false,
+                initial: false
+            }
+        })
+        this.setState({
+            graphTareas: tareas,
+            graphConexiones: conexiones,
+            success: true
+        });
     }
 
     async setCurrentActividad() {
@@ -434,7 +479,7 @@ class PlanificacionEditJumpsContainer extends Component {
     render() {
         return (
             <PlanificacionEditJumps graphConexiones={this.state.graphConexiones} tareas={this.state.graphTareas}
-                conexiones={this.state.graphConexiones} actividadId={this.props.actividad.id} clone={this.props.clone}
+                conexiones={this.state.graphConexiones} actividadId={this.state.tour ? 0 : this.props.actividad.id} clone={this.props.clone}
 
                 selectedTarea={this.state.selectedTarea} handleCloseTarea={this.handleCloseTarea}
                 showTarea={this.state.showTarea} onShowTarea={this.handleShowTarea}
