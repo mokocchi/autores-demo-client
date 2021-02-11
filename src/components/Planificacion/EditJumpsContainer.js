@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setCurrentActividad } from '../../redux/actions'
 
+import 'arrive';
 
 import tokenManager from '../../tokenManager';
 import md5 from 'md5';
@@ -27,7 +28,12 @@ class PlanificacionEditJumpsContainer extends Component {
             isLoadingSave: false,
             firstCircle: { x: 0, y: 0, width: 0, offset: 0 },
             rightPanel: { width: 0, height: 0 },
-            slider: { x: 0, y: 0, width: 0 }
+            slider: { x: 0, y: 0, width: 0 },
+            step: 1,
+            startTour: false,
+            tour: true,
+            clickedButtonStep4: false,
+            selectedStep5: false,
         }
         this.Graph = React.createRef();
     }
@@ -35,18 +41,23 @@ class PlanificacionEditJumpsContainer extends Component {
     componentDidMount() {
         this.setCurrentActividad(this.props.actividadId);
 
-        function isInTheMiddle() {
-            let nodeX = document.getElementById("node-12").getBoundingClientRect().x;
-            let colRect = document.getElementById("graph-col").getBoundingClientRect();
+        //step 1
+        const isInTheMiddle = () => {
+            const nodeX = document.getElementById("node-12").getBoundingClientRect().x;
+            const colRect = document.getElementById("graph-col").getBoundingClientRect();
             return (((nodeX - colRect.x) / colRect.width) > 0.44)
         }
 
-        function didZoomIn() {
-            let slider = document.getElementsByClassName("slider")[0];
+        //step 2
+        const didZoomIn = () => {
+            const slider = document.getElementsByClassName("slider")[0];
             return slider.getAttribute("value") > 90
         }
 
-        function waitFor(conditionFunction) {
+        //step 3 - 4
+        //nothing
+
+        const waitFor = (conditionFunction) => {
             const poll = resolve => {
                 if (conditionFunction()) resolve();
                 else setTimeout(_ => poll(resolve), 400);
@@ -54,28 +65,23 @@ class PlanificacionEditJumpsContainer extends Component {
             return new Promise(poll);
         }
 
-        document.arrive(".slider", () => {
-            let sliderRect = document.getElementsByClassName("slider")[0].getBoundingClientRect();
-            this.setState({
-                slider: {
-                    x: sliderRect.x,
-                    y: sliderRect.y,
-                    width: sliderRect.width
-                }
-            })
-
+        const waitForStep1 = () => {
             waitFor(_ => isInTheMiddle()).then(_ => {
-                let rightPanelRect = document.getElementById("right-panel").getBoundingClientRect();
+                const rightPanelRect = document.getElementById("right-panel").getBoundingClientRect();
                 this.setState({
                     rightPanel: {
                         width: rightPanelRect.width,
                         height: rightPanelRect.height
                     }
                 });
+                waitForStep2();
             })
+        }
 
+        const waitForStep2 = () => {
             waitFor(_ => didZoomIn()).then(_ => {
-                let firstCircleRect = document.getElementById("node-12").getBoundingClientRect();
+                const firstCircle = document.getElementById("node-12");
+                const firstCircleRect = firstCircle.getBoundingClientRect();
                 this.setState({
                     step: 2,
                     firstCircle: {
@@ -84,10 +90,74 @@ class PlanificacionEditJumpsContainer extends Component {
                         width: firstCircleRect.width
                     }
                 })
+                waitForStep3();
             })
+        }
+
+        const onClickButtonStep4 = () => {
+            this.setState({
+                clickedButtonStep4: true
+            })
+        }
+
+        const waitForStep3 = () => {
+            waitFor(_ => this.state.step == 3).then(_ => {
+                document.getElementById("agregar-conexiones-modal").addEventListener("click", onClickButtonStep4);
+                waitForStep4();
+            })
+        }
+
+        const onChangeSelectStep5 = (ev) => {
+            //TODO: actualizar con valor dummy
+            if (ev.target.value == "13") {
+                this.setState({
+                    selectedStep5: true
+                })
+            }
+        }
+
+        const waitForStep4 = () => {
+            waitFor(_ => this.state.clickedButtonStep4).then(_ => {
+                this.setState({
+                    step: 4
+                })
+                document.getElementById("step-4").scrollIntoView();
+                const select = document.getElementById("select-siguiente-tarea");
+                select.addEventListener("change", onChangeSelectStep5);
+                waitForStep5();
+            })
+        }
+
+        const waitForStep5 = () => {
+            waitFor(_ => this.state.selectedStep5).then(_ => {
+                this.setState({ step: 5 })
+                document.getElementById("step-5").scrollIntoView();
+                const select = document.getElementById("select-siguiente-tarea");
+                select.removeEventListener("change", onChangeSelectStep5);
+                //waitForStep6
+            })
+        }
+
+
+        document.arrive(".slider", () => {
+            const sliderRect = document.getElementsByClassName("slider")[0].getBoundingClientRect();
+            this.setState({
+                slider: {
+                    x: sliderRect.x,
+                    y: sliderRect.y,
+                    width: sliderRect.width
+                }
+            })
+            waitForStep1();
         }
         );
 
+    }
+
+    onStartTour = () => {
+        this.setState({
+            startTour: true
+        })
     }
 
     onUpdateTarea = (tarea) => {
@@ -303,8 +373,13 @@ class PlanificacionEditJumpsContainer extends Component {
         const tarea = this.state.graphTareas.find(tarea => tarea.id === tareaId);
         this.setState({
             showTarea: true,
-            selectedTarea: tarea
+            selectedTarea: tarea,
         })
+        if (this.state.step == 2) {
+            this.setState({
+                step: 3
+            })
+        }
     }
 
     handleCloseTarea = () => {
@@ -374,7 +449,9 @@ class PlanificacionEditJumpsContainer extends Component {
                 showReferences={this.state.showReferences} onHideReferences={this.onHideReferences} onClickReferences={this.onClickReferences}
                 success={this.state.success} saveSuccess={this.state.saveSuccess} isLoadingSave={this.state.isLoadingSave}
 
+                tour={this.state.tour}
                 step={this.state.step} firstCircle={this.state.firstCircle} rightPanel={this.state.rightPanel} slider={this.state.slider}
+                onStartTour={this.onStartTour} startTour={this.state.startTour}
             />
         )
     }
