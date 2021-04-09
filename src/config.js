@@ -1,8 +1,11 @@
-export const API_BASE_URL = 'http://localhost:8000/api/v1.0';
+import { GATEWAY_HOST } from "./env";
 
-export const PLANOS_URL = "http://localhost:8000/uploads/planos"
 
-export const TOKEN_AUTH_URL = "http://localhost:8000/api/v1.0/tokens";
+export const API_BASE_URL = `${GATEWAY_HOST}/api/v1.0`;
+
+export const PLANOS_URL = `${GATEWAY_HOST}/uploads/planos`;
+
+export const TOKEN_AUTH_URL = `${GATEWAY_HOST}/api/v1.0/tokens`;
 
 export const TIPO_SIMPLE = "simple";
 export const TIPO_TEXT_INPUT = "textInput";
