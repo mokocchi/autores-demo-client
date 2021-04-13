@@ -1,8 +1,9 @@
 import { createUserManager } from 'redux-oidc';
 import { WebStorageStateStore } from 'oidc-client';
+import { GOOGLE_CLIENT_ID } from './env';
 
 const userManagerConfig = {
-  client_id: '43374848214-hl38qlsqb3a3splnoljs4shmm900d0ep.apps.googleusercontent.com',
+  client_id: GOOGLE_CLIENT_ID,
   redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/callback`,
   response_type: 'token id_token',
   scope: 'openid profile email',
