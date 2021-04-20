@@ -4,40 +4,55 @@ import { Alert, Table, Button } from 'react-bootstrap';
 import { TIPO_NUMBER_INPUT, TIPO_CAMERA_INPUT, TIPO_MULTIPLE, TIPO_GPS_INPUT, TIPO_AUDIO_INPUT, TIPO_SELECT, TIPO_SIMPLE, TIPO_TEXT_INPUT, TIPO_DEPOSIT, TIPO_COUNTERS, TIPO_COLLECT } from '../../../config';
 import { Link } from 'react-router-dom';
 
-const getCellContent = cell => {
-    switch (cell.tipo) {
+const getCellContent = (cell, task) => {
+    switch (task.tipo.codigo) {
         case TIPO_SIMPLE:
-            return <Button variant="outline-success" disabled style={{cursor: "default"}}>Realizada</Button>
+            return <Button variant="outline-success" disabled style={{ cursor: "default" }}>Realizada</Button>
         case TIPO_TEXT_INPUT:
         case TIPO_NUMBER_INPUT:
+            return cell;
         case TIPO_SELECT:
+            const element = task.extra.elements.find(el => el.code === cell);
+            if (element) {
+                return element.name
+            } else {
+                return `[[${cell}]]`
+            }
         case TIPO_MULTIPLE:
+            const found_elements = task.extra.elements.filter(el => cell.includes(el.code));
+            if (found_elements.length > 0) {
+                return found_elements.map(el => el.name).join(", ")
+            } else {
+                return JSON.stringify(cell); //`[[${cell.join(",")}]]`
+            }
         case TIPO_COUNTERS:
+            const blocks = task.extra.elements.map(el => { console.log(cell); return `${el.name}: ${parseFloat(cell[el.code]) * parseFloat(task.extra.byScore[0].scores[el.code])}` })
+            return <p><b>{task.extra.byScore[0].name}</b><br /><ul>{blocks.map((it, idx) =><li key={idx}>{it}</li>)}</ul></p>
         case TIPO_COLLECT:
-            return cell.respuesta;
+            return JSON.stringify(cell);
         case TIPO_CAMERA_INPUT:
             return <img
                 style={{ width: 150 }}
                 src={"https://via.placeholder.com/500x500"}
-                alt={cell.respuesta}
+                alt={cell}
             />;
         case TIPO_DEPOSIT:
             return "buscar en las otras tareas";
         case TIPO_GPS_INPUT:
-            if (cell.respuesta.type === "coords") {
+            if (cell.type === "coords") {
                 return <>
-                    ({cell.respuesta.data.longitude}, {cell.respuesta.data.latitude})<br />
+                    ({cell.data.longitude}, {cell.data.latitude})<br />
                     <Link to={"/mapa"}>
                         Ver en el mapa
                 </Link>
                 </>
             } else {
-                return cell.respuesta.data;
+                return JSON.stringify(cell.data)
             }
         case TIPO_AUDIO_INPUT:
-            return `{componente audio de ${cell.respuesta}}`;
+            return `{componente audio de ${cell}}`;
         default:
-            return <Button variant="outline-info" disabled style={{cursor: "default"}}>Salteada</Button>
+            return <Button variant="outline-info" disabled style={{ cursor: "default" }}>Salteada</Button>
     }
 }
 
@@ -50,7 +65,7 @@ const ResultsTable = ({ data, loading, error }) => {
                     <thead>
                         <tr>
                             {data.columns.map((col, index) =>
-                                <th key={index} style={{ whiteSpace: "nowrap" }}>{col}</th>
+                                <th key={index} style={{ whiteSpace: "nowrap" }}>{col.nombre}</th>
                             )}
                         </tr>
                     </thead>
@@ -58,8 +73,8 @@ const ResultsTable = ({ data, loading, error }) => {
                         {data.rows.map((row, index) =>
                             <tr key={index}>
                                 {row.map(
-                                    cell =>
-                                        <td>{getCellContent(cell)}</td>
+                                    (cell, index) =>
+                                        <td key={index}>{getCellContent(cell, data.columns[index])}</td>
                                 )}
                             </tr>)}
                     </tbody>
