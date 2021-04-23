@@ -10,24 +10,25 @@ const getCellContent = (cell, task) => {
             return <Button variant="outline-success" disabled style={{ cursor: "default" }}>Realizada</Button>
         case TIPO_TEXT_INPUT:
         case TIPO_NUMBER_INPUT:
-            return cell;
+            return cell; //sanitizar
         case TIPO_SELECT:
             const element = task.extra.elements.find(el => el.code === cell);
             if (element) {
                 return element.name
             } else {
-                return `[[${cell}]]`
+                return "(Sin respuesta)"
             }
         case TIPO_MULTIPLE:
             const found_elements = task.extra.elements.filter(el => cell.includes(el.code));
             if (found_elements.length > 0) {
                 return found_elements.map(el => el.name).join(", ")
             } else {
-                return JSON.stringify(cell); //`[[${cell.join(",")}]]`
+                return "(Sin respuesta)"
+                // return JSON.stringify(cell); //`[[${cell.join(",")}]]`
             }
         case TIPO_COUNTERS:
             const blocks = task.extra.elements.map(el => { console.log(cell); return `${el.name}: ${parseFloat(cell[el.code]) * parseFloat(task.extra.byScore[0].scores[el.code])}` })
-            return <p><b>{task.extra.byScore[0].name}</b><br /><ul>{blocks.map((it, idx) =><li key={idx}>{it}</li>)}</ul></p>
+            return <p><b>{task.extra.byScore[0].name}</b><br /><ul>{blocks.map((it, idx) => <li key={idx}>{it}</li>)}</ul></p>
         case TIPO_COLLECT:
             return JSON.stringify(cell);
         case TIPO_CAMERA_INPUT:
@@ -47,10 +48,18 @@ const getCellContent = (cell, task) => {
                 </Link>
                 </>
             } else {
-                return JSON.stringify(cell.data)
+                if (cell.data) {
+                    return cell.data
+                } else {
+                    return "(Sin respuesta)"
+                }
             }
         case TIPO_AUDIO_INPUT:
-            return `{componente audio de ${cell}}`;
+            if(cell === "<Sin respuesta>") {
+                return "(Sin respuesta)"
+            } else {
+                return `{componente audio de ${cell}}`; //sanitizar
+            }
         default:
             return <Button variant="outline-info" disabled style={{ cursor: "default" }}>Salteada</Button>
     }
