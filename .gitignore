@@ -24,3 +24,5 @@ yarn-error.log*
 
 cypress.env.json
 src/env.js
+.env
+public/env-config.js

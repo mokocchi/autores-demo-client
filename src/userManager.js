@@ -3,7 +3,7 @@ import { WebStorageStateStore } from 'oidc-client';
 import { GOOGLE_CLIENT_ID } from './env';
 
 const userManagerConfig = {
-  client_id: GOOGLE_CLIENT_ID,
+  client_id: window._env_.GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID,
   redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/callback`,
   response_type: 'token id_token',
   scope: 'openid profile email',

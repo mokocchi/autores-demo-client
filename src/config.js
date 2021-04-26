@@ -1,11 +1,12 @@
 import { GATEWAY_HOST } from "./env";
 
+const gw_host = window._env_.GATEWAY_HOST || GATEWAY_HOST;
 
-export const API_BASE_URL = `${GATEWAY_HOST}/api/v1.0`;
+export const API_BASE_URL = `${gw_host}/api/v1.0`;
 
-export const PLANOS_URL = `${GATEWAY_HOST}/uploads/planos`;
+export const PLANOS_URL = `${gw_host}/uploads/planos`;
 
-export const TOKEN_AUTH_URL = `${GATEWAY_HOST}/api/v1.0/tokens`;
+export const TOKEN_AUTH_URL = `${gw_host}/api/v1.0/tokens`;
 
 export const TIPO_SIMPLE = "simple";
 export const TIPO_TEXT_INPUT = "textInput";
