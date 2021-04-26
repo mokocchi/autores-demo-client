@@ -27,11 +27,11 @@ You can install the frontend either in its containerized version using Docker or
  ```
  docker image build -t <image-tag> .
  ```
- 4. Run the container exposing the port you set in 1 (and using the network if needed): 
+ 4. Run the container exposing one port
  ```
- docker run --name <container-name> -p <host-port>:80 [--network <dehia-network>] <image-tag>
+ docker run --name <container-name> -p <host-port>:80 <image-tag>
  ```
- 5. Go to `http://localhost:<host-port>`. You should see a loading message, or the login page if the gateway is running.
+ 5. Go to `http://localhost:<host-port>`. You should see the login page.
 ### Run locally (Linux)
 1. Make sure you have `node` installed:
  ```
