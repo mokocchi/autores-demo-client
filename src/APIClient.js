@@ -142,7 +142,7 @@ export default class APIClient {
 
 
     me() {
-        return this.authorizedGetRequest('/users/me');
+        return this.authorizedGetRequest('/me');
     }
 
 
