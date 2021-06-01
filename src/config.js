@@ -1,6 +1,6 @@
 import { GATEWAY_HOST } from "./env";
 
-const gw_host = window._env_.GATEWAY_HOST || GATEWAY_HOST;
+const gw_host = window._env_ ? window._env_.GATEWAY_HOST : GATEWAY_HOST;
 
 export const API_BASE_URL = `${gw_host}/api/v1.0`;
 
