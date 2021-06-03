@@ -1,12 +1,12 @@
-FROM node:14.1-alpine AS builder
+FROM node:16-alpine AS builder
 
 WORKDIR /opt/web
-COPY package*.json ./
+COPY app/package*.json ./
 RUN yarn install
 
 ENV PATH="./node_modules/.bin:$PATH"
 
-COPY . ./
+COPY ./app ./
 RUN yarn build
 
 FROM nginx:1.17-alpine
@@ -18,10 +18,10 @@ COPY ./nginx.config /etc/nginx/nginx.template
 
 COPY --from=builder /opt/web/build /usr/share/nginx/html
 
-WORKDIR /usr/share/nginx/html
+WORKDIR /usr/share/nginx
 
 COPY ./env.sh .
-COPY .env .
+COPY .env-template .
 
 # Add bash
 RUN apk add --no-cache bash
@@ -29,4 +29,9 @@ RUN apk add --no-cache bash
 # Make our shell script executable
 RUN chmod +x env.sh
 
-CMD ["/bin/bash", "-c", "envsubst < /etc/nginx/nginx.template > /etc/nginx/conf.d/default.conf && /usr/share/nginx/html/env.sh && nginx -g 'daemon off;'"]
+WORKDIR /usr/share/nginx/html
+
+CMD ["/bin/bash", "-c", "envsubst < /etc/nginx/nginx.template > /etc/nginx/conf.d/default.conf \
+    && envsubst < /usr/share/nginx/.env-template > /usr/share/nginx/.env \
+    && /usr/share/nginx/env.sh \
+    && nginx -g 'daemon off;'"]

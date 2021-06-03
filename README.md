@@ -21,7 +21,7 @@ There is also an API that manages the activities lifecycle, collects the data fr
 ## Installation
 You can install the frontend either in its containerized version using Docker or locally (on Linux) using Yarn.
 ### Docker
- 1. Create an `src/env.js` file based in `src/env.dist` (See [Environment Variables](#Environment-Variables))
+ 1. Create an `app/src/env.js` file based in `app/src/env.dist` (See [Environment Variables](#Environment-Variables))
  2. If the gateway is also run with docker, take note of the docker network.
  3. Build the image: 
  ```
@@ -42,7 +42,7 @@ You can install the frontend either in its containerized version using Docker or
  ```
  yarn install
  ```
- 4. Create an `src/env.js` file based in `src/env.js.dist` (See [Environment Variables](#Environment-Variables))
+ 4. Create an `app/src/env.js` file based in `app/src/env.js.dist` (See [Environment Variables](#Environment-Variables))
  5. Set the port: `export PORT=<port>`
  6. Run the frontend
  ```
