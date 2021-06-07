@@ -21,9 +21,11 @@ function isAllowed(roles, allowedRoles) {
   return allowed;
 }
 
-export default allowedRoles => WrappedComponent => {
+const wa = allowedRoles => WrappedComponent => {
   return loggedIn(connect(mapStateToProps)((props) =>
     props.isLoading ? <span>Cargando...</span> :
       isAllowed(props.roles, allowedRoles) ? <WrappedComponent {...props} /> : <Unauthorized />
   ));
 };
+
+export default wa;

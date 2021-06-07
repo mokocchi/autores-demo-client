@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import TareaSearchContainer from './SearchContainer';
 import AddTareasSelectTareaContainer from './SelectTareaContainer';
 import PendingTareasListContainer from './PendingTareasListContainer';
 import AddTareasActionListContainer from './TareasActionListContainer';

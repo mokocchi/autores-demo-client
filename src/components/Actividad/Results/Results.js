@@ -1,7 +1,7 @@
 import React from 'react';
 
 import LoadSpinner from '../../UI/LoadSpinner';
-import { Alert, Row, Col, Tabs, Tab, Card, Table } from 'react-bootstrap';
+import { Alert, Tabs, Tab, Card } from 'react-bootstrap';
 import Icon from 'react-web-vector-icons';
 import ResultsTableContainer from './TableContainer';
 
