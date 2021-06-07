@@ -9,7 +9,7 @@ function mapStateToProps(state) {
         oidc: state.auth
     }
 }
-export default (WrappedComponent) => {
+const loggedIn = (WrappedComponent) => {
     return connect(mapStateToProps)((props) =>
         props.token.isLoading || props.oidc.isLoading ?
             <LoadSpinner /> 
@@ -20,3 +20,5 @@ export default (WrappedComponent) => {
                 <LoginContainer {...props} />
     )
 }
+
+export default loggedIn;

@@ -1,12 +1,17 @@
 FROM node:16-alpine AS builder
 
 WORKDIR /opt/web
-COPY app/package*.json ./
+COPY app/package.json ./
+COPY app/yarn.lock ./
+
 RUN yarn install
 
 ENV PATH="./node_modules/.bin:$PATH"
 
 COPY ./app ./
+
+RUN cp src/env.dist src/env.js
+
 RUN yarn build
 
 FROM nginx:1.17-alpine

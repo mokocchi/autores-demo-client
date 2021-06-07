@@ -81,7 +81,7 @@ const SquareCrossedEdgeShape = (
   </symbol>
 )
 
-export default {
+const exp = {
   EdgeTypes: {
     emptyEdge: {
       shape: EmptyEdgeShape,
@@ -131,3 +131,5 @@ export default {
     }
   },
 };
+
+export default exp;
