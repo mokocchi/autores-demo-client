@@ -10214,10 +10214,10 @@ react-dev-utils@^11.0.3:
     strip-ansi "6.0.0"
     text-table "0.2.0"
 
-react-digraph@^8.0.0-beta.7:
-  version "8.0.0-beta.7"
-  resolved "https://registry.yarnpkg.com/react-digraph/-/react-digraph-8.0.0-beta.7.tgz#b63a72d6f3af63cbf6b16e8f0b31ed94fb007fa7"
-  integrity sha512-HKwnAv4Azq3D2hgVTuiRyYext5uTPcmPuUDSxY9ZG8rmOl1NHOB/+WkxqMkwv/CCyQBa8yeQevqOrEcfkE86yg==
+react-digraph@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/react-digraph/-/react-digraph-7.2.1.tgz#912a3a6abc516cd12ce8ebdab6e8570e1af1ad5d"
+  integrity sha512-6vkVzg0cqvG7WMUXobvU9CalUjRIIr81JCxL5cFOoDNK4d/+tCg4O52KuSncE9yF8W31OYkbSLFa4Y5YfVAF4w==
   dependencies:
     dagre "^0.8.2"
     fast-deep-equal "^2.0.1"
