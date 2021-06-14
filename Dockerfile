@@ -4,7 +4,7 @@ WORKDIR /opt/web
 COPY app/package.json ./
 COPY app/yarn.lock ./
 
-RUN yarn install
+RUN yarn install --no-dev
 
 ENV PATH="./node_modules/.bin:$PATH"
 
