@@ -19,7 +19,7 @@ RUN apk --no-cache add curl
 RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.1.0/envsubst-`uname -s`-`uname -m` -o envsubst && \
     chmod +x envsubst && \
     mv envsubst /usr/local/bin
-COPY ./nginx.config /etc/nginx/nginx.template
+COPY ./nginx.config /etc/nginx/conf.d/default.conf
 
 COPY --from=builder /opt/web/build /usr/share/nginx/html
 
@@ -28,15 +28,12 @@ WORKDIR /usr/share/nginx
 COPY ./env.sh .
 COPY .env-template .
 
-# Add bash
-RUN apk add --no-cache bash
+RUN apk add --no-cache bash gettext
 
-# Make our shell script executable
 RUN chmod +x env.sh
 
 WORKDIR /usr/share/nginx/html
 
-CMD ["/bin/bash", "-c", "envsubst < /etc/nginx/nginx.template > /etc/nginx/conf.d/default.conf \
-    && envsubst < /usr/share/nginx/.env-template > /usr/share/nginx/.env \
+CMD ["/bin/bash", "-c", "envsubst < /usr/share/nginx/.env-template > /usr/share/nginx/.env \
     && /usr/share/nginx/env.sh \
     && nginx -g 'daemon off;'"]
